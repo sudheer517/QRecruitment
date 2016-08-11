@@ -1,0 +1,18 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "noImplicitAny": false,
+    //"noEmitOnError": true,
+    "removeComments": false,
+    "target": "es5",
+    //"outDir": "../wwwroot/scripts/",
+    "outFile": "../wwwroot/bootstrapper.js",
+    "sourceMap": true,
+    "sourceRoot": "./"
+    //"preserveConstEnums": true
+  }
+  //"exclude": [
+  //  "node_modules",
+  //  "wwwroot"
+  //]
+}

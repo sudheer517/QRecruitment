@@ -1,47 +1,33 @@
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
+[Oo]bj
+[Bb]in
+Build
+packages
+*.user
+*.suo
+*.[Cc]ache
+*.ncb
+*.log
+*.log.*
+*.orig
+*.swp
+*.rej
+*.DS_Store
+[Tt]humbs.db 
+_ReSharper.*
+*.resharper
+[Cc]lient[Bb]in
+*.Publish.xml
+Publish
+CommonAssemblyInfo.cs
+[Oo]utput.txt
+Backups/*.bak
+desktop.ini
+*.js.map
+*.css.map
+node_modules/
+SlnDir
+# Visual Studio test runner playlists
+*.playlist
+.vs/*
+src/Quantium.Recruitment.Portal/wwwroot/bootstrapper.js
+src/Quantium.Recruitment.Portal/wwwroot/lib/*
