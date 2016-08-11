@@ -1,5 +1,7 @@
 ﻿/// <reference path="../controllers/firstcontroller.ts" />
 /// <reference path="../controllers/questioncontroller.ts" />
+/// <reference path="../controllers/superadmincontroller.ts" />
+/// <reference path="../controllers/createtestcontroller.ts" />
 
 module Recruitment {
     'use strict';
@@ -12,9 +14,10 @@ module Recruitment {
                 "ui.router"
             ]);
 
-            this.app.controller("firstController", Recruitment.Controllers.FirstController);
-            this.app.controller("questionsController", Recruitment.Controllers.QuestionController);
-
+            this.app.controller("firstController", Controllers.FirstController);
+            this.app.controller("questionsController", Controllers.QuestionController);
+            this.app.controller("superAdminController", Controllers.SuperAdminController);
+            this.app.controller("createTestController", Controllers.CreateTestController);
 
             this.app.config((
                 $stateProvider: angular.ui.IStateProvider,
@@ -30,26 +33,39 @@ module Recruitment {
                 $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
                 $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
 
-                $urlRouterProvider.otherwise('/index');
+                $urlRouterProvider.otherwise('/superAdmin');
 
                 $stateProvider
-                    .state("firstState",
+                    .state("superAdmin",
                     {
-                        url: "/index",
+                        url: "/superAdmin",
                         views: {
-                            "main-view": { controller: "firstController", templateUrl: "views/first.html" },
-                            "main-view2": { controller: "questionsController", templateUrl: "views/second.html" }
+                            "super-admin-view": { controller: Controllers.SuperAdminController, templateUrl: "views/superAdminPage.html" }
                         }
                     })
 
-
-                    .state("secondState",
+                    .state("superAdmin.createTest",
                     {
-                        url: "/second",
-                        views: {
-                            "main-view": { controller: "questionsController", templateUrl: "views/second.html" },
-                        }
-                    });
+                        url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "views/createTestPage.html", 
+                    })
+
+                    //.state("firstState",
+                    //{
+                    //    url: "/index",
+                    //    views: {
+                    //        "main-view": { controller: "firstController", templateUrl: "views/first.html" },
+                    //        "main-view2": { controller: "questionsController", templateUrl: "views/second.html" }
+                    //    }
+                    //})
+
+
+                    //.state("secondState",
+                    //{
+                    //    url: "/second",
+                    //    views: {
+                    //        "main-view": { controller: "questionsController", templateUrl: "views/second.html" },
+                    //    }
+                    //});
             });
         }
 

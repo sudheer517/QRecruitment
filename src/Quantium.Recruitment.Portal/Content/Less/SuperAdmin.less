@@ -1,0 +1,48 @@
+﻿.tileContainer{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    flex-wrap:wrap;
+    margin: 50px 250px;
+}
+
+@tile-height: 350px;
+a:hover, a:visited, a:link, a:active{
+    text-decoration:none;
+}
+
+
+.actiontile {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(32deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    color: #000;
+    margin:10px;
+
+    a{
+        position: absolute;
+        width:100%;
+        height:100%;
+        top: 0;
+        left: 0;
+        text-decoration: none;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-size:x-large;
+        color:aliceblue;
+        
+        &:hover, &:hover, &:visited, &:link, &:active{
+            text-decoration: none;
+        }
+    }
+
+    &:hover {
+        filter: alpha(opacity=50);
+        opacity: 0.5;
+        transition: opacity .15s ease-in-out;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}

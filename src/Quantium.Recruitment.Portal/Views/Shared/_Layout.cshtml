@@ -1,27 +1,32 @@
 ﻿<!DOCTYPE html>
 
 <html>
-<head>
+<head prefix="og: http://ogp.me/ns#">
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-
+    <meta charset="utf-8" />
+    @*<title>@ViewBag.Title</title>*@
+    <link rel="icon" href="https://www.quantium.com/wp-content/themes/quantium/img/favicon.png">
     <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/angular/angular.min.js"></script>
-    <script src="~/lib/angular-route/angular-route.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/angular/angular.js"></script>
     <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
-    <!--<script src="js/bundle.min.js"></script>-->
-    <!--<script src="scripts/app.js"></script>
-    <script src="scripts/router.js"></script>
-    <script src="scripts/controllers/questionsController.js"></script>
-    <script src="scripts/controllers/firstController.js"></script>
-    <script src="scripts/controllers/secondController.js"></script>-->
+
     <script src="~/bootstrapper.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="~/css/site.css"/>
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <title>Quantium • Recruitment</title>
+    <meta property="og:title" content="Quantium • Recruitment"/>
 </head>
 <body>
-    <p> This is from Layout page</p>
+    <div class="navbar header">
+        <h2>Quantium Recruitment Portal</h2>
+    </div>
     <div>
         @RenderBody()
     </div>
+    <footer class="navbar-fixed-bottom footer">
+        <p>&copy; 2016 Quantium</p>
+    </footer>
 </body>
 </html>
