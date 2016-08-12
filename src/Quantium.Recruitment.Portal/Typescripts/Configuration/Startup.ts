@@ -10,7 +10,6 @@ module Recruitment {
 
         constructor(name: string) {
             this.app = angular.module(name, [
-                "ngRoute",
                 "ui.router"
             ]);
 
