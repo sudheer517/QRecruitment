@@ -38,15 +38,55 @@ module Recruitment {
                     .state("superAdmin",
                     {
                         url: "/superAdmin",
-                        views: {
-                            "super-admin-view": { controller: Controllers.SuperAdminController, templateUrl: "views/superAdminPage.html" }
-                        }
+                        controller: Controllers.SuperAdminController,
+                        templateUrl: "views/superAdminPage.html" 
                     })
 
-                    .state("superAdmin.createTest",
+                    .state("createTest",
                     {
-                        url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "views/createTestPage.html", 
+                        url: "/createTest",
+                        controller: Controllers.CreateTestController,
+                        templateUrl: "views/createTestPage.html"
                     })
+
+                    .state("uploadQuestions",
+                    {
+                        url: "/uploadQuestions",
+                        controller: Controllers.CreateTestController,
+                        templateUrl: "views/uploadQuestions.html"
+                    })
+
+                    .state("editTest",
+                    {
+                        url: "/editTest",
+                        controller: Controllers.CreateTestController,
+                        templateUrl: "views/editTest1.html"
+                    })
+
+                    .state("sendTest",
+                    {
+                        url: "/sendTest",
+                        controller: Controllers.CreateTestController,
+                        templateUrl: "views/sendTestPage.html"
+                    })
+
+                    .state("addTeamAdmin",
+                    {
+                        url: "/addTeamAdmin",
+                        controller: Controllers.CreateTestController,
+                        templateUrl: "views/addTeamAdminPage.html"
+                    })
+
+                    .state("addCandidates",
+                    {
+                        url: "/addCandidates",
+                        controller: Controllers.CreateTestController,
+                        templateUrl: "views/addCandidatesPage.html"
+                    })
+                    //.state("superAdmin.createTest",
+                    //{
+                    //    url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "views/createTestPage.html",
+                    //})
 
                     //.state("firstState",
                     //{
