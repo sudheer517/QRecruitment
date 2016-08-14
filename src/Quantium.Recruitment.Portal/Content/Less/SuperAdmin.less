@@ -1,9 +1,16 @@
-﻿.tileContainer{
+﻿@import (reference) "../../wwwroot/lib/bootstrap/less/bootstrap.less";
+@import (reference) "../../wwwroot/lib/bootstrap/less/buttons.less";
+
+
+
+.tileContainer{
     display: flex;
     align-items:center;
-    justify-content: center;
+    justify-content: space-around;
+    //align-content:stretch;
     flex-wrap:wrap;
-    margin: 50px 250px;
+    margin-top:20px;
+   // margin: 50px 250px;
 }
 
 @tile-height: 350px;
@@ -11,12 +18,12 @@ a:hover, a:visited, a:link, a:active{
     text-decoration:none;
 }
 
-
 .actiontile {
     position: relative;
-    width: 300px;
-    height: 300px;
+    width: 15em;
+    height: 15em;
     background: linear-gradient(32deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    //background-color: #2cb5e8;
     color: #000;
     margin:10px;
 
@@ -30,7 +37,7 @@ a:hover, a:visited, a:link, a:active{
         display:flex;
         justify-content:center;
         align-items:center;
-        font-size:x-large;
+        //font-size:x-large;
         color:aliceblue;
         
         &:hover, &:hover, &:visited, &:link, &:active{

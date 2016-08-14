@@ -4,13 +4,15 @@
 @headerFooterTextColor: #bdbdbd;
 @headerFooterBackgroundColor: #444545;
 
-html {font-size: 1em;}
+html {height:100%;}
 
 body {
+    height: 100%;
+
   //font-weight: 400;
   //line-height: 1.45;
 }
-
+/*
 //p {margin-bottom: 1.3em;}
 
 h1, h2, h3, h4 {
@@ -30,13 +32,13 @@ h3 {font-size: 1.563em;}
 
 h4 {font-size: 1.25em;}
 
-//small, .font_small {font-size: 0.8em;}
+//small, .font_small {font-size: 0.8em;}*/
 
 header, footer{
     //display: flex;
     //justify-content: center;
     color: @headerFooterTextColor;
-    background-color:@headerFooterBackgroundColor;
+    background-color:@headerFooterBackgroundColor;  
     text-align:center;
     padding:10px;
         
@@ -52,3 +54,19 @@ header, footer{
     text-align:center;
     padding:10px;
 }*/
+
+header{
+
+}
+
+.pageViewClass{
+    min-height: 100%;
+    //background-color: #341a1a;
+    //margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.footerClass{
+    height: 60px;
+}
+
