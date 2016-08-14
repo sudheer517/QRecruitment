@@ -31,4 +31,4 @@ SlnDir
 .vs/*
 src/Quantium.Recruitment.Portal/wwwroot/bootstrapper.js
 src/Quantium.Recruitment.Portal/wwwroot/lib/*
-src/Quantium.Recruitment.Portal/wwwroot/css/site.css
+src/Quantium.Recruitment.Portal/wwwroot/css/site*
