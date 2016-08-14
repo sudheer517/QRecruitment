@@ -2,6 +2,7 @@
 /// <reference path="../controllers/questioncontroller.ts" />
 /// <reference path="../controllers/superadmincontroller.ts" />
 /// <reference path="../controllers/createtestcontroller.ts" />
+/// <reference path="../controllers/testcontroller.ts" />
 
 module Recruitment {
     'use strict';
@@ -17,6 +18,7 @@ module Recruitment {
             this.app.controller("questionsController", Controllers.QuestionController);
             this.app.controller("superAdminController", Controllers.SuperAdminController);
             this.app.controller("createTestController", Controllers.CreateTestController);
+            this.app.controller("testController", Controllers.TestController);
 
             this.app.config((
                 $stateProvider: angular.ui.IStateProvider,
@@ -82,6 +84,13 @@ module Recruitment {
                         url: "/addCandidates",
                         controller: Controllers.CreateTestController,
                         templateUrl: "views/addCandidatesPage.html"
+                    })
+
+                    .state("test",
+                    {
+                        url: "/test",
+                        controller: Controllers.CreateTestController,
+                        templateUrl: "views/testPage.html"
                     })
                     //.state("superAdmin.createTest",
                     //{

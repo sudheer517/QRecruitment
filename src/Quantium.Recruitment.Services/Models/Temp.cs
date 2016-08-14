@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Quantium.Recruitment.Services.Controllers.TempController;
 
 namespace Quantium.Recruitment.Services.Models
 {
@@ -11,6 +12,6 @@ namespace Quantium.Recruitment.Services.Models
 
         public string QuestionText { get; set; }
 
-        public string Answer { get; set; }
+        public IList<TempOption> Options { get; set; }
     }
 }

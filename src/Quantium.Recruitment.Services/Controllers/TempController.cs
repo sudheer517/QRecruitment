@@ -17,16 +17,31 @@ namespace Quantium.Recruitment.Services.Controllers
         {
             _context = context;
         }
+        public class TempOption
+        {
+            public int OptionId { get; set; }
+            public string OptionText { get; set; }
+        }
+
         public static IList<Temp> TempRepo = new List<Temp>
         {
-            new Temp { Id = 1, QuestionText = "Sample Question Text 1", Answer="Answer1" },
-            new Temp { Id = 2, QuestionText = "Sample Question Text 2", Answer="Answer2" },
-            new Temp { Id = 3, QuestionText = "Sample Question Text 3", Answer="Answer3" },
-            new Temp { Id = 4, QuestionText = "Sample Question Text 4", Answer="Answer4" },
-            new Temp { Id = 5, QuestionText = "Sample Question Text 5", Answer="Answer5" },
-            new Temp { Id = 6, QuestionText = "Sample Question Text 6", Answer="Answer6" },
-            new Temp { Id = 7, QuestionText = "Sample Question Text 7", Answer="Answer7" },
-            new Temp { Id = 8, QuestionText = "Sample Question Text 8", Answer="Answer8" },
+            new Temp { Id = 1, QuestionText = "Who is Ned stark's born son?", Options = new List<TempOption> {
+                new TempOption { OptionText= "Rob", OptionId=25 },
+                new TempOption { OptionText= "Aryan", OptionId=26 },
+                new TempOption { OptionText= "Malfoy", OptionId=27 },
+                new TempOption { OptionText= "Lucifer", OptionId=28 }}},
+
+            new Temp { Id = 2, QuestionText = "What house has the bear sigil?", Options = new List<TempOption> {
+                new TempOption { OptionText= "Stark", OptionId=29 },
+                new TempOption { OptionText= "Targaryen", OptionId=30 },
+                new TempOption { OptionText= "Mormont", OptionId=31 },
+                new TempOption { OptionText= "Tyrell", OptionId=32 }}},
+
+            new Temp { Id = 3, QuestionText = "Where is little finger from?", Options = new List<TempOption> {
+                new TempOption { OptionText= "Little", OptionId=33 },
+                new TempOption { OptionText= "Vale", OptionId=34 },
+                new TempOption { OptionText= "Fingers", OptionId=35 },
+                new TempOption { OptionText= "Riverrun", OptionId=36 }}}
         };
 
         // GET: api/values
@@ -55,19 +70,18 @@ namespace Quantium.Recruitment.Services.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]Temp question)
+        public void Post([FromBody]List<int> question)
         {
-            var questionSearchResult = TempRepo.SingleOrDefault(q => q.Id == question.Id);
+            //var questionSearchResult = TempRepo.SingleOrDefault(q => q.Id == question.Id);
 
-            if (questionSearchResult == null)
-            {
-                TempRepo.Add(question);
-            }
-            else
-            {
-                questionSearchResult.QuestionText = question.QuestionText;
-                questionSearchResult.Answer = question.Answer;
-            }
+            //if (questionSearchResult == null)
+            //{
+            //    TempRepo.Add(question);
+            //}
+            //else
+            //{
+            //    questionSearchResult.QuestionText = question.QuestionText;
+            //}
 
         }
 
@@ -85,7 +99,6 @@ namespace Quantium.Recruitment.Services.Controllers
             {
                 questionSearchResult.Id = id;
                 questionSearchResult.QuestionText = question.QuestionText;
-                questionSearchResult.Answer = question.Answer;
             }
         }
 
