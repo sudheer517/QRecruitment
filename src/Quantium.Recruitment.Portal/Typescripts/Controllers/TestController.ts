@@ -16,7 +16,6 @@ module Recruitment.Controllers {
             this.getNextQuestion();
             this.$scope.postQuestion = () => this.postQuestion();
             //this.$scope.addSelection = (selectedOption) => this.addSelection(selectedOption);
-            this.counter++;
             this.$scope.selection = [];
             this.$scope.toggleSelection = (employeeName) => this.toggleSelection(employeeName);
 
@@ -39,13 +38,15 @@ module Recruitment.Controllers {
         }
 
         private postQuestion(): void {
-
+            
             this.$http.post('http://localhost:60606/api/temp', this.$scope.selection)
                 .then(result => {
                     this.$log.info("answer posted");
                 }, reason => {
                     this.$log.error("answer posting failed");
                 });
+
+            this.getNextQuestion();
         }
 
         private getNextQuestion(): any {

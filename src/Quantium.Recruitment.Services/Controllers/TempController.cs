@@ -41,7 +41,25 @@ namespace Quantium.Recruitment.Services.Controllers
                 new TempOption { OptionText= "Little", OptionId=33 },
                 new TempOption { OptionText= "Vale", OptionId=34 },
                 new TempOption { OptionText= "Fingers", OptionId=35 },
-                new TempOption { OptionText= "Riverrun", OptionId=36 }}}
+                new TempOption { OptionText= "Riverrun", OptionId=36 }}},
+
+            new Temp { Id = 4, QuestionText = "Where did sam go ?", Options = new List<TempOption> {
+                new TempOption { OptionText= "White & Black ", OptionId=37 },
+                new TempOption { OptionText= "Bravos", OptionId=38 },
+                new TempOption { OptionText= "Citadel", OptionId=39 },
+                new TempOption { OptionText= "Library of bravos", OptionId=40 }}},
+
+            new Temp { Id = 5, QuestionText = "Who among the following is an old god?", Options = new List<TempOption> {
+                new TempOption { OptionText= "Drowned god", OptionId=41 },
+                new TempOption { OptionText= "Lord of light", OptionId=42 },
+                new TempOption { OptionText= "Amun ra", OptionId=43 },
+                new TempOption { OptionText= "Baelor", OptionId=44 }}},
+
+            new Temp { Id = 6, QuestionText = "whos the first red haired seen in got?", Options = new List<TempOption> {
+                new TempOption { OptionText= "Red woman", OptionId=45 },
+                new TempOption { OptionText= "Ros", OptionId=46 },
+                new TempOption { OptionText= "Sansa", OptionId=47 },
+                new TempOption { OptionText= "Lyanna", OptionId=48 }}}
         };
 
         // GET: api/values
