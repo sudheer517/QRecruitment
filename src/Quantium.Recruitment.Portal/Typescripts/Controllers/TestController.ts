@@ -49,6 +49,26 @@ module Recruitment.Controllers {
             this.getNextQuestion();
         }
 
+        private setTimer() {
+            var clock;
+            var seconds = 96;
+
+            var clockObj: any = $('.clock');
+
+            clock = clockObj.FlipClock(seconds, {
+                clockFace: 'MinuteCounter',
+                autoStart: false,
+                callbacks: {
+                    stop: function () {
+                        $('.message').html('The clock has stopped!')
+                    }
+                }
+            });
+
+            //clock.setTime(64);
+            clock.setCountdown(true);
+            clock.start();
+        }
         private getNextQuestion(): any {
             this.$http.get('http://localhost:60606/api/temp/' + this.counter)
                 .then(result => {
@@ -57,6 +77,7 @@ module Recruitment.Controllers {
                     this.$scope.options = questionData.options;
                     this.$log.info("new question retrieved");
                     this.counter++;
+                    this.setTimer();
                 }, reason => {
                     this.$log.error("new question retrieval failed");
 
