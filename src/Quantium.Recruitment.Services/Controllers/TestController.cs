@@ -9,13 +9,13 @@ using System.Collections.Generic;
 namespace Quantium.Recruitment.Services.Controllers
 {
     [Route("api/[controller]")]
-    public class QuestionController : Controller
+    public class TestController : Controller
     {
-        private IQuestionRepository _questionRepository;
+        private ITestRepository _testRepository;
 
-        public QuestionController(IQuestionRepository questionRepository)
+        public TestController(ITestRepository testRepository)
         {
-            _questionRepository = questionRepository;
+            _testRepository = testRepository;
         }
 
         // GET: api/values

@@ -9,12 +9,12 @@ namespace Quantium.Recruitment.Services.Controllers
     [Route("api/[controller]")]
     public class TempController : Controller
     {
-        private IRecruitmentContext _context;
+        //private IRecruitmentContext _context;
 
-        public TempController(IRecruitmentContext context)
-        {
-            _context = context;
-        }
+        //public TempController(IRecruitmentContext context)
+        //{
+        //    _context = context;
+        //}
         public class TempOption
         {
             public int OptionId { get; set; }
@@ -60,11 +60,11 @@ namespace Quantium.Recruitment.Services.Controllers
                 new TempOption { OptionText= "Lyanna", OptionId=48 }}}
         };
 
-        // GET: api/values
-        [HttpGet]
+       // GET: api/values
+       [HttpGet]
         public IEnumerable<Temp> GetTemp()
         {
-            var data = _context.Admins.ToList();
+            //var data = _context.Admins.ToList();
             return TempRepo;
         }
 
