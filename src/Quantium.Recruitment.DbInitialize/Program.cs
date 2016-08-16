@@ -31,6 +31,8 @@ namespace Quantium.Recruitment.DbInitialize
             SeedData();
 
             Console.WriteLine("Database initialized.");
+            Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
         }
 
         public static void SeedData()
