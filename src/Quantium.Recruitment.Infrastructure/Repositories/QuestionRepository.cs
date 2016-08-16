@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Quantium.Recruitment.Entities;
+using Quantium.Recruitment.Infrastructure.RDbContext;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {

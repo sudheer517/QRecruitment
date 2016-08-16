@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Quantium.Recruitment.Infrastructure;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.IoCContainer;
-
+using Quantium.Recruitment.Infrastructure.RDbContext;
 
 namespace Quantium.Recruitment.DbInitialize
 {

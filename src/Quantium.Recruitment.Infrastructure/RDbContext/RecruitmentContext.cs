@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Quantium.Recruitment.Entities;
 
-namespace Quantium.Recruitment.Infrastructure
+namespace Quantium.Recruitment.Infrastructure.RDbContext
 {
     public interface IRecruitmentContext : IDisposable
     {
