@@ -2,6 +2,7 @@
 
 namespace Quantium.Recruitment.Entities
 {
+    [Table(name: "Admin")]
     public class Admin: Identifiable
     {
         public virtual string FirstName { get; set; }
@@ -17,6 +18,6 @@ namespace Quantium.Recruitment.Entities
         public virtual long DepartmentId { get; set; }
 
         [ForeignKey("DepartmentId")]
-        public Department Department { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

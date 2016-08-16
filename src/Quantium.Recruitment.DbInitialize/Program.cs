@@ -1,59 +1,58 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using System;
+using System.IO;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Quantium.Recruitment.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Quantium.Recruitment.Entities;
+using Quantium.Recruitment.Infrastructure.IoCContainer;
+
 
 namespace Quantium.Recruitment.DbInitialize
 {
     public class Program
     {
+        public static IRecruitmentContext _dbContext { get; set; }
+
+        private static IConfigurationRoot _configuration { get; set; }
+
         public static void Main(string[] args)
         {
-            //IServiceCollection serviceCollection = new ServiceCollection();
-            //serviceCollection.AddTransient<IRecruitmentContext, RecruitmentContext>();
-            
-            //var p = new DBRunner();
+            Console.WriteLine("Creating database...");
+
+            _configuration = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json")
+                   .Build();
+
+            _dbContext = IoCContainer.ConfigureServices(_configuration).BuildServiceProvider().GetService<IRecruitmentContext>();
+
+            Console.WriteLine("Seeding data...");
+
+            SeedData();
+
+            Console.WriteLine("Database initialized.");
         }
 
-        #region commented
-        //private static void InitializeDb()
-        //{
-        //    Console.WriteLine("DB Initialization starting...");
+        public static void SeedData()
+        {
+            Department softwareDepartment = new Department() { Name = "Software" };
+            Department analyticsDepartment = new Department() { Name = "Analytics" };
 
-        //    Console.WriteLine("Creating database...");
+            _dbContext.Departments.Add(softwareDepartment);
+            _dbContext.Departments.Add(analyticsDepartment);
 
-        //    InitializeEntities();
+            Admin admin = new Admin()
+            {
+                FirstName = "Kannan",
+                LastName = "Perumal",
+                Email = "kannan.perumal@quantium.co.in",
+                IsActive = true,
+                Mobile = 8886008855,
+                Department = softwareDepartment
+            };
 
-        //    Console.WriteLine("All done, have fun !!!!");
-        //}
-
-        //private static void InitializeEntities()
-        //{
-        //    using (var dbContext = IocContainer.Container.Resolve<IRecruitmentContext>())
-        //    {
-        //        Department softwareDepartment = new Department() { Name = "Software" };
-        //        Department analyticsDepartment = new Department() { Name = "Analytics" };
-
-        //        dbContext.Departments.Add(softwareDepartment);
-        //        dbContext.Departments.Add(analyticsDepartment);
-
-        //        Admin admin = new Admin()
-        //        {
-        //            FirstName = "Kannan",
-        //            LastName = "Perumal",
-        //            Email = "kannan.perumal@quantium.co.in",
-        //            IsActive = true,
-        //            Mobile = 8886008855,
-        //            Department = softwareDepartment
-        //        };
-
-        //        dbContext.Admins.Add(admin);
-        //        dbContext.SaveChanges();
-        //    }
-        //}
-        #endregion
+            _dbContext.Admins.Add(admin);
+            _dbContext.SaveChanges();
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Quantium.Recruitment.Entities
 {
+    [Table(name: "Label")]
     public class Label : Identifiable
     {
         public virtual string Name { get; set; }
@@ -11,9 +12,9 @@ namespace Quantium.Recruitment.Entities
         public virtual long TestId { get; set; }
 
         [ForeignKey("JobId")]
-        public Job Job { get; set; }
+        public virtual Job Job { get; set; }
 
         [ForeignKey("TestId")]
-        public Test Test { get; set; }
+        public virtual Test Test { get; set; }
     }
 }

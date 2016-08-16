@@ -2,6 +2,7 @@
 
 namespace Quantium.Recruitment.Entities
 {
+    [Table(name: "Option")]
     public class Option : Identifiable
     {
         public virtual long QuestionId { get; set; }
@@ -12,6 +13,6 @@ namespace Quantium.Recruitment.Entities
         public virtual bool IsAnswer { get; set; }
 
         [ForeignKey("QuestionId")]
-        public Question Question { get; set; }
+        public virtual Question Question { get; set; }
     }
 }

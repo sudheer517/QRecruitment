@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Quantium.Recruitment.Infrastructure;
+using Quantium.Recruitment.Infrastructure.IoCContainer;
+using Quantium.Recruitment.Services.Repositories;
 
 namespace Quantium.Recruitment.Services
 {
@@ -32,25 +32,22 @@ namespace Quantium.Recruitment.Services
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(Configuration);
-            // Add framework services.
-            //services.AddTransient(typeof(IRecruitmentContext), typeof(RecruitmentContext));
-            services.AddDbContext<RecruitmentContext>();
-            //services.AddSingleton<IConnectionStringProvider>(new ConnectionStringProvider());
-            services.AddTransient<RecruitmentContextSeedData>();
+            foreach (var item in IoCContainer.ConfigureServices(Configuration))
+            {
+                services.Add(item);
+            }
+
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddMvc();
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, RecruitmentContextSeedData seeder)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseMvc();
-            seeder.EnsureSeedData().Wait();
         }
     }
 }

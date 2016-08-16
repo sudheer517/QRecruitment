@@ -11,9 +11,9 @@ namespace Quantium.Recruitment.Services.Controllers
     [Route("api/[controller]")]
     public class TempController : Controller
     {
-        private RecruitmentContext _context;
+        private IRecruitmentContext _context;
 
-        public TempController(RecruitmentContext context)
+        public TempController(IRecruitmentContext context)
         {
             _context = context;
         }

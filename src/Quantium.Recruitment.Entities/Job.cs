@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
+    [Table(name: "Job")]
     public class Job : Identifiable
     {
         public virtual string Title { get; set; }
@@ -12,10 +13,10 @@ namespace Quantium.Recruitment.Entities
         public virtual long DepartmentId { get; set; }
 
         [ForeignKey("DepartmentId")]
-        public Department Department { get; set; }
+        public virtual Department Department { get; set; }
 
-        public List<Candidate> Candidates { get; set; }
+        public virtual List<Candidate> Candidates { get; set; }
 
-        public List<Label> Labels { get; set; }
+        public virtual List<Label> Labels { get; set; }
     }
 }

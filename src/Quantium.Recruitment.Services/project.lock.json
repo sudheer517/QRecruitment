@@ -3778,11 +3778,17 @@
         "type": "project",
         "framework": ".NETStandard,Version=v1.6",
         "dependencies": {
+          "Microsoft.AspNetCore.Mvc": "1.0.0",
           "Microsoft.EntityFrameworkCore": "1.0.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "1.0.0",
+          "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0",
+          "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0",
+          "Microsoft.Extensions.Configuration.Json": "1.0.0",
+          "Microsoft.Extensions.Logging": "1.0.0",
           "NETStandard.Library": "1.6.0",
-          "Quantium.Recruitment.Entities": "1.0.0"
+          "Quantium.Recruitment.Entities": "1.0.0",
+          "System.ComponentModel.Annotations": "4.1.0"
         },
         "compile": {
           "netstandard1.6/Quantium.Recruitment.Infrastructure.dll": {}

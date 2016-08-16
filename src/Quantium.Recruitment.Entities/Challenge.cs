@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
+    [Table(name: "Challenge")]
     public class Challenge : Identifiable
     {
         public virtual long TestId { get; set; }
@@ -15,12 +16,12 @@ namespace Quantium.Recruitment.Entities
         public virtual DateTime AnsweredTime { get; set; }
 
         [ForeignKey("TestId")]
-        public Test Test { get; set; }
+        public virtual Test Test { get; set; }
 
         [ForeignKey("QuestionId")]
-        public Question Question { get; set; }
+        public virtual Question Question { get; set; }
 
-        public List<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
+        public virtual List<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
 
     }
 }
