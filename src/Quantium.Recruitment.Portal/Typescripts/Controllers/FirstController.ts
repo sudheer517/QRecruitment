@@ -1,5 +1,5 @@
 ﻿module Recruitment.Controllers {
-    interface FirstControllerScope extends ng.IScope {
+    export interface FirstControllerScope extends ng.IScope {
         title: string;
     }
     export class FirstController {

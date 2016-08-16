@@ -1,5 +1,6 @@
 ﻿/// <reference path="../controllers/firstcontroller.ts" />
 /// <reference path="../controllers/questioncontroller.ts" />
+/// <reference path="../Services/QuestionService.ts" />
 /// <reference path="../controllers/superadmincontroller.ts" />
 /// <reference path="../controllers/createtestcontroller.ts" />
 /// <reference path="../controllers/testcontroller.ts" />
@@ -16,6 +17,7 @@ module Recruitment {
 
             this.app.controller("firstController", Controllers.FirstController);
             this.app.controller("questionsController", Controllers.QuestionController);
+            Services.ServicesConfiguration.RegisterAll(this.app);
             this.app.controller("superAdminController", Controllers.SuperAdminController);
             this.app.controller("createTestController", Controllers.CreateTestController);
             this.app.controller("testController", Controllers.TestController);
@@ -125,4 +127,5 @@ module Recruitment {
         }
     }
     new Recruitment.AppBuilder("recruitmentApp").start();
+    
 }

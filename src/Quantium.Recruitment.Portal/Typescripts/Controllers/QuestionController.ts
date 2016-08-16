@@ -3,22 +3,18 @@ module Recruitment.Controllers {
 
     interface IQuestionControllerScope extends ng.IScope {
         questions: any[];
-        getQuestions: () => void;
+        getQuestions(): void;
     }
-    export class QuestionController {
 
-        constructor(private $scope: IQuestionControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService) {
+    export class QuestionController {
+        constructor(private $scope: IQuestionControllerScope, private $questionService: Recruitment.Services.QuestionService) {
             this.$scope.getQuestions = () => this.getQuestions();
         }
 
         private getQuestions(): void {
-            this.$http.get('http://localhost:60606/api/temp')
-                .then(result => {
-                    this.$scope.questions = <any[]>result.data;
-                }, reason => {
-                    this.$log.info('my recruitment get failed');
-                    console.log(reason);
-                });
+            this.$questionService.getQuestionsList().then(response => {
+                this.$scope.questions = response.data;
+            });
         }
     }
 }
