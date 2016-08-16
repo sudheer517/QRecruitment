@@ -1,13 +1,12 @@
 ﻿using System.Linq;
-using Quantium.Recruitment.Infrastructure;
-using Quantium.Recruitment.Services.Models;
+using Quantium.Recruitment.Entities;
 
-namespace Quantium.Recruitment.Services.Repositories
+namespace Quantium.Recruitment.Infrastructure.Repositories
 {
     public interface IQuestionRepository
     {
-        void AddQuestion(QuestionDto questionModel);
-        QuestionDto GetQestion(long questionId);
+        void AddQuestion(Question questionModel);
+        Question GetQestion(long questionId);
     }
 
     public class QuestionRepository : IQuestionRepository
@@ -19,15 +18,15 @@ namespace Quantium.Recruitment.Services.Repositories
             _dbContext = dbContext;
         }
 
-        public void AddQuestion(QuestionDto question)
+        public void AddQuestion(Question question)
         {
             _dbContext.Questions.Add(question);
             _dbContext.SaveChanges();
         }
 
-        public QuestionDto GetQestion(long questionId)
+        public Question GetQestion(long questionId)
         {
-            return (QuestionDto)_dbContext.Questions.Single(q => q.Id == questionId);
+            return _dbContext.Questions.Single(q => q.Id == questionId);
         }
     }
 }

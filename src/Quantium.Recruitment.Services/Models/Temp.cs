@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using static Quantium.Recruitment.Services.Controllers.TempController;
 
 namespace Quantium.Recruitment.Services.Models
@@ -12,6 +9,6 @@ namespace Quantium.Recruitment.Services.Models
 
         public string QuestionText { get; set; }
 
-        public IList<TempOption> Options { get; set; }
+        public List<TempOption> Options { get; set; }
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quantium.Recruitment.Infrastructure.IoCContainer;
-using Quantium.Recruitment.Services.Repositories;
 
 namespace Quantium.Recruitment.Services
 {
@@ -37,7 +36,6 @@ namespace Quantium.Recruitment.Services
                 services.Add(item);
             }
 
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
             services.AddMvc();
         }
 

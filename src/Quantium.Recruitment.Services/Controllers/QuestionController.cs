@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Quantium.Recruitment.Infrastructure;
+using Quantium.Recruitment.Infrastructure.Repositories;
 using Quantium.Recruitment.Services.Models;
-using Quantium.Recruitment.Services.Repositories;
+using System.Collections.Generic;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,23 +11,20 @@ namespace Quantium.Recruitment.Services.Controllers
     [Route("api/[controller]")]
     public class QuestionController : Controller
     {
-        private IQuestionRepository _questionRepo;
+        private IQuestionRepository _questionRepository;
 
-        public QuestionController(IQuestionRepository questionRepo)
+        public QuestionController(IQuestionRepository questionRepository)
         {
-            _questionRepo = questionRepo;
+            _questionRepository = questionRepository;
         }
 
+        // GET: api/values
         [HttpGet]
-        public void AddQuestion(QuestionDto questionDto)
+        public IList<string> GetTemp()
         {
-            _questionRepo.AddQuestion(questionDto);
+            var data = _questionRepository.GetQestion(1);
+            return new List<string> { "hola" };
         }
 
-        [HttpGet("{questionId}")]
-        public QuestionDto GetQuestion(long questionId)
-        {
-            return _questionRepo.GetQestion(questionId);
-        }
     }
 }

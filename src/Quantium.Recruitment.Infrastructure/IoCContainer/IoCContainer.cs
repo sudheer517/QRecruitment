@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using System.IO;
-using System;
+using Quantium.Recruitment.Infrastructure.Repositories;
 
 namespace Quantium.Recruitment.Infrastructure.IoCContainer
 {
@@ -16,6 +15,7 @@ namespace Quantium.Recruitment.Infrastructure.IoCContainer
             _configuration = configuration;
             services.AddSingleton(_configuration);
             services.AddSingleton<IRecruitmentContext, RecruitmentContext>();
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
 
             return services;
         }
