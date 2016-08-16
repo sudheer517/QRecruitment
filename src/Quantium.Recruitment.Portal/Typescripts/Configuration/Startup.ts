@@ -17,10 +17,11 @@ module Recruitment {
 
             this.app.controller("firstController", Controllers.FirstController);
             this.app.controller("questionsController", Controllers.QuestionController);
-            Services.ServicesConfiguration.RegisterAll(this.app);
             this.app.controller("superAdminController", Controllers.SuperAdminController);
             this.app.controller("createTestController", Controllers.CreateTestController);
             this.app.controller("testController", Controllers.TestController);
+
+            Services.ServicesConfiguration.RegisterAll(this.app);
 
             this.app.config((
                 $stateProvider: angular.ui.IStateProvider,
