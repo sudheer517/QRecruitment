@@ -2,7 +2,6 @@
 @import (reference) "../../wwwroot/lib/bootstrap/less/buttons.less";
 
 
-
 .tileContainer{
     display: flex;
     align-items:center;
@@ -19,37 +18,38 @@ a:hover, a:visited, a:link, a:active{
 }
 
 .actiontile {
-    position: relative;
     width: 15em;
     height: 15em;
-    background: linear-gradient(32deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
-    //background-color: #2cb5e8;
+    //background: linear-gradient(32deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    background-color: ghostwhite;
     color: #000;
     margin:10px;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 5px;
+    
+    border-color: rgba(0,0,0,0);
+    border-radius: 100%;
+    box-sizing: border-box;
+    transition: 0.3s ease-in;
+    //border-radius: 0;
+    border: 105px dashed rgba(0, 0, 0, 0.7);
 
     a{
-        position: absolute;
         width:100%;
         height:100%;
-        top: 0;
-        left: 0;
-        text-decoration: none;
         display:flex;
+        flex-direction:column;
         justify-content:center;
         align-items:center;
-        //font-size:x-large;
-        color:aliceblue;
-        
-        &:hover, &:hover, &:visited, &:link, &:active{
-            text-decoration: none;
+        color:#7F8C8D;
+
+        h4{
+            min-width: 190px;
         }
     }
 
     &:hover {
-        filter: alpha(opacity=50);
-        opacity: 0.5;
-        transition: opacity .15s ease-in-out;
-        text-decoration: none;
-        cursor: pointer;
+	    border-color: rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(174, 165, 165, 0.70);
     }
 }

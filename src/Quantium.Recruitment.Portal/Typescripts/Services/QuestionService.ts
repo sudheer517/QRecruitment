@@ -4,14 +4,6 @@ module Recruitment.Services {
         getQuestionsList(): ng.IPromise<any>;
     }
 
-    export class QuestionServiceConfig {
-        public static Register(app: ng.IModule): void {
-            app.factory("$questionService", ($http: ng.IHttpService) => {
-                return new QuestionService($http);
-            });
-        }
-    }
-
     export class QuestionService implements IDataAccessService {
         constructor(private $http: ng.IHttpService) {
         }

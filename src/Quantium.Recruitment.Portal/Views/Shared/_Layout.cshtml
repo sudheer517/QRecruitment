@@ -2,9 +2,16 @@
 
 <html>
 <head prefix="og: http://ogp.me/ns#">
-    <meta name="viewport" content="width=device-width" />
-    <meta charset="utf-8" />
-    @*<title>@ViewBag.Title</title>*@
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta property="og:title" content="Quantium • Recruitment" />
+
+    <title>Quantium • Recruitment</title>
+
     <link rel="icon" href="https://www.quantium.com/wp-content/themes/quantium/img/favicon.png">
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
@@ -15,19 +22,83 @@
     <script src="~/js/site.js"></script>
     <script src="~/bootstrapper.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="~/css/site.css"/>
+    <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/font-awesome.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <title>Quantium • Recruitment</title>
-    <meta property="og:title" content="Quantium • Recruitment"/>
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/layout.css">
 </head>
 <body>
-    <header class="">
-        <h2>Quantium Recruitment</h2>
-    </header>
-    @*<div class="page-header"></div>*@
-    <section class="container-fluid pageViewClass">
-        @RenderBody()
-    </section>
-    
+
+        <div class="brand">Quantium Recruitment</div>
+        <div class="address-bar">Mezzanine Level, Waverock, Nanakramguda, Hyderabad, India</div>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
+                    <a class="navbar-brand" href="index.html">Quantium Recruitment</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#" class="active">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">Profile</a>
+                        </li>
+                        <li>
+                            <a href="#">Settings</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <div class="container">
+
+            <div class="row">
+                <div class="box">
+                    <div class="col-lg-12 text-center">
+                        
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+                <div class="box">
+                    <div class="col-lg-12">
+                       
+                    </div>
+                </div>
+            </div>*@
+
+        </div>
+        <!-- /.container -->
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <p>Copyright &copy; Quantium 2016</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
 </body>
 </html>
