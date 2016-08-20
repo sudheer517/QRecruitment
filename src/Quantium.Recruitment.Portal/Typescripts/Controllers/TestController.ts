@@ -50,7 +50,7 @@ module Recruitment.Controllers {
 
         private setTimer() {
             var clock;
-            var seconds = 96;
+            var seconds = 64;
 
             var clockObj: any = $('.clock');
 
@@ -64,7 +64,6 @@ module Recruitment.Controllers {
                 }
             });
 
-            clock.setTime(64);
             clock.setCountdown(true);
             clock.start();
         }
