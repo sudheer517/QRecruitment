@@ -9,7 +9,6 @@ module Recruitment.Controllers {
         //addSelection: (selectedOption: string) => void;
     }
     export class TestController {
-        private counter: number = 1;
         private selectedOptions: string[];
 
         constructor(private $scope: ITestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService) {
@@ -65,18 +64,18 @@ module Recruitment.Controllers {
                 }
             });
 
-            //clock.setTime(64);
+            clock.setTime(64);
             clock.setCountdown(true);
             clock.start();
         }
+
         private getNextQuestion(): any {
-            this.$http.get('http://localhost:60606/api/temp/' + this.counter)
+            this.$http.get("http://localhost:60606/api/temp/")
                 .then(result => {
                     var questionData = <any>result.data;
                     this.$scope.question = questionData.questionText;
                     this.$scope.options = questionData.options;
                     this.$log.info("new question retrieved");
-                    this.counter++;
                     this.setTimer();
                 }, reason => {
                     this.$log.error("new question retrieval failed");

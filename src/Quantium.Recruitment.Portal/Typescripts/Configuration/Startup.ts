@@ -12,7 +12,8 @@ module Recruitment {
 
         constructor(name: string) {
             this.app = angular.module(name, [
-                "ui.router"
+                "ui.router",
+                "mockingApp"
             ]);
 
             this.app.controller("firstController", Controllers.FirstController);

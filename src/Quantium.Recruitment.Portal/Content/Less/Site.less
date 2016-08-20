@@ -1,1 +1,28 @@
-﻿
+﻿@sprite-img-path: '../img/check_radio_sheet.png';
+
+.flex{
+    display: flex;
+}
+
+.flex-col{
+    .flex;
+    flex-direction: column;
+}
+
+//For styled checkboxes
+input[type="checkbox"] {
+    display:none;
+}
+input[type="checkbox"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(@sprite-img-path) left top no-repeat;
+    cursor:pointer;
+}
+input[type="checkbox"]:checked + label span {
+    background:url(@sprite-img-path) -19px top no-repeat;
+}
+//For styled checkboxes

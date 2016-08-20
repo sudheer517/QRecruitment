@@ -1,5 +1,21 @@
 ﻿
-.clockClass{
-    margin-right: 20px;
-    margin-top:10px;
+.clockContainer{
+    margin-top: 10px;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.clock{
+    width: 300px;
+}
+
+@media all and (max-width: 376px) {
+
+    .clock {
+        min-width:300px;
+        transform-origin: center center;
+        transform: scale(0.7);
+    }
+
 }

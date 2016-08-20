@@ -1,9 +1,10 @@
 {
-	"name": "asp.net",
-	"private": true,
+  "name": "asp.net",
+  "private": true,
   "dependencies": {
     "angular": "1.5.0",
     "angular-route": "1.5.0",
+    "angular-mocks": "1.5.0",
     "jquery": "3.1.0",
     "bootstrap": "3.3.7",
     "angular-ui-router": "0.3.1",
