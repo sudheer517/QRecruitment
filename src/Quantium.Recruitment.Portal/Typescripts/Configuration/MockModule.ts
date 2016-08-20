@@ -1,6 +1,10 @@
-﻿
+﻿/// <reference path="../viewmodels/optionviewmodel.ts" />
+/// <reference path="../viewmodels/questionviewmodel.ts" />
+
 module Mock {
     'use strict';
+    import OptionViewModel = Recruitment.ViewModels.OptionViewModel;
+
     export class MockModuleBuilder {
         app: ng.IModule;
 
@@ -10,14 +14,18 @@ module Mock {
             ]);
 
             this.app.run(($httpBackend: ng.IHttpBackendService) => {
-                var challenge = {
-                    questionText: "Who are you man?",
-                    options: [
-                        { optionId: 25, optionText: "Elf" }, { optionId: 26, optionText: "Muggle" }, { optionId: 27, optionText: "Wizard" }, { optionId: 28,optionText: "Nazgul" }
-                    ]
-                };
 
-                $httpBackend.whenGET("http://localhost:60606/api/temp/").respond(challenge);
+                var options: Recruitment.ViewModels.OptionViewModel[] = [];
+
+                options.push(new OptionViewModel(25, "Elf"));
+                options.push(new OptionViewModel(26, "Muggle"));
+                options.push(new OptionViewModel(27, "Wizard"));
+                options.push(new OptionViewModel(28, "Nazgul"));
+
+                var challenge2: Recruitment.ViewModels.QuestionViewModel = new Recruitment.ViewModels.QuestionViewModel("Who are you man?", options);
+
+                
+                $httpBackend.whenGET("http://localhost:60606/api/temp/").respond(challenge2);
                 $httpBackend.whenGET("views/superAdminPage.html").passThrough();
                 $httpBackend.whenGET("views/testPage.html").passThrough();
             });

@@ -11,7 +11,7 @@ module Recruitment.Controllers {
     export class TestController {
         private selectedOptions: string[];
 
-        constructor(private $scope: ITestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService) {
+        constructor(private $scope: ITestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private $questionService: Recruitment.Services.QuestionService) {
             this.getNextQuestion();
             this.$scope.postQuestion = () => this.postQuestion();
             //this.$scope.addSelection = (selectedOption) => this.addSelection(selectedOption);
@@ -69,11 +69,10 @@ module Recruitment.Controllers {
         }
 
         private getNextQuestion(): any {
-            this.$http.get("http://localhost:60606/api/temp/")
+            this.$questionService.getNextQuestion()
                 .then(result => {
-                    var questionData = <any>result.data;
-                    this.$scope.question = questionData.questionText;
-                    this.$scope.options = questionData.options;
+                    this.$scope.question = result.data.questionText;
+                    this.$scope.options = result.data.options;
                     this.$log.info("new question retrieved");
                     this.setTimer();
                 }, reason => {
