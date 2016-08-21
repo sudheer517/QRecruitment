@@ -1,6 +1,7 @@
 ﻿
 module Recruitment.Controllers {
     interface ITestControllerScope extends ng.IScope {
+        questionId: number;
         question: string;
         options: any;
         postQuestion: () => void;
@@ -11,7 +12,7 @@ module Recruitment.Controllers {
     export class TestController {
         private selectedOptions: string[];
 
-        constructor(private $scope: ITestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private $questionService: Recruitment.Services.QuestionService) {
+        constructor(private $scope: ITestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private $challengeService: Recruitment.Services.ChallengeService) {
             this.getNextQuestion();
             this.$scope.postQuestion = () => this.postQuestion();
             //this.$scope.addSelection = (selectedOption) => this.addSelection(selectedOption);
@@ -37,8 +38,8 @@ module Recruitment.Controllers {
         }
 
         private postQuestion(): void {
-            
-            this.$http.post('http://localhost:60606/api/temp', this.$scope.selection)
+
+            this.$challengeService.postChallenge(this.$scope.selection)
                 .then(result => {
                     this.$log.info("answer posted");
                 }, reason => {
@@ -48,13 +49,11 @@ module Recruitment.Controllers {
             this.getNextQuestion();
         }
 
-        private setTimer() {
+        private setTimer(questionTimeInSeconds: number) {
             var clock;
-            var seconds = 64;
-
             var clockObj: any = $('.clock');
 
-            clock = clockObj.FlipClock(seconds, {
+            clock = clockObj.FlipClock(questionTimeInSeconds, {
                 clockFace: 'MinuteCounter',
                 autoStart: false,
                 callbacks: {
@@ -69,12 +68,13 @@ module Recruitment.Controllers {
         }
 
         private getNextQuestion(): any {
-            this.$questionService.getNextQuestion()
+            this.$challengeService.getNextChallenge()
                 .then(result => {
+                    this.$scope.questionId = result.data.questionNumber;
                     this.$scope.question = result.data.questionText;
                     this.$scope.options = result.data.options;
                     this.$log.info("new question retrieved");
-                    this.setTimer();
+                    this.setTimer(result.data.questionTimeInSeconds);
                 }, reason => {
                     this.$log.error("new question retrieval failed");
 
