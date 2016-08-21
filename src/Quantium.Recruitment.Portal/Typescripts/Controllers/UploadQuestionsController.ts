@@ -2,23 +2,22 @@
 module Recruitment.Controllers {
 
     interface IUploadQuestionsControllerScope extends ng.IScope {
-        questions: any[];
-        getQuestions: () => void;
+        selectedItem: string;
+        changeTestName: ($event: any) => void;
+        tests: any;
     }
+
     export class UploadQuestionsController {
 
         constructor(private $scope: IUploadQuestionsControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService) {
-            this.$scope.getQuestions = () => this.getQuestions();
+            this.$scope.selectedItem = "Select a test";
+            this.$scope.changeTestName = ($event: any) => this.changeTestName($event);
+            this.$scope.tests = [{ name: "Test1" }, { name: "Test2" }, { name: "Test3" }]
         }
 
-        private getQuestions(): void {
-            this.$http.get('http://localhost:60606/api/temp')
-                .then(result => {
-                    this.$scope.questions = <any[]>result.data;
-                }, reason => {
-                    this.$log.info('my recruitment get failed');
-                    console.log(reason);
-                });
+        public changeTestName($event: any): void {
+            this.$scope.selectedItem = $event.target.innerText;
         }
+        
     }
 }

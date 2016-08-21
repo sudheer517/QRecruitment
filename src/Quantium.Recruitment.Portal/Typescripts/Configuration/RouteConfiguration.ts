@@ -31,7 +31,7 @@ module Recruitment.Routes {
 
                     .state("uploadQuestions",
                     {
-                        url: "/uploadQuestions", controller: Controllers.CreateTestController, templateUrl: "views/uploadQuestions.html"
+                        url: "/uploadQuestions", controller: Controllers.UploadQuestionsController, templateUrl: "views/uploadQuestions.html"
                     })
 
                     .state("editTest",

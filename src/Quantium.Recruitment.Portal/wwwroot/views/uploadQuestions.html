@@ -1,120 +1,44 @@
-﻿<div class="container">
+﻿<div>
     <h1>Upload Questions page</h1>
-    <div class="jumbotron">
-        <div class="form-group row col-lg-offset-2">
-            <label class="col-lg-2 control-label">Test name:</label>
-            <div class="col-lg-4">
-                <select class="form-control" id="test">
-                    <option value="1">Sample Test1</option>
-                    <option value="2">Sample Test2</option>
-                    <option value="3">Sample Test3</option>
-                    <option value="4">Sample Test4</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group row col-lg-offset-2">
-            <label class="col-lg-2 control-label"></label>
-            <div class="col-lg-4">
-                <button class="btn btn-info">Download Upload Template</button>
-            </div>
-        </div>
-        <div class="form-group row col-lg-offset-2">
-            <label class="col-lg-2 control-label">Select Questions</label>
-            <label class="btn btn-default btn-file">Upload</label>
-            <div class="col-lg-4">
-                <input type="file"/>
-            </div>
-        </div>
-        <div class="form-group row col-lg-offset-2">
-            <label class="col-lg-2 control-label"></label>
-            <div class="col-lg-4">
-                <button class="btn btn-info">Save Changes</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-lg-6 col-sm-6 col-12">
-        <h4>Input Groups</h4>
-        <div class="input-group">
-            <input type="text" class="form-control" readonly>
+    <div class="panel panel-default">
+        <div class="panel-heading">
 
-            <label class="input-group-btn">
-                <span class="btn btn-primary">
-                    Browse&hellip; <input type="file" style="display: none;" multiple>
-                </span>
-            </label>
         </div>
-        <span class="help-block">
-            Try selecting one or more files and watch the feedback
-        </span>
-    </div>
-</div>
-<div class="container-fluid">
 
-    <div class="jumbotron pre-scrollable col-lg-8 col-lg-offset-2">
+        <div class="panel-body">
 
-            <div class="row">
-                <label class="control-label">1.Who is Mother of John Snow</label>
-                <div class="col-lg-10 columns">
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 1
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 2
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 3
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 4
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 5
-                    </label>
+            <div class="form-group">
+                <label> Select a test : </label>
+                <div class="btn-group">
+                    <button type="button" data-toggle="dropdown" class="btn btn-danger dropdown-toggle">{{selectedItem}} <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="test in tests"><a href="" ng-click="changeTestName($event)">{{test.name}}</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="row">
-                <label class="control-label">2.Who is going to claim the Iron Throne</label>
-                <div class="col-lg-10 columns">
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 1
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 2
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 3
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 4
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 5
-                    </label>
-                </div>
+            <div class="form-group">
+                <button class="btn btn-danger">Download Template</button>
             </div>
 
-            <div class="row">
-                <label class="control-label">3.Why Kattappa Killed Bahubali</label>
-                <div class="col-lg-10 columns">
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 1
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 2
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 3
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 4
-                    </label>
-                    <label class="radio control-label">
-                        <input type="radio" name="radio" />option 5
+            <div class="form-group flex fileInput">
+                <div class="input-group col-sm-4">
+                    <input type="text" class="form-control" ng-disabled="true">
+                    <label class="input-group-btn">
+                        <span class="btn btn-danger">
+                            Browse&hellip; <input type="file" style="display: none;" multiple ng-change="upload">
+                        </span>
                     </label>
                 </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary">Upload</button>
             </div>
+
+        </div>
+
+        <div class="panel-footer">
+            <button class="btn btn-success">Save Changes</button>
+        </div>
     </div>
-</div>
 
+</div>    

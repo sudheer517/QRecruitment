@@ -3,6 +3,7 @@
 /// <reference path="../controllers/superadmincontroller.ts" />
 /// <reference path="../controllers/createtestcontroller.ts" />
 /// <reference path="../controllers/testcontroller.ts" />
+/// <reference path="../controllers/uploadquestionscontroller.ts" />
 
 module Recruitment.Controllers {
     export class ControllersConfiguration {
@@ -12,6 +13,7 @@ module Recruitment.Controllers {
             app.controller("superAdminController", Controllers.SuperAdminController);
             app.controller("createTestController", Controllers.CreateTestController);
             app.controller("testController", Controllers.TestController);
+            app.controller("uploadQuestionsController", Controllers.UploadQuestionsController);
         }
     }
 }
