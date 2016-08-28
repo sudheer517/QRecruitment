@@ -11,6 +11,7 @@
         f: any;
         errFile: any;
         errorMsg: any;
+        fileName: string;
     }
 
     export class UploadQuestionsController {
@@ -30,12 +31,15 @@
 
         public uploadFiles(file: any, errFiles: any) {
             this.$scope.f = file;
+            this.$scope.fileName = file.name;
             this.$scope.errFile = errFiles && errFiles[0];
             if (file) {
                 file.upload = this.Upload.upload({
-                    url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                    url: 'http://localhost:60606/api/question',
                     data: { file: file },
-                    method: 'POST'
+                    method: 'POST',
+                    headers: { 'Content-Type': undefined },
+                    transformRequest: angular.identity
                 });
 
                 file.upload.then(response => {

@@ -6,8 +6,8 @@
         constructor(name: string) {
             this.app = angular.module(name, [
                 "ui.router",
-                "ngFileUpload",
-                "mockingApp" // Can remove this when backend development is finished
+                "ngFileUpload"
+               // "mockingApp" // Can remove this when backend development is finished
             ]);
 
             Controllers.ControllersConfiguration.RegisterAll(this.app);
