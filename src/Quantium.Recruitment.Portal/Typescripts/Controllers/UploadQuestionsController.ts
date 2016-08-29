@@ -1,17 +1,23 @@
-﻿module Recruitment.Controllers {
+﻿/// <reference path="../viewmodels/previewquestionoptionviewmodel.ts" />
+/// <reference path="../viewmodels/previewquestionviewmodel.ts" />
+
+module Recruitment.Controllers {
+
+    import PreviewQuestionModel = Recruitment.ViewModels.PreviewQuestionViewModel;
+    import PreviewOptionModel = Recruitment.ViewModels.PreviewQuestionOptionViewModel;
 
     interface IUploadQuestionsControllerScope extends ng.IScope {
         selectedItem: string;
         changeTestName: ($event: any) => void;
         tests: any;
-        //uploadFile: (files: any) => void;
-        upload: any;
         fileUploadObj: any;
-        uploadFiles: (file: any, errFiles: any) => void;
-        f: any;
-        errFile: any;
-        errorMsg: any;
+        selectFile: (file: any, errFiles: any) => void;
+        uploadedFile: any;
+        errorMsg: string;
         fileName: string;
+        saveChanges: () => void;
+        previewQuestions: () => void;
+        previewQuestionModels: PreviewQuestionModel[];
     }
 
     export class UploadQuestionsController {
@@ -20,19 +26,19 @@
             this.$scope.selectedItem = "Select a test";
             this.$scope.changeTestName = ($event: any) => this.changeTestName($event);
             this.$scope.tests = [{ name: "Test1" }, { name: "Test2" }, { name: "Test3" }]
-            this.$scope.upload = [];
-            this.$scope.fileUploadObj = { testString1: "Test string 1", testString2: "Test string 2" };
-            this.$scope.uploadFiles = (file, errFiles) => this.uploadFiles(file, errFiles);
+            this.$scope.selectFile = (file, errFiles) => this.selectFile(file, errFiles);
+            this.$scope.saveChanges = () => this.saveChanges();
+            this.$scope.previewQuestions = () => this.previewQuestions();
+            this.$scope.previewQuestionModels = [];
         }
 
         public changeTestName($event: any): void {
             this.$scope.selectedItem = $event.target.innerText;
         }
 
-        public uploadFiles(file: any, errFiles: any) {
-            this.$scope.f = file;
-            this.$scope.fileName = file.name;
-            this.$scope.errFile = errFiles && errFiles[0];
+        public uploadFile(): void {
+            var file: any = this.$scope.uploadedFile;
+
             if (file) {
                 file.upload = this.Upload.upload({
                     url: 'http://localhost:60606/api/question',
@@ -52,7 +58,64 @@
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));
                 });
-            }  
+            }
+        }
+
+        public selectFile(file: any, errFiles: any) {
+            this.$scope.uploadedFile = file;
+            this.$scope.fileName = file.name;
+            this.$scope.previewQuestionModels = [];
+        }
+
+        public previewQuestions(): void {
+            if (this.$scope.previewQuestionModels.length < 1) {
+                var file = this.$scope.uploadedFile;
+                if (file) {
+                    var fileReader = new FileReader();
+                    fileReader.readAsText(file);
+
+                    fileReader.onload = (event: any) => {
+                        var csv = event.target.result;
+                        this.processData(csv);
+                    }
+                }
+            }
+        }
+
+        public processData(csv: any): void {
+            var allLines: string[] = csv.split(/\r|\n/);
+            allLines = allLines.filter(line => line.length > 0);
+            var supportedOptionCount = 6;
+            var headers: string[] = allLines[0].split(",");
+            var totalColumnCount = headers.length;
+
+            for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
+                var columns: string[] = allLines[csvLine].split(",");
+                var previewQuestionModel: PreviewQuestionModel = new PreviewQuestionModel();
+                previewQuestionModel.questionNumber = Number(columns[0]);
+                previewQuestionModel.questionText = columns[1];
+                var selectedOptions: string[] = columns[2].split(";");
+                previewQuestionModel.questionTimeInSeconds = Number(columns[3]);
+
+                var options: PreviewOptionModel[] = [];
+
+                for (var columnIndex = 4; columnIndex < totalColumnCount; columnIndex++) {
+                    var option: PreviewOptionModel = new PreviewOptionModel();
+                    option.questionNumber = previewQuestionModel.questionNumber;
+                    option.optionText = columns[columnIndex];
+                    option.isSelected = selectedOptions.indexOf(headers[columnIndex]) == -1 ? false : true;
+
+                    options.push(option);
+                }
+
+                previewQuestionModel.options = options;
+                this.$scope.previewQuestionModels.push(previewQuestionModel);
+                this.$scope.$apply();
+            }
+        }
+
+        public saveChanges(): void {
+            
         }
     }
 }

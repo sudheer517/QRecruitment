@@ -19,7 +19,7 @@
             </div>
 
             <div class="form-group">
-                <a class="btn btn-danger" href="/SampleQuestions.csv">Download Template</a>
+                <a class="btn btn-danger" href="/QuestionTemplate.csv">Download Template</a>
             </div>
 
             <div class="form-group flex fileInput">
@@ -27,16 +27,42 @@
                     <input type="text" class="form-control" value="{{fileName}}" ng-disabled="true">
                     <label class="input-group-btn">
                         <span class="btn btn-danger">
-                            Browse & Upload <input type="file" style="display: none;" multiple ngf-select="uploadFiles($file, $invalidFiles)" accept=".csv">
+                            Browse & Upload <input type="file" style="display: none;" ngf-select="selectFile($file, $invalidFiles)" accept=".csv">
                         </span>
                     </label>
                 </div>
-                <button class="btn btn-info">Preview</button>
+            </div>
+            <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="previewQuestions()">Preview</button>
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><i class="fa fa-3x fa-times-circle"></i></button>
+                            <h4 class="modal-title">Your uploaded questions can be found here bro</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p ng-hide="previewQuestionModels.length > 0">No questions uploaded yet</p>
+                            <div class="previewQuestion" ng-repeat="previewQuestionModel in previewQuestionModels">
+                                <span>{{previewQuestionModel.questionNumber}}.</span>
+                                <h5>{{previewQuestionModel.questionText}}</h5>
+                                <h6>Time for Question - {{previewQuestionModel.questionTimeInSeconds}} seconds</h6>
+                                <div class="previewOptionList">
+                                    <ul>
+                                        <li ng-repeat="option in previewQuestionModel.options"><i ng-class="option.isSelected ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.optionText}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
 
         <div class="panel-footer">
-            <button class="btn btn-success">Save Changes</button>
+            <button class="btn btn-success" ng-click="saveChanges()">Save Changes</button>
         </div>
     </div>
 
