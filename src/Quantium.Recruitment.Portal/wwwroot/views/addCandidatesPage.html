@@ -1,3 +1,67 @@
 ﻿<div>
-    <h3> add Candidates Page</h3>
+    <h1> Add Candidates Page</h1>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+        </div>
+
+        <div class="panel-body">
+            <div class="form-group">
+                <div class="input-append" ng-repeat="candidate in candidatesArray.candidates">
+                    Name:
+                    <input type="text" ng-model="candidate.name">
+                    Email:
+                    <input type="text" ng-model="candidate.email">
+                    <button class="btn btn-danger" ng-click="remove($index)">Remove Candidate</button>
+                </div>
+                <button class="btn btn-success" ng-click="add()">Add Candidate</button>
+            </div>
+
+            <b>Or</b>
+
+            <div class="form-group">
+                <a class="btn btn-danger" href="/CandidatesTemplate.csv">Download Template</a>
+            </div>
+
+            <div class="form-group flex fileInput">
+                <div class="input-group col-sm-4">
+                    <input type="text" class="form-control" value="{{fileName}}" ng-disabled="true">
+                    <label class="input-group-btn">
+                        <span class="btn btn-danger">
+                            Browse & Upload <input type="file" style="display: none;" ngf-select="selectFile($file, $invalidFiles)" accept=".csv">
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="previewCandidates()">Preview</button>
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><i class="fa fa-3x fa-times-circle"></i></button>
+                            <h1 class="modal-title">Candidate's List</h1>
+                        </div>
+                        <div class="modal-body">
+                            <p ng-hide="previewCandidatesModel.length > 0">Dude, Upload the CSV first !!!</p>
+                            <div class="previewCandidates" ng-repeat="candidatesModel in previewCandidatesModel">
+                                <table>
+                                    <tr>
+                                        <td>{{candidatesModel.name}}</td>
+                                        <td>{{candidatesModel.email}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <button class="btn btn-success" ng-click="saveChanges()">Save Changes</button>
+        </div>
+    </div>
 </div>

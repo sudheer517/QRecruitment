@@ -51,7 +51,7 @@ module Recruitment.Routes {
 
                     .state("addCandidates",
                     {
-                        url: "/addCandidates", controller: Controllers.CreateTestController, templateUrl: "views/addCandidatesPage.html"
+                        url: "/addCandidates", controller: Controllers.AddCandidatesController, templateUrl: "views/addCandidatesPage.html"
                     })
 
                     .state("test",
