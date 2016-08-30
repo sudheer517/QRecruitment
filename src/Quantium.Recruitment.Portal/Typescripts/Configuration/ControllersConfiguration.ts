@@ -4,6 +4,7 @@
 /// <reference path="../controllers/createtestcontroller.ts" />
 /// <reference path="../controllers/testcontroller.ts" />
 /// <reference path="../controllers/uploadquestionscontroller.ts" />
+/// <reference path="../controllers/addCandidatesController.ts" />
 
 module Recruitment.Controllers {
     export class ControllersConfiguration {
@@ -14,6 +15,7 @@ module Recruitment.Controllers {
             app.controller("createTestController", Controllers.CreateTestController);
             app.controller("testController", Controllers.TestController);
             app.controller("uploadQuestionsController", Controllers.UploadQuestionsController);
+            app.controller("addCandidatesController", Controllers.AddCandidatesController);
         }
     }
 }
