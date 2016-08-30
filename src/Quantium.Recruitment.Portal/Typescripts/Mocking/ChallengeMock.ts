@@ -1,8 +1,8 @@
-﻿/// <reference path="../viewmodels/optionviewmodel.ts" />
+﻿/// <reference path="../viewmodels/challengeoptionviewmodel.ts" />
 /// <reference path="../viewmodels/challengeviewmodel.ts" />
 
 module Mocks {
-    import OptionViewModel = Recruitment.ViewModels.OptionViewModel;
+    import OptionViewModel = Recruitment.ViewModels.ChallengeOptionViewModel;
 
     export class ChallengeMock {
 

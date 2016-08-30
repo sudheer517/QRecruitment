@@ -14,6 +14,11 @@ module Mock {
                 $httpBackend.whenGET("http://localhost:60606/api/temp").respond(() => {
                     return [200, Mocks.ChallengeMock.getNextQuestion()];
                 });
+
+                $httpBackend.whenGET("http://localhost:60606/api/test").respond(() => {
+                    return [200, Mocks.EditTestMock.getTestData(1)];
+                });
+
                 $httpBackend.whenPOST("http://localhost:60606/api/temp").respond(() => {
                     return [200, { randomStuff: "could be anything here" }];
                 });

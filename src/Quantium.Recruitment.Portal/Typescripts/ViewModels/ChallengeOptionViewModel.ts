@@ -1,6 +1,6 @@
 ﻿module Recruitment.ViewModels {
 
-    export class OptionViewModel {
+    export class ChallengeOptionViewModel {
         private optionId: number;
         private optionText: string;
         constructor(optionId: number, optionText: string) {

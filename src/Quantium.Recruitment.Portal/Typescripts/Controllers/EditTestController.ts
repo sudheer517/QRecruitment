@@ -6,7 +6,7 @@ module Recruitment.Controllers {
     import PreviewQuestionModel = Recruitment.ViewModels.QuestionViewModel;
     import PreviewOptionModel = Recruitment.ViewModels.QuestionOptionViewModel;
 
-    interface IUploadQuestionsControllerScope extends ng.IScope {
+    interface IEditTestControllerScope extends ng.IScope {
         selectedItem: string;
         changeTestName: ($event: any) => void;
         tests: any;
@@ -20,9 +20,9 @@ module Recruitment.Controllers {
         previewQuestionModels: PreviewQuestionModel[];
     }
 
-    export class UploadQuestionsController {
+    export class EditTestController {
 
-        constructor(private $scope: IUploadQuestionsControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private Upload: ng.angularFileUpload.IUploadService, private $timeout: ng.ITimeoutService) {
+        constructor(private $scope: IEditTestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private Upload: ng.angularFileUpload.IUploadService, private $timeout: ng.ITimeoutService) {
             this.$scope.selectedItem = "Select a test";
             this.$scope.changeTestName = ($event: any) => this.changeTestName($event);
             this.$scope.tests = [{ name: "Test1" }, { name: "Test2" }, { name: "Test3" }]
