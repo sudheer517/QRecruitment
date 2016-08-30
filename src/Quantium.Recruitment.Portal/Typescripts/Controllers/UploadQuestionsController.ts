@@ -1,10 +1,10 @@
-﻿/// <reference path="../viewmodels/previewquestionoptionviewmodel.ts" />
-/// <reference path="../viewmodels/previewquestionviewmodel.ts" />
+﻿/// <reference path="../viewmodels/questionoptionviewmodel.ts" />
+/// <reference path="../viewmodels/questionviewmodel.ts" />
 
 module Recruitment.Controllers {
 
-    import PreviewQuestionModel = Recruitment.ViewModels.PreviewQuestionViewModel;
-    import PreviewOptionModel = Recruitment.ViewModels.PreviewQuestionOptionViewModel;
+    import PreviewQuestionModel = Recruitment.ViewModels.QuestionViewModel;
+    import PreviewOptionModel = Recruitment.ViewModels.QuestionOptionViewModel;
 
     interface IUploadQuestionsControllerScope extends ng.IScope {
         selectedItem: string;
@@ -92,7 +92,7 @@ module Recruitment.Controllers {
             for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
                 var columns: string[] = allLines[csvLine].split(",");
                 var previewQuestionModel: PreviewQuestionModel = new PreviewQuestionModel();
-                previewQuestionModel.questionNumber = Number(columns[0]);
+                previewQuestionModel.questionId = Number(columns[0]);
                 previewQuestionModel.questionText = columns[1];
                 var selectedOptions: string[] = columns[2].split(";");
                 previewQuestionModel.questionTimeInSeconds = Number(columns[3]);
@@ -101,7 +101,7 @@ module Recruitment.Controllers {
 
                 for (var columnIndex = 4; columnIndex < totalColumnCount; columnIndex++) {
                     var option: PreviewOptionModel = new PreviewOptionModel();
-                    option.questionNumber = previewQuestionModel.questionNumber;
+                    option.questionNumber = previewQuestionModel.questionId;
                     option.optionText = columns[columnIndex];
                     option.isSelected = selectedOptions.indexOf(headers[columnIndex]) == -1 ? false : true;
 

@@ -1,9 +1,9 @@
 ﻿module Recruitment.ViewModels {
 
-    export class PreviewQuestionViewModel {
-        public questionNumber: number;
+    export class QuestionViewModel {
+        public questionId: number;
         public questionText: string;
-        public options: PreviewQuestionOptionViewModel[];
+        public options: QuestionOptionViewModel[];
         public questionTimeInSeconds: number;
 
         constructor() { };
