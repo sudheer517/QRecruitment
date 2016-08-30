@@ -26,10 +26,10 @@ hr {
     border-color: #999999;
 }
 
-.brand,
+/*.brand,
 .address-bar {
     display: none;
-}
+}*/
 
 .navbar-brand {
     text-transform: uppercase;
@@ -105,18 +105,46 @@ footer p {
     
 }
 
+.brand-base {
+    display: inherit;
+    margin: 0;
+    padding: 10px 0 10px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    font-family: "Josefin Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 1.5em;
+    font-weight: 500;
+    line-height: normal;
+    color: #fff;
+}
+
+.address-bar-base {
+    display: inherit;
+    margin: 0;
+    padding: 0 0 40px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    text-transform: uppercase;
+    font-size: 0.75em;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: #fff;
+}
+
+@media screen and (min-width:260px) {
+    .brand {
+        .brand-base;
+    }
+    .address-bar {
+        .address-bar-base;
+    }
+}
+
 @media screen and (min-width:768px) {
     .brand {
-        display: inherit;
-        margin: 0;
+        .brand-base;
         padding: 30px 0 10px;
-        text-align: center;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        font-family: "Josefin Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
         font-size: 3.5em;
-        font-weight: 500;
-        line-height: normal;
-        color: #fff;
     }
 
     .top-divider {
@@ -129,16 +157,8 @@ footer p {
     }
 
     .address-bar {
-        display: inherit;
-        margin: 0;
-        padding: 0 0 40px;
-        text-align: center;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        text-transform: uppercase;
+        .address-bar-base;
         font-size: 1.25em;
-        font-weight: 400;
-        letter-spacing: 3px;
-        color: #fff;
     }
 
     .navbar {

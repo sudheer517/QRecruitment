@@ -1,0 +1,51 @@
+﻿.loginContainer{
+    //background: rgba(255, 255, 255, 0.9);
+    //opacity: 0.4;
+    background: rgba(255, 255, 255, 0.3);
+    border: none;
+    color: #fff;
+
+    margin-bottom: 20px;
+    padding: 30px 15px;
+    min-height:49vh;
+
+    form{
+        margin-top: 30px;
+        background-color: transparent;
+        
+        span{
+            background-color: transparent;
+            border: none;
+            color:lightgray;
+        }
+
+        input{
+            border-right: none;
+            border-left: none;
+            border-top: none;
+            border-radius: 0px !important;
+            border-bottom-color: gray;
+            padding: 10px;
+            background-color: transparent;
+            color:azure;
+            
+        }
+        
+        @placeholder-color: lightgray;
+
+        ::-webkit-input-placeholder { color: @placeholder-color; }
+        :-moz-placeholder { color: @placeholder-color;}
+        ::-moz-placeholder {color: @placeholder-color;}
+        :-ms-input-placeholder {color: @placeholder-color;}
+
+        button{
+            width: 120px;
+        }
+
+        .large-button{
+            width: 180px;
+            text-align: left;
+        }
+    }
+}
+
