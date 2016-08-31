@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Quantium.Recruitment.Services")]
+[assembly: AssemblyTitle("Quantium.Recruitment.ApiServices")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Quantium.Recruitment.Services")]
+[assembly: AssemblyProduct("Quantium.Recruitment.ApiServices")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6bb69aff-e145-4a2a-a534-00081217d823")]
+[assembly: Guid("d36abaeb-9637-4f33-83f8-9d6523111a98")]
 
 // Version information for an assembly consists of the following four values:
 //

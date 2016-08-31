@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace Quantium.Recruitment.Services
+namespace Quantium.Recruitment.ApiServices
 {
     public static class WebApiConfig
     {
@@ -19,6 +19,8 @@ namespace Quantium.Recruitment.Services
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.EnsureInitialized();
         }
     }
 }

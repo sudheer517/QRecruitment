@@ -6,14 +6,16 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace Quantium.Recruitment.Services.Controllers
+namespace Quantium.Recruitment.ApiServices.Controllers
 {
     public class ValuesController : ApiController
     {
-        private RecruitmentContext _ctx = new RecruitmentContext();
         // GET api/<controller>
+
+        private RecruitmentContext _ctx= new RecruitmentContext();
         public IEnumerable<string> Get()
         {
+            var dept = _ctx.Departments.ToList();
             return new string[] { "value1", "value2" };
         }
 

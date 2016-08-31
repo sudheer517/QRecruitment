@@ -12,14 +12,14 @@ namespace Quantium.Recruitment.Infrastructure
     {
         protected override void Seed(RecruitmentContext _dbContext)
         {
-            //#region Department
-            //Department softwareDepartment = new Department() { Name = "Software" };
-            //Department analyticsDepartment = new Department() { Name = "Analytics" };
+            #region Department
+            Department softwareDepartment = new Department() { Name = "Software" };
+            Department analyticsDepartment = new Department() { Name = "Analytics" };
 
-            //_dbContext.Departments.Add(softwareDepartment);
-            //_dbContext.Departments.Add(analyticsDepartment);
+            _dbContext.Departments.Add(softwareDepartment);
+            _dbContext.Departments.Add(analyticsDepartment);
 
-            //#endregion
+            #endregion
 
             //#region Admin
 
@@ -106,7 +106,9 @@ namespace Quantium.Recruitment.Infrastructure
             //#region Test
 
             //Test test1 = new Test();
+            //test1.Name = "Test1";
             //Test test2 = new Test();
+            //test2.Name = "Test2";
 
             //_dbContext.Tests.Add(test1);
             //_dbContext.Tests.Add(test2);
@@ -227,6 +229,8 @@ namespace Quantium.Recruitment.Infrastructure
             //_dbContext.Labels.Add(label3);
 
             //#endregion Label
+
+            #region TestREgion
 
             //#region QuestionGroup
 
@@ -888,7 +892,8 @@ namespace Quantium.Recruitment.Infrastructure
 
             //#endregion CandidateSelectedOption
 
-            
+            #endregion TestREgion
+
             base.Seed(_dbContext);
         }
     }

@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.Common
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.Infrastructure", "Quantium.Recruitment.Infrastructure\Quantium.Recruitment.Infrastructure.csproj", "{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.Services", "Quantium.Recruitment.Services\Quantium.Recruitment.Services.csproj", "{6BB69AFF-E145-4A2A-A534-00081217D823}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.ApiServices", "Quantium.Recruitment.ApiServices\Quantium.Recruitment.ApiServices.csproj", "{D36ABAEB-9637-4F33-83F8-9D6523111A98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6BB69AFF-E145-4A2A-A534-00081217D823}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BB69AFF-E145-4A2A-A534-00081217D823}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BB69AFF-E145-4A2A-A534-00081217D823}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BB69AFF-E145-4A2A-A534-00081217D823}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D36ABAEB-9637-4F33-83F8-9D6523111A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D36ABAEB-9637-4F33-83F8-9D6523111A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D36ABAEB-9637-4F33-83F8-9D6523111A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D36ABAEB-9637-4F33-83F8-9D6523111A98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +61,6 @@ Global
 		{5955912C-1B07-49F5-BEB3-9F51F9100A00} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
 		{1A5F16AB-0F02-4CAE-81AB-CAF8AB31E124} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
 		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
-		{6BB69AFF-E145-4A2A-A534-00081217D823} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
+		{D36ABAEB-9637-4F33-83F8-9D6523111A98} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
 	EndGlobalSection
 EndGlobal

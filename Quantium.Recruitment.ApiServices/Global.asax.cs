@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 
-namespace Quantium.Recruitment.Services
+namespace Quantium.Recruitment.ApiServices
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
