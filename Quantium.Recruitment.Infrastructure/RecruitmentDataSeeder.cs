@@ -21,214 +21,214 @@ namespace Quantium.Recruitment.Infrastructure
 
             #endregion
 
-            //#region Admin
+            #region Admin
 
-            //Admin admin1 = new Admin()
-            //{
-            //    FirstName = "Kannan",
-            //    LastName = "Perumal",
-            //    Email = "kannan.perumal@quantium.co.in",
-            //    IsActive = true,
-            //    Mobile = 8886008855,
-            //    Department = softwareDepartment
-            //};
+            Admin admin1 = new Admin()
+            {
+                FirstName = "Kannan",
+                LastName = "Perumal",
+                Email = "kannan.perumal@quantium.co.in",
+                IsActive = true,
+                Mobile = 8886008855,
+                Department = softwareDepartment
+            };
 
-            //Admin admin2 = new Admin()
-            //{
-            //    FirstName = "Rakesh",
-            //    LastName = "Rohan",
-            //    Email = "Rakesh.Aitipamula@quantium.co.in",
-            //    IsActive = true,
-            //    Mobile = 9052791243,
-            //    Department = softwareDepartment
-            //};
+            Admin admin2 = new Admin()
+            {
+                FirstName = "Rakesh",
+                LastName = "Rohan",
+                Email = "Rakesh.Aitipamula@quantium.co.in",
+                IsActive = true,
+                Mobile = 9052791243,
+                Department = softwareDepartment
+            };
 
-            //Admin admin3 = new Admin()
-            //{
-            //    FirstName = "Ravi",
-            //    LastName = "Bhaskar",
-            //    Email = "Ravi.Bhaskar@quantium.co.in",
-            //    IsActive = true,
-            //    Mobile = 7799814877,
-            //    Department = softwareDepartment
-            //};
+            Admin admin3 = new Admin()
+            {
+                FirstName = "Ravi",
+                LastName = "Bhaskar",
+                Email = "Ravi.Bhaskar@quantium.co.in",
+                IsActive = true,
+                Mobile = 7799814877,
+                Department = softwareDepartment
+            };
 
-            //Admin admin4 = new Admin()
-            //{
-            //    FirstName = "Mit",
-            //    LastName = "Suthar",
-            //    Email = "Mit.Suthar@quantium.co.in",
-            //    IsActive = true,
-            //    Mobile = 8886008855,
-            //    Department = softwareDepartment
-            //};
+            Admin admin4 = new Admin()
+            {
+                FirstName = "Mit",
+                LastName = "Suthar",
+                Email = "Mit.Suthar@quantium.co.in",
+                IsActive = true,
+                Mobile = 8886008855,
+                Department = softwareDepartment
+            };
 
-            //Admin admin5 = new Admin()
-            //{
-            //    FirstName = "Babul",
-            //    LastName = "Reddy",
-            //    Email = "Babul.Yasa@quantium.co.in",
-            //    IsActive = true,
-            //    Mobile = 9618415060,
-            //    Department = softwareDepartment
-            //};
+            Admin admin5 = new Admin()
+            {
+                FirstName = "Babul",
+                LastName = "Reddy",
+                Email = "Babul.Yasa@quantium.co.in",
+                IsActive = true,
+                Mobile = 9618415060,
+                Department = softwareDepartment
+            };
 
-            //Admin admin6 = new Admin()
-            //{
-            //    FirstName = "Jayaram",
-            //    LastName = "Putineedi",
-            //    Email = "Jayaram.Putineedi@quantium.co.in",
-            //    IsActive = true,
-            //    Mobile = 9542749797,
-            //    Department = softwareDepartment
-            //};
+            Admin admin6 = new Admin()
+            {
+                FirstName = "Jayaram",
+                LastName = "Putineedi",
+                Email = "Jayaram.Putineedi@quantium.co.in",
+                IsActive = true,
+                Mobile = 9542749797,
+                Department = softwareDepartment
+            };
 
-            //Admin admin7 = new Admin()
-            //{
-            //    FirstName = "Samyuktha",
-            //    LastName = "Kodali",
-            //    Email = "Samyuktha.Kodali@quantium.co.in",
-            //    IsActive = true,
-            //    Mobile = 9651525567,
-            //    Department = softwareDepartment
-            //};
+            Admin admin7 = new Admin()
+            {
+                FirstName = "Samyuktha",
+                LastName = "Kodali",
+                Email = "Samyuktha.Kodali@quantium.co.in",
+                IsActive = true,
+                Mobile = 9651525567,
+                Department = softwareDepartment
+            };
 
-            //_dbContext.Admins.Add(admin1);
-            //_dbContext.Admins.Add(admin2);
-            //_dbContext.Admins.Add(admin3);
-            //_dbContext.Admins.Add(admin4);
-            //_dbContext.Admins.Add(admin5);
-            //_dbContext.Admins.Add(admin6);
-            //_dbContext.Admins.Add(admin7);
+            _dbContext.Admins.Add(admin1);
+            _dbContext.Admins.Add(admin2);
+            _dbContext.Admins.Add(admin3);
+            _dbContext.Admins.Add(admin4);
+            _dbContext.Admins.Add(admin5);
+            _dbContext.Admins.Add(admin6);
+            _dbContext.Admins.Add(admin7);
 
-            //#endregion Admin
+            #endregion Admin
 
-            //#region Test
+            #region Test
 
-            //Test test1 = new Test();
-            //test1.Name = "Test1";
-            //Test test2 = new Test();
-            //test2.Name = "Test2";
+            Test test1 = new Test();
+            test1.Name = "Test1";
+            Test test2 = new Test();
+            test2.Name = "Test2";
 
-            //_dbContext.Tests.Add(test1);
-            //_dbContext.Tests.Add(test2);
+            _dbContext.Tests.Add(test1);
+            _dbContext.Tests.Add(test2);
 
-            //#endregion Test
+            #endregion Test
 
-            //#region Job
+            #region Job
 
-            //Job job1 = new Job()
-            //{
-            //    Title = "Mid-Level Software Developer",
-            //    Profile = "Software Developer is responsible for requirements analysis and object modelling of new software features and ensuring adequate testing and quality control measures are followed. The ideal candidates should have very strong technical ability and be able to apply programming techniques to solve complex problems. They should also have well developed written and verbal communication skills",
-            //    Department = softwareDepartment
-            //};
+            Job job1 = new Job()
+            {
+                Title = "Mid-Level Software Developer",
+                Profile = "Software Developer is responsible for requirements analysis and object modelling of new software features and ensuring adequate testing and quality control measures are followed. The ideal candidates should have very strong technical ability and be able to apply programming techniques to solve complex problems. They should also have well developed written and verbal communication skills",
+                Department = softwareDepartment
+            };
 
-            //Job job2 = new Job()
-            //{
-            //    Title = "Data Analyst",
-            //    Profile = "We are looking for a passionate Data Analyst to turn data into information, information into insight and insight into business decisions.Data analyst responsibilities include conducting full lifecycle activities to include requirements analysis and design, developing analysis and reporting capabilities,and continuously monitoring performance and quality control plans to identify improvements",
-            //    Department = analyticsDepartment
-            //};
+            Job job2 = new Job()
+            {
+                Title = "Data Analyst",
+                Profile = "We are looking for a passionate Data Analyst to turn data into information, information into insight and insight into business decisions.Data analyst responsibilities include conducting full lifecycle activities to include requirements analysis and design, developing analysis and reporting capabilities,and continuously monitoring performance and quality control plans to identify improvements",
+                Department = analyticsDepartment
+            };
 
-            //_dbContext.Jobs.Add(job1);
-            //_dbContext.Jobs.Add(job2);
+            _dbContext.Jobs.Add(job1);
+            _dbContext.Jobs.Add(job2);
 
-            //#endregion Job
+            #endregion Job
 
-            //#region Candidate
+            #region Candidate
 
-            //Candidate candidate1 = new Candidate
-            //{
-            //    FirstName = "Aman",
-            //    LastName = "Agarwal",
-            //    Email = "aman.agarwal@gmail.com",
-            //    Mobile = 9595959595,
-            //    IsActive = true,
-            //    Job = job1,
-            //    Test = test1
-            //};
+            Candidate candidate1 = new Candidate
+            {
+                FirstName = "Aman",
+                LastName = "Agarwal",
+                Email = "aman.agarwal@gmail.com",
+                Mobile = 9595959595,
+                IsActive = true,
+                Job = job1,
+                Test = test1
+            };
 
-            //Candidate candidate2 = new Candidate
-            //{
-            //    FirstName = "Raj",
-            //    LastName = "Kundal",
-            //    Email = "Raj.Kundal@gmail.com",
-            //    Mobile = 9595958885,
-            //    IsActive = true,
-            //    Job = job1,
-            //    Test = test1
-            //};
+            Candidate candidate2 = new Candidate
+            {
+                FirstName = "Raj",
+                LastName = "Kundal",
+                Email = "Raj.Kundal@gmail.com",
+                Mobile = 9595958885,
+                IsActive = true,
+                Job = job1,
+                Test = test1
+            };
 
-            //Candidate candidate3 = new Candidate
-            //{
-            //    FirstName = "Pooja",
-            //    LastName = "Sharma",
-            //    Email = "Pooja.Sharma41@gmail.com",
-            //    Mobile = 96759987453,
-            //    IsActive = true,
-            //    Job = job2,
-            //    Test = test2
-            //};
+            Candidate candidate3 = new Candidate
+            {
+                FirstName = "Pooja",
+                LastName = "Sharma",
+                Email = "Pooja.Sharma41@gmail.com",
+                Mobile = 96759987453,
+                IsActive = true,
+                Job = job2,
+                Test = test2
+            };
 
-            //Candidate candidate4 = new Candidate
-            //{
-            //    FirstName = "Hari",
-            //    LastName = "Krishna",
-            //    Email = "Hari.Gudla@gmail.com",
-            //    Mobile = 9242526667,
-            //    IsActive = true,
-            //    Job = job2,
-            //    Test = test2
-            //};
+            Candidate candidate4 = new Candidate
+            {
+                FirstName = "Hari",
+                LastName = "Krishna",
+                Email = "Hari.Gudla@gmail.com",
+                Mobile = 9242526667,
+                IsActive = true,
+                Job = job2,
+                Test = test2
+            };
 
-            //Candidate candidate5 = new Candidate
-            //{
-            //    FirstName = "Tejs",
-            //    LastName = "Kumar",
-            //    Email = "tejs.kumar@gmail.com",
-            //    Mobile = 9010456746,
-            //    IsActive = true,
-            //    Job = job2,
-            //    Test = test2
-            //};
+            Candidate candidate5 = new Candidate
+            {
+                FirstName = "Tejs",
+                LastName = "Kumar",
+                Email = "tejs.kumar@gmail.com",
+                Mobile = 9010456746,
+                IsActive = true,
+                Job = job2,
+                Test = test2
+            };
 
-            //_dbContext.Candidates.Add(candidate1);
-            //_dbContext.Candidates.Add(candidate2);
-            //_dbContext.Candidates.Add(candidate3);
-            //_dbContext.Candidates.Add(candidate4);
-            //_dbContext.Candidates.Add(candidate5);
+            _dbContext.Candidates.Add(candidate1);
+            _dbContext.Candidates.Add(candidate2);
+            _dbContext.Candidates.Add(candidate3);
+            _dbContext.Candidates.Add(candidate4);
+            _dbContext.Candidates.Add(candidate5);
 
-            //#endregion Candidate
+            #endregion Candidate
 
-            //#region Label
+            #region Label
 
-            //Label label1 = new Label
-            //{
-            //    Name = "c#",
-            //    Job = job1,
-            //    Test = test1
-            //};
+            Label label1 = new Label
+            {
+                Name = "c#",
+                Job = job1,
+                Test = test1
+            };
 
-            //Label label2 = new Label
-            //{
-            //    Name = ".Net Framework",
-            //    Job = job1,
-            //    Test = test1
-            //};
+            Label label2 = new Label
+            {
+                Name = ".Net Framework",
+                Job = job1,
+                Test = test1
+            };
 
-            //Label label3 = new Label
-            //{
-            //    Name = ".Net Basics",
-            //    Job = job1,
-            //    Test = test1
-            //};
+            Label label3 = new Label
+            {
+                Name = ".Net Basics",
+                Job = job1,
+                Test = test1
+            };
 
-            //_dbContext.Labels.Add(label1);
-            //_dbContext.Labels.Add(label2);
-            //_dbContext.Labels.Add(label3);
+            _dbContext.Labels.Add(label1);
+            _dbContext.Labels.Add(label2);
+            _dbContext.Labels.Add(label3);
 
-            //#endregion Label
+            #endregion Label
 
             #region TestREgion
 

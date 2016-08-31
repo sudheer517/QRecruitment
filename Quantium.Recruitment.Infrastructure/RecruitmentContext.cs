@@ -23,11 +23,11 @@ namespace Quantium.Recruitment.Infrastructure
         }
 
 
-        //public DbSet<Admin> Admins { get; set; }
+        public DbSet<Admin> Admins { get; set; }
 
-        //public DbSet<Candidate> Candidates { get; set; }
+        public DbSet<Candidate> Candidates { get; set; }
 
-       // public DbSet<Job> Jobs { get; set; }
+        public DbSet<Job> Jobs { get; set; }
 
         public DbSet<Department> Departments { get; set; }
 
@@ -37,9 +37,9 @@ namespace Quantium.Recruitment.Infrastructure
 
         //public DbSet<QuestionGroup> QuestionGroups { get; set; }
 
-        //public DbSet<Test> Tests { get; set; }
+        public DbSet<Test> Tests { get; set; }
 
-        //public DbSet<Label> Labels { get; set; }
+        public DbSet<Label> Labels { get; set; }
 
         //public DbSet<Challenge> Challenges { get; set; }
 
