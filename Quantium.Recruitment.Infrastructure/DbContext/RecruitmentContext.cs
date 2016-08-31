@@ -1,6 +1,7 @@
 ﻿using System;
 using Quantium.Recruitment.Entities;
 using System.Data.Entity;
+using System.Configuration;
 
 namespace Quantium.Recruitment.Infrastructure
 {

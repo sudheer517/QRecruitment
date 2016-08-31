@@ -169,6 +169,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Quantium.Recruitment.Entities\Quantium.Recruitment.Entities.csproj">
+      <Project>{91712d9b-320d-4a2e-823d-89a00f349b61}</Project>
+      <Name>Quantium.Recruitment.Entities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Quantium.Recruitment.Infrastructure\Quantium.Recruitment.Infrastructure.csproj">
       <Project>{49ABC021-E36F-4046-8789-07050A742F26}</Project>
       <Name>Quantium.Recruitment.Infrastructure</Name>

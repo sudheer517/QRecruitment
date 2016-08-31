@@ -15,13 +15,17 @@ namespace Quantium.Recruitment.DbInitialize
 
         public static void Main(string[] args)
         {
+            Database.SetInitializer(new DropCreateDatabaseAlways<RecruitmentContext>);
             Console.WriteLine("Creating database...");
 
-            _dbContext = _container.Resolve<IRecruitmentContext>();
+            
 
             Console.WriteLine("Seeding data...");
 
-            SeedData();
+            using (_dbContext = new RecruitmentContext())
+            {
+                SeedData();
+            }
 
             Console.WriteLine("Database initialized.");
             Console.WriteLine("Press any key to exit");

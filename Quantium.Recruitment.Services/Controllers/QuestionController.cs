@@ -1,17 +1,24 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using Quantium.Recruitment.Infrastructure;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Quantium.Recruitment.Services.Controllers
 {
     public class QuestionController : ApiController
     {
+        private IRecruitmentContext _context;
+
+        public QuestionController(IRecruitmentContext context)
+        {
+            _context = context;
+        }
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
+            //var admins = _context.Admins.ToList();
+            var newData = "Valu2";
             return new string[] { "value1", "value2" };
         }
 
