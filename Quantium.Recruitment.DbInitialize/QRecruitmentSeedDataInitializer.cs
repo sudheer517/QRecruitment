@@ -11,14 +11,10 @@ namespace Quantium.Recruitment.DbInitialize
     public class QRecruitmentSeedDataInitializer: DropCreateDatabaseAlways<RecruitmentContext>
     {
         public static IRecruitmentContext _dbContext { get; set; }
-        private static IUnityContainer _container;
 
         public static void Main(string[] args)
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<RecruitmentContext>);
             Console.WriteLine("Creating database...");
-
-            
 
             Console.WriteLine("Seeding data...");
 
