@@ -13,6 +13,7 @@ namespace Quantium.Recruitment.Entities
         [ForeignKey("ChallengeId")]
         public virtual Challenge Challenge { get; set; }
 
-        public virtual ICollection<Option> Options { get; set; }
+        [ForeignKey("OptionId")]
+        public virtual Option Option { get; set; }
     }
 }
