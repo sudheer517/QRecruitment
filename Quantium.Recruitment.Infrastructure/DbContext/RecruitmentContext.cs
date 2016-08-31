@@ -34,17 +34,8 @@ namespace Quantium.Recruitment.Infrastructure
     public class RecruitmentContext : DbContext, IRecruitmentContext
     {
 
-        public RecruitmentContext()
+        public RecruitmentContext() : base()
         {
-            _config = config;
-            this.Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-
-            optionsBuilder.UseSqlServer(_config["ConnectionStrings:RecruitmentContextConnection"]);
         }
 
         public DbSet<Admin> Admins { get; set; }

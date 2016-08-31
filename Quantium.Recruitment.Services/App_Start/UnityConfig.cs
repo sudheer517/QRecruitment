@@ -9,7 +9,7 @@ namespace Quantium.Recruitment.Services
     {
         public static void RegisterComponents()
         {
-			var container = new UnityContainer();
+			IUnityContainer container = new UnityContainer();
 
             container.RegisterType<IRecruitmentContext, RecruitmentContext>(new HierarchicalLifetimeManager());
             // register all your components with the container here

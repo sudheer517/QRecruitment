@@ -3,18 +3,21 @@ using System.IO;
 using System.Collections.Generic;
 using Quantium.Recruitment.Infrastructure;
 using Quantium.Recruitment.Entities;
+using System.Data.Entity;
+using Microsoft.Practices.Unity;
 
 namespace Quantium.Recruitment.DbInitialize
 {
-    public class Program
+    public class QRecruitmentSeedDataInitializer: DropCreateDatabaseAlways<RecruitmentContext>
     {
         public static IRecruitmentContext _dbContext { get; set; }
+        private static IUnityContainer _container;
 
         public static void Main(string[] args)
         {
             Console.WriteLine("Creating database...");
 
-            _dbContext = IoCContainer.ConfigureServices(_configuration).BuildServiceProvider().GetService<IRecruitmentContext>();
+            _dbContext = _container.Resolve<IRecruitmentContext>();
 
             Console.WriteLine("Seeding data...");
 
