@@ -8,15 +8,19 @@ using System.Web.Http;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    public class ValuesController : ApiController
+    public class QuestionController : ApiController
     {
-        private RecruitmentContext _ctx = new RecruitmentContext();
+        private IRecruitmentContext _context;
+
+        public QuestionController(IRecruitmentContext context)
+        {
+            _context = context;
+        }
 
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
-            var dept = _ctx.Departments.ToList();
-            return new string[] { "value1", "value2" };
+            return _context.Questions.Select(q => q.Text);
         }
 
         // GET api/<controller>/5

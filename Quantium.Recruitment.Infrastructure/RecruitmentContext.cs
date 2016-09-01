@@ -10,7 +10,34 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Infrastructure
 {
-    public class RecruitmentContext : DbContext
+    public interface IRecruitmentContext : IDisposable
+    {
+        DbSet<Admin> Admins { get; set; }
+
+        DbSet<Candidate> Candidates { get; set; }
+
+        DbSet<Job> Jobs { get; set; }
+
+        DbSet<Department> Departments { get; set; }
+
+        DbSet<Question> Questions { get; set; }
+
+        DbSet<Option> Options { get; set; }
+
+        DbSet<QuestionGroup> QuestionGroups { get; set; }
+
+        DbSet<Test> Tests { get; set; }
+
+        DbSet<Label> Labels { get; set; }
+
+        DbSet<Challenge> Challenges { get; set; }
+
+        DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
+
+        int SaveChanges();
+    }
+
+    public class RecruitmentContext : DbContext, IRecruitmentContext
     {
 
         public RecruitmentContext() : base("name=RecruitmentDB")

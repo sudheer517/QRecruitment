@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Infrastructure
 {
-    public class RecruitmentDataSeeder : DropCreateDatabaseAlways<RecruitmentContext>
+    public class RecruitmentDataSeeder : DropCreateDatabaseIfModelChanges<RecruitmentContext>
     {
         protected override void Seed(RecruitmentContext _dbContext)
         {
