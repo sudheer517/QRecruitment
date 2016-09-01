@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{91712D9B-320D-4A2E-823D-89A00F349B61}</ProjectGuid>
+    <ProjectGuid>{499BBBE6-24AF-49C2-9D33-1A7F35C871B1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Quantium.Recruitment.Entities</RootNamespace>

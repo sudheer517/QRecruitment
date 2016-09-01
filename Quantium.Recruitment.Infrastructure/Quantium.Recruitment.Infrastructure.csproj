@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}</ProjectGuid>
+    <ProjectGuid>{BEC706ED-6FC3-4224-9C4A-5EB7CA176712}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Quantium.Recruitment.Infrastructure</RootNamespace>
@@ -54,14 +54,14 @@
     <Compile Include="RecruitmentDataSeeder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Quantium.Recruitment.Entities\Quantium.Recruitment.Entities.csproj">
-      <Project>{91712D9B-320D-4A2E-823D-89A00F349B61}</Project>
-      <Name>Quantium.Recruitment.Entities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Quantium.Recruitment.Entities\Quantium.Recruitment.Entities.csproj">
+      <Project>{499bbbe6-24af-49c2-9d33-1a7f35c871b1}</Project>
+      <Name>Quantium.Recruitment.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

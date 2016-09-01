@@ -1,25 +1,15 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0C1F9C25-7092-46CF-B1E7-227060CD59E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.ApiServices", "Quantium.Recruitment.ApiServices\Quantium.Recruitment.ApiServices.csproj", "{EC1A1ADB-9C39-4B76-BB29-79285F6EE622}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A385F406-F27B-4ECF-9E3D-9EDAC72EE0D8}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.Entities", "Quantium.Recruitment.Entities\Quantium.Recruitment.Entities.csproj", "{499BBBE6-24AF-49C2-9D33-1A7F35C871B1}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Quantium.Recruitment.Portal", "src\Quantium.Recruitment.Portal\Quantium.Recruitment.Portal.xproj", "{65A5821F-324E-4663-88E1-F7959428EA8B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.Infrastructure", "Quantium.Recruitment.Infrastructure\Quantium.Recruitment.Infrastructure.csproj", "{BEC706ED-6FC3-4224-9C4A-5EB7CA176712}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.Entities", "Quantium.Recruitment.Entities\Quantium.Recruitment.Entities.csproj", "{91712D9B-320D-4A2E-823D-89A00F349B61}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.DbUpdate", "Quantium.Recruitment.DbUpdate\Quantium.Recruitment.DbUpdate.csproj", "{5955912C-1B07-49F5-BEB3-9F51F9100A00}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.Common", "Quantium.Recruitment.Common\Quantium.Recruitment.Common.csproj", "{1A5F16AB-0F02-4CAE-81AB-CAF8AB31E124}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.Infrastructure", "Quantium.Recruitment.Infrastructure\Quantium.Recruitment.Infrastructure.csproj", "{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quantium.Recruitment.ApiServices", "Quantium.Recruitment.ApiServices\Quantium.Recruitment.ApiServices.csproj", "{D36ABAEB-9637-4F33-83F8-9D6523111A98}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Quantium.Recruitment.Portal", "Quantium.Recruitment.Portal\Quantium.Recruitment.Portal.xproj", "{65A5821F-324E-4663-88E1-F7959428EA8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,40 +17,24 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EC1A1ADB-9C39-4B76-BB29-79285F6EE622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC1A1ADB-9C39-4B76-BB29-79285F6EE622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC1A1ADB-9C39-4B76-BB29-79285F6EE622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC1A1ADB-9C39-4B76-BB29-79285F6EE622}.Release|Any CPU.Build.0 = Release|Any CPU
+		{499BBBE6-24AF-49C2-9D33-1A7F35C871B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499BBBE6-24AF-49C2-9D33-1A7F35C871B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499BBBE6-24AF-49C2-9D33-1A7F35C871B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499BBBE6-24AF-49C2-9D33-1A7F35C871B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEC706ED-6FC3-4224-9C4A-5EB7CA176712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEC706ED-6FC3-4224-9C4A-5EB7CA176712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEC706ED-6FC3-4224-9C4A-5EB7CA176712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEC706ED-6FC3-4224-9C4A-5EB7CA176712}.Release|Any CPU.Build.0 = Release|Any CPU
 		{65A5821F-324E-4663-88E1-F7959428EA8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{65A5821F-324E-4663-88E1-F7959428EA8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65A5821F-324E-4663-88E1-F7959428EA8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65A5821F-324E-4663-88E1-F7959428EA8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91712D9B-320D-4A2E-823D-89A00F349B61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91712D9B-320D-4A2E-823D-89A00F349B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91712D9B-320D-4A2E-823D-89A00F349B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91712D9B-320D-4A2E-823D-89A00F349B61}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5955912C-1B07-49F5-BEB3-9F51F9100A00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5955912C-1B07-49F5-BEB3-9F51F9100A00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5955912C-1B07-49F5-BEB3-9F51F9100A00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5955912C-1B07-49F5-BEB3-9F51F9100A00}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A5F16AB-0F02-4CAE-81AB-CAF8AB31E124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A5F16AB-0F02-4CAE-81AB-CAF8AB31E124}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A5F16AB-0F02-4CAE-81AB-CAF8AB31E124}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A5F16AB-0F02-4CAE-81AB-CAF8AB31E124}.Release|Any CPU.Build.0 = Release|Any CPU
-		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D36ABAEB-9637-4F33-83F8-9D6523111A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D36ABAEB-9637-4F33-83F8-9D6523111A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D36ABAEB-9637-4F33-83F8-9D6523111A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D36ABAEB-9637-4F33-83F8-9D6523111A98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{65A5821F-324E-4663-88E1-F7959428EA8B} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
-		{91712D9B-320D-4A2E-823D-89A00F349B61} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
-		{5955912C-1B07-49F5-BEB3-9F51F9100A00} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
-		{1A5F16AB-0F02-4CAE-81AB-CAF8AB31E124} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
-		{88DB56FC-2E35-4FFF-9D9E-84CBEA135917} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
-		{D36ABAEB-9637-4F33-83F8-9D6523111A98} = {0C1F9C25-7092-46CF-B1E7-227060CD59E0}
 	EndGlobalSection
 EndGlobal

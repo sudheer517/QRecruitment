@@ -10,9 +10,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 {
     public class ValuesController : ApiController
     {
-        // GET api/<controller>
+        private RecruitmentContext _ctx = new RecruitmentContext();
 
-        private RecruitmentContext _ctx= new RecruitmentContext();
+        // GET api/<controller>
         public IEnumerable<string> Get()
         {
             var dept = _ctx.Departments.ToList();

@@ -9,7 +9,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D36ABAEB-9637-4F33-83F8-9D6523111A98}</ProjectGuid>
+    <ProjectGuid>{EC1A1ADB-9C39-4B76-BB29-79285F6EE622}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -124,7 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ValuesController2.cs" />
+    <Compile Include="Controllers\ValuesController1.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -148,11 +148,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Quantium.Recruitment.Entities\Quantium.Recruitment.Entities.csproj">
-      <Project>{91712d9b-320d-4a2e-823d-89a00f349b61}</Project>
+      <Project>{499bbbe6-24af-49c2-9d33-1a7f35c871b1}</Project>
       <Name>Quantium.Recruitment.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Quantium.Recruitment.Infrastructure\Quantium.Recruitment.Infrastructure.csproj">
-      <Project>{88DB56FC-2E35-4FFF-9D9E-84CBEA135917}</Project>
+      <Project>{bec706ed-6fc3-4224-9c4a-5eb7ca176712}</Project>
       <Name>Quantium.Recruitment.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
@@ -169,9 +169,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>5562</DevelopmentServerPort>
+          <DevelopmentServerPort>10323</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5562/</IISUrl>
+          <IISUrl>http://localhost:10323/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

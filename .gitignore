@@ -29,6 +29,6 @@ SlnDir
 # Visual Studio test runner playlists
 *.playlist
 .vs/*
-src/Quantium.Recruitment.Portal/wwwroot/bootstrapper.js
-src/Quantium.Recruitment.Portal/wwwroot/lib/*
-src/Quantium.Recruitment.Portal/wwwroot/css/site*
+Quantium.Recruitment.Portal/wwwroot/bootstrapper.js
+Quantium.Recruitment.Portal/wwwroot/lib/*
+Quantium.Recruitment.Portal/wwwroot/css/site*
