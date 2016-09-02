@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using AutoMapper;
+using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.ApiServices
 {
@@ -9,9 +12,6 @@ namespace Quantium.Recruitment.ApiServices
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
-            // Web API routes
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

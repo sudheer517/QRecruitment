@@ -5,43 +5,33 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using AutoMapper;
+using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Entities;
+using Quantium.Recruitment.Infrastructure.Repositories;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
     public class QuestionController : ApiController
     {
-        private IRecruitmentContext _context;
+        private readonly IQuestionRepository _questionRepository;
 
-        public QuestionController(IRecruitmentContext context)
+        public QuestionController(IQuestionRepository questionRepository)
         {
-            _context = context;
+            _questionRepository = questionRepository;
+            Mapper.Initialize(cfg => cfg.CreateMap<Question, QuestionDto>());
         }
 
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public IEnumerable<QuestionDto> GetQuestions()
         {
-            return _context.Questions.Select(q => q.Text);
+            return _questionRepository.GetAll().Select(question => Mapper.Map<QuestionDto>(question)).ToList();
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public QuestionDto Get(long id)
         {
-            return "value";
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+            return Mapper.Map<QuestionDto>(_questionRepository.FindById(id));
         }
     }
 }

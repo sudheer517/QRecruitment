@@ -1,6 +1,7 @@
 using Microsoft.Practices.Unity;
 using Quantium.Recruitment.Infrastructure;
 using System.Web.Http;
+using Quantium.Recruitment.Infrastructure.Repositories;
 using Unity.WebApi;
 
 namespace Quantium.Recruitment.ApiServices
@@ -10,13 +11,9 @@ namespace Quantium.Recruitment.ApiServices
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
-
             container.RegisterType<IRecruitmentContext, RecruitmentContext>();
-            // register all your components with the container here
-            // it is NOT necessary to register your controllers
-            
-            // e.g. container.RegisterType<ITestService, TestService>();
-            
+            container.RegisterType<IQuestionRepository, QuestionRepository>();
+
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
