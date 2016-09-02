@@ -1,17 +1,24 @@
-﻿using Quantium.Recruitment.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.Infrastructure
 {
-    public class RecruitmentDataSeeder : DropCreateDatabaseIfModelChanges<RecruitmentContext>
+    public interface IDataSeeder
     {
-        protected override void Seed(RecruitmentContext _dbContext)
+        void Seed();
+    }
+    public class DataSeeder: IDataSeeder
+    {
+        private readonly IRecruitmentContext _dbContext;
+        public DataSeeder(IRecruitmentContext dbContext)
         {
+            _dbContext = dbContext;
+        }
+        public void Seed()
+        {
+            _dbContext.GetDatabase().CreateIfNotExists();
+
             #region Department
             Department softwareDepartment = new Department() { Name = "Software" };
             Department analyticsDepartment = new Department() { Name = "Analytics" };
@@ -230,7 +237,7 @@ namespace Quantium.Recruitment.Infrastructure
 
             #endregion Label
 
-            #region TestREgion
+            #region TestRegion
 
             #region QuestionGroup
 
@@ -892,9 +899,9 @@ namespace Quantium.Recruitment.Infrastructure
 
             #endregion CandidateSelectedOption
 
-            #endregion TestREgion
+            #endregion TestRegion
 
-            base.Seed(_dbContext);
+            _dbContext.SaveChanges();
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Practices.Unity;
+using Quantium.Recruitment.Infrastructure;
 
 namespace Quantium.Recruitment.DbInitialize
 {
@@ -10,6 +7,10 @@ namespace Quantium.Recruitment.DbInitialize
     {
         static void Main(string[] args)
         {
+            var container = IocContainer.GetContainer();
+            var dataSeeder = container.Resolve<IDataSeeder>();
+
+            dataSeeder.Seed();
         }
     }
 }

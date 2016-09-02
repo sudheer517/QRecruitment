@@ -1,12 +1,7 @@
-﻿using Quantium.Recruitment.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.Infrastructure
 {
@@ -35,24 +30,15 @@ namespace Quantium.Recruitment.Infrastructure
         DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
 
         int SaveChanges();
+
+        Database GetDatabase();
     }
 
     public class RecruitmentContext : DbContext, IRecruitmentContext
     {
-
-        public RecruitmentContext() : base("name=RecruitmentDB")
+        public RecruitmentContext(IConnectionString connectionString)
         {
-            Debug.Write(Database.Connection.ConnectionString);
-            Database.SetInitializer(new RecruitmentDataSeeder());
-            // disable lazy loading
-            Configuration.LazyLoadingEnabled = false;
-
-            //this.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+            this.Database.Connection.ConnectionString = connectionString.GetConnectionString();
         }
 
         public DbSet<Admin> Admins { get; set; }
@@ -76,5 +62,16 @@ namespace Quantium.Recruitment.Infrastructure
         public DbSet<Challenge> Challenges { get; set; }
 
         public DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
+
+        public Database GetDatabase()
+        {
+            return this.Database;
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+        }
     }
 }
