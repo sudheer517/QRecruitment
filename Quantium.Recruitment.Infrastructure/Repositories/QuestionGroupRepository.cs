@@ -1,39 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
-    public interface IQuestionGroupRepository : IRepository<QuestionGroup>
+    public interface IQuestionGroupRepository : IGenericRepository<QuestionGroup>
     {
+        QuestionGroup FindById(long Id);
+        void Update(QuestionGroup entity);
     }
 
-    public class QuestionGroupRepository : IQuestionGroupRepository
+    public class QuestionGroupRepository : GenericRepository<QuestionGroup>, IQuestionGroupRepository
     {
         private readonly IRecruitmentContext _dbContext;
-        public QuestionGroupRepository(IRecruitmentContext dbContext)
+        public QuestionGroupRepository(IRecruitmentContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public void Add(QuestionGroup entity)
-        {
-            _dbContext.QuestionGroups.Add(entity);
-        }
-
-        public void Delete(QuestionGroup entity)
-        {
-            _dbContext.QuestionGroups.Remove(entity);
         }
 
         public QuestionGroup FindById(long Id)
         {
             return _dbContext.QuestionGroups.Single(entity => entity.Id == Id);
-        }
-
-        public IEnumerable<QuestionGroup> GetAll()
-        {
-            return _dbContext.QuestionGroups;
         }
 
         public void Update(QuestionGroup entity)

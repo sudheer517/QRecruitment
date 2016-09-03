@@ -1,39 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
-    public interface IDepartmentRepository : IRepository<Department>
+    public interface IDepartmentRepository : IGenericRepository<Department>
     {
+        Department FindById(long Id);
+        void Update(Department entity);
     }
 
-    public class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : GenericRepository<Department>, IDepartmentRepository
     {
         private readonly IRecruitmentContext _dbContext;
-        public DepartmentRepository(IRecruitmentContext dbContext)
+        public DepartmentRepository(IRecruitmentContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        public void Add(Department entity)
-        {
-            _dbContext.Departments.Add(entity);
-        }
-
-        public void Delete(Department entity)
-        {
-            _dbContext.Departments.Remove(entity);
         }
 
         public Department FindById(long Id)
         {
             return _dbContext.Departments.Single(entity => entity.Id == Id);
-        }
-
-        public IEnumerable<Department> GetAll()
-        {
-            return _dbContext.Departments;
         }
 
         public void Update(Department entity)

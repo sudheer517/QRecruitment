@@ -32,6 +32,8 @@ namespace Quantium.Recruitment.Infrastructure
         int SaveChanges();
 
         Database GetDatabase();
+
+        DbSet GetSet(Type entityType);
     }
 
     public class RecruitmentContext : DbContext, IRecruitmentContext
@@ -66,6 +68,11 @@ namespace Quantium.Recruitment.Infrastructure
         public Database GetDatabase()
         {
             return this.Database;
+        }
+
+        public DbSet GetSet(Type entityType)
+        {
+            return Set(entityType);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
