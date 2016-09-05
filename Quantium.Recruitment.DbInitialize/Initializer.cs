@@ -1,16 +1,20 @@
 ﻿using Microsoft.Practices.Unity;
-using Quantium.Recruitment.Infrastructure;
+using System;
 
 namespace Quantium.Recruitment.DbInitialize
 {
-    class Program
+    class Initializer
     {
         static void Main(string[] args)
         {
             var container = IocContainer.GetContainer();
             var dataSeeder = container.Resolve<IDataSeeder>();
 
+            Console.WriteLine("Beginning database initialization");
             dataSeeder.Seed();
+            Console.WriteLine("DB initialization finished. Press any key to exit bro !");
+            Console.ReadKey();
+
         }
     }
 }

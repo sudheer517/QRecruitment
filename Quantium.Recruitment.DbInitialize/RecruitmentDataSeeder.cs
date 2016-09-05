@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Quantium.Recruitment.Entities;
+using Quantium.Recruitment.Infrastructure;
+using System;
 using System.Collections.Generic;
-using Quantium.Recruitment.Entities;
 
-namespace Quantium.Recruitment.Infrastructure
+namespace Quantium.Recruitment.DbInitialize
 {
     public interface IDataSeeder
     {
