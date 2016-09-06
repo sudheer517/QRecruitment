@@ -1,4 +1,5 @@
 ﻿/// <reference path="../viewmodels/candiatesInfoViewModel.ts" />
+/// <reference path="../typings/odataentities.d.ts" />
 
 module Recruitment.Controllers {
 
@@ -103,10 +104,13 @@ module Recruitment.Controllers {
                 this.$scope.previewCandidatesModel.push(questionModel);
                 this.$scope.$apply();
             }
+
+            
         }
 
         public saveChanges(): void {
-
+            var randomObj = new Quantium.Recruitment.ApiServices.Models.DepartmentDto();
+            randomObj.Name = "Hello";
         }
     }
 }
