@@ -6,7 +6,7 @@ using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
-    public class QuestionDto
+    public class QuestionDto : Identifiable
     {
         public long QuestionGroupId { get; set; }
         public string Text { get; set; }
@@ -19,6 +19,6 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public List<OptionDto> Options { get; set; }
 
-        public List<ChallengeDto> Challenges { get; set; }
+        //public List<ChallengeDto> Challenges { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
-    public class ChallengeDto : ApiServices.Models.Identifiable
+    public class ChallengeDto : Identifiable
     {
         public long TestId { get; set; }
 
@@ -13,7 +13,7 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public DateTime AnsweredTime { get; set; }
 
-        public TestDto Test { get; set; }
+        //public TestDto Test { get; set; }
 
         public QuestionDto Question { get; set; }
 

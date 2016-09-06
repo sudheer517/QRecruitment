@@ -6,8 +6,8 @@
 
         public long OptionId { get; set; }
 
-        public ChallengeDto Challenge { get; set; }
+        //public ChallengeDto Challenge { get; set; }
 
-        public OptionDto Option { get; set; }
+        //public OptionDto Option { get; set; }
     }
 }

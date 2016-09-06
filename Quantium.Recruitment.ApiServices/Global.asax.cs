@@ -12,6 +12,7 @@ namespace Quantium.Recruitment.ApiServices
         protected void Application_Start()
         {
             UnityConfig.RegisterComponents();
+            AutoMapperConfig.RegisterMappings();
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

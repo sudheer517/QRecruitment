@@ -10,6 +10,6 @@
 
         public bool IsAnswer { get; set; }
 
-        public QuestionDto Question { get; set; }
+        //public QuestionDto Question { get; set; }
     }
 }

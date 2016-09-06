@@ -14,6 +14,6 @@
 
         public long DepartmentId { get; set; }
 
-        public DepartmentDto Department { get; set; }
+        //public DepartmentDto Department { get; set; }
     }
 }

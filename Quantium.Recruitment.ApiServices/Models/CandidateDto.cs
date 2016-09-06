@@ -16,8 +16,8 @@
 
         public long TestId { get; set; }
 
-        public JobDto Job { get; set; }
+        //public JobDto Job { get; set; }
 
-        public TestDto Test { get; set; }
+        //public TestDto Test { get; set; }
     }
 }

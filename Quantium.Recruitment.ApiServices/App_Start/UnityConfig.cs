@@ -13,6 +13,7 @@ namespace Quantium.Recruitment.ApiServices
 			var container = new UnityContainer();
             container.RegisterType<IRecruitmentContext, RecruitmentContext>();
             container.RegisterType<IQuestionRepository, QuestionRepository>();
+            container.RegisterType<IConnectionString, ConnectionString>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
