@@ -3,8 +3,10 @@
 namespace Quantium.Recruitment.ApiServices.Models
 {
     [TsClass]
-    public class OptionDto : Identifiable
+    public class OptionDto
     {
+        public long Id { get; set; }
+
         public long QuestionId { get; set; }
 
         public string Text { get; set; }

@@ -5,8 +5,10 @@ using Reinforced.Typings.Attributes;
 namespace Quantium.Recruitment.ApiServices.Models
 {
     [TsClass]
-    public class ChallengeDto : Identifiable
+    public class ChallengeDto
     {
+        public long Id { get; set; }
+
         public long TestId { get; set; }
 
         public long QuestionId { get; set; }

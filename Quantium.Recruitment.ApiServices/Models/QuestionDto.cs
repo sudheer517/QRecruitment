@@ -8,9 +8,12 @@ using Reinforced.Typings.Attributes;
 namespace Quantium.Recruitment.ApiServices.Models
 {
     [TsClass]
-    public class QuestionDto : Identifiable
+    public class QuestionDto
     {
+        public long Id { get; set; }
+
         public long QuestionGroupId { get; set; }
+
         public string Text { get; set; }
 
         public byte[] Image { get; set; }

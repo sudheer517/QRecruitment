@@ -6,8 +6,10 @@ using Reinforced.Typings.Attributes;
 namespace Quantium.Recruitment.ApiServices.Models
 {
     [TsClass]
-    public class JobDto : Entities.Identifiable
+    public class JobDto
     {
+        public long Id { get; set; }
+
         public string Title { get; set; }
 
         public string Profile { get; set; }
