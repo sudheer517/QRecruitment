@@ -1,5 +1,8 @@
-﻿namespace Quantium.Recruitment.ApiServices.Models
+﻿using Reinforced.Typings.Attributes;
+
+namespace Quantium.Recruitment.ApiServices.Models
 {
+    [TsClass]
     public class AdminDto: Identifiable
     {
         public string FirstName { get; set; }

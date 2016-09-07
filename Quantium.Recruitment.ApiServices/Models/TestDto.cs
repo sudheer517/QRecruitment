@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using Reinforced.Typings.Attributes;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
+    [TsClass]
     public class TestDto : Identifiable
     {
         public string Name { get; set; }

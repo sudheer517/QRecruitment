@@ -3,3 +3,4 @@
 /// <reference path="angular-ui-router/angular-ui-router.d.ts" />
 /// <reference path="angularjs/angular-mocks.d.ts" />
 /// <reference path="ng-file-upload/ng-file-upload.d.ts" />
+/// <reference path="../../../quantium.recruitment.apiservices/scripts/odataentities.ts" />

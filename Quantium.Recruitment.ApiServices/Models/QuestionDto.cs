@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Quantium.Recruitment.Entities;
+using Reinforced.Typings.Attributes;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
+    [TsClass]
     public class QuestionDto : Identifiable
     {
         public long QuestionGroupId { get; set; }

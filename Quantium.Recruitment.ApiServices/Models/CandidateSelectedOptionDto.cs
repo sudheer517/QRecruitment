@@ -1,5 +1,8 @@
-﻿namespace Quantium.Recruitment.ApiServices.Models
+﻿using Reinforced.Typings.Attributes;
+
+namespace Quantium.Recruitment.ApiServices.Models
 {
+    [TsClass]
     public class CandidateSelectedOptionDto : Identifiable
     {
         public long ChallengeId { get; set; }
