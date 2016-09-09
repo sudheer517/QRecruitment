@@ -10,7 +10,7 @@ namespace Quantium.Recruitment.ApiServices.Models
     {
         public long Id { get; set; }
 
-        public long QuestionGroupId { get; set; }
+        //public long QuestionGroupId { get; set; }
 
         public string Text { get; set; }
 

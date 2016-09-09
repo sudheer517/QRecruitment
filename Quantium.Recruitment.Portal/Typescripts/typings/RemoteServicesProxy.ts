@@ -63,6 +63,20 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
+    export class CandidateTestDto { 
+        public Id: number;
+        public Name: string;
+        public Questions: ChallengeDto[];
+        constructor();
+        constructor(Id?: number, Name?: string, Questions?: ChallengeDto[]);
+        constructor(Id?: number, Name?: string, Questions?: ChallengeDto[]){
+            this.Id = Id;
+            this.Name = Name;
+            this.Questions = Questions;
+        }
+
+    }
+
     export class ChallengeDto { 
         public Id: number;
         public TestId: number;
@@ -165,16 +179,14 @@ module Quantium.Recruitment.ODataEntities {
 
     export class QuestionDto { 
         public Id: number;
-        public QuestionGroupId: number;
         public Text: string;
         public TimeInSeconds: number;
         public QuestionGroup: QuestionGroupDto;
         public Options: OptionDto[];
         constructor();
-        constructor(Id?: number, QuestionGroupId?: number, Text?: string, TimeInSeconds?: number, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[]);
-        constructor(Id?: number, QuestionGroupId?: number, Text?: string, TimeInSeconds?: number, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[]){
+        constructor(Id?: number, Text?: string, TimeInSeconds?: number, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[]);
+        constructor(Id?: number, Text?: string, TimeInSeconds?: number, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[]){
             this.Id = Id;
-            this.QuestionGroupId = QuestionGroupId;
             this.Text = Text;
             this.TimeInSeconds = TimeInSeconds;
             this.QuestionGroup = QuestionGroup;
@@ -199,14 +211,14 @@ module Quantium.Recruitment.ODataEntities {
         public Id: number;
         public Name: string;
         public Labels: LabelDto[];
-        public Challenges: ChallengeDto[];
+        public Questions: QuestionDto[];
         constructor();
-        constructor(Id?: number, Name?: string, Labels?: LabelDto[], Challenges?: ChallengeDto[]);
-        constructor(Id?: number, Name?: string, Labels?: LabelDto[], Challenges?: ChallengeDto[]){
+        constructor(Id?: number, Name?: string, Labels?: LabelDto[], Questions?: QuestionDto[]);
+        constructor(Id?: number, Name?: string, Labels?: LabelDto[], Questions?: QuestionDto[]){
             this.Id = Id;
             this.Name = Name;
             this.Labels = Labels;
-            this.Challenges = Challenges;
+            this.Questions = Questions;
         }
 
     }

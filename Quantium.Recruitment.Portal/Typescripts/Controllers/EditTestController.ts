@@ -3,7 +3,7 @@
 
 module Recruitment.Controllers {
 
-    import TestDto = Quantium.Recruitment.ApiServices.Models.TestDto;
+    import TestDto = Quantium.Recruitment.ODataEntities.TestDto;
 
     interface IEditTestControllerScope extends ng.IScope {
         selectedItem: string;
@@ -26,6 +26,7 @@ module Recruitment.Controllers {
         public changeTestName($event: any): void {
             this.$scope.selectedItem = $event.target.innerText;
             this.$scope.selectedTestId = this.$scope.tests.filter(item => item.name === this.$scope.selectedItem)[0].Id;
+            this.getTest();
         }
 
         public getTest() {

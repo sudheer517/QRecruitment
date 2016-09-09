@@ -176,6 +176,7 @@
     <Compile Include="Models\AdminDto.cs" />
     <Compile Include="Models\CandidateDto.cs" />
     <Compile Include="Models\CandidateSelectedOptionDto.cs" />
+    <Compile Include="Models\CandidateTestDto.cs" />
     <Compile Include="Models\ChallengeDto.cs" />
     <Compile Include="Models\DepartmentDto.cs" />
     <Compile Include="Models\Identifiable.cs" />

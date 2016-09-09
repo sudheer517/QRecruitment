@@ -108,8 +108,7 @@ module Recruitment.Controllers {
         }
 
         public saveChanges(): void {
-            var randomObj = new Quantium.Recruitment.ApiServices.Models.AdminDto();
-            randomObj.FirstName = "Hello";
+            
         }
     }
 }

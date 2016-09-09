@@ -15,7 +15,7 @@ module Mock {
                     return [200, Mocks.ChallengeMock.getNextQuestion()];
                 });
 
-                $httpBackend.whenGET("http://localhost:60606/api/test").respond(() => {
+                $httpBackend.whenGET("http://localhost:60606/odata/test(testId)").respond(() => {
                     return [200, Mocks.EditTestMock.getTestData(1)];
                 });
 
