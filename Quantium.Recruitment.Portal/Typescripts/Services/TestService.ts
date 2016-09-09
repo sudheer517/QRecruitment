@@ -1,7 +1,7 @@
 ﻿
 module Recruitment.Services {
 
-    import TestDto = Quantium.Recruitment.ApiServices.Models.TestDto;
+    import TestDto = Quantium.Recruitment.ODataEntities.TestDto;
 
     interface ITestService {
         getTest(testId: number): ng.IHttpPromise<TestDto>;

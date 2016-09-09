@@ -25,7 +25,7 @@ module Quantium.Recruitment.ODataEntities {
 	Type[] typelist = GetTypesInNamespace(assemblyInfo, "Quantium.Recruitment.ApiServices.Models");
 	for (int i = 0; i < typelist.Length; i++)
 	{
-		WriteLine("    export class " + typelist[i].Name + "{ ");
+		WriteLine("    export class " + typelist[i].Name + " { ");
 		
 		var members = typelist[i].GetMembers().Where(t => t.MemberType == MemberTypes.Property);
 		var memberNames = members.Select(m => m.Name).ToList();

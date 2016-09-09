@@ -3,7 +3,7 @@
 
 module Quantium.Recruitment.ODataEntities {
 
-    export class AdminDto{ 
+    export class AdminDto { 
         public Id: number;
         public FirstName: string;
         public LastName: string;
@@ -24,7 +24,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class CandidateDto{ 
+    export class CandidateDto { 
         public Id: number;
         public FirstName: string;
         public LastName: string;
@@ -47,7 +47,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class CandidateSelectedOptionDto{ 
+    export class CandidateSelectedOptionDto { 
         public Id: number;
         public ChallengeId: number;
         public OptionId: number;
@@ -60,7 +60,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class ChallengeDto{ 
+    export class ChallengeDto { 
         public Id: number;
         public TestId: number;
         public QuestionId: number;
@@ -81,7 +81,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class DepartmentDto{ 
+    export class DepartmentDto { 
         public Id: number;
         public Name: string;
         public Jobs: Quantium.Recruitment.ApiServices.Models.DepartmentDto[];
@@ -96,7 +96,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class Identifiable{ 
+    export class Identifiable { 
         public Id: number;
         constructor();
         constructor(Id?: number){
@@ -105,7 +105,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class JobDto{ 
+    export class JobDto { 
         public Id: number;
         public Title: string;
         public Profile: string;
@@ -124,7 +124,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class LabelDto{ 
+    export class LabelDto { 
         public Id: number;
         public Name: string;
         public JobId: number;
@@ -139,7 +139,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class OptionDto{ 
+    export class OptionDto { 
         public Id: number;
         public QuestionId: number;
         public Text: string;
@@ -154,7 +154,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class QuestionDto{ 
+    export class QuestionDto { 
         public Id: number;
         public QuestionGroupId: number;
         public Text: string;
@@ -173,7 +173,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class QuestionGroupDto{ 
+    export class QuestionGroupDto { 
         public Id: number;
         public Description: string;
         constructor();
@@ -184,7 +184,7 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class TestDto{ 
+    export class TestDto { 
         public Id: number;
         public Name: string;
         public Labels: Quantium.Recruitment.ApiServices.Models.TestDto[];
