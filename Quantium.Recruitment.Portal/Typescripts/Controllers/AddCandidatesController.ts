@@ -108,7 +108,8 @@ module Recruitment.Controllers {
         }
 
         public saveChanges(): void {
-            
+            var randomObj = new Quantium.Recruitment.ODataEntities.AdminDto();
+            randomObj.FirstName = "Hello";
         }
     }
 }
