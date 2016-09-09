@@ -36,12 +36,12 @@ module Quantium.Recruitment.ODataEntities {
                 var propertyType = ((PropertyInfo)memberInfo).PropertyType;
                 var result = 
                     propertyType.IsGenericType ? 
-                    memberInfo.DeclaringType.FullName + "[]": 
+                    propertyType.GenericTypeArguments.First().Name + "[]": 
                     GetMemberDeclarationType(propertyType);
 
 
                 if (result == string.Empty)
-                    result = propertyType.FullName;
+                    result = propertyType.FullName.Split('.').Last();
 				return result;
             };
 
@@ -61,9 +61,18 @@ module Quantium.Recruitment.ODataEntities {
 			var comma = j == members.Count() - 1 ? "" : ", ";
 			Write(memberNames[j] + "?: " + membersTypes[j] +  comma);
         }
+		Write(");");
+
+		WriteLine("");
+		Write("        constructor(");
+		for (int j = 0; j < members.Count(); j++)
+        {
+			var comma = j == members.Count() - 1 ? "" : ", ";
+			Write(memberNames[j] + "?: " + membersTypes[j] +  comma);
+        }
 		Write("){");
 		WriteLine(""); // Beginning of constructor
-		
+				
 		for (int j = 0; j < members.Count(); j++)
         {
 			var comma = j == members.Count() - 1 ? "" : ", ";

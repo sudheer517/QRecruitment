@@ -12,6 +12,7 @@ module Quantium.Recruitment.ODataEntities {
         public IsActive: boolean;
         public DepartmentId: number;
         constructor();
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, DepartmentId?: number);
         constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, DepartmentId?: number){
             this.Id = Id;
             this.FirstName = FirstName;
@@ -34,6 +35,7 @@ module Quantium.Recruitment.ODataEntities {
         public JobId: number;
         public TestId: number;
         constructor();
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, JobId?: number, TestId?: number);
         constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, JobId?: number, TestId?: number){
             this.Id = Id;
             this.FirstName = FirstName;
@@ -52,6 +54,7 @@ module Quantium.Recruitment.ODataEntities {
         public ChallengeId: number;
         public OptionId: number;
         constructor();
+        constructor(Id?: number, ChallengeId?: number, OptionId?: number);
         constructor(Id?: number, ChallengeId?: number, OptionId?: number){
             this.Id = Id;
             this.ChallengeId = ChallengeId;
@@ -66,10 +69,11 @@ module Quantium.Recruitment.ODataEntities {
         public QuestionId: number;
         public StartTime: string;
         public AnsweredTime: string;
-        public Question: Quantium.Recruitment.ApiServices.Models.QuestionDto;
-        public CandidateSelectedOptions: Quantium.Recruitment.ApiServices.Models.ChallengeDto[];
+        public Question: QuestionDto;
+        public CandidateSelectedOptions: CandidateSelectedOptionDto[];
         constructor();
-        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, Question?: Quantium.Recruitment.ApiServices.Models.QuestionDto, CandidateSelectedOptions?: Quantium.Recruitment.ApiServices.Models.ChallengeDto[]){
+        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, Question?: QuestionDto, CandidateSelectedOptions?: CandidateSelectedOptionDto[]);
+        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, Question?: QuestionDto, CandidateSelectedOptions?: CandidateSelectedOptionDto[]){
             this.Id = Id;
             this.TestId = TestId;
             this.QuestionId = QuestionId;
@@ -84,10 +88,11 @@ module Quantium.Recruitment.ODataEntities {
     export class DepartmentDto { 
         public Id: number;
         public Name: string;
-        public Jobs: Quantium.Recruitment.ApiServices.Models.DepartmentDto[];
-        public Admins: Quantium.Recruitment.ApiServices.Models.DepartmentDto[];
+        public Jobs: JobDto[];
+        public Admins: AdminDto[];
         constructor();
-        constructor(Id?: number, Name?: string, Jobs?: Quantium.Recruitment.ApiServices.Models.DepartmentDto[], Admins?: Quantium.Recruitment.ApiServices.Models.DepartmentDto[]){
+        constructor(Id?: number, Name?: string, Jobs?: JobDto[], Admins?: AdminDto[]);
+        constructor(Id?: number, Name?: string, Jobs?: JobDto[], Admins?: AdminDto[]){
             this.Id = Id;
             this.Name = Name;
             this.Jobs = Jobs;
@@ -99,6 +104,7 @@ module Quantium.Recruitment.ODataEntities {
     export class Identifiable { 
         public Id: number;
         constructor();
+        constructor(Id?: number);
         constructor(Id?: number){
             this.Id = Id;
         }
@@ -110,10 +116,11 @@ module Quantium.Recruitment.ODataEntities {
         public Title: string;
         public Profile: string;
         public DepartmentId: number;
-        public Candidates: Quantium.Recruitment.ApiServices.Models.JobDto[];
-        public Labels: Quantium.Recruitment.ApiServices.Models.JobDto[];
+        public Candidates: CandidateDto[];
+        public Labels: LabelDto[];
         constructor();
-        constructor(Id?: number, Title?: string, Profile?: string, DepartmentId?: number, Candidates?: Quantium.Recruitment.ApiServices.Models.JobDto[], Labels?: Quantium.Recruitment.ApiServices.Models.JobDto[]){
+        constructor(Id?: number, Title?: string, Profile?: string, DepartmentId?: number, Candidates?: CandidateDto[], Labels?: LabelDto[]);
+        constructor(Id?: number, Title?: string, Profile?: string, DepartmentId?: number, Candidates?: CandidateDto[], Labels?: LabelDto[]){
             this.Id = Id;
             this.Title = Title;
             this.Profile = Profile;
@@ -130,6 +137,7 @@ module Quantium.Recruitment.ODataEntities {
         public JobId: number;
         public TestId: number;
         constructor();
+        constructor(Id?: number, Name?: string, JobId?: number, TestId?: number);
         constructor(Id?: number, Name?: string, JobId?: number, TestId?: number){
             this.Id = Id;
             this.Name = Name;
@@ -145,6 +153,7 @@ module Quantium.Recruitment.ODataEntities {
         public Text: string;
         public IsAnswer: boolean;
         constructor();
+        constructor(Id?: number, QuestionId?: number, Text?: string, IsAnswer?: boolean);
         constructor(Id?: number, QuestionId?: number, Text?: string, IsAnswer?: boolean){
             this.Id = Id;
             this.QuestionId = QuestionId;
@@ -159,10 +168,11 @@ module Quantium.Recruitment.ODataEntities {
         public QuestionGroupId: number;
         public Text: string;
         public TimeInSeconds: number;
-        public QuestionGroup: Quantium.Recruitment.ApiServices.Models.QuestionGroupDto;
-        public Options: Quantium.Recruitment.ApiServices.Models.QuestionDto[];
+        public QuestionGroup: QuestionGroupDto;
+        public Options: OptionDto[];
         constructor();
-        constructor(Id?: number, QuestionGroupId?: number, Text?: string, TimeInSeconds?: number, QuestionGroup?: Quantium.Recruitment.ApiServices.Models.QuestionGroupDto, Options?: Quantium.Recruitment.ApiServices.Models.QuestionDto[]){
+        constructor(Id?: number, QuestionGroupId?: number, Text?: string, TimeInSeconds?: number, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[]);
+        constructor(Id?: number, QuestionGroupId?: number, Text?: string, TimeInSeconds?: number, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[]){
             this.Id = Id;
             this.QuestionGroupId = QuestionGroupId;
             this.Text = Text;
@@ -177,6 +187,7 @@ module Quantium.Recruitment.ODataEntities {
         public Id: number;
         public Description: string;
         constructor();
+        constructor(Id?: number, Description?: string);
         constructor(Id?: number, Description?: string){
             this.Id = Id;
             this.Description = Description;
@@ -187,10 +198,11 @@ module Quantium.Recruitment.ODataEntities {
     export class TestDto { 
         public Id: number;
         public Name: string;
-        public Labels: Quantium.Recruitment.ApiServices.Models.TestDto[];
-        public Challenges: Quantium.Recruitment.ApiServices.Models.TestDto[];
+        public Labels: LabelDto[];
+        public Challenges: ChallengeDto[];
         constructor();
-        constructor(Id?: number, Name?: string, Labels?: Quantium.Recruitment.ApiServices.Models.TestDto[], Challenges?: Quantium.Recruitment.ApiServices.Models.TestDto[]){
+        constructor(Id?: number, Name?: string, Labels?: LabelDto[], Challenges?: ChallengeDto[]);
+        constructor(Id?: number, Name?: string, Labels?: LabelDto[], Challenges?: ChallengeDto[]){
             this.Id = Id;
             this.Name = Name;
             this.Labels = Labels;
