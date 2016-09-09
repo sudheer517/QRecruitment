@@ -69,7 +69,6 @@ module Quantium.Recruitment.ApiServices.Models {
 		public Id: number;
 		public QuestionId: number;
 		public Text: string;
-		public Image: number[];
 		public IsAnswer: boolean;
 	}
 	export class QuestionDto
@@ -77,7 +76,6 @@ module Quantium.Recruitment.ApiServices.Models {
 		public Id: number;
 		public QuestionGroupId: number;
 		public Text: string;
-		public Image: number[];
 		public TimeInSeconds: number;
 		public QuestionGroup: Quantium.Recruitment.ApiServices.Models.QuestionGroupDto;
 		public Options: Quantium.Recruitment.ApiServices.Models.OptionDto[];
@@ -93,6 +91,5 @@ module Quantium.Recruitment.ApiServices.Models {
 		public Name: string;
 		public Labels: Quantium.Recruitment.ApiServices.Models.LabelDto[];
 		public Challenges: Quantium.Recruitment.ApiServices.Models.ChallengeDto[];
-		public Candidates: Quantium.Recruitment.ApiServices.Models.CandidateDto[];
 	}
 }

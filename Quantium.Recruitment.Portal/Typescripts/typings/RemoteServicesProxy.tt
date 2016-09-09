@@ -1,0 +1,120 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Runtime.Serialization" #>
+
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Runtime.Serialization" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+
+<#@ output extension=".ts" #>
+<#@ assembly name="$(SolutionDir)Quantium.Recruitment.ApiServices\$(OutDir)Quantium.Recruitment.ApiServices.dll" #>
+<#@ template language="C#" #>
+
+module Quantium.Recruitment.ODataEntities {
+
+<# 
+
+	var assemblyInfo = typeof(Quantium.Recruitment.ApiServices.AssemblyReferenceType).Assembly;
+	Type[] typelist = GetTypesInNamespace(assemblyInfo, "Quantium.Recruitment.ApiServices.Models");
+	for (int i = 0; i < typelist.Length; i++)
+	{
+		WriteLine("    export class " + typelist[i].Name + "{ ");
+		
+		var members = typelist[i].GetMembers().Where(t => t.MemberType == MemberTypes.Property);
+		var memberNames = members.Select(m => m.Name).ToList();
+
+		Func<MemberInfo, string> getdeclaration =
+            memberInfo =>
+            {
+                var propertyType = ((PropertyInfo)memberInfo).PropertyType;
+                var result = 
+                    propertyType.IsGenericType ? 
+                    memberInfo.DeclaringType.FullName + "[]": 
+                    GetMemberDeclarationType(propertyType);
+
+
+                if (result == string.Empty)
+                    result = propertyType.FullName;
+				return result;
+            };
+
+		var membersTypes = members.Select(m => getdeclaration(m)).ToList();
+		
+		
+		for (int j = 0; j < members.Count(); j++)
+        {
+			WriteLine("        public " + memberNames[j] + ": " + membersTypes[j] + ";");
+        }
+
+		WriteLine("        constructor();");
+		
+		Write("        constructor(");
+		for (int j = 0; j < members.Count(); j++)
+        {
+			var comma = j == members.Count() - 1 ? "" : ", ";
+			Write(memberNames[j] + "?: " + membersTypes[j] +  comma);
+        }
+		Write("){");
+		WriteLine(""); // Beginning of constructor
+		
+		for (int j = 0; j < members.Count(); j++)
+        {
+			var comma = j == members.Count() - 1 ? "" : ", ";
+			WriteLine("            this." + memberNames[j] + " = " + memberNames[j] + ";");
+        }
+
+
+		WriteLine("        }"); // end of each constructor
+		WriteLine("");
+		WriteLine("    }"); // end of each class
+		WriteLine("");
+	}
+
+	WriteLine("}"); // end of module
+
+#>
+
+<#+
+	private Type[] GetTypesInNamespace(Assembly assembly, string nameSpace)
+	{
+		return assembly.GetTypes().Where(t => String.Equals(t.Namespace, nameSpace, StringComparison.Ordinal)).ToArray();
+	}
+
+	private static string GetMemberDeclarationType(Type type)
+	{
+		switch (Type.GetTypeCode(type))
+		{
+			case TypeCode.Byte:
+			case TypeCode.Decimal:
+			case TypeCode.Double:
+			case TypeCode.Int16:
+			case TypeCode.Int32:
+			case TypeCode.Int64:
+			case TypeCode.Single:
+			case TypeCode.UInt16:
+			case TypeCode.UInt32:
+			case TypeCode.UInt64:
+				return "number";
+
+			case TypeCode.Boolean:
+				return "boolean";
+
+			case TypeCode.String:
+				//case TypeCode.Char:
+				return "string";
+
+			// The date will not be deserialised, so we need to deal with it as a string.
+			case TypeCode.DateTime:
+				return "string";
+			default: return string.Empty;
+		}
+	}
+#>
+
