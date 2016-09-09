@@ -20,23 +20,24 @@
 
             <div class="panel-group" id="accordion">
                 <div class="panel panel-default previewQuestion" ng-repeat="question in testData.Questions">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#question{{question.Id}}">
-                                {{question.Text}}
-                            </a>
+                    <div class="panel-heading editTestQuestion">
+                        <h4 editable-text="question.Text" class="panel-title editTestQuestionText">
+                            {{question.Text}}
                         </h4>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#question{{question.Id}}">
+                            <i class="fa fa-expand fa-pull-right"></i></a>
+                        
                     </div>
                     <div id="question{{question.Id}}" class="panel-collapse collapse">
-                        <div class="panel-body previewOptionList">
+                        <div class="panel-body previewOptionList editTest">
                             <div>
                                 <div class="checkbox" ng-repeat="option in question.Options">
                                     <input id="{{option.Id}}" type="checkbox" value="{{option.Text}}"
-                                           ng-checked="option.IsAnswer"
-                                           ng-click="toggleSelection(option.Text)" />
+                                           ng-checked="option.IsAnswer" ng-model="option.IsAnswer"
+                                           />
 
                                     <label for="{{option.Id}}">
-                                        <span></span>{{option.Text}}
+                                        <span></span><h5 editable-text="option.Text">{{option.Text}}</h5>
                                     </label>
                                 </div>
                             </div>

@@ -38,7 +38,7 @@ module Recruitment.Controllers {
         }
 
         public saveChanges(): void {
-            
+            var savedTestData = this.$scope.testData;
         }
     }
 }
