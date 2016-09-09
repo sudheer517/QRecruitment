@@ -18,11 +18,34 @@
                 </div>
             </div>
 
-            <div>
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default previewQuestion" ng-repeat="question in testData.Questions">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#question{{question.Id}}">
+                                {{question.Text}}
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="question{{question.Id}}" class="panel-collapse collapse">
+                        <div class="panel-body previewOptionList">
+                            <div>
+                                <div class="checkbox" ng-repeat="option in question.Options">
+                                    <input id="{{option.Id}}" type="checkbox" value="{{option.Text}}"
+                                           ng-checked="option.IsAnswer"
+                                           ng-click="toggleSelection(option.Text)" />
 
+                                    <label for="{{option.Id}}">
+                                        <span></span>{{option.Text}}
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-
-        </div>
+            </div>
 
         <div class="panel-footer">
             <button class="btn btn-success" ng-click="saveChanges()">Save Changes</button>

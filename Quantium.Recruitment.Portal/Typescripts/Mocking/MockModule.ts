@@ -15,13 +15,24 @@ module Mock {
                     return [200, Mocks.ChallengeMock.getNextQuestion()];
                 });
 
-                $httpBackend.whenGET("http://localhost:60606/odata/test(testId)").respond(() => {
-                    return [200, Mocks.EditTestMock.getTestData(1)];
-                });
-
                 $httpBackend.whenPOST("http://localhost:60606/api/temp").respond(() => {
                     return [200, { randomStuff: "could be anything here" }];
                 });
+
+
+                //Edit Test mock
+                $httpBackend.whenGET("http://localhost:60606/odata/test(1)").respond(() => {
+                    return [200, Mocks.EditTestMock.getTestData(1)];
+                });
+
+                $httpBackend.whenGET("http://localhost:60606/odata/test(2)").respond(() => {
+                    return [200, Mocks.EditTestMock.getTestData(2)];
+                });
+
+                $httpBackend.whenGET("http://localhost:60606/odata/test(3)").respond(() => {
+                    return [200, Mocks.EditTestMock.getTestData(1)];
+                });
+                
 
                 $httpBackend.whenGET("views/superAdminPage.html").passThrough();
                 $httpBackend.whenGET("views/createTestPage.html").passThrough();

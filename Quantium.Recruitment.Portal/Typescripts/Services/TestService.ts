@@ -12,7 +12,7 @@ module Recruitment.Services {
         }
 
         public getTest(testId: number): ng.IHttpPromise<TestDto> {
-            return this.$http.get("http://localhost:60606/odata/test(testId)");
+            return this.$http.get("http://localhost:60606/odata/test(" + testId + ")");
         }
 
     }
