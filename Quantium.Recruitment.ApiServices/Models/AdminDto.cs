@@ -1,8 +1,6 @@
-﻿using Reinforced.Typings.Attributes;
-
+﻿
 namespace Quantium.Recruitment.ApiServices.Models
 {
-    [TsClass]
     public class AdminDto
     {
         public long Id { get; set; }

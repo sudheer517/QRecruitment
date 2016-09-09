@@ -36,7 +36,7 @@ module Recruitment.Routes {
 
                     .state("editTest",
                     {
-                        url: "/editTest", controller: Controllers.CreateTestController, templateUrl: "views/editTest1.html"
+                        url: "/editTest", controller: Controllers.EditTestController, templateUrl: "views/editTest1.html"
                     })
 
                     .state("sendTest",

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Reinforced.Typings.Attributes;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
-    [TsClass]
     public class ChallengeDto
     {
         public long Id { get; set; }

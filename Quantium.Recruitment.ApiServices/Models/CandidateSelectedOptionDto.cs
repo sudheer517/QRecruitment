@@ -1,8 +1,5 @@
-﻿using Reinforced.Typings.Attributes;
-
-namespace Quantium.Recruitment.ApiServices.Models
+﻿namespace Quantium.Recruitment.ApiServices.Models
 {
-    [TsClass]
     public class CandidateSelectedOptionDto
     {
         public long Id { get; set; }

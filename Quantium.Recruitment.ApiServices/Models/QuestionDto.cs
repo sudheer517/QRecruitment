@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Quantium.Recruitment.Entities;
-using Reinforced.Typings.Attributes;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
-    [TsClass]
     public class QuestionDto
     {
         public long Id { get; set; }
@@ -16,7 +14,7 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public string Text { get; set; }
 
-        public byte[] Image { get; set; }
+        //public byte[] Image { get; set; }
 
         public int TimeInSeconds { get; set; }
 

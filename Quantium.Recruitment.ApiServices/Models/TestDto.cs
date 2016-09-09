@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using Reinforced.Typings.Attributes;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
-    [TsClass]
     public class TestDto
     {
         public long Id { get; set; }
@@ -14,6 +12,6 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public List<ChallengeDto> Challenges { get; set; }
 
-        public List<CandidateDto> Candidates { get; set; }
+        //public List<CandidateDto> Candidates { get; set; }
     }
 }

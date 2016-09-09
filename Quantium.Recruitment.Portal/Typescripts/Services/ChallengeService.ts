@@ -2,14 +2,14 @@
 
 module Recruitment.Services {
 
-    import ChallengeViewModel = Recruitment.ViewModels.ChallengeViewModel;
+    import ChallengeViewModel = Recruitment.ViewModels.ChallengeViewModel; 
 
-    interface IDataAccessService {
+    interface IChallengeService {
         getNextChallenge(): ng.IHttpPromise<ChallengeViewModel>;
         postChallenge(selectedItems: any): ng.IHttpPromise<any>;
     }
 
-    export class ChallengeService implements IDataAccessService {
+    export class ChallengeService implements IChallengeService {
         constructor(private $http: ng.IHttpService) {
         }
 

@@ -4,6 +4,8 @@ module Mocks {
     import QuestionViewModel = Recruitment.ViewModels.QuestionViewModel;
     import OptionViewModel = Recruitment.ViewModels.QuestionOptionViewModel;
 
+    import TestDto = Quantium.Recruitment.ApiServices.Models.TestDto;
+
     export class EditTestMock {
 
         public static getTestData(testId: number): TestViewModel {

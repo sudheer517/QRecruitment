@@ -1,8 +1,6 @@
-﻿using Reinforced.Typings.Attributes;
-
+﻿
 namespace Quantium.Recruitment.ApiServices.Models
 {
-    [TsClass]
     public class LabelDto
     {
         public long Id { get; set; }
