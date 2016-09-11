@@ -9,6 +9,9 @@
     flex-direction: column;
 }
 
+.flex-fill{
+    flex : 1 1 auto;
+}
 //For styled checkboxes
 
 input[type="checkbox"] {
@@ -28,5 +31,42 @@ input[type="checkbox"] + label{
 input[type="checkbox"]:checked + label {
     > span {
         background:url(@sprite-img-path) -19px top no-repeat;
+    }
+}
+
+.fillHeight{
+    height: 100%;
+}
+
+.inline-block-display{
+    display: inline-block;
+}
+
+@darkRedQuantiumColor: #9c0015;
+@darkGreyQuantiumColor: #343945;
+
+.redButton{
+    height: 50px;
+    border-radius: 0px;
+    background-color: @darkRedQuantiumColor;
+    color: whitesmoke;
+    font-size: 1.5em;
+    opacity: 0.8;
+    &:hover{
+        color: whitesmoke;
+        opacity: 1;
+    }
+}
+
+.greyButton{
+    height: 50px;
+    border-radius: 0px;
+    background-color: @darkGreyQuantiumColor;
+    color: whitesmoke;
+    font-size: 1.5em;
+    opacity: 0.8;
+    &:hover{
+        color: whitesmoke;
+        opacity: 1;
     }
 }

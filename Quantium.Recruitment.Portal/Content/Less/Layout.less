@@ -18,7 +18,7 @@
     flex: 1 1 auto;
     display: flex;
 
-    .row{
+    > .row{
         flex: 1 1 auto;
         display: flex;
     }
@@ -197,9 +197,13 @@ footer p {
     .navbar-default {
         border: none;
         background: #fff;
-        background: rgba(255,255,255,0.9);
-        opacity: 0.4;
+        background: rgba(255,255,255,0.4);
+
+        //background: rgb(0, 0, 0);
+        /* RGBa with 0.6 opacity */
+        //background: rgba(0, 0, 0, 0.4);
     }
+
 
     .nav>li>a {
         padding: 35px;
@@ -207,6 +211,12 @@ footer p {
 
     .navbar-nav>li>a {
         line-height: normal;
+        color : lightgray !important;
+
+        &:hover{
+            color: black !important;
+        }
+
     }
 
     .navbar-nav {

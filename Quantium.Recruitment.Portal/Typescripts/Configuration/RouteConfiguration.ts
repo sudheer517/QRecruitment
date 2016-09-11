@@ -16,7 +16,7 @@ module Recruitment.Routes {
                 $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
 
                 //Default route
-                $urlRouterProvider.otherwise('/superAdmin');
+                //$urlRouterProvider.otherwise('/superAdmin');
 
                 $stateProvider
                     .state("superAdmin",
