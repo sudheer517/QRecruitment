@@ -1,37 +1,80 @@
-﻿.loginContainer{
-    //background: rgba(255, 255, 255, 0.9);
-    //opacity: 0.4;
-    background: rgba(255, 255, 255, 0.3);
-    border: none;
+﻿.loginRow{
+}
+
+@headerColor: #292323;
+
+.brand, .address-bar{
+    color: whitesmoke;
+    //background-color: @headerColor;
+}
+
+
+@darkRedQuantiumColor: #9c0015;
+@darkGreyQuantiumColor: #343945;
+
+.loginButton{
+    width: 49% !important;
+    height: 50px;
+    border-radius: 0px;
+   // background-color: #b31a05;
+   background-color: @darkRedQuantiumColor;
+    color: whitesmoke;
+    font-size: 1.5em;
+    &:hover{
+        color: whitesmoke;
+    }
+}
+
+.registerButton{
+    width: 49% !important;
+    height: 50px;
+    border-radius: 0px;
+    background-color: @darkGreyQuantiumColor;
+    color: whitesmoke;
+    font-size: 1.5em;
+    &:hover{
+        color: whitesmoke;
+    }
+}
+
+.loginContainer{
+    
     color: #fff;
-
-    margin-bottom: 20px;
-    padding: 30px 15px;
+    background-color: ghostwhite;
+    //padding: 30px 15px;
+    padding-top: 0px;
     min-height:49vh;
+    /*-webkit-box-shadow: -1px -1px 45px -1px rgba(0,0,0,0.36);
+-moz-box-shadow: -1px -1px 45px -1px rgba(0,0,0,0.36);
+box-shadow: -1px -1px 45px -1px rgba(0,0,0,0.36);*/
 
+    .headerClass{
+        height: 70px;
+        background-color: @headerColor;
+
+        img{
+            width: 240px;
+            padding-top: 13px;
+        }
+    }
     form{
         margin-top: 30px;
-        background-color: transparent;
         
         span{
+            color: #c2c7cf;
+            border: 1px solid #c2c7cf;
+            border-right: none;
             background-color: transparent;
-            border: none;
-            color:lightgray;
         }
 
         input{
-            border-right: none;
+            border: 1px solid #c2c7cf;
             border-left: none;
-            border-top: none;
-            border-radius: 0px !important;
-            border-bottom-color: gray;
-            padding: 10px;
             background-color: transparent;
-            color:azure;
-            
+            padding: 10px;
         }
         
-        @placeholder-color: lightgray;
+        @placeholder-color: #c2c7cf;
 
         ::-webkit-input-placeholder { color: @placeholder-color; }
         :-moz-placeholder { color: @placeholder-color;}
@@ -49,3 +92,85 @@
     }
 }
 
+.loginContainer h3{
+	text-align:center;
+	position:relative;
+}
+.loginContainer {
+	margin:40px auto;
+}
+
+/*==================================================
+ * Effect 2
+ * ===============================================*/
+.effect2
+{
+  position: relative;
+}
+.effect2:before, .effect2:after
+{
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width:300px;
+  background: #000;
+  box-shadow: 0 15px 10px #000;
+  transform: rotate(-3deg);
+}
+.effect2:after
+{
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
+}
+
+body{
+    //background-color: lightgrey;
+    //background: url('../img/bg7.jpg') no-repeat center center fixed;
+    //background: url('../img/bg8.jpg') no-repeat center center fixed;
+    background: url('../img/bg9.jpg') no-repeat center center fixed;
+}
+
+
+.buttonWrapper{
+    display: inline-block;
+}
+.googleClass{
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    color: whitesmoke;
+
+    &:active, &:focus, &:visited, &:hover{
+        border: none;
+        outline: none !important;
+    }
+}
+.buttonWrapper {
+
+    &:first-child i{
+        color: #3b5998;
+    }
+
+    &:nth-child(2) i{
+        color: skyblue;
+        font-size: 4.6em;
+    }
+
+    &:last-child i{
+        color: #4885ed;
+    }
+ }
+.externalLogins{
+    margin-top: 40px;
+    border-top: 1px solid #c2c7cf;
+    padding-top : 30px;
+}
+
+.googleClass2{
+    font-size: 0.9em;
+}

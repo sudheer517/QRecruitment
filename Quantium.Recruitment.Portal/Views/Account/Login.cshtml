@@ -41,10 +41,13 @@
             <div class="brand">Quantium Recruitment</div>
             <div class="address-bar">Mezzanine Level, Waverock, Nanakramguda, Hyderabad, India</div>
         </div>
-        <div class="row">
-            <div class="loginContainer">
+        <div class="row loginRow">
+            <div class="loginContainer effect2">
+                <div class="headerClass">
+                    <img src="~/img/logo2.svg" alt="Quantium" class="img-responsive center-block"/>
+                </div>
                 <div class="col-lg-12 text-center">
-                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="col-md-5 col-md-offset-3">
+                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="col-md-6 col-md-offset-3">
                         <div class="form-group">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -58,39 +61,41 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="form-group btn btn-danger"><i class="fa fa-save"></i>&nbsp; Login</button>
-                            <button class="form-group btn btn-success"><i class="fa fa-registered"></i>&nbsp; Register</button>
+                            <button type="submit" class="loginButton form-group btn"><i class="fa fa-unlock"></i>&nbsp; Login</button>
+                            <button class="registerButton form-group btn"><i class="fa fa-user-plus"></i>&nbsp; Register</button>
                         </div>
 
-                        <div class="form-group">
-                            <button class="large-button form-group btn btn-primary"><i class="fa fa-facebook"></i>&nbsp; Login with Facebook</button>
-                        </div>
-                        <div class="form-group">
-                            <button class="large-button form-group btn btn-info"><i class="fa fa-github"></i>&nbsp; Login with Github</button>
-                        </div>
-                        <div class="form-group">
-                            @{
+                        <div class="externalLogins">
+                            <div class="buttonWrapper">
+                                <button class="googleClass"><i class="fa fa-facebook fa-4x"></i></button>
+                            </div>
+                            <div class="buttonWrapper">
+                                <button class="googleClass"><i class="fa fa-github fa-4x"></i></button>
+                            </div>
+                            <div class="buttonWrapper">
+                                @{
                                 var loginProviders = signInManager.GetExternalAuthenticationSchemes().ToList();
                                 if (loginProviders.Count == 0)
                                 {
-                                    <div>
-                                        <p>
-                                            There are no external authentication services configured.
-                                        </p>
-                                    </div>
+                                        <div>
+                                            <p>
+                                                There are no external authentication services configured.
+                                            </p>
+                                        </div>
                                 }
                                 else
                                 {
-                                    <div>
-                                        <p>
-                                            @foreach (var provider in loginProviders)
+                                        <div>
+                                            <p>
+                                                @foreach (var provider in loginProviders)
                                             {
-                                                <button type="submit" class="large-button form-group btn btn-danger" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><i class="fa fa-google-plus"></i>&nbsp;@provider.AuthenticationScheme</button>
+                                                    <button type="submit" class="googleClass googleClass2" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><i class="fa fa-google fa-4x"></i></button>
                                             }
-                                        </p>
-                                    </div>
+                                            </p>
+                                        </div>
                                 }
-                            }
+                                }
+                            </div>
                         </div>
                     </form>
 
@@ -99,15 +104,6 @@
         </div>
     </div>
 
-    <div>
-    <div>
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr/>
-            
-        </section>
-    </div>
-</div>
 </body>
 </html>
 
