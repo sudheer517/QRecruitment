@@ -21,42 +21,42 @@ module Recruitment.Routes {
                 $stateProvider
                     .state("superAdmin",
                     {
-                        url: "/superAdmin", controller: Controllers.SuperAdminController, templateUrl: "views/superAdminPage.html"
+                        url: "/superAdmin", controller: Controllers.SuperAdminController, templateUrl: "/views/superAdminPage.html"
                     })
 
                     .state("createTest",
                     {
-                        url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "views/createTestPage.html"
+                        url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "/views/createTestPage.html"
                     })
 
                     .state("uploadQuestions",
                     {
-                        url: "/uploadQuestions", controller: Controllers.UploadQuestionsController, templateUrl: "views/uploadQuestions.html"
+                        url: "/uploadQuestions", controller: Controllers.UploadQuestionsController, templateUrl: "/views/uploadQuestions.html"
                     })
 
                     .state("editTest",
                     {
-                        url: "/editTest", controller: Controllers.EditTestController, templateUrl: "views/editTest1.html"
+                        url: "/editTest", controller: Controllers.EditTestController, templateUrl: "/views/editTest1.html"
                     })
 
                     .state("sendTest",
                     {
-                        url: "/sendTest", controller: Controllers.CreateTestController, templateUrl: "views/sendTestPage.html"
+                        url: "/sendTest", controller: Controllers.CreateTestController, templateUrl: "/views/sendTestPage.html"
                     })
 
                     .state("addTeamAdmin",
                     {
-                        url: "/addTeamAdmin", controller: Controllers.CreateTestController, templateUrl: "views/addTeamAdminPage.html"
+                        url: "/addTeamAdmin", controller: Controllers.CreateTestController, templateUrl: "/views/addTeamAdminPage.html"
                     })
 
                     .state("addCandidates",
                     {
-                        url: "/addCandidates", controller: Controllers.AddCandidatesController, templateUrl: "views/addCandidatesPage.html"
+                        url: "/addCandidates", controller: Controllers.AddCandidatesController, templateUrl: "/views/addCandidatesPage.html"
                     })
 
                     .state("test",
                     {
-                        url: "/test", controller: Controllers.TestController, templateUrl: "views/testPage.html"
+                        url: "/test", controller: Controllers.TestController, templateUrl: "/views/testPage.html"
                     })
             });
         }
