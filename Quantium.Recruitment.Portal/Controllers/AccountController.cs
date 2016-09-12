@@ -61,8 +61,6 @@ namespace Quantium.Recruitment.Portal.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-            return RedirectToAction("Index", "Home");
-
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {

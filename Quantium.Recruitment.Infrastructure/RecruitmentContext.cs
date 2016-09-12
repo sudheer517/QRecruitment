@@ -41,6 +41,7 @@ namespace Quantium.Recruitment.Infrastructure
         public RecruitmentContext(IConnectionString connectionString)
         {
             this.Database.Connection.ConnectionString = connectionString.GetConnectionString();
+            this.Database.CreateIfNotExists();
         }
 
         public DbSet<Admin> Admins { get; set; }

@@ -68,7 +68,7 @@ namespace Quantium.Recruitment.Portal
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=CandidateHome}/{Action=Test}/{id?}");
+                    template: "{controller=Account}/{Action=Login}/{id?}");
             });
         }
     }
