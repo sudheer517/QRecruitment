@@ -27,7 +27,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         //http://localhost:60606/odata/Candidates
         [HttpGet]
-        [ODataRoute("Candidates")]
+        [ODataRoute("CandidateDto")]
+        [EnableQuery]
         public IHttpActionResult GetCandidates()
         {
             var candidates = _candidateRepository.GetAll().ToList();
@@ -37,7 +38,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         //http://localhost:60606/odata/Candidates(1)
         [HttpGet]
-        [ODataRoute("Candidates({key})")]
+        [ODataRoute("CandidateDto({key})")]
         public IHttpActionResult GetCandidate([FromODataUri] int key)
         {
             var candidate = _candidateRepository.GetAll().Single(item => item.Id == key);

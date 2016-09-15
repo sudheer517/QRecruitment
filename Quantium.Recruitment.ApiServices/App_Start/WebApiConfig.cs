@@ -26,7 +26,7 @@ namespace Quantium.Recruitment.ApiServices
             builder.ContainerName = "QRecruitmentContainer";
 
             builder.EntitySet<AdminDto>("Admins");
-            builder.EntitySet<CandidateDto>("Candidates");
+            builder.EntitySet<CandidateDto>("CandidateDto");
             builder.EntitySet<CandidateSelectedOptionDto>("CandidateSelectedOptionDto");
             builder.EntitySet<ChallengeDto>("ChallengeDto");
             builder.EntitySet<DepartmentDto>("DepartmentDto");
