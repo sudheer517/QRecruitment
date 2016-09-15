@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -64,12 +65,17 @@ namespace Quantium.Recruitment.Portal.Controllers
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {
-                // If successfully authenticated check in local database whether he is eligible to login
-                // get email value from: info.Principal.FindFirstValue(ClaimTypes.Email)
-                // if(cancidate)
-                return RedirectToAction("Index", "Home");
-                // if(admin)
-                // redirect to admin
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                // Do a canddate email check with the email
+                if (true)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("Test", "CandidateHome");
+                }
             }
             if (result.IsLockedOut)
             {

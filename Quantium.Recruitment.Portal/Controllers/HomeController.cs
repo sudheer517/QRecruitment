@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class HomeController : Controller
     {
         // GET: /<controller>/

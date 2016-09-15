@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    public class CandidateHome : Controller
+    public class CandidateHomeController : Controller
     {
         // GET: /<controller>/
         public IActionResult Test()
