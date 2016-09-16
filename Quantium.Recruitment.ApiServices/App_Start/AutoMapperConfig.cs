@@ -22,10 +22,10 @@ namespace Quantium.Recruitment.ApiServices
             cfg.CreateMap<Department, DepartmentDto>();
             cfg.CreateMap<Job, JobDto>();
             cfg.CreateMap<Label, LabelDto>();
-            cfg.CreateMap<Question, QuestionDto>();
+            cfg.CreateMap<Question, QuestionDto>().ReverseMap();
             cfg.CreateMap<List<Question>, List<QuestionDto>>();
-            cfg.CreateMap<Option, OptionDto>();
-            cfg.CreateMap<QuestionGroup, QuestionGroupDto>();
+            cfg.CreateMap<Option, OptionDto>().ReverseMap();
+            cfg.CreateMap<QuestionGroup, QuestionGroupDto>().ReverseMap();
             cfg.CreateMap<Test, TestDto>();
 
             Mapper.Initialize(cfg);

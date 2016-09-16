@@ -14,7 +14,6 @@ using System.Web.OData.Routing;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    [Authorize]
     public class QuestionsController : ODataController
     {
         private readonly IQuestionRepository _questionRepository;
@@ -58,13 +57,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 return BadRequest(ModelState);
             }
 
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<QuestionDto, Question>();
-                cfg.CreateMap<QuestionGroupDto, QuestionGroup>();
-            });
-
-            IMapper mapper = config.CreateMapper();
-            var inputQuestion = mapper.Map<QuestionDto, Question>(questionDto);
+            var inputQuestion = Mapper.Map<Question>(questionDto);
 
             _questionRepository.Add(inputQuestion);
 
