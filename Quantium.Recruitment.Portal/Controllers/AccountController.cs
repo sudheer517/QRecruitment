@@ -74,15 +74,15 @@ namespace Quantium.Recruitment.Portal.Controllers
 
 
                 // odata client code to be moved out
-                //var odataClient = new ODataClient("http://localhost:60606/odata/");
+                var odataClient = new ODataClient("http://localhost:60606/odata/");
 
-                //var activeCandidates = await odataClient
-                //    .For<CandidateDto>()
-                //    .Filter(b => b.Email == email)
-                //    .Select(y => y.IsActive)
-                //    .FindEntriesAsync();
+                var activeCandidates = await odataClient
+                    .For<CandidateDto>()
+                    .Filter(b => b.Email == email)
+                    .Select(y => y.IsActive)
+                    .FindEntriesAsync();
 
-                //var candidate = activeCandidates.FirstOrDefault();
+                var candidate = activeCandidates.FirstOrDefault();
 
                 ////Candidate is not in our database
                 //if (candidate == null || !candidate.IsActive)
