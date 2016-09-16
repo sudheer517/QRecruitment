@@ -47,6 +47,56 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(Mapper.Map<QuestionDto>(question));
         }
 
+        //http://localhost:60606/odata/Questions
+        [HttpPost]
+        [ODataRoute("Questions")]
+        public IHttpActionResult Post(QuestionDto questionDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<QuestionDto, Question>();
+                cfg.CreateMap<QuestionGroupDto, QuestionGroup>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var inputQuestion = mapper.Map<QuestionDto, Question>(questionDto);
+
+            _questionRepository.Add(inputQuestion);
+
+            return Created(Mapper.Map<QuestionDto>(questionDto));
+        }
+
+        //http://localhost:60606/odata/Questions(3)
+        [HttpPut]
+        [ODataRoute("Questions({key})")]
+        public IHttpActionResult Put([FromODataUri] int key, QuestionDto questionDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var dynamicQuestion = _questionRepository.FindById(key);
+
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<QuestionDto, Question>();
+                cfg.CreateMap<QuestionGroupDto, QuestionGroup>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            //var inputQuestion = mapper.Map<QuestionDto, Question>(questionDto);
+
+            var updatedQuestion = (Question)Mapper.Map(questionDto, dynamicQuestion, typeof(QuestionDto), typeof(Question));
+
+            _questionRepository.Update(updatedQuestion);
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
         // GET api/<controller>/5
         //public QuestionDto Get(long id)
         //{
