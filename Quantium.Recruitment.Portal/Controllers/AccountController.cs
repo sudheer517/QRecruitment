@@ -45,7 +45,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         {
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return Challenge(properties, provider);
+            return new ChallengeResult(provider, properties);
         }
 
         //
@@ -66,33 +66,42 @@ namespace Quantium.Recruitment.Portal.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
 
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
             if (result.Succeeded)
             {
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
 
-                // TODO: Replace with your local URI.
-                //string serviceUri = $"http://localhost:60606/odata/Candidates?$filter=Email eq '{email}'&$select=IsActive";
-                //var container = new Default.Container(new Uri(serviceUri));
-                //string odataUri = "http://localhost:60606/odata/";
-                //var client = new ODataClient(odataUri);
 
-                //var packages2 = await client
-                //    .For<CandidateDto>()
-                //    .Filter(b => b.Email == "email").Select(y => y.IsActive)
-                //    .FindEntriesAsync();
+                // odata client code to be moved out
+                var odataClient = new ODataClient("http://localhost:60606/odata/");
 
-                //var x = packages2.Count();
+                var activeCandidates = await odataClient
+                    .For<CandidateDto>()
+                    .Filter(b => b.Email == email)
+                    .Select(y => y.IsActive)
+                    .FindEntriesAsync();
+
+                var candidate = activeCandidates.FirstOrDefault();
+
+                ////Candidate is not in our database
+                //if (candidate == null || !candidate.IsActive)
+                //{
+                //    return RedirectToAction("Login", "Account");
+                //}
+
+                //if (candidate.IsActive)
+                //{
+                //    return RedirectToAction("Test", "CandidateHome");
+                //}
+
+                return RedirectToAction("Test", "CandidateHome");
                 // Do a canddate email check with the email
-                if (true)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return RedirectToAction("Test", "CandidateHome");
-                }
+                //if (true)
+                //{
+                //    return RedirectToAction("Index", "Home");
+                //}
+                
             }
             if (result.IsLockedOut)
             {
@@ -102,7 +111,20 @@ namespace Quantium.Recruitment.Portal.Controllers
             {
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
-                return RedirectToAction("Index", "Home");
+                info.Principal.FindFirstValue(ClaimTypes.Email);
+                var user = new ApplicationUser { UserName = email, Email = email };
+                var result2 = await _userManager.CreateAsync(user);
+                if (result2.Succeeded)
+                {
+                    result2 = await _userManager.AddLoginAsync(user, info);
+                    if (result2.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                return RedirectToAction("Account", "Login");
             }
         }
     }

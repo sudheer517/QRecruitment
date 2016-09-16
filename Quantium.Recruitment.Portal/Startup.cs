@@ -56,14 +56,29 @@ namespace Quantium.Recruitment.Portal
 
             app.UseIdentity();
 
-            GoogleOptions options = new GoogleOptions()
+            GoogleOptions googleOptions = new GoogleOptions()
             {
-                ClientId = "550679508064-4t02ckl1gs43poigltqn5as53rgj02mb.apps.googleusercontent.com",
-                ClientSecret = "lRgihGP10jzCwpmDbkL-Qntt"
+                ClientId = "95409331484-abicj4uqficjfb54il74spmp7s37um0h.apps.googleusercontent.com",
+                ClientSecret = "jVv0-QElNFTs3gSpVftpBKGP"
             };
 
-            app.UseGoogleAuthentication(options);
+            MicrosoftAccountOptions microsoftOptions = new MicrosoftAccountOptions()
+            {
+                ClientId = "0d3fc5fa-3c69-4457-858d-8646a18d39c2",
+                ClientSecret = "rkeVUyRiUfNhucaLe9CWYMJ"
+            };
 
+            FacebookOptions facebookOptions = new FacebookOptions()
+            {
+                
+                AppId = "332930870375090",
+                AppSecret = "d8647a5e288a3689424c28d6d4c8a510"
+            };
+
+            app.UseGoogleAuthentication(googleOptions);
+            app.UseMicrosoftAccountAuthentication(microsoftOptions);
+            app.UseFacebookAuthentication(facebookOptions);
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -127,38 +127,40 @@ body{
 .buttonWrapper{
     display: inline-block;
 }
-.googleClass{
+.externalLoginIcon{
     display: inline-block;
     background-color: transparent;
     border: none;
     color: whitesmoke;
+    font-size: 0.9em;
 
     &:active, &:focus, &:visited, &:hover{
         border: none;
         outline: none !important;
     }
 }
+
 .buttonWrapper {
 
-    &:first-child i{
+    button:first-child i{
         color: #3b5998;
     }
 
-    &:nth-child(2) i{
+    button:nth-child(2) i{
         color: skyblue;
-        font-size: 4.6em;
     }
 
-    &:last-child i{
+    button:last-child i{
         color: #4885ed;
     }
  }
+
 .externalLogins{
-    margin-top: 40px;
+    margin-top: 20px;
     border-top: 1px solid #c2c7cf;
     padding-top : 30px;
 }
 
-.googleClass2{
-    font-size: 0.9em;
+.grey{
+    color: darkgrey;
 }

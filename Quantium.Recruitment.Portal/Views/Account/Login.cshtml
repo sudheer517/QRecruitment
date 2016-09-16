@@ -64,36 +64,22 @@
                             <button type="submit" class="loginButton form-group btn"><i class="fa fa-unlock"></i>&nbsp; Login</button>
                             <button class="registerButton form-group btn"><i class="fa fa-user-plus"></i>&nbsp; Register</button>
                         </div>
-
+                        <p class="grey">Or</p>
                         <div class="externalLogins">
-                            <div class="buttonWrapper">
-                                <button class="googleClass"><i class="fa fa-facebook fa-4x"></i></button>
-                            </div>
-                            <div class="buttonWrapper">
-                                <button class="googleClass"><i class="fa fa-github fa-4x"></i></button>
-                            </div>
-                            <div class="buttonWrapper">
+                            
+                            <div >
                                 @{
                                 var loginProviders = signInManager.GetExternalAuthenticationSchemes().ToList();
-                                if (loginProviders.Count == 0)
-                                {
-                                        <div>
-                                            <p>
-                                                There are no external authentication services configured.
-                                            </p>
-                                        </div>
-                                }
-                                else
-                                {
-                                        <div>
-                                            <p>
-                                                @foreach (var provider in loginProviders)
-                                            {
-                                                    <button type="submit" class="googleClass googleClass2" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account"><i class="fa fa-google fa-4x"></i></button>
-                                            }
-                                            </p>
-                                        </div>
-                                }
+                                <div class="buttonWrapper">
+                                    @foreach (var provider in loginProviders)
+                                    {
+                                        <button type="submit" class="externalLoginIcon"
+                                                name="provider" value="@provider.AuthenticationScheme"
+                                                title="Log in using your @provider.DisplayName account">
+                                            <i class="fa fa-@(provider.DisplayName == "Microsoft" ? "windows" : provider.DisplayName) fa-4x"></i>
+                                        </button>
+}
+                                </div>
                                 }
                             </div>
                         </div>
