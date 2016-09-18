@@ -9,6 +9,7 @@ using AutoMapper;
 using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
+using Quantium.Recruitment.ApiServices.Helpers;
 using System.Web.OData;
 using System.Web.OData.Routing;
 
@@ -48,6 +49,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         //http://localhost:60606/odata/Questions
+        // For creating
         [HttpPost]
         [ODataRoute("Questions")]
         public IHttpActionResult Post(QuestionDto questionDto)
@@ -59,12 +61,13 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             var inputQuestion = Mapper.Map<Question>(questionDto);
 
-            _questionRepository.Add(inputQuestion);
+            var result = _questionRepository.Add(inputQuestion);
 
-            return Created(Mapper.Map<QuestionDto>(questionDto));
+            return Created(Mapper.Map<QuestionDto>(result));
         }
 
         //http://localhost:60606/odata/Questions(3)
+        // For full update
         [HttpPut]
         [ODataRoute("Questions({key})")]
         public IHttpActionResult Put([FromODataUri] int key, QuestionDto questionDto)
@@ -76,25 +79,59 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             var dynamicQuestion = _questionRepository.FindById(key);
 
-            var config = new MapperConfiguration(cfg => {
-                cfg.CreateMap<QuestionDto, Question>();
-                cfg.CreateMap<QuestionGroupDto, QuestionGroup>();
-            });
+            if (dynamicQuestion == null)
+                return NotFound();
 
-            IMapper mapper = config.CreateMapper();
-            //var inputQuestion = mapper.Map<QuestionDto, Question>(questionDto);
-
-            var updatedQuestion = (Question)Mapper.Map(questionDto, dynamicQuestion, typeof(QuestionDto), typeof(Question));
+            var updatedQuestion = Mapper.Map(questionDto, dynamicQuestion);
+            for (int i = 0; i < dynamicQuestion.Options.Count(); i++)
+            {
+                Mapper.Map(questionDto.Options[i], dynamicQuestion.Options[i]);
+            }
 
             _questionRepository.Update(updatedQuestion);
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // GET api/<controller>/5
-        //public QuestionDto Get(long id)
-        //{
-        //    //return Mapper.Map<QuestionDto>(_questionRepository.FindById(id));
-        //}
+        [HttpGet]
+        [ODataRoute("Questions({key})/Text")]
+        public IHttpActionResult GetQuestionProperty([FromODataUri] int key)
+        {
+            var question = _questionRepository.FindById(key);
+
+            if (question == null)
+                return NotFound();
+
+            var propertyToGet = Url.Request.RequestUri.Segments.Last();
+
+            if (!question.HasProperty(propertyToGet))
+                return NotFound();
+
+            var propertyValue = question.GetValue(propertyToGet);
+
+            if (propertyValue == null)
+                return StatusCode(HttpStatusCode.NoContent);
+
+            return this.CreateOKHttpActionResult(propertyValue);
+        }
+
+        [HttpGet]
+        [ODataRoute("Questions({key})/Options")]
+        public IHttpActionResult GetQuestionCollectionProperty([FromODataUri] int key)
+        {
+            var propertyToGet = Url.Request.RequestUri.Segments.Last();
+
+            var question = _questionRepository.FindById(key);
+
+            if (question == null)
+                return NotFound();
+
+            var propertyValue = question.Options;
+
+            if (propertyValue == null)
+                return StatusCode(HttpStatusCode.NoContent);
+
+            return Ok(Mapper.Map<IList<OptionDto>>(propertyValue));
+        }
     }
 }

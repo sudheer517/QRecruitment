@@ -2,6 +2,8 @@
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using Quantium.Recruitment.Entities;
+using System.Data.Entity.Infrastructure;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Infrastructure
 {
@@ -34,6 +36,8 @@ namespace Quantium.Recruitment.Infrastructure
         Database GetDatabase();
 
         DbSet GetSet(Type entityType);
+
+        DbEntityEntry Entry(object entity);
     }
 
     public class RecruitmentContext : DbContext, IRecruitmentContext

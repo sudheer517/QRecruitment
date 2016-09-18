@@ -12,10 +12,12 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
-            _dbContext.GetSet(typeof(T)).Add(entity);
+            var result = _dbContext.GetSet(typeof(T)).Add(entity);
             _dbContext.SaveChanges();
+
+            return (T)result;
         }
 
         public void Delete(T entity)

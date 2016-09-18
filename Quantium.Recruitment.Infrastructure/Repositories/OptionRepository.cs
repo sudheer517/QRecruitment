@@ -24,7 +24,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
         public void Update(Option entity)
         {
-            _dbContext.Options.Add(entity);
+            _dbContext.SaveChanges();
         }
     }
 }
