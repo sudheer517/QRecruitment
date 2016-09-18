@@ -22,7 +22,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
         public Question FindById(long Id)
         {
-            return _dbContext.Questions.Include(x => x.Options).Include(i => i.QuestionGroup).SingleOrDefault(entity => entity.Id == Id);
+            return _dbContext.Questions.SingleOrDefault(entity => entity.Id == Id);
         }
 
         public void Update(Question entity)
