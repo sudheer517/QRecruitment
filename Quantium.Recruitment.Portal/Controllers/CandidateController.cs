@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Quantium.Recruitment.Portal.Controllers
 {
     [Authorize]
-    public class CandidateHomeController : Controller
+    public class CandidateController : Controller
     {
         // GET: /<controller>/
         public IActionResult Test()

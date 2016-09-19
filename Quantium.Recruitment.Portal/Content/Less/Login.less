@@ -48,10 +48,9 @@
             padding-top: 13px;
         }
     }
-    form{
-        margin-top: 30px;
+     &:first-child form{
         
-        span{
+        > span{
             color: #c2c7cf;
             border: 1px solid #c2c7cf;
             border-right: none;
@@ -163,4 +162,50 @@ body{
 
 .grey{
     color: darkgrey;
+}
+
+.form-group{
+    > label {
+        margin-top: 12px;
+        text-align: right;
+        color: @darkGreyQuantiumColor;
+    }
+}
+
+.loginContainer{
+
+.loginRegisterTabs{
+    margin-bottom: 30px;
+    //border-left: none;
+    //border-right: none;
+    
+
+    > li{
+        width: 50%;
+        font-size: 1.5em;
+        border-radius: 0;
+        
+        > a{
+            color: gray;
+            &:hover{
+                background-color: rgba(217, 217, 217, 0.98);
+                color: #292323;
+            }
+        }
+        &:hover{
+            
+        }
+
+        &.active{
+            > a{
+                color: @darkRedQuantiumColor;
+                font-weight:700;
+                background-color: ghostwhite;
+                //border-bottom: 1px solid ghostwhite;
+            }
+        }
+    }
+
+
+}
 }

@@ -1,0 +1,68 @@
+﻿@model Quantium.Recruitment.Portal.Models.AccountViewModels.LoginViewModel
+
+    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="col-md-7 col-md-offset-2">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @*<div class="form-group">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <input type="text" class="form-control" id="email" placeholder="Username or email">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                    <input type="password" class="form-control" placeholder="Password">
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="loginButton form-group btn"><i class="fa fa-unlock"></i>&nbsp; Login</button>
+                <button class="registerButton form-group btn"><i class="fa fa-user-plus"></i>&nbsp; Register</button>
+            </div>
+            <p class="grey">Or</p>*@
+
+
+        <div class="form-group grey">
+            <label asp-for="Email" class="col-md-3 control-label"></label>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                <input asp-for="Email" type="text" class="form-control" id="email" placeholder="Username or email">
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+            @*<div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>*@
+        </div>
+        <div class="form-group grey">
+            <label asp-for="Password" class="col-md-3 control-label"></label>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+        </div>
+        @*<div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <div class="checkbox">
+                        <label asp-for="RememberMe">
+                            <input asp-for="RememberMe" />
+                            @Html.DisplayNameFor(m => m.RememberMe)
+                        </label>
+                    </div>
+                </div>
+            </div>*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="loginButton form-group btn"><i class="fa fa-unlock"></i>&nbsp; Login</button>
+            </div>
+        </div>
+        @*<p>
+                <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
+            </p>
+            <p>
+                <a asp-action="ForgotPassword">Forgot your password?</a>
+            </p>*@
+    </form>
+
