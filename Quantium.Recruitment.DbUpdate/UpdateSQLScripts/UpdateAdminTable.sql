@@ -1,0 +1,1 @@
+﻿update [QRecruitment].[dbo].[Admin] set [FirstName] = 'k' where [DepartmentId] = 1
