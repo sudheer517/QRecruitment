@@ -15,6 +15,7 @@ using System.Web.OData.Routing;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
+    [Authorize]
     public class QuestionsController : ODataController
     {
         private readonly IQuestionRepository _questionRepository;

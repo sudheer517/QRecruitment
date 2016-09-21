@@ -3,12 +3,13 @@ using Quantium.Recruitment.Infrastructure;
 using System.Web.Http;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Unity.WebApi;
+using System.Web.Http.Dependencies;
 
 namespace Quantium.Recruitment.ApiServices
 {
     public static class UnityConfig
     {
-        public static void RegisterComponents()
+        public static IDependencyResolver RegisterComponents()
         {
 			var container = new UnityContainer();
             container.RegisterType<IRecruitmentContext, RecruitmentContext>();
@@ -17,7 +18,7 @@ namespace Quantium.Recruitment.ApiServices
             container.RegisterType<ICandidateRepository, CandidateRepository>();
             container.RegisterType<IAdminRepository, AdminRepository>();
 
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+            return new UnityDependencyResolver(container);
         }
     }
 }

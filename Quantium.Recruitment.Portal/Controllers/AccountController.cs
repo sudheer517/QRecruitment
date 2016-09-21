@@ -10,6 +10,9 @@ using Simple.OData.Client;
 using ODataModels.Quantium.Recruitment.ApiServices.Models;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using System.Net.Http;
+using IdentityModel.Client;
+using System.Net.Http.Headers;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
@@ -161,11 +164,27 @@ namespace Quantium.Recruitment.Portal.Controllers
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
             if (result.Succeeded)
             {
+                //request identity service token
 
+                var tokenClient = new TokenClient(
+                    "https://localhost:44317/identity/connect/token",
+                    "qrecruitmentclientid",
+                    "myrandomclientsecret");
 
+                var tokenResponse = tokenClient.RequestClientCredentialsAsync("qrecruitment").Result;
+
+                var accessToken = tokenResponse.AccessToken;
+
+                var odataSettings = new ODataClientSettings("http://localhost:60606/odata/");
+                odataSettings.BeforeRequest += delegate (HttpRequestMessage request)
+                {
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                };
+                
                 // odata client code to be moved out
-                var odataClient = new ODataClient("http://localhost:60606/odata/");
+                var odataClient = new ODataClient(odataSettings);
 
+                
                 var activeCandidates = await odataClient
                     .For<CandidateDto>()
                     .Filter(b => b.Email == email)

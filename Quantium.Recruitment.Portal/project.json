@@ -25,7 +25,8 @@
     "Simple.OData.Client": "4.23.4",
     "System.Linq": "4.1.0",
     "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0",
-    "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "1.0.0"
+    "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "1.0.0",
+    "IdentityModel": "1.13.0"
   },
 
   "tools": {
