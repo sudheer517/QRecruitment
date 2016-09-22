@@ -4,7 +4,7 @@ using Quantium.Recruitment.Portal.Models;
 
 namespace Quantium.Recruitment.Portal.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, MyIdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

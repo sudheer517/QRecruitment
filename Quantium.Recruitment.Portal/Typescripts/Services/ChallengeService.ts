@@ -5,7 +5,7 @@ module Recruitment.Services {
     import ChallengeViewModel = Recruitment.ViewModels.ChallengeViewModel; 
 
     interface IChallengeService {
-        getNextChallenge(): ng.IHttpPromise<ChallengeViewModel>;
+        getNextChallenge(): ng.IHttpPromise<any>;
         postChallenge(selectedItems: any): ng.IHttpPromise<any>;
     }
 
@@ -13,8 +13,8 @@ module Recruitment.Services {
         constructor(private $http: ng.IHttpService) {
         }
 
-        public getNextChallenge(): ng.IHttpPromise<ChallengeViewModel> {
-            return this.$http.get("http://localhost:60606/api/temp");
+        public getNextChallenge(): ng.IHttpPromise<any> {
+            return this.$http.get("/Temp/Provoke");
         }
 
         public postChallenge(selectedItems: any): ng.IHttpPromise<any> {

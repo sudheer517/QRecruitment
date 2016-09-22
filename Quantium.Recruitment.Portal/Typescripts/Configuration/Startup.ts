@@ -7,8 +7,8 @@
             this.app = angular.module(name, [
                 "ui.router",
                 "ngFileUpload",
-                "xeditable", // for making text editable on edit test page
-                "mockingApp" // Can remove this when backend development is finished
+                "xeditable" // for making text editable on edit test page
+                //"mockingApp" // Can remove this when backend development is finished
             ]);
 
             Controllers.ControllersConfiguration.RegisterAll(this.app);

@@ -21,15 +21,18 @@ namespace Quantium.Recruitment.Portal.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<MyIdentityRole> _roleManager;
         private readonly ILogger _logger;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<MyIdentityRole> roleManager,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
@@ -204,13 +207,13 @@ namespace Quantium.Recruitment.Portal.Controllers
                 //    return RedirectToAction("Test", "Candidate");
                 //}
 
-                return RedirectToAction("Test", "Candidate");
+                return Redirect($"{Url.RouteUrl(new { controller = "Candidate", action = "Test" })}#/test");
                 // Do a canddate email check with the email
                 //if (true)
                 //{
                 //    return RedirectToAction("Index", "Home");
                 //}
-                
+
             }
             if (result.IsLockedOut)
             {
@@ -223,9 +226,17 @@ namespace Quantium.Recruitment.Portal.Controllers
                 info.Principal.FindFirstValue(ClaimTypes.Email);
                 var user = new ApplicationUser { UserName = email, Email = email };
                 var result2 = await _userManager.CreateAsync(user);
+                if (!_roleManager.RoleExistsAsync("SuperAdmin").Result)
+                {
+                    MyIdentityRole newRole = new MyIdentityRole();
+                    newRole.Name = "SuperAdmin";
+                    var result3 = await _roleManager.CreateAsync(newRole);
+                }
+
                 if (result2.Succeeded)
                 {
-                    result2 = await _userManager.AddLoginAsync(user, info);
+                    result2 = _userManager.AddLoginAsync(user, info).Result;
+                    await _userManager.AddToRoleAsync(user, "SuperAdmin");
                     if (result2.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
