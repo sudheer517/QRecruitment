@@ -13,10 +13,12 @@ namespace Quantium.Recruitment.Portal.Controllers
     public class TempController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<MyIdentityRole> _roleManager;
 
-        public TempController(UserManager<ApplicationUser> userManager)
+        public TempController(UserManager<ApplicationUser> userManager, RoleManager<MyIdentityRole> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         // GET: /<controller>/
         public IActionResult Index()
@@ -31,6 +33,11 @@ namespace Quantium.Recruitment.Portal.Controllers
             var user = this.GetCurrentUserAsync();
             var temp2 = this.User;
             return Json("tempYo");
+        }
+
+        public IActionResult GetUserRole()
+        {
+            return Json(this.User.Claims.LastOrDefault().Value);
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync()

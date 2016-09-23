@@ -19,6 +19,9 @@
     },
     "ng-file-upload/ng-file-upload.d.ts": {
       "commit": "23c9f2230960c4a9b83e4297471d082a27d02b74"
+    },
+    "lodash/lodash.d.ts": {
+      "commit": "d79cd56465f9ed53172dc1617c863a164b0fd7fb"
     }
   }
 }

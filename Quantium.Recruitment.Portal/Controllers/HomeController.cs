@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    [Authorize(Roles = "Su")]
+    [Authorize]
     public class HomeController : Controller
     {
         // GET: /<controller>/

@@ -1,11 +1,15 @@
 ﻿module Recruitment.Controllers {
     export interface FirstControllerScope extends ng.IScope {
-        title: string;
+        onLogout(): void;
     }
     export class FirstController {
 
         constructor(private $scope: FirstControllerScope) {
-            this.$scope.title = "First Page title";
+            this.$scope.onLogout = () => this.Logout();
+        }
+
+        public Logout(): void{
+
         }
 
     }

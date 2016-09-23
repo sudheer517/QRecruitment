@@ -226,17 +226,28 @@ namespace Quantium.Recruitment.Portal.Controllers
                 info.Principal.FindFirstValue(ClaimTypes.Email);
                 var user = new ApplicationUser { UserName = email, Email = email };
                 var result2 = await _userManager.CreateAsync(user);
-                if (!_roleManager.RoleExistsAsync("SuperAdmin").Result)
+                string role = string.Empty;
+
+                if (email == "rkshrohan@gmail.com" && !_roleManager.RoleExistsAsync("SuperAdmin").Result)
                 {
                     MyIdentityRole newRole = new MyIdentityRole();
                     newRole.Name = "SuperAdmin";
                     var result3 = await _roleManager.CreateAsync(newRole);
+                    role = newRole.Name;
+                }
+
+                if (email == "0firefist0@gmail.com" && !_roleManager.RoleExistsAsync("Candidate").Result)
+                {
+                    MyIdentityRole newRole = new MyIdentityRole();
+                    newRole.Name = "Candidate";
+                    var result3 = await _roleManager.CreateAsync(newRole);
+                    role = newRole.Name;
                 }
 
                 if (result2.Succeeded)
                 {
                     result2 = _userManager.AddLoginAsync(user, info).Result;
-                    await _userManager.AddToRoleAsync(user, "SuperAdmin");
+                    await _userManager.AddToRoleAsync(user, role);
                     if (result2.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
