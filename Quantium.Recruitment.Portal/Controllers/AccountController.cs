@@ -207,7 +207,8 @@ namespace Quantium.Recruitment.Portal.Controllers
                 //    return RedirectToAction("Test", "Candidate");
                 //}
 
-                return Redirect($"{Url.RouteUrl(new { controller = "Candidate", action = "Test" })}#/test");
+                return RedirectToAction("Test", "Candidate");
+                //return Redirect($"{Url.RouteUrl(new { controller = "Candidate", action = "Test" })}#/test");
                 // Do a canddate email check with the email
                 //if (true)
                 //{

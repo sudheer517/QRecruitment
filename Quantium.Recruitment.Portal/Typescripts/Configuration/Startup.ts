@@ -25,17 +25,23 @@ module Recruitment {
                 editableOptions.theme = 'bs3';
 
                 $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
-                    if (!$authService.isAuthorized()) {
-                        if ($authService.getMemorizedState() && (!_.has(fromState, 'data.redirectTo') || toState.name !== fromState.data.redirectTo)) {
-                            $authService.clear();
-                        }
-                        if (_.has(toState, 'data.authorization') && _.has(toState, 'data.redirectTo')) {
-                            if (_.has(toState, 'data.memory')) {
-                                $authService.setMemorizedState(toState.name);
-                            }
+
+                    if (toState.name == "superAdmin") {
+                        if ($authService.getRole() !== "SuperAdmin") {
                             $state.go(toState.data.redirectTo);
                         }
                     }
+                    //if (!$authService.isAuthorized()) {
+                    //    if ($authService.getMemorizedState() && (!_.has(fromState, 'data.redirectTo') || toState.name !== fromState.data.redirectTo)) {
+                    //        $authService.clear();
+                    //    }
+                    //    if (_.has(toState, 'data.authorization') && _.has(toState, 'data.redirectTo')) {
+                    //        if (_.has(toState, 'data.memory')) {
+                    //            $authService.setMemorizedState(toState.name);
+                    //        }
+                    //        $state.go(toState.data.redirectTo);
+                    //    }
+                    //}
 
                 });
 

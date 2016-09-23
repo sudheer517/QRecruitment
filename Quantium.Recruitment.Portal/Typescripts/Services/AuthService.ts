@@ -7,6 +7,7 @@ module Recruitment.Services {
         getMemorizedState(): any;
         setMemorizedState(stateValue: any): void;
         isAuthorized(): boolean;
+        getRole(): string;
     }
 
     export class AuthService implements IAuthService {
@@ -21,6 +22,10 @@ module Recruitment.Services {
             error => {
                 console.log(error);
             });
+        }
+
+        public getRole(): string {
+            return this.role;
         }
 
         public getMemorizedState(): any {
