@@ -6,7 +6,12 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Quantium.Recruitment.Portal.Models
 {
-    public class MyIdentityRole : IdentityRole
+    public class QRecruitmentRole : IdentityRole
     {
+        public QRecruitmentRole() { }
+        public QRecruitmentRole(string name)
+        {
+            this.Name = name;
+        }
     }
 }

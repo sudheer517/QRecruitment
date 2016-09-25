@@ -101,6 +101,16 @@ namespace Quantium.Recruitment.DbInitialize
                 Department = softwareDepartment
             };
 
+            Admin admin8 = new Admin()
+            {
+                FirstName = "Rakesh",
+                LastName = "Rohan",
+                Email = "rkshrohan@gmail.com",
+                IsActive = true,
+                Mobile = 9052791243,
+                Department = softwareDepartment
+            };
+
             _dbContext.Admins.Add(admin1);
             _dbContext.Admins.Add(admin2);
             _dbContext.Admins.Add(admin3);
@@ -108,6 +118,7 @@ namespace Quantium.Recruitment.DbInitialize
             _dbContext.Admins.Add(admin5);
             _dbContext.Admins.Add(admin6);
             _dbContext.Admins.Add(admin7);
+            _dbContext.Admins.Add(admin8);
 
             #endregion Admin
 
@@ -201,11 +212,23 @@ namespace Quantium.Recruitment.DbInitialize
                 Test = test2
             };
 
+            Candidate candidate6 = new Candidate
+            {
+                FirstName = "Firefist",
+                LastName = "Ace",
+                Email = "0firefist0@gmail.com",
+                Mobile = 9052791243,
+                IsActive = true,
+                Job = job2,
+                Test = test2
+            };
+
             _dbContext.Candidates.Add(candidate1);
             _dbContext.Candidates.Add(candidate2);
             _dbContext.Candidates.Add(candidate3);
             _dbContext.Candidates.Add(candidate4);
             _dbContext.Candidates.Add(candidate5);
+            _dbContext.Candidates.Add(candidate6);
 
             #endregion Candidate
 

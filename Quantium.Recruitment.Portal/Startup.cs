@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Quantium.Recruitment.Portal.Data;
+using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.Portal.Models;
 
 namespace Quantium.Recruitment.Portal
@@ -29,9 +30,11 @@ namespace Quantium.Recruitment.Portal
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, MyIdentityRole>()
+            services.AddIdentity<ApplicationUser, QRecruitmentRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<ICandidateHelper, CandidateHelper>();
 
             services.AddMvc();
         }

@@ -16,7 +16,7 @@ module Recruitment.Routes {
                 $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
 
                 //Default route
-                $urlRouterProvider.otherwise('/uploadQuestions');
+                $urlRouterProvider.otherwise('/');
                 //$urlRouterProvider.otherwise('/');
                 $stateProvider
                     .state("superAdmin",
@@ -27,12 +27,14 @@ module Recruitment.Routes {
 
                     .state("createTest",
                     {
-                        url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "/views/createTestPage.html"
+                        url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "/views/createTestPage.html",
+                        data: { role: "SuperAdmin", redirectTo: "test" }
                     })
 
                     .state("uploadQuestions",
                     {
-                        url: "/uploadQuestions", controller: Controllers.UploadQuestionsController, templateUrl: "/views/uploadQuestions.html"
+                        url: "/uploadQuestions", controller: Controllers.UploadQuestionsController, templateUrl: "/views/uploadQuestions.html",
+                        data: { role: "SuperAdmin", redirectTo: "test" }
                     })
 
                     .state("editTest",
@@ -59,39 +61,6 @@ module Recruitment.Routes {
                     {
                         url: "/test", controller: Controllers.TestController, templateUrl: "/views/testPage.html"
                     })
-
-
-                //$stateProvider
-                //    .state('home', {
-                //        url: '/',
-                //        template: '<h1>Home</h1>'
-                //    })
-                //    .state("login", {
-                //        url: "/login",
-                //        template: '<button ng-click="onLogin()">Login</button>',
-                //        controller: ($scope, $state, $authService) => {
-                //            $scope.onLogin = function () {
-                //                $authService.go('private');
-                //            };
-                //        }
-                //    })
-                //    .state('private', {
-                //        url: '/private',
-                //        template: '<h1>Private</h1>',
-                //        data: {
-                //            authorization: true,
-                //            redirectTo: 'login'
-                //        }
-                //    })
-                //    .state('secret', {
-                //        url: '/secret',
-                //        template: '<h1>Secret</h1>',
-                //        data: {
-                //            authorization: true,
-                //            redirectTo: 'login',
-                //            memory: true
-                //        }
-                //    });
 
             });
         }

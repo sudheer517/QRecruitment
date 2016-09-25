@@ -13,9 +13,9 @@ namespace Quantium.Recruitment.Portal.Controllers
     public class TempController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<MyIdentityRole> _roleManager;
+        private readonly RoleManager<QRecruitmentRole> _roleManager;
 
-        public TempController(UserManager<ApplicationUser> userManager, RoleManager<MyIdentityRole> roleManager)
+        public TempController(UserManager<ApplicationUser> userManager, RoleManager<QRecruitmentRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;

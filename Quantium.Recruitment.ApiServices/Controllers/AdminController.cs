@@ -15,41 +15,20 @@ using System.Web.OData.Routing;
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
     [Authorize]
-    public class UsersController : ODataController
+    public class AdminController : ODataController
     {
         private readonly ICandidateRepository _candidateRepository;
         private readonly IAdminRepository _adminRepository;
 
-        public UsersController(ICandidateRepository candidateRepository, IAdminRepository adminRepository)
+        public AdminController(IAdminRepository adminRepository)
         {
-            _candidateRepository = candidateRepository;
             _adminRepository = adminRepository;
-        }
-
-        //http://localhost:60606/odata/Candidates
-        [HttpGet]
-        [ODataRoute("CandidateDto")]
-        [EnableQuery]
-        public IHttpActionResult GetCandidates()
-        {
-            var candidates = _candidateRepository.GetAll().ToList();
-
-            return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
-        }
-
-        //http://localhost:60606/odata/Candidates(1)
-        [HttpGet]
-        [ODataRoute("CandidateDto({key})")]
-        public IHttpActionResult GetCandidate([FromODataUri] int key)
-        {
-            var candidate = _candidateRepository.GetAll().Single(item => item.Id == key);
-
-            return Ok(Mapper.Map<CandidateDto>(candidate));
         }
 
         //http://localhost:60606/odata/Admins
         [HttpGet]
-        [ODataRoute("Admins")]
+        [ODataRoute("AdminDto")]
+        [EnableQuery]
         public IHttpActionResult GetAdmins()
         {
             var admins = _adminRepository.GetAll().ToList();
@@ -59,7 +38,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         //http://localhost:60606/odata/Admins(1)
         [HttpGet]
-        [ODataRoute("Admins({key})")]
+        [ODataRoute("AdminDto({key})")]
+        [EnableQuery]
         public IHttpActionResult GetAdmin([FromODataUri] int key)
         {
             var admin = _adminRepository.GetAll().Single(item => item.Id == key);

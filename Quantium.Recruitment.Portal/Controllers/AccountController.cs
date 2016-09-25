@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using IdentityModel.Client;
 using System.Net.Http.Headers;
+using Quantium.Recruitment.Portal.Helpers;
+using System.Collections.Generic;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
@@ -21,29 +23,31 @@ namespace Quantium.Recruitment.Portal.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<MyIdentityRole> _roleManager;
+        private readonly RoleManager<QRecruitmentRole> _roleManager;
         private readonly ILogger _logger;
+        private readonly ICandidateHelper _candidateHelper;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<MyIdentityRole> roleManager,
-            ILoggerFactory loggerFactory)
+            RoleManager<QRecruitmentRole> roleManager,
+            ILoggerFactory loggerFactory,
+            ICandidateHelper candidateHelper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _candidateHelper = candidateHelper;
         }
 
+        // GET: /Account/IsUserAuthenticated
         [HttpGet]
-        [AllowAnonymous]
         public string IsUserAuthenticated()
         {
             return User.Identity.IsAuthenticated.ToString();
         }
 
-        //
         // GET: /Account/Login
         [HttpGet]
         [AllowAnonymous]
@@ -53,6 +57,7 @@ namespace Quantium.Recruitment.Portal.Controllers
            return View();
         }
 
+        // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -89,7 +94,7 @@ namespace Quantium.Recruitment.Portal.Controllers
             return View(model);
         }
 
-
+        // GET: /Account/Register
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
@@ -112,13 +117,12 @@ namespace Quantium.Recruitment.Portal.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
+                    _logger.LogInformation(3, $"User created a new account with email:{model.Email}");
                     return RedirectToLocal("/Candidate/Test#/test");
                 }
                 AddErrors(result);
             }
             ViewData["activeAnchor"] = "registerView";
-            // If we got this far, something failed, redisplay form
             return View("Login", model);
         }
 
@@ -128,11 +132,10 @@ namespace Quantium.Recruitment.Portal.Controllers
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            _logger.LogInformation(4, $"User with name:{User.Identity.Name} logged out");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 
-        //
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
@@ -144,7 +147,6 @@ namespace Quantium.Recruitment.Portal.Controllers
             return new ChallengeResult(provider, properties);
         }
 
-        //
         // GET: /Account/ExternalLoginCallback
         [HttpGet]
         [AllowAnonymous]
@@ -162,58 +164,36 @@ namespace Quantium.Recruitment.Portal.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-            if (result.Succeeded)
+            if (result.Succeeded) // social login registered user
             {
                 //request identity service token
+                // token client code
+                var user = _userManager.FindByEmailAsync(email).Result;
+                IList<string> roles = _userManager.GetRolesAsync(user).Result;
 
-                var tokenClient = new TokenClient(
-                    "https://localhost:44317/identity/connect/token",
-                    "qrecruitmentclientid",
-                    "myrandomclientsecret");
-
-                var tokenResponse = tokenClient.RequestClientCredentialsAsync("qrecruitment").Result;
-
-                var accessToken = tokenResponse.AccessToken;
-
-                var odataSettings = new ODataClientSettings("http://localhost:60606/odata/");
-                odataSettings.BeforeRequest += delegate (HttpRequestMessage request)
+                if (roles.FirstOrDefault() == "Candidate")
                 {
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-                };
-                
-                // odata client code to be moved out
-                var odataClient = new ODataClient(odataSettings);
+                    var isCandidateActive = _candidateHelper.CheckIfCandidateExistsAndActive(email);
+                    if (!isCandidateActive)
+                    {
+                        return RedirectToAction("NotActive", "Unauthorized");
+                    }
+                    return RedirectToAction("Test", "Candidate");
+                }
+                else if (roles.FirstOrDefault() == "SuperAdmin")
+                {
+                    var isAdminActive = _candidateHelper.IsAdminActive(email);
+                    if (!isAdminActive)
+                    {
+                        return RedirectToAction("NotActive", "Unauthorized");
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
 
-                
-                var activeCandidates = await odataClient
-                    .For<CandidateDto>()
-                    .Filter(b => b.Email == email)
-                    .Select(y => y.IsActive)
-                    .FindEntriesAsync();
 
-                var candidate = activeCandidates.FirstOrDefault();
-
-                ////Candidate is not in our database
-                //if (candidate == null || !candidate.IsActive)
-                //{
-                //    return RedirectToAction("Login", "Account");
-                //}
-
-                //if (candidate.IsActive)
-                //{
-                //    return RedirectToAction("Test", "Candidate");
-                //}
-
-                return RedirectToAction("Test", "Candidate");
                 //return Redirect($"{Url.RouteUrl(new { controller = "Candidate", action = "Test" })}#/test");
-                // Do a canddate email check with the email
-                //if (true)
-                //{
-                //    return RedirectToAction("Index", "Home");
-                //}
 
             }
             if (result.IsLockedOut)
@@ -226,37 +206,38 @@ namespace Quantium.Recruitment.Portal.Controllers
                 ViewData["LoginProvider"] = info.LoginProvider;
                 info.Principal.FindFirstValue(ClaimTypes.Email);
                 var user = new ApplicationUser { UserName = email, Email = email };
-                var result2 = await _userManager.CreateAsync(user);
-                string role = string.Empty;
+                var createUserTaskResult = _userManager.CreateAsync(user).Result;
+                string roleName = _candidateHelper.GetRoleForEmail(email);
 
-                if (email == "rkshrohan@gmail.com" && !_roleManager.RoleExistsAsync("SuperAdmin").Result)
+                if (string.IsNullOrEmpty(roleName))
                 {
-                    MyIdentityRole newRole = new MyIdentityRole();
-                    newRole.Name = "SuperAdmin";
-                    var result3 = await _roleManager.CreateAsync(newRole);
-                    role = newRole.Name;
+                   return RedirectToAction("NotRegistered", "Unauthorized");
                 }
 
-                if (email == "0firefist0@gmail.com" && !_roleManager.RoleExistsAsync("Candidate").Result)
+                if (!_roleManager.RoleExistsAsync(roleName).Result)
                 {
-                    MyIdentityRole newRole = new MyIdentityRole();
-                    newRole.Name = "Candidate";
-                    var result3 = await _roleManager.CreateAsync(newRole);
-                    role = newRole.Name;
+                    var roleCreationTaskResult = _roleManager.CreateAsync(new QRecruitmentRole(roleName)).Result;
                 }
 
-                if (result2.Succeeded)
+                if (createUserTaskResult.Succeeded)
                 {
-                    result2 = _userManager.AddLoginAsync(user, info).Result;
-                    await _userManager.AddToRoleAsync(user, role);
-                    if (result2.Succeeded)
+                    var createLoginTaskResult = _userManager.AddLoginAsync(user, info).Result;
+                    var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, roleName).Result;
+                    if (createLoginTaskResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("Index", "Home");
+                        if (roleName == "SuperAdmin")
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        if (roleName == "Candidate")
+                        {
+                            return RedirectToAction("Test", "Candidate");
+                        }
                     }
                 }
 
-                return RedirectToAction("Account", "Login");
+                return RedirectToAction("UserCreationError", "Unauthorized");
             }
         }
 

@@ -16,7 +16,7 @@ module Recruitment.Services {
         private role: string;
 
         constructor(private $state: angular.ui.IStateService, private $http: ng.IHttpService) {
-            this.$http.get("/Temp/GetUserRole").then(response => {
+            this.$http.get("/Candidate/GetRoleName").then(response => {
                 this.role = _.toString(response.data);
             },
             error => {
