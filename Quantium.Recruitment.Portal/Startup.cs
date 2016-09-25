@@ -48,8 +48,7 @@ namespace Quantium.Recruitment.Portal
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
-                LoginPath = "/Home/Login",
-
+                LoginPath = "/Account/Login",
                 AuthenticationScheme = "Cookies",
                 AutomaticAuthenticate = true,
                 AutomaticChallenge = true
@@ -86,7 +85,7 @@ namespace Quantium.Recruitment.Portal
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{Action=Index}/{id?}");
+                    template: "{controller=Account}/{Action=Login}/{id?}");
             });
         }
     }

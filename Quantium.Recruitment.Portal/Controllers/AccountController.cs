@@ -43,9 +43,9 @@ namespace Quantium.Recruitment.Portal.Controllers
 
         // GET: /Account/IsUserAuthenticated
         [HttpGet]
-        public string IsUserAuthenticated()
+        public bool IsUserAuthenticated()
         {
-            return User.Identity.IsAuthenticated.ToString();
+            return User.Identity.IsAuthenticated;
         }
 
         // GET: /Account/Login
@@ -140,11 +140,23 @@ namespace Quantium.Recruitment.Portal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        public async Task<IActionResult> ExternalLogin(string provider, string returnUrl = null)
         {
+            var externaluser = await HttpContext.Authentication.AuthenticateAsync("Identity.External");
+            if (externaluser != null)
+            {
+                await HttpContext.Authentication.SignOutAsync("Identity.External");
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info != null)
+            {
+                return RedirectToAction("ExternalLoginCallback");
+            }
+
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
-            return new ChallengeResult(provider, properties);
+            return Challenge(properties, provider);
         }
 
         // GET: /Account/ExternalLoginCallback
@@ -152,6 +164,10 @@ namespace Quantium.Recruitment.Portal.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
+            if (IsUserAuthenticated())
+            {
+                var b = "xyz";
+            }
             if (remoteError != null)
             {
                 ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
@@ -205,8 +221,7 @@ namespace Quantium.Recruitment.Portal.Controllers
                 ViewData["ReturnUrl"] = returnUrl;
                 ViewData["LoginProvider"] = info.LoginProvider;
                 info.Principal.FindFirstValue(ClaimTypes.Email);
-                var user = new ApplicationUser { UserName = email, Email = email };
-                var createUserTaskResult = _userManager.CreateAsync(user).Result;
+                
                 string roleName = _candidateHelper.GetRoleForEmail(email);
 
                 if (string.IsNullOrEmpty(roleName))
@@ -214,9 +229,14 @@ namespace Quantium.Recruitment.Portal.Controllers
                    return RedirectToAction("NotRegistered", "Unauthorized");
                 }
 
+                var user = new ApplicationUser { UserName = email, Email = email };
+                var createUserTaskResult = _userManager.CreateAsync(user).Result;
+                IdentityResult roleCreationResult = null;
+
+
                 if (!_roleManager.RoleExistsAsync(roleName).Result)
                 {
-                    var roleCreationTaskResult = _roleManager.CreateAsync(new QRecruitmentRole(roleName)).Result;
+                    roleCreationResult = _roleManager.CreateAsync(new QRecruitmentRole(roleName)).Result;
                 }
 
                 if (createUserTaskResult.Succeeded)
