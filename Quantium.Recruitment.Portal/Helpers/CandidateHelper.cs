@@ -21,7 +21,7 @@ namespace Quantium.Recruitment.Portal.Helpers
     {
         public bool CheckIfCandidateExistsAndActive(string email)
         {
-            var client = getOdataClient();
+            var client = OdataHelper.GetOdataClient();
 
             var activeCandidates = client
                 .For<CandidateDto>()
@@ -31,12 +31,12 @@ namespace Quantium.Recruitment.Portal.Helpers
 
             var candidate = activeCandidates.Result.FirstOrDefault();
 
-            return candidate == null ? false : true;
+            return candidate != null;
         }
 
         public string GetRoleForEmail(string email)
         {
-            var client = getOdataClient();
+            var client = OdataHelper.GetOdataClient();
 
             var activeCandidates = 
                 client.For<CandidateDto>().Filter(b => b.Email == email && b.IsActive == true).Select(y => y.IsActive).FindEntriesAsync();
@@ -58,32 +58,9 @@ namespace Quantium.Recruitment.Portal.Helpers
                 return string.Empty;
         }
 
-        private ODataClient getOdataClient()
-        {
-            var tokenClient = new TokenClient(
-                    "https://localhost:44317/identity/connect/token",
-                    "qrecruitmentclientid",
-                    "myrandomclientsecret");
-
-            var tokenResponse = tokenClient.RequestClientCredentialsAsync("qrecruitment").Result;
-
-            var accessToken = tokenResponse.AccessToken;
-
-            var odataSettings = new ODataClientSettings("http://localhost:60606/odata/");
-            odataSettings.BeforeRequest += delegate (HttpRequestMessage request)
-            {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            };
-
-            // odata client code to be moved out
-            var odataClient = new ODataClient(odataSettings);
-
-            return odataClient;
-        }
-
         public bool IsAdminActive(string email)
         {
-            var client = getOdataClient();
+            var client = OdataHelper.GetOdataClient();
 
             var activeADmins = client
                 .For<AdminDto>()
@@ -93,7 +70,7 @@ namespace Quantium.Recruitment.Portal.Helpers
 
             var admin = activeADmins.Result.FirstOrDefault();
 
-            return admin == null ? false : true;
+            return admin != null;
         }
     }
 }

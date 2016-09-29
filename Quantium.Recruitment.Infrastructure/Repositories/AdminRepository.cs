@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity.Migrations;
+using System.Linq;
 using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
@@ -24,7 +25,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
         public void Update(Admin entity)
         {
-            _dbContext.Admins.Add(entity);
+            _dbContext.Admins.AddOrUpdate(entity);
         }
     }
 }

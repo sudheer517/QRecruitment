@@ -21,20 +21,20 @@ module Recruitment.Routes {
                 $stateProvider
                     .state("superAdmin",
                     {
-                        url: "/superAdmin", controller: Controllers.SuperAdminController, templateUrl: "/views/superAdminPage.html",
-                        data: { role: "SuperAdmin" , redirectTo: "test"}
+                        url: "/superAdmin", controller: Controllers.SuperAdminController, templateUrl: "/views/superAdminPage.html"
+                        //,data: { role: "SuperAdmin" , redirectTo: "test"}
                     })
 
                     .state("createTest",
                     {
-                        url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "/views/createTestPage.html",
-                        data: { role: "SuperAdmin", redirectTo: "test" }
+                        url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "/views/createTestPage.html"
+                        //,data: { role: "SuperAdmin", redirectTo: "test" }
                     })
 
                     .state("uploadQuestions",
                     {
-                        url: "/uploadQuestions", controller: Controllers.UploadQuestionsController, templateUrl: "/views/uploadQuestions.html",
-                        data: { role: "SuperAdmin", redirectTo: "test" }
+                        url: "/uploadQuestions", controller: Controllers.UploadQuestionsController, templateUrl: "/views/uploadQuestions.html"
+                        //,data: { role: "SuperAdmin", redirectTo: "test" }
                     })
 
                     .state("editTest",
@@ -49,7 +49,7 @@ module Recruitment.Routes {
 
                     .state("addTeamAdmin",
                     {
-                        url: "/addTeamAdmin", controller: Controllers.CreateTestController, templateUrl: "/views/addTeamAdminPage.html"
+                        url: "/addTeamAdmin", controller: Controllers.AdminController, templateUrl: "/views/addTeamAdminPage.html"
                     })
 
                     .state("addCandidates",

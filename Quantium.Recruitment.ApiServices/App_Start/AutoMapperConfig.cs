@@ -17,6 +17,7 @@ namespace Quantium.Recruitment.ApiServices
             var cfg = new MapperConfigurationExpression();
 
             cfg.CreateMap<Admin, AdminDto>();
+            cfg.CreateMap<AdminDto, Admin>();
             cfg.CreateMap<Candidate, CandidateDto>();
             cfg.CreateMap<CandidateSelectedOption, CandidateSelectedOptionDto>();
             cfg.CreateMap<Challenge, ChallengeDto>();

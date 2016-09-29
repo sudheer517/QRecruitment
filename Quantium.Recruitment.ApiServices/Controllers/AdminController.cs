@@ -14,7 +14,7 @@ using System.Web.OData.Routing;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AdminController : ODataController
     {
         private readonly ICandidateRepository _candidateRepository;
@@ -46,5 +46,44 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             return Ok(Mapper.Map<AdminDto>(admin));
         }
+
+        //http://localhost:60606/odata/Admins
+        [HttpPost]
+        [ODataRoute("AdminDto")]
+        [EnableQuery]
+        public IHttpActionResult Post(AdminDto adminDto)
+        {
+            var admin = Mapper.Map<Admin>(adminDto);
+
+            var result = _adminRepository.Add(admin);
+
+            return Created(Mapper.Map<AdminDto>(result));
+        }
+
+        //http://localhost:60606/odata/Admins(1)
+        [HttpDelete]
+        [ODataRoute("AdminDto({key})")]
+        [EnableQuery]
+        public void DeleteAdmin([FromODataUri] int key)
+        {
+            var admin = _adminRepository.GetAll().Single(item => item.Id == key);
+
+            if (admin != null)
+            {
+                _adminRepository.Delete(admin);
+            }
+        }
+
+        //http://localhost:60606/odata/Admins
+        [HttpPatch]
+        [ODataRoute("AdminDto")]
+        [EnableQuery]
+        public void Patch([FromODataUri] int key,AdminDto adminDto)
+        {
+            var admin = Mapper.Map<Admin>(adminDto);
+
+            _adminRepository.Update(admin);
+        }
+
     }
 }
