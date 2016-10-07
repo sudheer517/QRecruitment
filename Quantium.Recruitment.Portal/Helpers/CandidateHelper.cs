@@ -19,9 +19,16 @@ namespace Quantium.Recruitment.Portal.Helpers
 
     public class CandidateHelper : ICandidateHelper
     {
+        private ODataClient _client;
+
+        public CandidateHelper(IOdataHelper odataHelper)
+        {
+            _client = odataHelper.GetOdataClient();
+        }
+
         public bool CheckIfCandidateExistsAndActive(string email)
         {
-            var client = OdataHelper.GetOdataClient();
+            var client = _client;
 
             var activeCandidates = client
                 .For<CandidateDto>()
@@ -36,7 +43,7 @@ namespace Quantium.Recruitment.Portal.Helpers
 
         public string GetRoleForEmail(string email)
         {
-            var client = OdataHelper.GetOdataClient();
+            var client = _client;
 
             var activeCandidates = 
                 client.For<CandidateDto>().Filter(b => b.Email == email && b.IsActive == true).Select(y => y.IsActive).FindEntriesAsync();
@@ -60,7 +67,7 @@ namespace Quantium.Recruitment.Portal.Helpers
 
         public bool IsAdminActive(string email)
         {
-            var client = OdataHelper.GetOdataClient();
+            var client = _client;
 
             var activeADmins = client
                 .For<AdminDto>()

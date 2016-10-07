@@ -15,9 +15,9 @@ namespace Quantium.Recruitment.Portal.Controllers
     {
         private ODataClient _odataClient;
 
-        public AdminController()
+        public AdminController(IOdataHelper _odataHelper)
         {
-            _odataClient = OdataHelper.GetOdataClient();
+            _odataClient = _odataHelper.GetOdataClient();
         }
 
         public IActionResult Index()

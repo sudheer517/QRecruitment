@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Quantium.Recruitment.Portal.Data;
 using Quantium.Recruitment.Portal.Helpers;
@@ -27,6 +28,7 @@ namespace Quantium.Recruitment.Portal
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -35,7 +37,9 @@ namespace Quantium.Recruitment.Portal
                 .AddDefaultTokenProviders();
 
             services.AddTransient<ICandidateHelper, CandidateHelper>();
+            services.AddTransient<IOdataHelper, OdataHelper>();
 
+            services.Configure<ConfigurationOptions>(Configuration.GetSection("ConfigurationOptions"));
             services.AddMvc();
         }
 
