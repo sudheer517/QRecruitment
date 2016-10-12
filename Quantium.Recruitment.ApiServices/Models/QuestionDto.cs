@@ -10,18 +10,20 @@ namespace Quantium.Recruitment.ApiServices.Models
     {
         public long Id { get; set; }
 
-        //public long QuestionGroupId { get; set; }
-
         public string Text { get; set; }
 
-        //public byte[] Image { get; set; }
+        public string ImageUrl { get; set; }
 
         public int TimeInSeconds { get; set; }
+
+        public bool RandomizeOptions { get; set; }
 
         public QuestionGroupDto QuestionGroup { get; set; }
 
         public List<OptionDto> Options { get; set; }
 
-        //public List<ChallengeDto> Challenges { get; set; }
+        public string Difficulty { get; set; }
+
+        public string Label { get; set; }
     }
 }

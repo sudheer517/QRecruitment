@@ -3,13 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
-    [Table(name: "Test")]
-    public class Test : Identifiable
+    [Table(name: "Difficulty")]
+    public class Difficulty : Identifiable
     {
         public virtual string Name { get; set; }
 
-        public virtual List<Challenge> Challenges { get; set; }
-
-        public virtual List<Test_Label> TestLabels { get; set; }
+        public virtual List<Question_Label_Difficulty> DifficultyLabels { get; set; }
     }
 }

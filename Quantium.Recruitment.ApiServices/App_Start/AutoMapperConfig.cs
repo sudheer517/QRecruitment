@@ -16,23 +16,27 @@ namespace Quantium.Recruitment.ApiServices
         {
             var cfg = new MapperConfigurationExpression();
 
-            cfg.CreateMap<Admin, AdminDto>();
-            cfg.CreateMap<AdminDto, Admin>();
-            cfg.CreateMap<Candidate, CandidateDto>();
-            cfg.CreateMap<CandidateSelectedOption, CandidateSelectedOptionDto>();
-            cfg.CreateMap<Challenge, ChallengeDto>();
-            cfg.CreateMap<Department, DepartmentDto>();
-            cfg.CreateMap<Job, JobDto>();
-            cfg.CreateMap<Label, LabelDto>();
-            cfg.CreateMap<Question, QuestionDto>();
-            cfg.CreateMap<QuestionDto, Question>().Ignore(m => m.Options);
-            cfg.CreateMap<List<Question>, List<QuestionDto>>();
+            cfg.CreateMap<Question, QuestionDto>().ReverseMap();
             cfg.CreateMap<Option, OptionDto>().ReverseMap();
-            //cfg.CreateMap<OptionDto, Option>().Ignore(m => m.Id);
-            cfg.CreateMap<List<Option>, List<OptionDto>>();
             cfg.CreateMap<QuestionGroup, QuestionGroupDto>().ReverseMap();
-            //cfg.CreateMap<QuestionGroupDto, QuestionGroup>().Ignore(m => m.Id);
-            cfg.CreateMap<Test, TestDto>();
+
+            //cfg.CreateMap<Admin, AdminDto>();
+            //cfg.CreateMap<AdminDto, Admin>();
+            //cfg.CreateMap<Candidate, CandidateDto>();
+            //cfg.CreateMap<CandidateSelectedOption, CandidateSelectedOptionDto>();
+            //cfg.CreateMap<Challenge, ChallengeDto>();
+            //cfg.CreateMap<Department, DepartmentDto>();
+            //cfg.CreateMap<Job, JobDto>();
+            //cfg.CreateMap<Label, LabelDto>();
+            //cfg.CreateMap<Question, QuestionDto>();
+            //cfg.CreateMap<QuestionDto, Question>().Ignore(m => m.Options);
+            //cfg.CreateMap<List<Question>, List<QuestionDto>>();
+            //cfg.CreateMap<Option, OptionDto>().ReverseMap();
+            ////cfg.CreateMap<OptionDto, Option>().Ignore(m => m.Id);
+            //cfg.CreateMap<List<Option>, List<OptionDto>>();
+            //cfg.CreateMap<QuestionGroup, QuestionGroupDto>().ReverseMap();
+            ////cfg.CreateMap<QuestionGroupDto, QuestionGroup>().Ignore(m => m.Id);
+            //cfg.CreateMap<Test, TestDto>();
 
             Mapper.Initialize(cfg);
         }

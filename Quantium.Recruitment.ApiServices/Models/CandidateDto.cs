@@ -14,12 +14,12 @@
 
         public bool IsActive { get; set; }
 
-        public long JobId { get; set; }
+        public string City { get; set; }
 
-        public long TestId { get; set; }
+        public string State { get; set; }
 
-        //public JobDto Job { get; set; }
+        public string Country { get; set; }
 
-        //public TestDto Test { get; set; }
+        public string College { get; set; }
     }
 }

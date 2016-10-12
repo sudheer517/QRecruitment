@@ -14,9 +14,5 @@ namespace Quantium.Recruitment.Entities
 
         [ForeignKey("DepartmentId")]
         public virtual Department Department { get; set; }
-
-        public virtual List<Candidate> Candidates { get; set; }
-
-        public virtual List<Label> Labels { get; set; }
     }
 }

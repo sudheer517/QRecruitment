@@ -32,7 +32,8 @@ namespace Quantium.Recruitment.Portal.Controllers
         
         public IActionResult GetRoleName()
         {
-            return Json(this.User.Claims.SingleOrDefault(claim => claim.Type.Contains("role")).Value);
+            return Json("");
+            //return Json(this.User.Claims.SingleOrDefault(claim => claim.Type.Contains("role")).Value);
         }
     }
 }

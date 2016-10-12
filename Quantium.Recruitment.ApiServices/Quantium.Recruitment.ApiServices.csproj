@@ -224,7 +224,8 @@
     <Compile Include="AssemblyReferenceType.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CandidateController.cs" />
-    <Compile Include="Controllers\QuestionsController.cs" />
+    <Compile Include="Controllers\OptionController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,13 +233,14 @@
     <Compile Include="Models\AdminDto.cs" />
     <Compile Include="Models\CandidateDto.cs" />
     <Compile Include="Models\CandidateSelectedOptionDto.cs" />
-    <Compile Include="Models\CandidateTestDto.cs" />
     <Compile Include="Models\ChallengeDto.cs" />
     <Compile Include="Models\DepartmentDto.cs" />
-    <Compile Include="Models\Identifiable.cs" />
     <Compile Include="Models\JobDto.cs" />
     <Compile Include="Models\LabelDto.cs" />
+    <Compile Include="Models\Test_LabelDto.cs" />
     <Compile Include="Models\OptionDto.cs" />
+    <Compile Include="Models\DifficultyDto.cs" />
+    <Compile Include="Models\Question_Label_DifficultyDto.cs" />
     <Compile Include="Models\QuestionDto.cs" />
     <Compile Include="Models\QuestionGroupDto.cs" />
     <Compile Include="Models\TestDto.cs" />

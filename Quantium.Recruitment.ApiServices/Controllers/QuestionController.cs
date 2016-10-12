@@ -16,19 +16,16 @@ using System.Web.OData.Routing;
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
     //[Authorize]
-    public class QuestionsController : ODataController
+    public class QuestionController : ApiController
     {
         private readonly IQuestionRepository _questionRepository;
 
-        public QuestionsController(IQuestionRepository questionRepository)
+        public QuestionController(IQuestionRepository questionRepository)
         {
             _questionRepository = questionRepository;
         }
 
-        // GET api/<controller> 
-        //http://localhost:60606/odata/Questions
         [HttpGet]
-        [EnableQuery]
         public IHttpActionResult Get()
         {
             var questions = _questionRepository.GetAll().ToList();
@@ -38,40 +35,41 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(qDtos);
         }
 
-        //http://localhost:60606/odata/Questions(1)
         [HttpGet]
-        [ODataRoute("Questions({key})")]
-        [EnableQuery]
-        public IHttpActionResult GetSingle([FromODataUri] int key)
+        public IHttpActionResult GetSingle(int key)
         {
             var question = _questionRepository.GetAll().Single(item => item.Id == key);
 
             return Ok(Mapper.Map<QuestionDto>(question));
         }
 
-        //http://localhost:60606/odata/Questions
-        // For creating
         [HttpPost]
-        [ODataRoute("Questions")]
-        public IHttpActionResult Post(QuestionDto questionDto)
+        public IHttpActionResult AddQuestions([FromBody]List<QuestionDto> questionDtos)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                foreach (var questionDto in questionDtos)
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest(ModelState);
+                    }
+
+                    var inputQuestion = Mapper.Map<Question>(questionDto);
+
+                    var result = _questionRepository.Add(inputQuestion);
+                }
+            }
+            catch(Exception ex)
+            {
+                return InternalServerError(ex);
             }
 
-            var inputQuestion = Mapper.Map<Question>(questionDto);
-
-            var result = _questionRepository.Add(inputQuestion);
-
-            return Created(Mapper.Map<QuestionDto>(result));
+            return Created(string.Empty, "All questions created");
         }
 
-        //http://localhost:60606/odata/Questions(3)
-        // For full update
         [HttpPut]
-        [ODataRoute("Questions({key})")]
-        public IHttpActionResult Put([FromODataUri] int key, QuestionDto questionDto)
+        public IHttpActionResult Put(int key, QuestionDto questionDto)
         {
             if (!ModelState.IsValid)
             {
@@ -95,8 +93,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        [ODataRoute("Questions({key})/Text")]
-        public IHttpActionResult GetQuestionProperty([FromODataUri] int key)
+        public IHttpActionResult GetQuestionProperty(int key)
         {
             var question = _questionRepository.FindById(key);
 
@@ -113,12 +110,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             if (propertyValue == null)
                 return StatusCode(HttpStatusCode.NoContent);
 
-            return this.CreateOKHttpActionResult(propertyValue);
+            return Ok(propertyValue);
         }
 
         [HttpGet]
-        [ODataRoute("Questions({key})/Options")]
-        public IHttpActionResult GetQuestionCollectionProperty([FromODataUri] int key)
+        public IHttpActionResult GetQuestionCollectionProperty(int key)
         {
             var propertyToGet = Url.Request.RequestUri.Segments.Last();
 

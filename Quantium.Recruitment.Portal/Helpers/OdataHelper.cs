@@ -36,7 +36,7 @@ namespace Quantium.Recruitment.Portal.Helpers
 
             var accessToken = tokenResponse.AccessToken;
 
-            var odataSettings = new ODataClientSettings(_configOptions.Value.ODataServer + "/odata/");
+            var odataSettings = new ODataClientSettings(_configOptions.Value.ODataServer + "/odata/") { IgnoreUnmappedProperties = true,  };
             odataSettings.BeforeRequest += delegate (HttpRequestMessage request)
             {
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);

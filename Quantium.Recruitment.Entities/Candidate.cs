@@ -15,14 +15,12 @@ namespace Quantium.Recruitment.Entities
 
         public virtual bool IsActive { get; set; }
 
-        public virtual long JobId { get; set; }
+        public virtual string City { get; set; }
 
-        public virtual long TestId { get; set; }
+        public virtual string State { get; set; }
 
-        [ForeignKey("JobId")]
-        public virtual Job Job { get; set; }
+        public virtual string Country { get; set; }
 
-        [ForeignKey("TestId")]
-        public virtual Test Test { get; set; }
+        public virtual string College { get; set; }
     }
 }

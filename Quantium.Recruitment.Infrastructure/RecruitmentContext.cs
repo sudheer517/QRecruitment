@@ -27,6 +27,8 @@ namespace Quantium.Recruitment.Infrastructure
 
         DbSet<Label> Labels { get; set; }
 
+        DbSet<Difficulty> Difficulties { get; set; }
+
         DbSet<Challenge> Challenges { get; set; }
 
         DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
@@ -65,6 +67,8 @@ namespace Quantium.Recruitment.Infrastructure
         public DbSet<Test> Tests { get; set; }
 
         public DbSet<Label> Labels { get; set; }
+
+        public DbSet<Difficulty> Difficulties { get; set; }
 
         public DbSet<Challenge> Challenges { get; set; }
 

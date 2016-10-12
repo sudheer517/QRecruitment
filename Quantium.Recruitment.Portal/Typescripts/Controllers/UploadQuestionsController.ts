@@ -1,15 +1,11 @@
-﻿/// <reference path="../viewmodels/questionoptionviewmodel.ts" />
-/// <reference path="../viewmodels/questionviewmodel.ts" />
+﻿/// <reference path="../typings/remoteservicesproxy.ts" />
 
 module Recruitment.Controllers {
 
-    import PreviewQuestionModel = Recruitment.ViewModels.QuestionViewModel;
-    import PreviewOptionModel = Recruitment.ViewModels.QuestionOptionViewModel;
+    import Question = Quantium.Recruitment.ODataEntities.QuestionDto;
+    import Option = Quantium.Recruitment.ODataEntities.OptionDto;
 
     interface IUploadQuestionsControllerScope extends ng.IScope {
-        selectedItem: string;
-        changeTestName: ($event: any) => void;
-        tests: any;
         fileUploadObj: any;
         selectFile: (file: any, errFiles: any) => void;
         uploadedFile: any;
@@ -17,23 +13,16 @@ module Recruitment.Controllers {
         fileName: string;
         saveChanges: () => void;
         previewQuestions: () => void;
-        previewQuestionModels: PreviewQuestionModel[];
+        previewQuestionModels: Question[];
     }
 
     export class UploadQuestionsController {
 
         constructor(private $scope: IUploadQuestionsControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private Upload: ng.angularFileUpload.IUploadService, private $timeout: ng.ITimeoutService) {
-            this.$scope.selectedItem = "Select a test";
-            this.$scope.changeTestName = ($event: any) => this.changeTestName($event);
-            this.$scope.tests = [{ name: "Test1" }, { name: "Test2" }, { name: "Test3" }]
             this.$scope.selectFile = (file, errFiles) => this.selectFile(file, errFiles);
             this.$scope.saveChanges = () => this.saveChanges();
             this.$scope.previewQuestions = () => this.previewQuestions();
             this.$scope.previewQuestionModels = [];
-        }
-
-        public changeTestName($event: any): void {
-            this.$scope.selectedItem = $event.target.innerText;
         }
 
         public uploadFile(): void {
@@ -41,7 +30,7 @@ module Recruitment.Controllers {
 
             if (file) {
                 file.upload = this.Upload.upload({
-                    url: 'http://localhost:60606/api/question',
+                    url: '/Question/AddQuestions',
                     data: { file: file },
                     method: 'POST',
                     headers: { 'Content-Type': undefined },
@@ -91,30 +80,34 @@ module Recruitment.Controllers {
 
             for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
                 var columns: string[] = allLines[csvLine].split(",");
-                var previewQuestionModel: PreviewQuestionModel = new PreviewQuestionModel();
-                previewQuestionModel.questionId = Number(columns[0]);
-                previewQuestionModel.questionText = columns[1];
+                var previewQuestionModel = new Question();
+                previewQuestionModel.Id = Number(columns[0]);
+                previewQuestionModel.Text = columns[1];
                 var selectedOptions: string[] = columns[2].split(";");
-                previewQuestionModel.questionTimeInSeconds = Number(columns[3]);
+                previewQuestionModel.TimeInSeconds = Number(columns[3]);
+                previewQuestionModel.RandomizeOptions = Boolean(columns[12]);
+                previewQuestionModel.ImageUrl = columns[13];
+                previewQuestionModel. 
+                var options: Option[] = [];
 
-                var options: PreviewOptionModel[] = [];
+                for (var columnIndex = 4; columnIndex < (supportedOptionCount + 4); columnIndex++) {
+                    var option = new Option();
+                    option.Text = columns[columnIndex];
+                    option.IsAnswer = selectedOptions.indexOf(headers[columnIndex]) == -1 ? false : true;
 
-                for (var columnIndex = 4; columnIndex < totalColumnCount; columnIndex++) {
-                    var option: PreviewOptionModel = new PreviewOptionModel();
-                    option.optionText = columns[columnIndex];
-                    option.isSelected = selectedOptions.indexOf(headers[columnIndex]) == -1 ? false : true;
-
-                    options.push(option);
+                    if (!_.isEmpty(option.Text.trim())) {
+                        options.push(option);
+                    }
                 }
 
-                previewQuestionModel.options = options;
+                previewQuestionModel.Options = options;
                 this.$scope.previewQuestionModels.push(previewQuestionModel);
                 this.$scope.$apply();
             }
         }
 
         public saveChanges(): void {
-            //send previewQuestionModel to server
+            this.uploadFile();
         }
     }
 }

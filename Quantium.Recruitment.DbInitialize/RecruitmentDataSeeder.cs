@@ -27,7 +27,7 @@ namespace Quantium.Recruitment.DbInitialize
             _dbContext.Departments.Add(softwareDepartment);
             _dbContext.Departments.Add(analyticsDepartment);
 
-            #endregion
+            #endregion Department
 
             #region Admin
 
@@ -164,8 +164,6 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "aman.agarwal@gmail.com",
                 Mobile = 9595959595,
                 IsActive = true,
-                Job = job1,
-                Test = test1
             };
 
             Candidate candidate2 = new Candidate
@@ -175,8 +173,6 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Raj.Kundal@gmail.com",
                 Mobile = 9595958885,
                 IsActive = true,
-                Job = job1,
-                Test = test1
             };
 
             Candidate candidate3 = new Candidate
@@ -186,30 +182,24 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Pooja.Sharma41@gmail.com",
                 Mobile = 96759987453,
                 IsActive = true,
-                Job = job2,
-                Test = test2
             };
 
             Candidate candidate4 = new Candidate
             {
-                FirstName = "Hari",
-                LastName = "Krishna",
-                Email = "Hari.Gudla@gmail.com",
+                FirstName = "Rakesh1",
+                LastName = "Rohan1",
+                Email = "rakeshrohan@outlook.com",
                 Mobile = 9242526667,
                 IsActive = true,
-                Job = job2,
-                Test = test2
             };
 
             Candidate candidate5 = new Candidate
             {
-                FirstName = "Tejs",
-                LastName = "Kumar",
-                Email = "tejs.kumar@gmail.com",
+                FirstName = "Rakesh2",
+                LastName = "Rohan2",
+                Email = "rakesh.rohan@outlook.com",
                 Mobile = 9010456746,
                 IsActive = true,
-                Job = job2,
-                Test = test2
             };
 
             Candidate candidate6 = new Candidate
@@ -219,8 +209,6 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "0firefist0@gmail.com",
                 Mobile = 9052791243,
                 IsActive = true,
-                Job = job2,
-                Test = test2
             };
 
             _dbContext.Candidates.Add(candidate1);
@@ -236,38 +224,62 @@ namespace Quantium.Recruitment.DbInitialize
 
             Label label1 = new Label
             {
-                Name = "c#",
-                Job = job1,
-                Test = test1
+                Name = "C#",
             };
 
             Label label2 = new Label
             {
-                Name = ".Net Framework",
-                Job = job1,
-                Test = test1
+                Name = "SQL",
             };
 
             Label label3 = new Label
             {
-                Name = ".Net Basics",
-                Job = job1,
-                Test = test1
+                Name = "R",
+            };
+
+            Label label4 = new Label
+            {
+                Name = "Modelling",
             };
 
             _dbContext.Labels.Add(label1);
             _dbContext.Labels.Add(label2);
             _dbContext.Labels.Add(label3);
+            _dbContext.Labels.Add(label4);
 
             #endregion Label
 
-            #region TestRegion
+            #region Difficulty
+
+            Difficulty diff1 = new Difficulty
+            {
+                Name = "Easy",
+            };
+
+            Difficulty diff2 = new Difficulty
+            {
+                Name = "Medium",
+            };
+
+            Difficulty diff3 = new Difficulty
+            {
+                Name = "Hard",
+            };
+
+            _dbContext.Difficulties.Add(diff1);
+            _dbContext.Difficulties.Add(diff2);
+            _dbContext.Difficulties.Add(diff3);
+
+            #endregion Difficulty
+
+            //#region TestRegion
 
             #region QuestionGroup
 
             QuestionGroup questionGroup = new QuestionGroup
             {
-                Description = "This question is related to software programming languages"
+                Description = "This question is related to software programming languages",
+                ImageUrl = "http://www.troll.me/images/another-boromir-meme/one-does-not-simply-walk-into-mordor.jpg"
             };
 
             _dbContext.QuestionGroups.Add(questionGroup);
@@ -280,21 +292,24 @@ namespace Quantium.Recruitment.DbInitialize
             {
                 Text = "Which of the following is NOT an Integer?",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                ImageUrl = "http://www.relatably.com/m/img/table-flipping-meme/49389583.jpg"
             };
 
             Question question2 = new Question
             {
                 Text = "Which of the following is an 8 - byte Integer?",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                ImageUrl = "https://s-media-cache-ak0.pinimg.com/originals/15/ee/b2/15eeb2506bca7f8cc5a686914fd9025c.jpg"
             };
 
             Question question3 = new Question
             {
                 Text = "Which of the following operator creates a pointer to a variable in C#?",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                ImageUrl = "http://bestanimations.com/Animals/Mammals/Cats/catgif/funny-cat-gif-3.gif"
             };
 
             Question question4 = new Question
@@ -923,7 +938,7 @@ namespace Quantium.Recruitment.DbInitialize
 
             #endregion CandidateSelectedOption
 
-            #endregion TestRegion
+            //#endregion TestRegion
 
             _dbContext.SaveChanges();
         }

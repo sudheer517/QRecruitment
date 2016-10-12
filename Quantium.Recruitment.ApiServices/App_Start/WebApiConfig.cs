@@ -8,36 +8,22 @@ using Microsoft.OData.Edm;
 using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Entities;
 using System.Web.OData.Builder;
-
+using System.Web.OData.Batch;
 namespace Quantium.Recruitment.ApiServices
 {
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
         {
-            config.MapODataServiceRoute("ODataRoute", "odata", GetEDMModel());
+            config.MapHttpAttributeRoutes();
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
             config.EnsureInitialized();
-        }
-
-        private static IEdmModel GetEDMModel()
-        {
-            var builder = new ODataConventionModelBuilder();
-            builder.Namespace = "QRecruitment";
-            builder.ContainerName = "QRecruitmentContainer";
-
-            builder.EntitySet<AdminDto>("AdminDto");
-            builder.EntitySet<CandidateDto>("CandidateDto");
-            builder.EntitySet<CandidateSelectedOptionDto>("CandidateSelectedOptionDto");
-            builder.EntitySet<ChallengeDto>("ChallengeDto");
-            builder.EntitySet<DepartmentDto>("DepartmentDto");
-            builder.EntitySet<JobDto>("JobDto");
-            builder.EntitySet<LabelDto>("LabelDto");
-            builder.EntitySet<OptionDto>("OptionDto");
-            builder.EntitySet<QuestionDto>("Questions");
-            builder.EntitySet<QuestionGroupDto>("QuestionGroupDto");
-            builder.EntitySet<TestDto>("TestDto");
-
-            return builder.GetEdmModel();
         }
     }
 }

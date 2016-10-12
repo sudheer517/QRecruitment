@@ -9,16 +9,6 @@
         <div class="panel-body">
 
             <div class="form-group">
-                <label> Select a test : </label>
-                <div class="btn-group">
-                    <button type="button" data-toggle="dropdown" class="btn btn-danger dropdown-toggle">{{selectedItem}} <span class="caret"></span></button>
-                    <ul class="dropdown-menu">
-                        <li ng-repeat="test in tests"><a href="" ng-click="changeTestName($event)">{{test.name}}</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <a class="btn btn-danger" href="/QuestionTemplate.csv">Download Template</a>
             </div>
 
@@ -43,12 +33,14 @@
                         <div class="modal-body">
                             <p ng-hide="previewQuestionModels.length > 0">No questions uploaded yet</p>
                             <div class="previewQuestion" ng-repeat="previewQuestionModel in previewQuestionModels">
-                                <span>{{previewQuestionModel.questionNumber}}.</span>
-                                <h5>{{previewQuestionModel.questionText}}</h5>
-                                <h6>Time for Question - {{previewQuestionModel.questionTimeInSeconds}} seconds</h6>
+                                <span>{{previewQuestionModel.Id}}.</span>
+                                <h5>{{previewQuestionModel.Text}}</h5>
+                                <h6>Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds</h6>
+                                <h6>Label : {{previewQuestionModel.TimeInSeconds}}</h6>
+                                <h6>Difficulty : {{previewQuestionModel.TimeInSeconds}}</h6>
                                 <div class="previewOptionList">
                                     <ul>
-                                        <li ng-repeat="option in previewQuestionModel.options"><i ng-class="option.isSelected ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.optionText}}</li>
+                                        <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.Text}}</li>
                                     </ul>
                                 </div>
                             </div>

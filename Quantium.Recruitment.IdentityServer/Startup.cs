@@ -26,7 +26,7 @@ namespace Quantium.Recruitment.IdentityServer
                     Factory = idServerServiceFactory,
                     SiteName = "Quantium Recruitment Security Token Service",
                     IssuerUri = "https://QRecruitment/identity",
-                    PublicOrigin = "https://localhost:44317",
+                    PublicOrigin = "https://localhost:44318",
                     SigningCertificate = LoadCertificate()
                 };
 

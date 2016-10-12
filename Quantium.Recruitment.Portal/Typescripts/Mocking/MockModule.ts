@@ -21,17 +21,17 @@ module Mock {
 
 
                 //Edit Test mock
-                $httpBackend.whenGET("http://localhost:60606/odata/test(1)").respond(() => {
-                    return [200, Mocks.EditTestMock.getTestData(1)];
-                });
+                //$httpBackend.whenGET("http://localhost:60606/odata/test(1)").respond(() => {
+                //    return [200, Mocks.EditTestMock.getTestData(1)];
+                //});
 
-                $httpBackend.whenGET("http://localhost:60606/odata/test(2)").respond(() => {
-                    return [200, Mocks.EditTestMock.getTestData(2)];
-                });
+                //$httpBackend.whenGET("http://localhost:60606/odata/test(2)").respond(() => {
+                //    return [200, Mocks.EditTestMock.getTestData(2)];
+                //});
 
-                $httpBackend.whenGET("http://localhost:60606/odata/test(3)").respond(() => {
-                    return [200, Mocks.EditTestMock.getTestData(1)];
-                });
+                //$httpBackend.whenGET("http://localhost:60606/odata/test(3)").respond(() => {
+                //    return [200, Mocks.EditTestMock.getTestData(1)];
+                //});
                 
 
                 $httpBackend.whenGET("/views/superAdminPage.html").passThrough();

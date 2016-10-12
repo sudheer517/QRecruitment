@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
@@ -7,14 +8,8 @@ namespace Quantium.Recruitment.Entities
     {
         public virtual string Name { get; set; }
 
-        public virtual long JobId { get; set; }
+        public virtual List<Test_Label> TestLabels { get; set; }
 
-        public virtual long TestId { get; set; }
-
-        [ForeignKey("JobId")]
-        public virtual Job Job { get; set; }
-
-        [ForeignKey("TestId")]
-        public virtual Test Test { get; set; }
+        public virtual List<Question_Label_Difficulty> DifficultyLabels { get; set; }
     }
 }

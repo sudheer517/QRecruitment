@@ -8,6 +8,8 @@ namespace Quantium.Recruitment.Entities
     {
         public virtual string Description { get; set; }
 
+        public virtual string ImageUrl { get; set; }
+
         public virtual List<Question> Questions { get; set; }
     }
 }

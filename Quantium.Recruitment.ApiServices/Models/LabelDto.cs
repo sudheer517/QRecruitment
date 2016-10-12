@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace Quantium.Recruitment.ApiServices.Models
 {
     public class LabelDto
@@ -7,12 +9,6 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public string Name { get; set; }
 
-        public long JobId { get; set; }
-
-        public long TestId { get; set; }
-
-        //public JobDto Job { get; set; }
-
-        //public TestDto Test { get; set; }
+        public virtual List<Question_Label_DifficultyDto> DifficultyLabels { get; set; }
     }
 }

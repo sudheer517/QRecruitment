@@ -12,13 +12,6 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public string Profile { get; set; }
 
-        public long DepartmentId { get; set; }
-
-        //public DepartmentDto Department { get; set; }
-
-        public List<CandidateDto> Candidates { get; set; }
-
-        public List<LabelDto> Labels { get; set; }
-
+        public DepartmentDto Department { get; set; }
     }
 }

@@ -7,7 +7,5 @@ namespace Quantium.Recruitment.ApiServices.Models
         public long Id { get; set; }
 
         public string Description { get; set; }
-
-        //public List<QuestionDto> Questions { get; set; }
     }
 }

@@ -12,7 +12,5 @@ namespace Quantium.Recruitment.ApiServices.Models
         //public byte[] Image { get; set; }
 
         public bool IsAnswer { get; set; }
-
-        //public QuestionDto Question { get; set; }
     }
 }
