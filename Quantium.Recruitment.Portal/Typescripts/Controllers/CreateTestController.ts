@@ -7,6 +7,7 @@ module Recruitment.Controllers {
         selectedJobName: string;
         changeSelectedJob: (selectedJob: JobDto) => void;
         totalQuestionsInSelectedJob: number;
+        selectedJob: JobDto;
     }
     export class CreateTestController {
 
@@ -17,15 +18,17 @@ module Recruitment.Controllers {
         }
 
         private changeSelectedJob(selectedJob: JobDto) {
+            this.$scope.selectedJob = selectedJob;
             this.$scope.selectedJobName = selectedJob.Title;
-            this.$scope.totalQuestionsInSelectedJob = selectedJob.JobDifficultyLabels === null ? 0 : selectedJob.JobDifficultyLabels.length;
+            var count = 0;
+            selectedJob.JobDifficultyLabels.forEach(item => count += item.QuestionCount)
+            this.$scope.totalQuestionsInSelectedJob = count;
         }
 
         private getJobs(): void {
             this.$jobService.getAllJobs()
                 .then(result => {
                     this.$scope.jobs = result.data;
-                    
                 }, error => {
                     this.$log.info('jobs retrieval failed');
                     console.log(error);

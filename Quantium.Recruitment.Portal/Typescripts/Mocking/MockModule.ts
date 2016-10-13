@@ -4,32 +4,36 @@ module Mock {
     
     export class MockModuleBuilder {
         app: ng.IModule;
-
+        private odataHost: string;
         constructor(name: string) {
             this.app = angular.module(name, [
                 "ngMockE2E",
             ]);
 
-            this.app.run(($httpBackend: ng.IHttpBackendService) => {
-                $httpBackend.whenGET("http://localhost:60606/api/temp").respond(() => {
+
+            this.app.run(($httpBackend: ng.IHttpBackendService, $connectionService: Recruitment.Services.ConnectionService) => {
+
+                this.odataHost = $connectionService.getOdataConnection();
+
+                $httpBackend.whenGET(this.odataHost + "/api/temp").respond(() => {
                     return [200, Mocks.ChallengeMock.getNextQuestion()];
                 });
 
-                $httpBackend.whenPOST("http://localhost:60606/api/temp").respond(() => {
+                $httpBackend.whenPOST(this.odataHost + "/api/temp").respond(() => {
                     return [200, { randomStuff: "could be anything here" }];
                 });
 
 
                 //Edit Test mock
-                //$httpBackend.whenGET("http://localhost:60606/odata/test(1)").respond(() => {
+                //$httpBackend.whenGET(this.odataHost + "/odata/test(1)").respond(() => {
                 //    return [200, Mocks.EditTestMock.getTestData(1)];
                 //});
 
-                //$httpBackend.whenGET("http://localhost:60606/odata/test(2)").respond(() => {
+                //$httpBackend.whenGET(this.odataHost + "/odata/test(2)").respond(() => {
                 //    return [200, Mocks.EditTestMock.getTestData(2)];
                 //});
 
-                //$httpBackend.whenGET("http://localhost:60606/odata/test(3)").respond(() => {
+                //$httpBackend.whenGET(this.odataHost + "/odata/test(3)").respond(() => {
                 //    return [200, Mocks.EditTestMock.getTestData(1)];
                 //});
                 

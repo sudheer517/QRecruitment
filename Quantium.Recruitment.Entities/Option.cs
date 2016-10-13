@@ -10,7 +10,7 @@ namespace Quantium.Recruitment.Entities
 
         public virtual string Text { get; set; }
 
-        public virtual byte[] Image { get; set; }
+        public virtual string ImageUrl { get; set; }
 
         public virtual bool IsAnswer { get; set; }
 

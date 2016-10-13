@@ -20,7 +20,13 @@ module Recruitment.Controllers {
 
     export class AddCandidatesController {
 
-        constructor(private $scope: ICandidatesControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private Upload: ng.angularFileUpload.IUploadService, private $timeout: ng.ITimeoutService) {
+        constructor(
+            private $scope: ICandidatesControllerScope,
+            private $log: ng.ILogService,
+            private $http: ng.IHttpService,
+            private Upload: ng.angularFileUpload.IUploadService,
+            private $timeout: ng.ITimeoutService,
+            private $connectionService: Recruitment.Services.ConnectionService) {
             this.$scope.candidatesArray = {
                  candidates: []
             };
@@ -45,7 +51,7 @@ module Recruitment.Controllers {
 
             if (file) {
                 file.upload = this.Upload.upload({
-                    url: 'http://localhost:60606/api/question',
+                    url: this.$connectionService.getOdataConnection() + '/api/question',
                     data: { file: file },
                     method: 'POST',
                     headers: { 'Content-Type': undefined },

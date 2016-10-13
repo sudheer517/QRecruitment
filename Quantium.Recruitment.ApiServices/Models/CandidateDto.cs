@@ -1,4 +1,6 @@
-﻿namespace Quantium.Recruitment.ApiServices.Models
+﻿using System.Collections.Generic;
+
+namespace Quantium.Recruitment.ApiServices.Models
 {
     public class CandidateDto
     {
@@ -21,5 +23,6 @@
         public string Country { get; set; }
 
         public string College { get; set; }
+
     }
 }

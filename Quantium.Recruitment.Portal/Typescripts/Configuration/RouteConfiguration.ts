@@ -62,6 +62,15 @@ module Recruitment.Routes {
                         url: "/test", controller: Controllers.TestController, templateUrl: "/views/testPage.html"
                     })
 
+                    .state("instructions",
+                    {
+                        url: "/instructions", controller: Controllers.TestController, templateUrl: "/views/instructions.html"
+                    })
+
+                    .state("createJob",
+                    {
+                        url: "/createJob", controller: Controllers.TestController, templateUrl: "/views/createJob.html"
+                    })
             });
         }
     }

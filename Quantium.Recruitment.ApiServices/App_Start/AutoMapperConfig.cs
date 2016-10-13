@@ -22,7 +22,7 @@ namespace Quantium.Recruitment.ApiServices
 
 
             cfg.CreateMap<Job, JobDto>().ReverseMap();
-            cfg.CreateMap<Job_Label_Difficulty, Job_Label_DifficultyDto>().ReverseMap();
+            cfg.CreateMap<Job_Difficulty_Label, Job_Difficulty_LabelDto>().ReverseMap();
             cfg.CreateMap<Label, LabelDto>().ReverseMap();
             cfg.CreateMap<Difficulty, DifficultyDto>().ReverseMap();
             cfg.CreateMap<Department, DepartmentDto>().ReverseMap();

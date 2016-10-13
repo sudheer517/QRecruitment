@@ -272,8 +272,6 @@ namespace Quantium.Recruitment.DbInitialize
 
             #endregion Difficulty
 
-            //#region TestRegion
-
             #region QuestionGroup
 
             QuestionGroup questionGroup = new QuestionGroup
@@ -293,7 +291,9 @@ namespace Quantium.Recruitment.DbInitialize
                 Text = "Which of the following is NOT an Integer?",
                 TimeInSeconds = 30,
                 QuestionGroup = questionGroup,
-                ImageUrl = "http://www.relatably.com/m/img/table-flipping-meme/49389583.jpg"
+                ImageUrl = "http://www.relatably.com/m/img/table-flipping-meme/49389583.jpg",
+                Difficulty = diff1,
+                Label = label1
             };
 
             Question question2 = new Question
@@ -301,7 +301,9 @@ namespace Quantium.Recruitment.DbInitialize
                 Text = "Which of the following is an 8 - byte Integer?",
                 TimeInSeconds = 30,
                 QuestionGroup = questionGroup,
-                ImageUrl = "https://s-media-cache-ak0.pinimg.com/originals/15/ee/b2/15eeb2506bca7f8cc5a686914fd9025c.jpg"
+                ImageUrl = "https://s-media-cache-ak0.pinimg.com/originals/15/ee/b2/15eeb2506bca7f8cc5a686914fd9025c.jpg",
+                Difficulty = diff2,
+                Label = label2
             };
 
             Question question3 = new Question
@@ -309,56 +311,72 @@ namespace Quantium.Recruitment.DbInitialize
                 Text = "Which of the following operator creates a pointer to a variable in C#?",
                 TimeInSeconds = 30,
                 QuestionGroup = questionGroup,
-                ImageUrl = "http://bestanimations.com/Animals/Mammals/Cats/catgif/funny-cat-gif-3.gif"
+                ImageUrl = "http://bestanimations.com/Animals/Mammals/Cats/catgif/funny-cat-gif-3.gif",
+                Difficulty = diff3,
+                Label = label3
             };
 
             Question question4 = new Question
             {
                 Text = "Which of the following keyword is used for including the namespaces in the program in C#?",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                Difficulty = diff1,
+                Label = label1
             };
 
             Question question5 = new Question
             {
                 Text = "Which of the following utilities can be used to compile managed assemblies into processor-specific native code?",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                Difficulty = diff1,
+                Label = label4
             };
 
             Question question6 = new Question
             {
                 Text = "Which of the following jobs are NOT performed by Garbage Collector? 1.Freeing memory on the stack. 2.Avoiding memory leaks. 3.Freeing memory occupied by unreferenced objects. 4.Closing unclosed database collections. 5.Closing unclosed files.",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                Difficulty = diff3,
+                Label = label1
             };
 
             Question question7 = new Question
             {
                 Text = "Which of the following constitutes the .NET Framework? 1.ASP.NET Applications 2.CLR 3.Framework Class Library 4.WinForm Applications 5.Windows Services",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                Difficulty = diff2,
+                Label = label2
             };
 
             Question question8 = new Question
             {
                 Text = "Which of the following.NET components can be used to remove unused references from the managed heap ?",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                Difficulty = diff1,
+                Label = label1
             };
 
             Question question9 = new Question
             {
                 Text = "Which of the following security features can .NET applications avail?",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                Difficulty = diff1,
+                Label = label3
             };
 
             Question question10 = new Question
             {
                 Text = "Which of the following can be declared in an interface?",
                 TimeInSeconds = 30,
-                QuestionGroup = questionGroup
+                QuestionGroup = questionGroup,
+                Difficulty = diff3,
+                Label = label4
             };
 
             _dbContext.Questions.Add(question1);
@@ -938,7 +956,73 @@ namespace Quantium.Recruitment.DbInitialize
 
             #endregion CandidateSelectedOption
 
-            //#endregion TestRegion
+            #region Job_Difficulty_Label
+
+            Job_Difficulty_Label jobDiffLabel1 = new Job_Difficulty_Label
+            {
+                Job = job1,
+                Difficulty = diff1,
+                Label = label1,
+                QuestionCount = 3
+            };
+
+            Job_Difficulty_Label jobDiffLabel2 = new Job_Difficulty_Label
+            {
+                Job = job1,
+                Difficulty = diff1,
+                Label = label3,
+                QuestionCount = 1
+            };
+
+            Job_Difficulty_Label jobDiffLabel3 = new Job_Difficulty_Label
+            {
+                Job = job1,
+                Difficulty = diff1,
+                Label = label4,
+                QuestionCount = 1
+            };
+
+
+            Job_Difficulty_Label jobDiffLabel4 = new Job_Difficulty_Label
+            {
+                Job = job1,
+                Difficulty = diff2,
+                Label = label2,
+                QuestionCount = 2
+            };
+
+            Job_Difficulty_Label jobDiffLabel5 = new Job_Difficulty_Label
+            {
+                Job = job2,
+                Difficulty = diff3,
+                Label = label1,
+                QuestionCount = 1
+            };
+
+            Job_Difficulty_Label jobDiffLabel6 = new Job_Difficulty_Label
+            {
+                Job = job2,
+                Difficulty = diff3,
+                Label = label3,
+                QuestionCount = 1
+            };
+
+            Job_Difficulty_Label jobDiffLabel7 = new Job_Difficulty_Label
+            {
+                Job = job2,
+                Difficulty = diff3,
+                Label = label4,
+                QuestionCount = 1
+            };
+
+            _dbContext.JobDifficultyLabels.Add(jobDiffLabel1);
+            _dbContext.JobDifficultyLabels.Add(jobDiffLabel2);
+            _dbContext.JobDifficultyLabels.Add(jobDiffLabel3);
+            _dbContext.JobDifficultyLabels.Add(jobDiffLabel4);
+            _dbContext.JobDifficultyLabels.Add(jobDiffLabel5);
+            _dbContext.JobDifficultyLabels.Add(jobDiffLabel6);
+            _dbContext.JobDifficultyLabels.Add(jobDiffLabel7);
+            #endregion Job_Difficulty_Label
 
             _dbContext.SaveChanges();
         }

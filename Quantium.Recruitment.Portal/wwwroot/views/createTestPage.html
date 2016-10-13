@@ -17,4 +17,7 @@
         </div>
     </div>
     <h5>Total questions in selected job: {{totalQuestionsInSelectedJob}}</h5>
+    <ul>
+        <li ng-repeat="jobDifficultyLabel in selectedJob.JobDifficultyLabels">{{jobDifficultyLabel.Label.Name}} - {{jobDifficultyLabel.Difficulty.Name}} - {{jobDifficultyLabel.QuestionCount}}</li>
+    </ul>
 </div>

@@ -13,6 +13,8 @@ namespace Quantium.Recruitment.Infrastructure
 
         DbSet<Candidate> Candidates { get; set; }
 
+        DbSet<Candidate_Job> CandidateJobs { get; set; }
+
         DbSet<Job> Jobs { get; set; }
 
         DbSet<Department> Departments { get; set; }
@@ -33,7 +35,7 @@ namespace Quantium.Recruitment.Infrastructure
 
         DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
 
-        DbSet<Job_Label_Difficulty> JobLabelDifficulties { get; set; }
+        DbSet<Job_Difficulty_Label> JobDifficultyLabels { get; set; }
 
         int SaveChanges();
 
@@ -56,6 +58,8 @@ namespace Quantium.Recruitment.Infrastructure
 
         public DbSet<Candidate> Candidates { get; set; }
 
+        public DbSet<Candidate_Job> CandidateJobs { get; set; }
+
         public DbSet<Job> Jobs { get; set; }
 
         public DbSet<Department> Departments { get; set; }
@@ -76,7 +80,7 @@ namespace Quantium.Recruitment.Infrastructure
 
         public DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
 
-        public DbSet<Job_Label_Difficulty> JobLabelDifficulties { get; set; }
+        public DbSet<Job_Difficulty_Label> JobDifficultyLabels { get; set; }
 
         public Database GetDatabase()
         {

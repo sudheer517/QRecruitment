@@ -10,7 +10,7 @@ module Recruitment.Services {
     }
 
     export class ChallengeService implements IChallengeService {
-        constructor(private $http: ng.IHttpService) {
+        constructor(private $http: ng.IHttpService, private $connectionService: Recruitment.Services.ConnectionService) {
         }
 
         public getNextChallenge(): ng.IHttpPromise<any> {
@@ -18,7 +18,7 @@ module Recruitment.Services {
         }
 
         public postChallenge(selectedItems: any): ng.IHttpPromise<any> {
-            return this.$http.post("http://localhost:60606/api/temp", selectedItems);
+            return this.$http.post(this.$connectionService.getOdataConnection() + "/api/temp", selectedItems);
         }
     }
 }

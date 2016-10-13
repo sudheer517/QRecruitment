@@ -60,7 +60,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public string Title;
         public string Profile;
         public DepartmentDto Department;
-        public List<Job_Label_DifficultyDto> JobDifficultyLabels;
+        public List<Job_Difficulty_LabelDto> JobDifficultyLabels;
 
     }
 
@@ -81,6 +81,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public long Id;
         public long QuestionId;
         public string Text;
+        public string ImageUrl;
         public bool IsAnswer;
 
     }
@@ -88,14 +89,15 @@ namespace Quantium.Recruitment.ApiServiceModels {
      public class DifficultyDto { 
         public long Id;
         public string Name;
-        public List<Job_Label_DifficultyDto> JobDifficultyLabels;
+        public List<Job_Difficulty_LabelDto> JobDifficultyLabels;
 
     }
 
-     public class Job_Label_DifficultyDto { 
+     public class Job_Difficulty_LabelDto { 
         public long Id;
-        public LabelDto Label;
         public DifficultyDto Difficulty;
+        public LabelDto Label;
+        public Int32 QuestionCount;
 
     }
 

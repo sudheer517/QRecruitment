@@ -44,6 +44,7 @@
     <Compile Include="Admin.cs" />
     <Compile Include="Candidate.cs" />
     <Compile Include="CandidateSelectedOption.cs" />
+    <Compile Include="Candidate_Job.cs" />
     <Compile Include="Challenge.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Job_Label_Difficulty.cs" />

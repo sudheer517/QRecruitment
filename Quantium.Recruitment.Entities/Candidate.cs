@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
@@ -22,5 +23,7 @@ namespace Quantium.Recruitment.Entities
         public virtual string Country { get; set; }
 
         public virtual string College { get; set; }
+
+        public virtual List<Candidate_Job> CandidateJobs { get; set; }
     }
 }

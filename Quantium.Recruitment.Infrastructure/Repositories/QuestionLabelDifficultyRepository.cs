@@ -3,13 +3,13 @@ using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
-    public interface IJobLabelDifficultyRepository : IGenericRepository<Job_Label_Difficulty>
+    public interface IJobLabelDifficultyRepository : IGenericRepository<Job_Difficulty_Label>
     {
-        Job_Label_Difficulty FindById(long Id);
-        void Update(Job_Label_Difficulty entity);
+        Job_Difficulty_Label FindById(long Id);
+        void Update(Job_Difficulty_Label entity);
     }
 
-    public class JobLabelDifficultyRepository : GenericRepository<Job_Label_Difficulty>, IJobLabelDifficultyRepository
+    public class JobLabelDifficultyRepository : GenericRepository<Job_Difficulty_Label>, IJobLabelDifficultyRepository
     {
         private readonly IRecruitmentContext _dbContext;
         public JobLabelDifficultyRepository(IRecruitmentContext dbContext) : base(dbContext)
@@ -17,14 +17,14 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public Job_Label_Difficulty FindById(long Id)
+        public Job_Difficulty_Label FindById(long Id)
         {
-            return _dbContext.JobLabelDifficulties.SingleOrDefault(entity => entity.Id == Id);
+            return _dbContext.JobDifficultyLabels.SingleOrDefault(entity => entity.Id == Id);
         }
 
-        public void Update(Job_Label_Difficulty entity)
+        public void Update(Job_Difficulty_Label entity)
         {
-            _dbContext.JobLabelDifficulties.Add(entity);
+            _dbContext.JobDifficultyLabels.Add(entity);
         }
     }
 }

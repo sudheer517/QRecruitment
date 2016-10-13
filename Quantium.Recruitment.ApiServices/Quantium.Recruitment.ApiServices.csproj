@@ -236,12 +236,13 @@
     <Compile Include="Models\CandidateSelectedOptionDto.cs" />
     <Compile Include="Models\ChallengeDto.cs" />
     <Compile Include="Models\DepartmentDto.cs" />
+    <Compile Include="Models\Candidate_JobDto.cs" />
     <Compile Include="Models\JobDto.cs" />
     <Compile Include="Models\LabelDto.cs" />
     <Compile Include="Models\Test_LabelDto.cs" />
     <Compile Include="Models\OptionDto.cs" />
     <Compile Include="Models\DifficultyDto.cs" />
-    <Compile Include="Models\Job_Label_DifficultyDto.cs" />
+    <Compile Include="Models\Job_Difficulty_LabelDto.cs" />
     <Compile Include="Models\QuestionDto.cs" />
     <Compile Include="Models\QuestionGroupDto.cs" />
     <Compile Include="Models\TestDto.cs" />
