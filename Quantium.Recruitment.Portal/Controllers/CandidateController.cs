@@ -8,7 +8,6 @@ using IdentityModel.Client;
 using Simple.OData.Client;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using ODataModels.Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Portal.Helpers;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860

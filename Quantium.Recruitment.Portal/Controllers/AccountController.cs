@@ -7,7 +7,6 @@ using Quantium.Recruitment.Portal.Models;
 using Quantium.Recruitment.Portal.Models.AccountViewModels;
 using System;
 using Simple.OData.Client;
-using ODataModels.Quantium.Recruitment.ApiServices.Models;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;

@@ -3,13 +3,14 @@
 module Recruitment.Controllers {
 
     import Question = Quantium.Recruitment.ODataEntities.QuestionDto;
+    import QuestionGroup = Quantium.Recruitment.ODataEntities.QuestionGroupDto;
     import Option = Quantium.Recruitment.ODataEntities.OptionDto;
 
     interface IUploadQuestionsControllerScope extends ng.IScope {
         fileUploadObj: any;
         selectFile: (file: any, errFiles: any) => void;
         uploadedFile: any;
-        errorMsg: string;
+        uploadStatus: string;
         fileName: string;
         saveChanges: () => void;
         previewQuestions: () => void;
@@ -40,10 +41,11 @@ module Recruitment.Controllers {
                 file.upload.then(response => {
                     this.$timeout(() => {
                         file.result = response.data;
+                        this.$scope.uploadStatus = "File upload successful";
                     });
                 }, error => {
                     if (error.status > 0)
-                        this.$scope.errorMsg = error.status + ': ' + error.data;
+                        this.$scope.uploadStatus = error.status + ': ' + error.data;
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));
                 });
@@ -87,7 +89,9 @@ module Recruitment.Controllers {
                 previewQuestionModel.TimeInSeconds = Number(columns[3]);
                 previewQuestionModel.RandomizeOptions = Boolean(columns[12]);
                 previewQuestionModel.ImageUrl = columns[13];
-                previewQuestionModel. 
+                previewQuestionModel.Label = columns[10];
+                previewQuestionModel.Difficulty = columns[11];
+                previewQuestionModel.QuestionGroup = new QuestionGroup(null, columns[14]);
                 var options: Option[] = [];
 
                 for (var columnIndex = 4; columnIndex < (supportedOptionCount + 4); columnIndex++) {

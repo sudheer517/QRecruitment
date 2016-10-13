@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ODataModels.Quantium.Recruitment.ApiServices.Models;
 using Simple.OData.Client;
 using System.Linq;
 using System.Threading.Tasks;

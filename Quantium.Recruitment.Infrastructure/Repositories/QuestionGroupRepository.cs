@@ -7,6 +7,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
     {
         QuestionGroup FindById(long Id);
         void Update(QuestionGroup entity);
+        QuestionGroup FindByName(string name);
     }
 
     public class QuestionGroupRepository : GenericRepository<QuestionGroup>, IQuestionGroupRepository
@@ -20,6 +21,11 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         public QuestionGroup FindById(long Id)
         {
             return _dbContext.QuestionGroups.Single(entity => entity.Id == Id);
+        }
+
+        public QuestionGroup FindByName(string name)
+        {
+            return _dbContext.QuestionGroups.SingleOrDefault(entity => entity.Description == name);
         }
 
         public void Update(QuestionGroup entity)

@@ -203,9 +203,11 @@ module Quantium.Recruitment.ODataEntities {
         public RandomizeOptions: boolean;
         public QuestionGroup: QuestionGroupDto;
         public Options: OptionDto[];
+        public Difficulty: string;
+        public Label: string;
         constructor();
-        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[]);
-        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[]){
+        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: string, Label?: string);
+        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: string, Label?: string){
             this.Id = Id;
             this.Text = Text;
             this.ImageUrl = ImageUrl;
@@ -213,6 +215,8 @@ module Quantium.Recruitment.ODataEntities {
             this.RandomizeOptions = RandomizeOptions;
             this.QuestionGroup = QuestionGroup;
             this.Options = Options;
+            this.Difficulty = Difficulty;
+            this.Label = Label;
         }
 
     }

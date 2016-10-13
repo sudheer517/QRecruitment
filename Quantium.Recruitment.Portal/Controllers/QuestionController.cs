@@ -10,10 +10,10 @@ using Microsoft.Net.Http.Headers;
 using Quantium.Recruitment.Portal.Helpers;
 using Microsoft.AspNetCore.Http;
 using Simple.OData.Client;
-using ODataModels.Quantium.Recruitment.ApiServices.Models;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using Quantium.Recruitment.ApiServiceModels;
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Quantium.Recruitment.Portal.Controllers
@@ -52,8 +52,14 @@ namespace Quantium.Recruitment.Portal.Controllers
             var jsonData = JsonConvert.SerializeObject(questions);
 
             HttpContent contentPost = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-            var response = client.PostAsync("api/Question/AddQuestions", contentPost).Result;
+            try
+            {
+                var response = client.PostAsync("api/Question/AddQuestions", contentPost).Result;
+            }
+            catch(Exception ex)
+            {
+                return Json(ex);
+            }
 
             return Json("Success");
         }
@@ -76,46 +82,51 @@ namespace Quantium.Recruitment.Portal.Controllers
             string[] questionAndOptions = questionLine.Split(',');
             string[] selectedOptions = questionAndOptions[2].Split(';');
 
-            var qOptions = new List<OptionDto>
-            {
-                new OptionDto
-                {
-                    Text = questionAndOptions[4],
-                    IsAnswer = selectedOptions.Contains(headers[4])
-                },
-                new OptionDto
-                {
-                    Text = questionAndOptions[5],
-                    IsAnswer = selectedOptions.Contains(headers[5])
-                },
-                new OptionDto
-                {
-                    Text = questionAndOptions[6],
-                    IsAnswer = selectedOptions.Contains(headers[6])
-                },
-                new OptionDto
-                {
-                    Text = questionAndOptions[7],
-                    IsAnswer = selectedOptions.Contains(headers[7])
-                },
-                new OptionDto
-                {
-                    Text = questionAndOptions[8],
-                    IsAnswer = selectedOptions.Contains(headers[8])
-                },
-                new OptionDto
-                {
-                    Text = questionAndOptions[9],
-                    IsAnswer = selectedOptions.Contains(headers[9])
-                }
-            };
-
-       
             QuestionDto newQuestion = new QuestionDto
             {
                 Text = questionAndOptions[1],
                 TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
-                Options = new Microsoft.OData.Client.DataServiceCollection<OptionDto>(qOptions, trackingMode: Microsoft.OData.Client.TrackingMode.None)
+                Label = questionAndOptions[10],
+                Difficulty = questionAndOptions[11],
+                RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
+                ImageUrl = questionAndOptions[13],
+                QuestionGroup = new QuestionGroupDto
+                {
+                    Description = questionAndOptions[14]
+                },
+                Options = new List<OptionDto>
+                {
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[4],
+                        IsAnswer = selectedOptions.Contains(headers[4])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[5],
+                        IsAnswer = selectedOptions.Contains(headers[5])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[6],
+                        IsAnswer = selectedOptions.Contains(headers[6])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[7],
+                        IsAnswer = selectedOptions.Contains(headers[7])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[8],
+                        IsAnswer = selectedOptions.Contains(headers[8])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[9],
+                        IsAnswer = selectedOptions.Contains(headers[9])
+                    }
+                }
             };
 
             return newQuestion;

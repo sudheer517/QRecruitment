@@ -1,5 +1,5 @@
 ﻿using IdentityModel.Client;
-using ODataModels.Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.ApiServiceModels;
 using Simple.OData.Client;
 using System;
 using System.Collections.Generic;

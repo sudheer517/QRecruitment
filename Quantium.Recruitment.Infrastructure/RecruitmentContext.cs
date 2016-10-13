@@ -33,6 +33,8 @@ namespace Quantium.Recruitment.Infrastructure
 
         DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
 
+        DbSet<Question_Label_Difficulty> QuestionLabelDifficulties { get; set; }
+
         int SaveChanges();
 
         Database GetDatabase();
@@ -73,6 +75,8 @@ namespace Quantium.Recruitment.Infrastructure
         public DbSet<Challenge> Challenges { get; set; }
 
         public DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
+
+        public DbSet<Question_Label_Difficulty> QuestionLabelDifficulties { get; set; }
 
         public Database GetDatabase()
         {

@@ -7,6 +7,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
     {
         Label FindById(long Id);
         void Update(Label entity);
+        Label FindByName(string name);
     }
 
     public class LabelRepository : GenericRepository<Label>, ILabelRepository
@@ -19,7 +20,12 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
         public Label FindById(long Id)
         {
-            return _dbContext.Labels.Single(entity => entity.Id == Id);
+            return _dbContext.Labels.SingleOrDefault(entity => entity.Id == Id);
+        }
+
+        public Label FindByName(string name)
+        {
+            return _dbContext.Labels.SingleOrDefault(entity => entity.Name == name);
         }
 
         public void Update(Label entity)

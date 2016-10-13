@@ -1,5 +1,4 @@
-﻿using Quantium.Recruitment.Infrastructure;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,6 +11,8 @@ using Quantium.Recruitment.Infrastructure.Repositories;
 using Quantium.Recruitment.ApiServices.Helpers;
 using System.Web.OData;
 using System.Web.OData.Routing;
+using Quantium.Recruitment.Infrastructure.Unity;
+using Microsoft.Practices.Unity;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -19,10 +20,22 @@ namespace Quantium.Recruitment.ApiServices.Controllers
     public class QuestionController : ApiController
     {
         private readonly IQuestionRepository _questionRepository;
-
-        public QuestionController(IQuestionRepository questionRepository)
+        private readonly ILabelRepository _labelRepository;
+        private readonly IDifficultyRepository _difficultyRepository;
+        private readonly IUnityContainer _container;
+        private readonly IQuestionGroupRepository _questionGroupRepository;
+        public QuestionController(
+            IQuestionRepository questionRepository,
+            ILabelRepository labelRepository,
+            IDifficultyRepository difficultyRepository, 
+            IUnityContainer container,
+            IQuestionGroupRepository questionGroupRepository)
         {
             _questionRepository = questionRepository;
+            _labelRepository = labelRepository;
+            _difficultyRepository = difficultyRepository;
+            _container = container;
+            _questionGroupRepository = questionGroupRepository;
         }
 
         [HttpGet]
@@ -55,7 +68,37 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         return BadRequest(ModelState);
                     }
 
+                    questionDto.Options = questionDto.Options.Where(item => item.Text.Trim().Length > 0).ToList();
+
                     var inputQuestion = Mapper.Map<Question>(questionDto);
+
+                    var label = _labelRepository.FindByName(questionDto.Label);
+
+                    var difficulty = _difficultyRepository.FindByName(questionDto.Difficulty);
+
+                    if (!string.IsNullOrEmpty(questionDto.QuestionGroup.Description))
+                    {
+                        var questionGroup = _questionGroupRepository.FindByName(questionDto.QuestionGroup.Description);
+
+                        if (questionGroup != null)
+                            inputQuestion.QuestionGroup = questionGroup;
+                    }
+                    else
+                    {
+                        inputQuestion.QuestionGroup = null;
+                        inputQuestion.QuestionGroupId = null;
+                    }
+
+                    var questionLabelDifficultyRepository = _container.Resolve<IQuestionLabelDifficultyRepository>();
+                    var questionLabelDifficulty = new Question_Label_Difficulty()
+                    {
+                        Difficulty = difficulty,
+                        Label = label,
+                        Question = inputQuestion
+                    };
+
+                    inputQuestion.DifficultyLabels = new List<Question_Label_Difficulty> { questionLabelDifficulty };
+
 
                     var result = _questionRepository.Add(inputQuestion);
                 }

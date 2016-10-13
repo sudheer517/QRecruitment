@@ -9,8 +9,6 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public string Text { get; set; }
 
-        //public byte[] Image { get; set; }
-
         public bool IsAnswer { get; set; }
     }
 }
