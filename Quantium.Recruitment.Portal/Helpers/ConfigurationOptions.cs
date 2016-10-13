@@ -8,6 +8,6 @@ namespace Quantium.Recruitment.Portal.Helpers
     public class ConfigurationOptions
     {
         public string IdentityServer { get; set; }
-        public string ODataServer { get; set; }
+        public string ApiServiceEndpoint { get; set; }
     }
 }

@@ -16,9 +16,17 @@ namespace Quantium.Recruitment.ApiServices
         {
             var cfg = new MapperConfigurationExpression();
 
-            cfg.CreateMap<Question, QuestionDto>().ReverseMap();
-            cfg.CreateMap<Option, OptionDto>().ReverseMap();
-            cfg.CreateMap<QuestionGroup, QuestionGroupDto>().ReverseMap();
+            //cfg.CreateMap<Question, QuestionDto>().ReverseMap();
+            //cfg.CreateMap<Option, OptionDto>().ReverseMap();
+            //cfg.CreateMap<QuestionGroup, QuestionGroupDto>().ReverseMap();
+            
+
+            cfg.CreateMap<Job, JobDto>().ReverseMap();
+            cfg.CreateMap<Job_Label_Difficulty, Job_Label_DifficultyDto>().ReverseMap();
+            cfg.CreateMap<Label, LabelDto>().ReverseMap();
+            cfg.CreateMap<Difficulty, DifficultyDto>().ReverseMap();
+            cfg.CreateMap<Department, DepartmentDto>().ReverseMap();
+            cfg.CreateMap<Admin, AdminDto>().ReverseMap();
 
             //cfg.CreateMap<Admin, AdminDto>();
             //cfg.CreateMap<AdminDto, Admin>();

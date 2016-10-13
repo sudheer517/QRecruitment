@@ -6,18 +6,15 @@
 <hr class="tagline-divider">
 
 
-<div class="tileContainer">
-
-    <div class="tile" ui-sref="uploadQuestions">
-        <div class="tile-content"><i class="fa fa-camera-retro fa-5x"></i><br /><h4>Upload Questions</h4></div>
-        <div class="tile-overlay left">
+<div>
+    <div class="form-group">
+        <label> Select a Job : </label>
+        <div class="btn-group">
+            <button type="button" data-toggle="dropdown" class="btn btn-danger dropdown-toggle">{{selectedJobName}} <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li ng-repeat="job in jobs"><a href="" ng-click="changeSelectedJob(job)">{{job.Title}}</a></li>
+            </ul>
         </div>
     </div>
-
-    <div class="tile" ui-sref="createQuestions">
-        <div class="tile-content"><i class="fa fa-camera-retro fa-5x"></i><br /><h4>Create Questions</h4></div>
-        <div class="tile-overlay left">
-        </div>
-    </div>
-
+    <h5>Total questions in selected job: {{totalQuestionsInSelectedJob}}</h5>
 </div>

@@ -22,9 +22,10 @@ namespace Quantium.Recruitment.ApiServices
             container.RegisterType<IOptionRepository, OptionRepository>();
             container.RegisterType<ILabelRepository, LabelRepository>();
             container.RegisterType<IDifficultyRepository, DifficultyRepository>();
-            container.RegisterType<IQuestionLabelDifficultyRepository, QuestionLabelDifficultyRepository>();
+            container.RegisterType<IJobLabelDifficultyRepository, JobLabelDifficultyRepository>();
             container.RegisterType<IQuestionGroupRepository, QuestionGroupRepository>();
 
+            container.RegisterType<IJobRepository, JobRepository>();
             return new UnityDependencyResolver(container);
         }
     }

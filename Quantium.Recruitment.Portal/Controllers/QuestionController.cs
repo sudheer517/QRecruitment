@@ -22,13 +22,13 @@ namespace Quantium.Recruitment.Portal.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<QRecruitmentRole> _roleManager;
-        private ODataClient _odataClient;
+        private readonly IHttpHelper _helper;
 
-        public QuestionController(UserManager<ApplicationUser> userManager, RoleManager<QRecruitmentRole> roleManager, IOdataHelper helper)
+        public QuestionController(UserManager<ApplicationUser> userManager, RoleManager<QRecruitmentRole> roleManager, IHttpHelper helper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _odataClient = helper.GetOdataClient();
+            _helper = helper;
         }
 
         [HttpPost]
@@ -47,14 +47,9 @@ namespace Quantium.Recruitment.Portal.Controllers
                 questions.Add(ParseLineToQuestion(headers, contentAsLines[i]));
             }
 
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:60606/");
-            var jsonData = JsonConvert.SerializeObject(questions);
-
-            HttpContent contentPost = new StringContent(jsonData, Encoding.UTF8, "application/json");
             try
             {
-                var response = client.PostAsync("api/Question/AddQuestions", contentPost).Result;
+                var response = _helper.Post("api/Question/AddQuestions", questions);
             }
             catch(Exception ex)
             {
@@ -86,8 +81,8 @@ namespace Quantium.Recruitment.Portal.Controllers
             {
                 Text = questionAndOptions[1],
                 TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
-                Label = questionAndOptions[10],
-                Difficulty = questionAndOptions[11],
+                Label = new LabelDto { Name = questionAndOptions[10] },
+                Difficulty = new DifficultyDto { Name = questionAndOptions[11] },
                 RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
                 ImageUrl = questionAndOptions[13],
                 QuestionGroup = new QuestionGroupDto

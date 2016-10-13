@@ -12,6 +12,6 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public string Name { get; set; }
 
-        public List<Question_Label_DifficultyDto> DifficultyLabels { get; set; }
+        public List<Job_Label_DifficultyDto> JobDifficultyLabels { get; set; }
     }
 }

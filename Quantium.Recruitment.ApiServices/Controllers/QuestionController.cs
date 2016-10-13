@@ -72,9 +72,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
                     var inputQuestion = Mapper.Map<Question>(questionDto);
 
-                    var label = _labelRepository.FindByName(questionDto.Label);
+                    var label = _labelRepository.FindByName(questionDto.Label.Name);
 
-                    var difficulty = _difficultyRepository.FindByName(questionDto.Difficulty);
+                    var difficulty = _difficultyRepository.FindByName(questionDto.Difficulty.Name);
 
                     if (!string.IsNullOrEmpty(questionDto.QuestionGroup.Description))
                     {
@@ -89,16 +89,25 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         inputQuestion.QuestionGroupId = null;
                     }
 
-                    var questionLabelDifficultyRepository = _container.Resolve<IQuestionLabelDifficultyRepository>();
-                    var questionLabelDifficulty = new Question_Label_Difficulty()
+                    if(label != null)
                     {
-                        Difficulty = difficulty,
-                        Label = label,
-                        Question = inputQuestion
-                    };
+                        inputQuestion.Label = label;
+                    }
+                    else
+                    {
+                        inputQuestion.Label = null;
+                        inputQuestion.LabelId = null;
+                    }
 
-                    inputQuestion.DifficultyLabels = new List<Question_Label_Difficulty> { questionLabelDifficulty };
-
+                    if (difficulty != null)
+                    {
+                        inputQuestion.Difficulty = difficulty;
+                    }
+                    else
+                    {
+                        inputQuestion.Difficulty = null;
+                        inputQuestion.DifficultyId = null;
+                    }
 
                     var result = _questionRepository.Add(inputQuestion);
                 }

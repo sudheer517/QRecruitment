@@ -38,6 +38,7 @@ namespace Quantium.Recruitment.Portal
 
             services.AddTransient<ICandidateHelper, CandidateHelper>();
             services.AddTransient<IOdataHelper, OdataHelper>();
+            services.AddTransient<IHttpHelper, HttpHelper>();
 
             services.Configure<ConfigurationOptions>(Configuration.GetSection("ConfigurationOptions"));
             services.AddMvc();

@@ -5,6 +5,8 @@ module Recruitment.Controllers {
     import Question = Quantium.Recruitment.ODataEntities.QuestionDto;
     import QuestionGroup = Quantium.Recruitment.ODataEntities.QuestionGroupDto;
     import Option = Quantium.Recruitment.ODataEntities.OptionDto;
+    import Label = Quantium.Recruitment.ODataEntities.LabelDto;
+    import Difficulty = Quantium.Recruitment.ODataEntities.DifficultyDto;
 
     interface IUploadQuestionsControllerScope extends ng.IScope {
         fileUploadObj: any;
@@ -87,10 +89,10 @@ module Recruitment.Controllers {
                 previewQuestionModel.Text = columns[1];
                 var selectedOptions: string[] = columns[2].split(";");
                 previewQuestionModel.TimeInSeconds = Number(columns[3]);
-                previewQuestionModel.RandomizeOptions = Boolean(columns[12]);
+                previewQuestionModel.RandomizeOptions = columns[12] === "TRUE" ? true : false;
                 previewQuestionModel.ImageUrl = columns[13];
-                previewQuestionModel.Label = columns[10];
-                previewQuestionModel.Difficulty = columns[11];
+                previewQuestionModel.Label = new Label(null, columns[10]);
+                previewQuestionModel.Difficulty = new Difficulty(null, columns[11]);
                 previewQuestionModel.QuestionGroup = new QuestionGroup(null, columns[14]);
                 var options: Option[] = [];
 

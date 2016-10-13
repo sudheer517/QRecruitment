@@ -6,11 +6,9 @@ using Quantium.Recruitment.Entities;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
-    public class Question_Label_DifficultyDto
+    public class Job_Label_DifficultyDto
     {
         public long Id { get; set; }
-
-        public QuestionDto Question { get; set; }
 
         public LabelDto Label { get; set; }
 

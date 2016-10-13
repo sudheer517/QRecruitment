@@ -225,6 +225,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CandidateController.cs" />
     <Compile Include="Controllers\OptionController.cs" />
+    <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -240,7 +241,7 @@
     <Compile Include="Models\Test_LabelDto.cs" />
     <Compile Include="Models\OptionDto.cs" />
     <Compile Include="Models\DifficultyDto.cs" />
-    <Compile Include="Models\Question_Label_DifficultyDto.cs" />
+    <Compile Include="Models\Job_Label_DifficultyDto.cs" />
     <Compile Include="Models\QuestionDto.cs" />
     <Compile Include="Models\QuestionGroupDto.cs" />
     <Compile Include="Models\TestDto.cs" />

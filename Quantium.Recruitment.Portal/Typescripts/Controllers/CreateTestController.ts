@@ -1,23 +1,34 @@
 ﻿
 module Recruitment.Controllers {
+    import JobDto = Quantium.Recruitment.ODataEntities.JobDto;
 
     interface ICreateTestControllerScope extends ng.IScope {
-        questions: any[];
-        getQuestions: () => void;
+        jobs: JobDto[];
+        selectedJobName: string;
+        changeSelectedJob: (selectedJob: JobDto) => void;
+        totalQuestionsInSelectedJob: number;
     }
     export class CreateTestController {
 
-        constructor(private $scope: ICreateTestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService) {
-            this.$scope.getQuestions = () => this.getQuestions();
+        constructor(private $scope: ICreateTestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private $jobService: Recruitment.Services.JobService) {
+            this.getJobs();
+            this.$scope.selectedJobName = "Select Job";
+            this.$scope.changeSelectedJob = (selectedJob) => this.changeSelectedJob(selectedJob);
         }
 
-        private getQuestions(): void {
-            this.$http.get('http://localhost:60606/api/temp')
+        private changeSelectedJob(selectedJob: JobDto) {
+            this.$scope.selectedJobName = selectedJob.Title;
+            this.$scope.totalQuestionsInSelectedJob = selectedJob.JobDifficultyLabels === null ? 0 : selectedJob.JobDifficultyLabels.length;
+        }
+
+        private getJobs(): void {
+            this.$jobService.getAllJobs()
                 .then(result => {
-                    this.$scope.questions = <any[]>result.data;
-                }, reason => {
-                    this.$log.info('my recruitment get failed');
-                    console.log(reason);
+                    this.$scope.jobs = result.data;
+                    
+                }, error => {
+                    this.$log.info('jobs retrieval failed');
+                    console.log(error);
                 });
         }
     }

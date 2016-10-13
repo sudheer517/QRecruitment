@@ -13,6 +13,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public long Mobile;
         public bool IsActive;
         public long DepartmentId;
+        public DepartmentDto Department;
 
     }
 
@@ -51,8 +52,6 @@ namespace Quantium.Recruitment.ApiServiceModels {
      public class DepartmentDto { 
         public long Id;
         public string Name;
-        public List<JobDto> Jobs;
-        public List<AdminDto> Admins;
 
     }
 
@@ -61,13 +60,13 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public string Title;
         public string Profile;
         public DepartmentDto Department;
+        public List<Job_Label_DifficultyDto> JobDifficultyLabels;
 
     }
 
      public class LabelDto { 
         public long Id;
         public string Name;
-        public List<Question_Label_DifficultyDto> DifficultyLabels;
 
     }
 
@@ -89,13 +88,12 @@ namespace Quantium.Recruitment.ApiServiceModels {
      public class DifficultyDto { 
         public long Id;
         public string Name;
-        public List<Question_Label_DifficultyDto> DifficultyLabels;
+        public List<Job_Label_DifficultyDto> JobDifficultyLabels;
 
     }
 
-     public class Question_Label_DifficultyDto { 
+     public class Job_Label_DifficultyDto { 
         public long Id;
-        public QuestionDto Question;
         public LabelDto Label;
         public DifficultyDto Difficulty;
 
@@ -109,8 +107,8 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public bool RandomizeOptions;
         public QuestionGroupDto QuestionGroup;
         public List<OptionDto> Options;
-        public string Difficulty;
-        public string Label;
+        public DifficultyDto Difficulty;
+        public LabelDto Label;
 
     }
 

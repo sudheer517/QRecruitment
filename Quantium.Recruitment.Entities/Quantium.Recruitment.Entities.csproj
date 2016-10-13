@@ -46,7 +46,7 @@
     <Compile Include="CandidateSelectedOption.cs" />
     <Compile Include="Challenge.cs" />
     <Compile Include="Department.cs" />
-    <Compile Include="Question_Label_Difficulty.cs" />
+    <Compile Include="Job_Label_Difficulty.cs" />
     <Compile Include="Test_Label.cs" />
     <Compile Include="Identifiable.cs" />
     <Compile Include="Job.cs" />

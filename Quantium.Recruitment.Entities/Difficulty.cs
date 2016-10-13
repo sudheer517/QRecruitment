@@ -8,6 +8,6 @@ namespace Quantium.Recruitment.Entities
     {
         public virtual string Name { get; set; }
 
-        public virtual List<Question_Label_Difficulty> DifficultyLabels { get; set; }
+        //public virtual List<Job_Label_Difficulty> JobDifficultyLabels { get; set; }
     }
 }

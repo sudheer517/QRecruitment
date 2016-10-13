@@ -11,9 +11,10 @@ module Quantium.Recruitment.ODataEntities {
         public Mobile: number;
         public IsActive: boolean;
         public DepartmentId: number;
+        public Department: DepartmentDto;
         constructor();
-        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, DepartmentId?: number);
-        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, DepartmentId?: number){
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, DepartmentId?: number, Department?: DepartmentDto);
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, DepartmentId?: number, Department?: DepartmentDto){
             this.Id = Id;
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -21,6 +22,7 @@ module Quantium.Recruitment.ODataEntities {
             this.Mobile = Mobile;
             this.IsActive = IsActive;
             this.DepartmentId = DepartmentId;
+            this.Department = Department;
         }
 
     }
@@ -92,15 +94,11 @@ module Quantium.Recruitment.ODataEntities {
     export class DepartmentDto { 
         public Id: number;
         public Name: string;
-        public Jobs: JobDto[];
-        public Admins: AdminDto[];
         constructor();
-        constructor(Id?: number, Name?: string, Jobs?: JobDto[], Admins?: AdminDto[]);
-        constructor(Id?: number, Name?: string, Jobs?: JobDto[], Admins?: AdminDto[]){
+        constructor(Id?: number, Name?: string);
+        constructor(Id?: number, Name?: string){
             this.Id = Id;
             this.Name = Name;
-            this.Jobs = Jobs;
-            this.Admins = Admins;
         }
 
     }
@@ -110,13 +108,15 @@ module Quantium.Recruitment.ODataEntities {
         public Title: string;
         public Profile: string;
         public Department: DepartmentDto;
+        public JobDifficultyLabels: Job_Label_DifficultyDto[];
         constructor();
-        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto);
-        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto){
+        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Label_DifficultyDto[]);
+        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Label_DifficultyDto[]){
             this.Id = Id;
             this.Title = Title;
             this.Profile = Profile;
             this.Department = Department;
+            this.JobDifficultyLabels = JobDifficultyLabels;
         }
 
     }
@@ -124,13 +124,11 @@ module Quantium.Recruitment.ODataEntities {
     export class LabelDto { 
         public Id: number;
         public Name: string;
-        public DifficultyLabels: Question_Label_DifficultyDto[];
         constructor();
-        constructor(Id?: number, Name?: string, DifficultyLabels?: Question_Label_DifficultyDto[]);
-        constructor(Id?: number, Name?: string, DifficultyLabels?: Question_Label_DifficultyDto[]){
+        constructor(Id?: number, Name?: string);
+        constructor(Id?: number, Name?: string){
             this.Id = Id;
             this.Name = Name;
-            this.DifficultyLabels = DifficultyLabels;
         }
 
     }
@@ -168,27 +166,25 @@ module Quantium.Recruitment.ODataEntities {
     export class DifficultyDto { 
         public Id: number;
         public Name: string;
-        public DifficultyLabels: Question_Label_DifficultyDto[];
+        public JobDifficultyLabels: Job_Label_DifficultyDto[];
         constructor();
-        constructor(Id?: number, Name?: string, DifficultyLabels?: Question_Label_DifficultyDto[]);
-        constructor(Id?: number, Name?: string, DifficultyLabels?: Question_Label_DifficultyDto[]){
+        constructor(Id?: number, Name?: string, JobDifficultyLabels?: Job_Label_DifficultyDto[]);
+        constructor(Id?: number, Name?: string, JobDifficultyLabels?: Job_Label_DifficultyDto[]){
             this.Id = Id;
             this.Name = Name;
-            this.DifficultyLabels = DifficultyLabels;
+            this.JobDifficultyLabels = JobDifficultyLabels;
         }
 
     }
 
-    export class Question_Label_DifficultyDto { 
+    export class Job_Label_DifficultyDto { 
         public Id: number;
-        public Question: QuestionDto;
         public Label: LabelDto;
         public Difficulty: DifficultyDto;
         constructor();
-        constructor(Id?: number, Question?: QuestionDto, Label?: LabelDto, Difficulty?: DifficultyDto);
-        constructor(Id?: number, Question?: QuestionDto, Label?: LabelDto, Difficulty?: DifficultyDto){
+        constructor(Id?: number, Label?: LabelDto, Difficulty?: DifficultyDto);
+        constructor(Id?: number, Label?: LabelDto, Difficulty?: DifficultyDto){
             this.Id = Id;
-            this.Question = Question;
             this.Label = Label;
             this.Difficulty = Difficulty;
         }
@@ -203,11 +199,11 @@ module Quantium.Recruitment.ODataEntities {
         public RandomizeOptions: boolean;
         public QuestionGroup: QuestionGroupDto;
         public Options: OptionDto[];
-        public Difficulty: string;
-        public Label: string;
+        public Difficulty: DifficultyDto;
+        public Label: LabelDto;
         constructor();
-        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: string, Label?: string);
-        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: string, Label?: string){
+        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: DifficultyDto, Label?: LabelDto);
+        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: DifficultyDto, Label?: LabelDto){
             this.Id = Id;
             this.Text = Text;
             this.ImageUrl = ImageUrl;
