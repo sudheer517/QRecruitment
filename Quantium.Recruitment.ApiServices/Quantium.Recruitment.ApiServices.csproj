@@ -224,6 +224,9 @@
     <Compile Include="AssemblyReferenceType.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CandidateController.cs" />
+    <Compile Include="Controllers\DifficultyController.cs" />
+    <Compile Include="Controllers\LabelController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\OptionController.cs" />
     <Compile Include="Controllers\JobController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />

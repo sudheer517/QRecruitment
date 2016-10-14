@@ -9,18 +9,25 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    public class CreateTestController : Controller
+    public class LabelController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<QRecruitmentRole> _roleManager;
         private readonly IHttpHelper _helper;
 
-        public CreateTestController(UserManager<ApplicationUser> userManager, RoleManager<QRecruitmentRole> roleManager, IHttpHelper helper)
+        public LabelController(UserManager<ApplicationUser> userManager, RoleManager<QRecruitmentRole> roleManager, IHttpHelper helper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _helper = helper;
         }
 
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var response = _helper.GetData("api/Label/GetAll");
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
     }
 }

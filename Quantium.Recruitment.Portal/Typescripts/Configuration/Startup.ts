@@ -9,8 +9,9 @@ module Recruitment {
             this.app = angular.module(name, [
                 "ui.router",
                 "ngFileUpload",
-                "xeditable"
-                 // for making text editable on edit test page
+                "xeditable", // for making text editable on edit test page
+                "ngMaterial",
+                "ngMessages"
                 //"mockingApp" // Can remove this when backend development is finished
             ]);
 

@@ -13,8 +13,7 @@ using System.Web.OData;
 using System.Web.OData.Routing;
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    //[Authorize]
-    public class DepartmentController : ODataController
+    public class DepartmentController : ApiController
     {
         private readonly IDepartmentRepository _departmentRepository;
 
@@ -23,15 +22,32 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             _departmentRepository = departmentRepository;
         }
 
-        //http://localhost:60606/odata/Departments
         [HttpGet]
-        [ODataRoute("DepartmentDto")]
-        [EnableQuery]
-        public IHttpActionResult GetDepartments()
+        public IHttpActionResult GetAllDepartments()
         {
             var departments = _departmentRepository.GetAll().ToList();
 
-            return Ok(Mapper.Map<IList<DepartmentDto>>(departments));
+            var dDtos = Mapper.Map<List<DepartmentDto>>(departments);
+
+            return Ok(dDtos);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetSingle(int key)
+        {
+            var department = _departmentRepository.GetAll().SingleOrDefault(item => item.Id == key);
+
+            return Ok(Mapper.Map<DepartmentDto>(department));
+        }
+
+        [HttpPost]
+        public IHttpActionResult Create(DepartmentDto departmentDto)
+        {
+            var department = Mapper.Map<Department>(departmentDto);
+
+            _departmentRepository.Add(department);
+
+            return Ok(Mapper.Map<DepartmentDto>(department));
         }
     }
 }

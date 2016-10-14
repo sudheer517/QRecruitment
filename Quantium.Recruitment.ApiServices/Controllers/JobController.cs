@@ -43,5 +43,15 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             return Ok(Mapper.Map<JobDto>(job));
         }
+
+        [HttpPost]
+        public IHttpActionResult Create(JobDto jobDto)
+        {
+            var job = Mapper.Map<Job>(jobDto);
+
+            _jobRepository.Add(job);
+
+            return Ok(Mapper.Map<JobDto>(job));
+        }
     }
 }

@@ -69,7 +69,7 @@ module Recruitment.Routes {
 
                     .state("createJob",
                     {
-                        url: "/createJob", controller: Controllers.TestController, templateUrl: "/views/createJob.html"
+                        url: "/createJob", controller: Controllers.CreateJobController, templateUrl: "/views/createJob.html"
                     })
             });
         }

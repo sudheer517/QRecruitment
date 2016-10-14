@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:58008/Home/Index#/createTest",
+      "applicationUrl": "http://localhost:58008/Home/Index#/createJob",
       "sslPort": 44339
     }
   },

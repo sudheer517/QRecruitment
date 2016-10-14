@@ -1,6 +1,61 @@
-﻿
-<hr class="tagline-divider">
-<h2 class="brand-before">
-    <small>Create Job</small>
-</h2>
-<hr class="tagline-divider">
+﻿<div ng-cloak="" class="md-inline-form" layout="column">
+    <md-card layout-padding="">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Create Job</span>
+                <span class="md-subhead">Fill the below fields</span>
+            </md-card-title-text>
+        </md-card-title>
+
+        <md-card-content>
+            <div layout="row">
+                <md-input-container>
+                    <label>Job Title</label>
+                    <input>
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Department</label>
+                    <md-select ng-model="selectedDepartment">
+                        <md-option><em>None</em></md-option>
+                        <md-option ng-repeat="department in departments" ng-value="department.Id">
+                            {{department.Name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>Job Profile</label>
+                    <textarea ng-model="user" md-maxlength="150" rows="2" md-select-on-focus="" max-rows="5"></textarea>
+                </md-input-container>
+            </div>
+            <div layout="column">
+              
+                    <div ng-repeat="label in labels">
+                        <div ng-cloak="" layout="row">
+                            <md-input-container class="createJobCheckbox">
+                                <md-checkbox ng-model="isChecked">
+                                    {{label.Name}}
+                                </md-checkbox>
+                            </md-input-container>
+                            <md-input-container class="createJobChild">
+                                <label>Difficulty</label>
+                                <md-select ng-model="selectedDifficulty">
+                                    <md-option><em>None</em></md-option>
+                                    <md-option ng-repeat="difficulty in difficulties" ng-value="difficulty.Id">
+                                        {{difficulty.Name}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                            <md-input-container class="createJobChild">
+                                <label>QuestionCount</label>
+                                <input>
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <span>bro{{isChecked}}</span>
+            </div>
+        </md-card-content>
+    </md-card>
+</div>

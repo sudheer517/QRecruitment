@@ -12,8 +12,7 @@ module Recruitment.Services {
         }
 
         public getAllJobs(): ng.IHttpPromise<JobDto[]> {
-            return this.$http.get("/CreateTest/GetAllJobs");
+            return this.$http.get("/Job/GetAll");
         }
-
     }
 }

@@ -4,6 +4,9 @@
 /// <reference path="../services/authservice.ts" />
 /// <reference path="../services/jobservice.ts" />
 /// <reference path="../services/connectionservice.ts" />
+/// <reference path="../services/departmentservice.ts" />
+/// <reference path="../services/labelservice.ts" />
+/// <reference path="../services/difficultyservice.ts" />
 
 module Recruitment.Services {
     export class ServicesConfiguration {
@@ -14,6 +17,9 @@ module Recruitment.Services {
             app.service("$adminService", Recruitment.Services.AdminService);
             app.service("$jobService", Recruitment.Services.JobService);
             app.service("$connectionService", Recruitment.Services.ConnectionService);
+            app.service("$departmentService", Recruitment.Services.DepartmentService);
+            app.service("$labelService", Recruitment.Services.LabelService);
+            app.service("$difficultyService", Recruitment.Services.DifficultyService);
         }
     }
 }
