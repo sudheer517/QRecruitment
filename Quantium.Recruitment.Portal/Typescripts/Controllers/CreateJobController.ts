@@ -4,6 +4,7 @@ module Recruitment.Controllers {
     import DepartmentDto = Quantium.Recruitment.ODataEntities.DepartmentDto;
     import LabelDto = Quantium.Recruitment.ODataEntities.LabelDto;
     import DifficultyDto = Quantium.Recruitment.ODataEntities.DifficultyDto;
+    import JobDifficultyLabelDto = Quantium.Recruitment.ODataEntities.Job_Difficulty_LabelDto;
 
     interface ICreateJobControllerScope extends ng.IScope {
         job: JobDto;
@@ -11,7 +12,15 @@ module Recruitment.Controllers {
         labels: LabelDto[];
         difficulties: DifficultyDto[];
         selectedDepartment: DepartmentDto;
-        toggleLabelSelection: (labelId: number) => void;
+        selectedOptions: SelectedOptions;
+        createJob(): void;
+    }
+    export class SelectedOptions {
+        public labelIds: boolean[];
+        public difficultyIds: number[];
+        public questionCounts: number[];
+
+        constructor() { };
     }
     export class CreateJobController {
 
@@ -25,8 +34,9 @@ module Recruitment.Controllers {
             this.getDepartments();
             this.getLabels();
             this.getDifficulties();
+            this.$scope.selectedOptions = new SelectedOptions();
+            this.$scope.createJob = () => this.createJob();
         }
-
 
         private getDepartments(): void {
             this.$departmentService.getAllDepartments()
@@ -58,8 +68,27 @@ module Recruitment.Controllers {
                 });
         }
 
-        private toggleLabelSelection(labelId: number): void {
+        private createJob(): void {
+            var job = this.$scope.job;
+            var labelIds = this.$scope.selectedOptions.labelIds;
+            var difficultyIds = this.$scope.selectedOptions.difficultyIds;
+            job.JobDifficultyLabels = [];
 
+            _.each(labelIds, (item, index) => {
+                if (item === true) {
+                    var jobDifficultyLabel = new JobDifficultyLabelDto();
+                    jobDifficultyLabel.Label = new LabelDto(index);
+                    jobDifficultyLabel.Difficulty = new DifficultyDto(difficultyIds[index]);
+                    jobDifficultyLabel.QuestionCount = this.$scope.selectedOptions.questionCounts[index];
+                    job.JobDifficultyLabels.push(jobDifficultyLabel);
+                }
+            });
+
+            this.$http.post("/Job/Create", job).then(response => {
+                console.log(response);
+            }, error => {
+                console.log(error);
+            });
         }
     }
 }

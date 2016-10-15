@@ -11,13 +11,13 @@
             <div layout="row">
                 <md-input-container>
                     <label>Job Title</label>
-                    <input>
+                    <input ng-model="job.Title">
                 </md-input-container>
 
                 <md-input-container>
                     <label>Department</label>
-                    <md-select ng-model="selectedDepartment">
-                        <md-option><em>None</em></md-option>
+                    <md-select ng-model="job.Department.Id">
+                        <md-option value="0"><em>None</em></md-option>
                         <md-option ng-repeat="department in departments" ng-value="department.Id">
                             {{department.Name}}
                         </md-option>
@@ -27,7 +27,7 @@
             <div layout="row">
                 <md-input-container class="md-block" flex-gt-sm="">
                     <label>Job Profile</label>
-                    <textarea ng-model="user" md-maxlength="150" rows="2" md-select-on-focus="" max-rows="5"></textarea>
+                    <textarea ng-model="job.Profile" md-maxlength="150" rows="2" md-select-on-focus="" max-rows="5"></textarea>
                 </md-input-container>
             </div>
             <div layout="column">
@@ -35,13 +35,13 @@
                     <div ng-repeat="label in labels">
                         <div ng-cloak="" layout="row">
                             <md-input-container class="createJobCheckbox">
-                                <md-checkbox ng-model="isChecked">
+                                <md-checkbox ng-model="selectedOptions.labelIds[label.Id]">
                                     {{label.Name}}
                                 </md-checkbox>
                             </md-input-container>
                             <md-input-container class="createJobChild">
                                 <label>Difficulty</label>
-                                <md-select ng-model="selectedDifficulty">
+                                <md-select ng-model="selectedOptions.difficultyIds[label.Id]">
                                     <md-option><em>None</em></md-option>
                                     <md-option ng-repeat="difficulty in difficulties" ng-value="difficulty.Id">
                                         {{difficulty.Name}}
@@ -50,11 +50,15 @@
                             </md-input-container>
                             <md-input-container class="createJobChild">
                                 <label>QuestionCount</label>
-                                <input>
+                                <input ng-model="selectedOptions.questionCounts[label.Id]">
                             </md-input-container>
                         </div>
                     </div>
-                    <span>bro{{isChecked}}</span>
+                    <md-button class="md-raised md-primary createJobButton" ng-click="createJob()">Create Job</md-button>
+
+                    <span>bro{{selectedOptions}}</span>
+                    <span>bro{{job}}</span>
+
             </div>
         </md-card-content>
     </md-card>

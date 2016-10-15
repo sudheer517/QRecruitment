@@ -20,10 +20,20 @@ namespace Quantium.Recruitment.ApiServices.Controllers
     public class JobController : ApiController
     {
         private readonly IJobRepository _jobRepository;
+        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IDifficultyRepository _difficultyRepository;
+        private readonly ILabelRepository _labelRepostory;
 
-        public JobController(IJobRepository jobRepository)
+        public JobController(
+            IJobRepository jobRepository, 
+            IDepartmentRepository departmentRepository,
+            IDifficultyRepository difficultyRepository,
+            ILabelRepository labelRepostory)
         {
             _jobRepository = jobRepository;
+            _departmentRepository = departmentRepository;
+            _difficultyRepository = difficultyRepository;
+            _labelRepostory = labelRepostory;
         }
 
         [HttpGet]
@@ -47,10 +57,23 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         [HttpPost]
         public IHttpActionResult Create(JobDto jobDto)
         {
+            
             var job = Mapper.Map<Job>(jobDto);
 
-            _jobRepository.Add(job);
+            var department = _departmentRepository.FindById(job.Department.Id);
 
+
+
+            foreach (var jobDifficultyLabel in job.JobDifficultyLabels)
+            {
+                var label = _labelRepostory.FindById(jobDifficultyLabel.Label.Id);
+                var difficulty = _difficultyRepository.FindById(jobDifficultyLabel.Difficulty.Id);
+                jobDifficultyLabel.Label = label;
+                jobDifficultyLabel.Difficulty = difficulty;
+            }
+
+            job.Department = department;
+            _jobRepository.Add(job);
             return Ok(Mapper.Map<JobDto>(job));
         }
     }
