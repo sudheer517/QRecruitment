@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Quantium.Recruitment.ApiServiceModels;
 using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.Portal.Models;
 using System;
@@ -22,5 +23,12 @@ namespace Quantium.Recruitment.Portal.Controllers
             _helper = helper;
         }
 
+        [HttpPost]
+        public IActionResult GenerateTests([FromBody] List<Candidate_JobDto> candidateJobDtos) 
+        {
+            var response = _helper.Post("api/Test/GenerateTests", candidateJobDtos);
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
     }
 }

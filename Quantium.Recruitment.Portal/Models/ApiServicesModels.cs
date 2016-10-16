@@ -55,12 +55,21 @@ namespace Quantium.Recruitment.ApiServiceModels {
 
     }
 
+     public class Candidate_JobDto { 
+        public long Id;
+        public CandidateDto Candidate;
+        public JobDto Job;
+        public bool IsFinished;
+
+    }
+
      public class JobDto { 
         public long Id;
         public string Title;
         public string Profile;
         public DepartmentDto Department;
         public List<Job_Difficulty_LabelDto> JobDifficultyLabels;
+        public List<Candidate_JobDto> CandidateJobs;
 
     }
 

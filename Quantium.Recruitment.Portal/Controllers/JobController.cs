@@ -34,7 +34,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         [HttpPost]
         public IActionResult Create([FromBody]JobDto job)
         {
-            var response = _helper.Post("api/Job/GetAllJobs", job);
+            var response = _helper.Post("api/Job/Create", job);
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }

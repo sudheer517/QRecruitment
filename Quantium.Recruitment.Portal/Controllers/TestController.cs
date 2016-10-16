@@ -20,6 +20,7 @@ namespace Quantium.Recruitment.Portal.Controllers
             _helper = helper;
         }
 
+        [HttpGet]
         public IActionResult GetNextChallenge()
         {
             return Json(_helper.GetData("/api/Department/GetAllDepartments"));

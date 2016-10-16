@@ -103,20 +103,38 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
+    export class Candidate_JobDto { 
+        public Id: number;
+        public Candidate: CandidateDto;
+        public Job: JobDto;
+        public IsFinished: boolean;
+        constructor();
+        constructor(Id?: number, Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean);
+        constructor(Id?: number, Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean){
+            this.Id = Id;
+            this.Candidate = Candidate;
+            this.Job = Job;
+            this.IsFinished = IsFinished;
+        }
+
+    }
+
     export class JobDto { 
         public Id: number;
         public Title: string;
         public Profile: string;
         public Department: DepartmentDto;
         public JobDifficultyLabels: Job_Difficulty_LabelDto[];
+        public CandidateJobs: Candidate_JobDto[];
         constructor();
-        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Difficulty_LabelDto[]);
-        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Difficulty_LabelDto[]){
+        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Difficulty_LabelDto[], CandidateJobs?: Candidate_JobDto[]);
+        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Difficulty_LabelDto[], CandidateJobs?: Candidate_JobDto[]){
             this.Id = Id;
             this.Title = Title;
             this.Profile = Profile;
             this.Department = Department;
             this.JobDifficultyLabels = JobDifficultyLabels;
+            this.CandidateJobs = CandidateJobs;
         }
 
     }

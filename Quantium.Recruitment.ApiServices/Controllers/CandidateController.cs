@@ -14,62 +14,69 @@ using System.Web.OData.Routing;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    //[Authorize]
-    //public class CandidateController : ODataController
-    //{
-    //    private readonly ICandidateRepository _candidateRepository;
-    //    //private readonly IAdminRepository _adminRepository;
+    public class CandidateController : ApiController
+    {
+        private readonly ICandidateRepository _candidateRepository;
+        //private readonly IAdminRepository _adminRepository;
 
-    //    //public UsersController(ICandidateRepository candidateRepository, IAdminRepository adminRepository)
-    //    //{
-    //    //    _candidateRepository = candidateRepository;
-    //    //    _adminRepository = adminRepository;
-    //    //}
+        //public UsersController(ICandidateRepository candidateRepository, IAdminRepository adminRepository)
+        //{
+        //    _candidateRepository = candidateRepository;
+        //    _adminRepository = adminRepository;
+        //}
 
-    //    public CandidateController(ICandidateRepository candidateRepository)
-    //    {
-    //        _candidateRepository = candidateRepository;
-    //    }
+        public CandidateController(ICandidateRepository candidateRepository)
+        {
+            _candidateRepository = candidateRepository;
+        }
 
-    //    //http://localhost:60606/odata/Candidates
-    //    [HttpGet]
-    //    [ODataRoute("Candidates")]
-    //    [EnableQuery]
-    //    public IHttpActionResult GetCandidates()
-    //    {
-    //        var candidates = _candidateRepository.GetAll().ToList();
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            var candidates = _candidateRepository.GetAll().Where(candidate => candidate.IsActive).ToList();
 
-    //        return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
-    //    }
+            return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
+        }
 
-    //    //http://localhost:60606/odata/Candidates(1)
-    //    [HttpGet]
-    //    [ODataRoute("Candidates({key})")]
-    //    public IHttpActionResult GetCandidate([FromODataUri] int key)
-    //    {
-    //        var candidate = _candidateRepository.GetAll().Single(item => item.Id == key);
+        [HttpGet]
+        public IHttpActionResult GetSingleCandidate( int key)
+        {
+            var candidate = _candidateRepository.GetAll().Single(item => item.Id == key);
 
-    //        return Ok(Mapper.Map<CandidateDto>(candidate));
-    //    }
+            return Ok(Mapper.Map<CandidateDto>(candidate));
+        }
 
-    //    ////http://localhost:60606/odata/Admins
-    //    //[HttpGet]
-    //    //[ODataRoute("Admins")]
-    //    //public IHttpActionResult GetAdmins()
-    //    //{
-    //    //    var admins = _adminRepository.GetAll().ToList();
+        [HttpPost]
+        public IHttpActionResult AddCandidates([FromBody]List<CandidateDto> candidateDtos)
+        {
+            var candidates = Mapper.Map<List<Candidate>>(candidateDtos);
 
-    //    //    return Ok(Mapper.Map<IList<AdminDto>>(admins));
-    //    //}
+            foreach (var candidate in candidates)
+            {
+                _candidateRepository.Add(candidate);
+            }
 
-    //    ////http://localhost:60606/odata/Admins(1)
-    //    //[HttpGet]
-    //    //[ODataRoute("Admins({key})")]
-    //    //public IHttpActionResult GetAdmin([FromODataUri] int key)
-    //    //{
-    //    //    var admin = _adminRepository.GetAll().Single(item => item.Id == key);
+            return Ok("Candidates Created");
+        }
 
-    //    //    return Ok(Mapper.Map<AdminDto>(admin));
-    //    //}
-    //}
+            ////http://localhost:60606/odata/Admins
+            //[HttpGet]
+            //[ODataRoute("Admins")]
+            //public IHttpActionResult GetAdmins()
+            //{
+            //    var admins = _adminRepository.GetAll().ToList();
+
+            //    return Ok(Mapper.Map<IList<AdminDto>>(admins));
+            //}
+
+            ////http://localhost:60606/odata/Admins(1)
+            //[HttpGet]
+            //[ODataRoute("Admins({key})")]
+            //public IHttpActionResult GetAdmin([FromODataUri] int key)
+            //{
+            //    var admin = _adminRepository.GetAll().Single(item => item.Id == key);
+
+            //    return Ok(Mapper.Map<AdminDto>(admin));
+            //}
+        }
 }

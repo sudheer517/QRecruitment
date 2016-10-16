@@ -1,31 +1,91 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = "~/Views/Shared/_MaterialLayout.cshtml";
 }
 
+<div layout="vertical">
+    <md-sidenav class="md-sidenav-left"
+                md-component-id="left"
+                md-is-locked-open="$mdMedia('gt-sm')"
+                md-whiteframe="4">
+        <md-toolbar>
+            <h1>Custom Actions</h1>
+        </md-toolbar>
+        <md-content>
+            <md-list>
+                <md-list-item>
+                    <md-button flex ui-sref="dashboard">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <span>Dashboard</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button flex ui-sref="uploadQuestions">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <span>Upload Questions</span>
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button flex ui-sref="createJob">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        Create Job
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button flex ui-sref="addCandidates">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        Add Candidates
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button flex ui-sref="createTest">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        Create Test
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button flex ui-sref="editTest">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        Edit Test
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button flex ui-sref="sendTest">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        Send Test
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button flex ui-sref="addTeamAdmin">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        Add Admin
+                    </md-button>
+                </md-list-item>
+                <md-list-item>
+                    <md-button flex ui-sref="test">
+                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        Take Test
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </md-sidenav>
+</div>
 
-@*<ul class="nav navbar-nav">
-        <li><a ui-sref="candidateDetails">Candidate Details</a></li>
-        <li><a ui-sref="candidateInstructions">Instructions</a></li>
-        <li><a ui-sref="testPage">Test Page</a></li>
-        <li><a ui-sref="candidateInstructions">Instructions</a></li>
-        <li><a ui-sref="candidateInstructions">Instructions</a></li>
-        <li><a ui-sref="candidateInstructions">Instructions</a></li>
-        <li><a ui-sref="candidateInstructions">Instructions</a></li>
-        <li><a ui-sref="candidateInstructions">Instructions</a></li>
-        <li><a ui-sref="candidateInstructions">Instructions</a></li>
 
-    </ul>*@
-
-<div ui-view></div>
-@*<ul>
-    <li><a href="#" ui-sref="home">Home</a></li>
-    <li><a href="#" ui-sref="login">Login</a></li>
-    <li><a href="#" ui-sref="private">Private Page</a></li>
-    <li><a href="#" ui-sref="secret">Secret Page</a></li>
-
-    <li><a href="#" ng-click="onLogout()">Logout</a></li>
-</ul>*@
-
-@*<div class="body-content" ui-view="main-view2"></div>*@
+<div layout="column" flex>
+    <md-toolbar class="md-hue-2">
+        <div class="md-toolbar-tools">
+            <md-button hide-gt-sm class="md-icon-button">
+                <md-icon md-svg-src="../img/menu.svg"></md-icon>
+            </md-button>
+            <h1>
+                Content
+            </h1>
+        </div>
+    </md-toolbar>
+    <md-content flex>
+        <div ui-view></div>
+    </md-content>
+</div>
+       
+ @*<div ui-view></div>*@

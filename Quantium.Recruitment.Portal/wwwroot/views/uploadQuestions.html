@@ -1,64 +1,49 @@
 ﻿<div>
     <h1>Upload Questions page</h1>
+    <md-content>
+        <md-button class="md-raised md-primary" href="/QuestionTemplate.csv">Download Bulk Upload Template</md-button>
+        
+        <lf-ng-md-file-input lf-files="files01" lf-api="api01"></lf-ng-md-file-input>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
+        <md-button class="md-primary md-raised" ng-click="showPrerenderedDialog($event)">
+            Preview Questions
+        </md-button>
 
-        </div>
+        <md-button class="md-primary md-raised" ng-click="saveChanges()">Save Changes</md-button>
+        <h6>{{uploadStatus}}</h6>
+    </md-content>
 
-        <div class="panel-body">
-
-            <div class="form-group">
-                <a class="btn btn-danger" href="/QuestionTemplate.csv">Download Template</a>
-            </div>
-
-            <div class="form-group flex fileInput">
-                <div class="input-group col-sm-4">
-                    <input type="text" class="form-control" value="{{fileName}}" ng-disabled="true">
-                    <label class="input-group-btn">
-                        <span class="btn btn-danger">
-                            Browse & Upload <input type="file" style="display: none;" ngf-select="selectFile($file, $invalidFiles)" accept=".csv">
-                        </span>
-                    </label>
-                </div>
-            </div>
-            <button class="btn btn-info" data-toggle="modal" data-target="#myModal" ng-click="previewQuestions()">Preview</button>
-            <h6>{{uploadStatus}}</h6>
-            <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"><i class="fa fa-3x fa-times-circle"></i></button>
-                            <h4 class="modal-title">Your uploaded questions can be found here bro</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p ng-hide="previewQuestionModels.length > 0">No questions uploaded yet</p>
-                            <div class="previewQuestion" ng-repeat="previewQuestionModel in previewQuestionModels">
-                                <span>{{previewQuestionModel.Id}}.</span>
-                                <h5>{{previewQuestionModel.Text}}</h5>
-                                <h6>Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds</h6>
-                                <h6>Label : {{previewQuestionModel.Label.Name}}</h6>
-                                <h6>Difficulty : {{previewQuestionModel.Difficulty.Name}}</h6>
-                                <h6>Randomize Options : {{previewQuestionModel.RandomizeOptions}}</h6>
-                                <h6>Question Group : {{previewQuestionModel.QuestionGroup.Description}}</h6>
-                                <div class="previewOptionList">
-                                    <ul>
-                                        <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.Text}}</li>
-                                    </ul>
+    <div style="visibility: hidden">
+        <div class="md-dialog-container" id="myModal">
+            <md-dialog layout-padding="">
+                <h2>Your uploaded questions</h2>
+                <div class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Your uploaded questions can be found here bro</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p ng-hide="previewQuestionModels.length > 0">No questions uploaded yet</p>
+                                <div class="previewQuestion" ng-repeat="previewQuestionModel in previewQuestionModels">
+                                    <span>{{previewQuestionModel.Id}}.</span>
+                                    <h5>{{previewQuestionModel.Text}}</h5>
+                                    <h6>Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds</h6>
+                                    <h6>Label : {{previewQuestionModel.Label.Name}}</h6>
+                                    <h6>Difficulty : {{previewQuestionModel.Difficulty.Name}}</h6>
+                                    <h6>Randomize Options : {{previewQuestionModel.RandomizeOptions}}</h6>
+                                    <h6>Question Group : {{previewQuestionModel.QuestionGroup.Description}}</h6>
+                                    <div class="previewOptionList">
+                                        <ul>
+                                            <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.Text}}</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                        </div>
+                            <div class="modal-footer">
+                            </div>
                     </div>
-
                 </div>
-            </div>
-        </div>
-
-        <div class="panel-footer">
-            <button class="btn btn-success" ng-click="saveChanges()">Save Changes</button>
+            </md-dialog>
         </div>
     </div>
 
-</div>    

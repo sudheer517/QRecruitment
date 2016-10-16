@@ -10,26 +10,44 @@ module Recruitment.Controllers {
 
     interface IUploadQuestionsControllerScope extends ng.IScope {
         fileUploadObj: any;
-        selectFile: (file: any, errFiles: any) => void;
         uploadedFile: any;
         uploadStatus: string;
         fileName: string;
         saveChanges: () => void;
         previewQuestions: () => void;
         previewQuestionModels: Question[];
+        files01: any;
+        showPrerenderedDialog: (event: any) => void;
     }
 
     export class UploadQuestionsController {
 
-        constructor(private $scope: IUploadQuestionsControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private Upload: ng.angularFileUpload.IUploadService, private $timeout: ng.ITimeoutService) {
-            this.$scope.selectFile = (file, errFiles) => this.selectFile(file, errFiles);
+        constructor(private $scope: IUploadQuestionsControllerScope,
+            private $log: ng.ILogService, private $http: ng.IHttpService,
+            private Upload: ng.angularFileUpload.IUploadService,
+            private $timeout: ng.ITimeoutService,
+            private $mdDialog: ng.material.IDialogService) {
             this.$scope.saveChanges = () => this.saveChanges();
             this.$scope.previewQuestions = () => this.previewQuestions();
             this.$scope.previewQuestionModels = [];
+            this.$scope.showPrerenderedDialog = (event) => this.showPrerenderedDialog(event);
+        }
+
+        private showPrerenderedDialog(ev: any): void {
+            this.previewQuestions();
+            var dialogOptions: ng.material.IDialogOptions = {
+                contentElement: '#myModal',
+                clickOutsideToClose: true,
+                scope: this.$scope,
+                preserveScope: true,
+                fullscreen: true
+            };
+
+            this.$mdDialog.show(dialogOptions);
         }
 
         public uploadFile(): void {
-            var file: any = this.$scope.uploadedFile;
+            var file: any = this.$scope.files01[0].lfFile;
 
             if (file) {
                 file.upload = this.Upload.upload({
@@ -55,14 +73,13 @@ module Recruitment.Controllers {
         }
 
         public selectFile(file: any, errFiles: any) {
-            this.$scope.uploadedFile = file;
             this.$scope.fileName = file.name;
             this.$scope.previewQuestionModels = [];
         }
 
         public previewQuestions(): void {
             if (this.$scope.previewQuestionModels.length < 1) {
-                var file = this.$scope.uploadedFile;
+                var file = this.$scope.files01[0].lfFile;
                 if (file) {
                     var fileReader = new FileReader();
                     fileReader.readAsText(file);

@@ -62,8 +62,6 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             var department = _departmentRepository.FindById(job.Department.Id);
 
-
-
             foreach (var jobDifficultyLabel in job.JobDifficultyLabels)
             {
                 var label = _labelRepostory.FindById(jobDifficultyLabel.Label.Id);

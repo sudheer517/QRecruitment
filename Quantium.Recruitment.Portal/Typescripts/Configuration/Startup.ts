@@ -11,7 +11,9 @@ module Recruitment {
                 "ngFileUpload",
                 "xeditable", // for making text editable on edit test page
                 "ngMaterial",
-                "ngMessages"
+                "ngMessages",
+                "ngMdIcons",
+                "lfNgMdFileInput"
                 //"mockingApp" // Can remove this when backend development is finished
             ]);
 

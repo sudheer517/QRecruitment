@@ -16,7 +16,7 @@ module Recruitment.Routes {
                 $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
 
                 //Default route
-                $urlRouterProvider.otherwise('/');
+                $urlRouterProvider.otherwise('/superAdmin');
                 //$urlRouterProvider.otherwise('/');
                 $stateProvider
                     .state("superAdmin",
@@ -71,6 +71,12 @@ module Recruitment.Routes {
                     {
                         url: "/createJob", controller: Controllers.CreateJobController, templateUrl: "/views/createJob.html"
                     })
+
+                    .state("dashboard",
+                    {
+                        url: "/dashboard", controller: Controllers.FirstController, templateUrl: "/views/dashboard.html"
+                    })
+
             });
         }
     }

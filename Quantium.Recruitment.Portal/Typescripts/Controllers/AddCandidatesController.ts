@@ -11,12 +11,14 @@ module Recruitment.Controllers {
         fileUploadObj: any;
         selectFile: (file: any, errFiles: any) => void;
         uploadedFile: any;
-        errorMsg: string;
+        uploadResult: string;
         fileName: string;
         saveChanges: () => void;
         previewCandidates: () => void;
         previewCandidatesModel: PreviewCandidatesModel[];
-}
+        showPrerenderedDialog: (event: any) => void;
+        files01: any;
+    }
 
     export class AddCandidatesController {
 
@@ -26,7 +28,8 @@ module Recruitment.Controllers {
             private $http: ng.IHttpService,
             private Upload: ng.angularFileUpload.IUploadService,
             private $timeout: ng.ITimeoutService,
-            private $connectionService: Recruitment.Services.ConnectionService) {
+            private $connectionService: Recruitment.Services.ConnectionService,
+            private $mdDialog: ng.material.IDialogService) {
             this.$scope.candidatesArray = {
                  candidates: []
             };
@@ -36,8 +39,21 @@ module Recruitment.Controllers {
             this.$scope.saveChanges = () => this.saveChanges();
             this.$scope.previewCandidates = () => this.previewCandidates();
             this.$scope.previewCandidatesModel = [];
+            this.$scope.showPrerenderedDialog = (event) => this.showPrerenderedDialog(event);
         }
 
+        private showPrerenderedDialog(ev: any): void {
+            this.previewCandidates();
+            var dialogOptions: ng.material.IDialogOptions = {
+                contentElement: '#myModal',
+                clickOutsideToClose: true,
+                scope: this.$scope,
+                preserveScope: true,
+                fullscreen: true
+            };
+
+            this.$mdDialog.show(dialogOptions);
+        }
        public remove(index: number): void {
            this.$scope.candidatesArray.candidates.splice(index, 1);
        }
@@ -47,11 +63,11 @@ module Recruitment.Controllers {
        }
 
         public uploadFile(): void {
-            var file: any = this.$scope.uploadedFile;
+            var file: any = this.$scope.files01[0].lfFile;
 
             if (file) {
                 file.upload = this.Upload.upload({
-                    url: this.$connectionService.getOdataConnection() + '/api/question',
+                    url: '/Candidate/Add',
                     data: { file: file },
                     method: 'POST',
                     headers: { 'Content-Type': undefined },
@@ -61,16 +77,17 @@ module Recruitment.Controllers {
                 file.upload.then(response => {
                     this.$timeout(() => {
                         file.result = response.data;
+                        this.$scope.uploadResult = "Candidates added successfully";
                     });
                 }, error => {
                     if (error.status > 0)
-                        this.$scope.errorMsg = error.status + ': ' + error.data;
+                        this.$scope.uploadResult = error.status + ': ' + error.data;
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));
                 });
             }
         }
-
+         
         public selectFile(file: any, errFiles: any) {
             this.$scope.uploadedFile = file;
             this.$scope.fileName = file.name;
@@ -79,7 +96,7 @@ module Recruitment.Controllers {
 
         public previewCandidates(): void {
             if (this.$scope.previewCandidatesModel.length < 1) {
-                var file = this.$scope.uploadedFile;
+                var file = this.$scope.files01[0].lfFile;
                 if (file) {
                     var fileReader = new FileReader();
                     fileReader.readAsText(file);
@@ -114,8 +131,7 @@ module Recruitment.Controllers {
         }
 
         public saveChanges(): void {
-            var randomObj = new Quantium.Recruitment.ODataEntities.AdminDto();
-            randomObj.FirstName = "Hello";
+            this.uploadFile();
         }
     }
 }

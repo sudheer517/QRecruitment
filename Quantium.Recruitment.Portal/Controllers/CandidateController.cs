@@ -9,6 +9,9 @@ using Simple.OData.Client;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Quantium.Recruitment.Portal.Helpers;
+using Quantium.Recruitment.ApiServiceModels;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,11 +20,11 @@ namespace Quantium.Recruitment.Portal.Controllers
     //[Authorize]
     public class CandidateController : Controller
     {
-        private readonly ICandidateHelper _candidateHelper;
+        private readonly IHttpHelper _helper;
 
-        public CandidateController(ICandidateHelper candidateHelper)
+        public CandidateController(IHttpHelper helper)
         {
-            _candidateHelper = candidateHelper;
+            _helper = helper;
         }
         // GET: /<controller>/
         public IActionResult Test()
@@ -29,6 +32,72 @@ namespace Quantium.Recruitment.Portal.Controllers
             return View();
         }
         
+        public IActionResult Add()
+        {
+            var file = Request.Form.Files[0];
+
+            string[] contentAsLines = GetContentFromFile(file);
+
+            string[] headers = contentAsLines[0].Split(',');
+            //var fileName = file.FileName;
+            IList<CandidateDto> candidates = new List<CandidateDto>();
+
+            for (int i = 1; i < contentAsLines.Length; i++)
+            {
+                candidates.Add(ParseLineToCandidate(headers, contentAsLines[i]));
+            }
+
+            try
+            {
+                var response = _helper.Post("api/Candidate/AddCandidates", candidates);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex);
+            }
+
+            return Created(string.Empty, string.Empty);
+        }
+
+        private string[] GetContentFromFile(IFormFile file)
+        {
+
+            string fileContent;
+
+            using (var reader = new StreamReader(file.OpenReadStream()))
+            {
+                fileContent = reader.ReadToEnd();
+            }
+
+            return fileContent.Split(new string[] { "\r\n" }, StringSplitOptions.None).Where(item => item.Trim().Length > 0).ToArray();
+        }
+
+        private CandidateDto ParseLineToCandidate(string[] headers, string candidateLine)
+        {
+            string[] candidateOptions = candidateLine.Split(',');
+            string[] candidateFirstLastNames = candidateOptions[1].Split(' ');
+
+            candidateFirstLastNames = candidateFirstLastNames.Where(item => item.Trim().Length > 0).ToArray();
+
+            CandidateDto newCandidate = new CandidateDto
+            {
+                FirstName = candidateFirstLastNames.Length > 0 ? candidateFirstLastNames[0] : string.Empty,
+                LastName = candidateFirstLastNames.Length > 1 ? candidateFirstLastNames[1] : string.Empty,
+                Email = candidateOptions[2],
+                IsActive = true
+            };
+
+            return newCandidate;
+
+        }
+
+        public IActionResult GetAllCandidates()
+        {
+            var response = _helper.GetData("/api/Candidate/GetAllCandidates");
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
         public IActionResult GetRoleName()
         {
             return Json("");

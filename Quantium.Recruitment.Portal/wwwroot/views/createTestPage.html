@@ -1,23 +1,33 @@
 ﻿
-<hr class="tagline-divider">
-<h2 class="brand-before">
-    <small>Create Test</small>
-</h2>
-<hr class="tagline-divider">
+<h1>Create Test</h1>
 
-
-<div>
-    <div class="form-group">
-        <label> Select a Job : </label>
-        <div class="btn-group">
-            <button type="button" data-toggle="dropdown" class="btn btn-danger dropdown-toggle">{{selectedJobName}} <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li ng-repeat="job in jobs"><a href="" ng-click="changeSelectedJob(job)">{{job.Title}}</a></li>
-            </ul>
-        </div>
-    </div>
+<md-content>
+    <md-input-container>
+        <label>Job</label>
+        <md-select ng-model="selectedJobId">
+            <md-option value="0"><em>None</em></md-option>
+            <md-option ng-repeat="job in jobs" ng-value="job.Id" ng-click="changeSelectedJob(job)">
+                {{job.Title}}
+            </md-option>
+        </md-select>
+    </md-input-container>
     <h5>Total questions in selected job: {{totalQuestionsInSelectedJob}}</h5>
+    {{selectedtestOptions}}
+    {{testGenerationResult}}
     <ul>
         <li ng-repeat="jobDifficultyLabel in selectedJob.JobDifficultyLabels">{{jobDifficultyLabel.Label.Name}} - {{jobDifficultyLabel.Difficulty.Name}} - {{jobDifficultyLabel.QuestionCount}}</li>
     </ul>
-</div>
+    
+    <div>
+        <div ng-repeat="candidate in candidates">
+            <md-input-container>
+                <md-checkbox ng-model="selectedtestOptions.candidateIds[candidate.Id]">
+                    {{candidate.FirstName}} {{candidate.LastName}} {{candidate.Email}}
+                </md-checkbox>
+            </md-input-container>
+        </div>
+    </div>
+
+    <md-button class="md-primary md-raised" ng-click="generateTest()">Generate test for selected Candidates</md-button>
+</md-content>
+
