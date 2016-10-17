@@ -256,13 +256,15 @@ module Quantium.Recruitment.ODataEntities {
         public Name: string;
         public Challenges: ChallengeDto[];
         public TestLabels: Test_LabelDto[];
+        public Candidate: CandidateDto;
         constructor();
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[]);
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[]){
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto);
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto){
             this.Id = Id;
             this.Name = Name;
             this.Challenges = Challenges;
             this.TestLabels = TestLabels;
+            this.Candidate = Candidate;
         }
 
     }

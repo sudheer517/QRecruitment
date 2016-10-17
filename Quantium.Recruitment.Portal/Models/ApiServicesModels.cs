@@ -134,6 +134,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public string Name;
         public List<ChallengeDto> Challenges;
         public List<Test_LabelDto> TestLabels;
+        public CandidateDto Candidate;
 
     }
 

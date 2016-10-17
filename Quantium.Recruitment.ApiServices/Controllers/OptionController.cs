@@ -9,9 +9,6 @@ using AutoMapper;
 using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
-using Quantium.Recruitment.ApiServices.Helpers;
-using System.Web.OData;
-using System.Web.OData.Routing;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {

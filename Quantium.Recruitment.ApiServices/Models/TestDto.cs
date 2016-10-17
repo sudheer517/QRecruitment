@@ -11,5 +11,7 @@ namespace Quantium.Recruitment.ApiServices.Models
         public List<ChallengeDto> Challenges { get; set; }
 
         public List<Test_LabelDto> TestLabels { get; set; }
+
+        public CandidateDto Candidate { get; set; }
     }
 }

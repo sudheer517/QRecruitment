@@ -9,8 +9,6 @@ using AutoMapper;
 using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
-using System.Web.OData;
-using System.Web.OData.Routing;
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
     public class TestController : ApiController
@@ -19,16 +17,26 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly IJobRepository _jobRepository;
         private readonly ICandidateRepository _candidateRepository;
         private readonly ICandidateJobRepository _candidateJobRepository;
+        private readonly IJobLabelDifficultyRepository _jobDifficultyLabelRepository;
+        private readonly IQuestionRepository _questionRepository;
+        private readonly IChallengeRepository _challengeRepository;
+
         public TestController(
             ITestRepository testRepository, 
             IJobRepository jobRepository,
             ICandidateRepository candidateRepository,
-            ICandidateJobRepository candidateJobRepository)
+            ICandidateJobRepository candidateJobRepository,
+            IJobLabelDifficultyRepository jobDifficultyLabelRepository,
+            IQuestionRepository questionRepository,
+            IChallengeRepository challengeRepository)
         {
             _testRepository = testRepository;
             _jobRepository = jobRepository;
             _candidateRepository = candidateRepository;
             _candidateJobRepository = candidateJobRepository;
+            _jobDifficultyLabelRepository = jobDifficultyLabelRepository;
+            _questionRepository = questionRepository;
+            _challengeRepository = challengeRepository;
         }
 
         [HttpPost]
@@ -36,7 +44,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             var candidatesJobs = Mapper.Map<List<Candidate_Job>>(candidatesJobsDto);
             var job = _jobRepository.FindById(candidatesJobsDto.First().Job.Id);
-
+            
             foreach (var candidateJobDto in candidatesJobsDto)
             {
                 var candidate = _candidateRepository.FindById(candidateJobDto.Candidate.Id);
@@ -48,6 +56,54 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 };
 
                 _candidateJobRepository.Add(newCandidateJob);
+
+                Test newTest = new Test
+                {
+                    Name = job.Title + candidate.FirstName,
+                    Candidate = candidate
+                };
+
+                _testRepository.Add(newTest);
+
+                IList<Job_Difficulty_Label> jobDifficultyLabels = _jobDifficultyLabelRepository.FindByJobId(job.Id).ToList();
+
+                List<Question> selectedQuestions = new List<Question>();
+
+                foreach (var jobDiffLabel in jobDifficultyLabels)
+                {
+                    var questions = 
+                        _questionRepository
+                        .GetAll()
+                        .Where(ques => ques.DifficultyId == jobDiffLabel.Difficulty.Id && ques.Label.Id == jobDiffLabel.Label.Id).ToList();
+
+                    var availableQuestionCount = questions.Count();
+
+                    if(availableQuestionCount < jobDiffLabel.QuestionCount)
+                    {
+                        throw new Exception("Question count exceeds available questions count");
+                    }
+
+                    Random r = new Random();
+                    IList<int> questionIds = new List<int>();
+
+                    for (int i = 0; i < jobDiffLabel.QuestionCount; i++)
+                    {
+                        questionIds.Add(r.Next(1, availableQuestionCount));
+                    }
+
+                    selectedQuestions.AddRange(questions.Where(ques => questionIds.Contains(Convert.ToInt32(ques.Id))));
+                }
+
+                foreach (var question in selectedQuestions)
+                {
+                    Challenge newChallenge = new Challenge
+                    {
+                        Test = newTest,
+                        Question = question
+                    };
+
+                    _challengeRepository.Add(newChallenge);
+                }
             }
 
             return Ok();

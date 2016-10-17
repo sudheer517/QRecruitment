@@ -25,5 +25,7 @@ namespace Quantium.Recruitment.Entities
         public virtual string College { get; set; }
 
         public virtual List<Candidate_Job> CandidateJobs { get; set; }
+
+        public virtual List<Test> Tests { get; set; }
     }
 }

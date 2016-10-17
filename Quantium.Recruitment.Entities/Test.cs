@@ -11,5 +11,7 @@ namespace Quantium.Recruitment.Entities
         public virtual List<Challenge> Challenges { get; set; }
 
         public virtual List<Test_Label> TestLabels { get; set; }
+
+        public virtual Candidate Candidate { get; set; }
     }
 }

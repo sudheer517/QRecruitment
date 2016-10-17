@@ -8,9 +8,6 @@ using AutoMapper;
 using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
-using Quantium.Recruitment.ApiServices.Helpers;
-using System.Web.OData;
-using System.Web.OData.Routing;
 using Quantium.Recruitment.Infrastructure.Unity;
 using Microsoft.Practices.Unity;
 
@@ -143,44 +140,6 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-
-        [HttpGet]
-        public IHttpActionResult GetQuestionProperty(int key)
-        {
-            var question = _questionRepository.FindById(key);
-
-            if (question == null)
-                return NotFound();
-
-            var propertyToGet = Url.Request.RequestUri.Segments.Last();
-
-            if (!question.HasProperty(propertyToGet))
-                return NotFound();
-
-            var propertyValue = question.GetValue(propertyToGet);
-
-            if (propertyValue == null)
-                return StatusCode(HttpStatusCode.NoContent);
-
-            return Ok(propertyValue);
-        }
-
-        [HttpGet]
-        public IHttpActionResult GetQuestionCollectionProperty(int key)
-        {
-            var propertyToGet = Url.Request.RequestUri.Segments.Last();
-
-            var question = _questionRepository.FindById(key);
-
-            if (question == null)
-                return NotFound();
-
-            var propertyValue = question.Options;
-
-            if (propertyValue == null)
-                return StatusCode(HttpStatusCode.NoContent);
-
-            return Ok(Mapper.Map<IList<OptionDto>>(propertyValue));
-        }
+       
     }
 }

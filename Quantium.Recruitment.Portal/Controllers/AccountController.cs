@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.Portal.Models;
 using Quantium.Recruitment.Portal.Models.AccountViewModels;
 using System;
-using Simple.OData.Client;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
