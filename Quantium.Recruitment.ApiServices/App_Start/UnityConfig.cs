@@ -26,9 +26,10 @@ namespace Quantium.Recruitment.ApiServices
             container.RegisterType<IQuestionGroupRepository, QuestionGroupRepository>();
 
             container.RegisterType<ITestRepository, TestRepository>();
-            container.RegisterType<ICandidateJobRepository, CandidateJobRepository>();
-
             container.RegisterType<IJobRepository, JobRepository>();
+            container.RegisterType<ICandidateJobRepository, CandidateJobRepository>();
+            container.RegisterType<IChallengeRepository, ChallengeRepository>();
+
             return new UnityDependencyResolver(container);
         }
     }

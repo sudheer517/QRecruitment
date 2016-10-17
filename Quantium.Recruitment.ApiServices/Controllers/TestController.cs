@@ -83,15 +83,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         throw new Exception("Question count exceeds available questions count");
                     }
 
-                    Random r = new Random();
-                    IList<int> questionIds = new List<int>();
+                    var randomQuestions = questions.OrderBy(item => Guid.NewGuid()).Take(jobDiffLabel.QuestionCount);
 
-                    for (int i = 0; i < jobDiffLabel.QuestionCount; i++)
-                    {
-                        questionIds.Add(r.Next(1, availableQuestionCount));
-                    }
-
-                    selectedQuestions.AddRange(questions.Where(ques => questionIds.Contains(Convert.ToInt32(ques.Id))));
+                    selectedQuestions.AddRange(randomQuestions);
                 }
 
                 foreach (var question in selectedQuestions)

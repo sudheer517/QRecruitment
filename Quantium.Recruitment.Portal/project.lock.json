@@ -2019,28 +2019,6 @@
           }
         }
       },
-      "Simple.OData.Client/4.23.4": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Bcl": "1.1.9",
-          "Microsoft.Bcl.Build": "1.0.21",
-          "Microsoft.Data.OData": "5.7.0",
-          "Microsoft.Net.Http": "2.2.28",
-          "Microsoft.OData.Core": "6.15.0"
-        },
-        "compile": {
-          "lib/portable-net45+win8+wp8+wpa81/Simple.OData.Client.Core.dll": {},
-          "lib/portable-net45+win8+wp8+wpa81/Simple.OData.Client.Dynamic.dll": {},
-          "lib/portable-net45+win8+wp8+wpa81/Simple.OData.Client.V3.Adapter.dll": {},
-          "lib/portable-net45+win8+wp8+wpa81/Simple.OData.Client.V4.Adapter.dll": {}
-        },
-        "runtime": {
-          "lib/portable-net45+win8+wp8+wpa81/Simple.OData.Client.Core.dll": {},
-          "lib/portable-net45+win8+wp8+wpa81/Simple.OData.Client.Dynamic.dll": {},
-          "lib/portable-net45+win8+wp8+wpa81/Simple.OData.Client.V3.Adapter.dll": {},
-          "lib/portable-net45+win8+wp8+wpa81/Simple.OData.Client.V4.Adapter.dll": {}
-        }
-      },
       "System.AppContext/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -5628,59 +5606,6 @@
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "runtime.json"
-      ]
-    },
-    "Microsoft.OData.Core/6.15.0": {
-      "sha512": "TlRpYl129Q5IIgZmVByLkykocsC7t49XiM6yXzuzq7szy1ZFVLjs0BQv5qTtbmlyTWlyrO7sOg34ohXFPe2nPQ==",
-      "type": "package",
-      "path": "Microsoft.OData.Core/6.15.0",
-      "files": [
-        "Microsoft.OData.Core.6.15.0.nupkg.sha512",
-        "Microsoft.OData.Core.nuspec",
-        "lib/dnx451/Microsoft.OData.Core.dll",
-        "lib/dnx451/Microsoft.OData.Core.xml",
-        "lib/dnx451/de/Microsoft.OData.Core.resources.dll",
-        "lib/dnx451/es/Microsoft.OData.Core.resources.dll",
-        "lib/dnx451/fr/Microsoft.OData.Core.resources.dll",
-        "lib/dnx451/it/Microsoft.OData.Core.resources.dll",
-        "lib/dnx451/ja/Microsoft.OData.Core.resources.dll",
-        "lib/dnx451/ko/Microsoft.OData.Core.resources.dll",
-        "lib/dnx451/ru/Microsoft.OData.Core.resources.dll",
-        "lib/dnx451/zh-Hans/Microsoft.OData.Core.resources.dll",
-        "lib/dnx451/zh-Hant/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/Microsoft.OData.Core.dll",
-        "lib/dnxcore50/Microsoft.OData.Core.xml",
-        "lib/dnxcore50/de/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/es/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/fr/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/it/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/ja/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/ko/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/ru/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/zh-Hans/Microsoft.OData.Core.resources.dll",
-        "lib/dnxcore50/zh-Hant/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/Microsoft.OData.Core.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/Microsoft.OData.Core.xml",
-        "lib/portable-net40+sl5+wp8+win8+wpa/de/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/es/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/fr/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/it/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/ja/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/ko/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/ru/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/zh-Hans/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net40+sl5+wp8+win8+wpa/zh-Hant/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/Microsoft.OData.Core.dll",
-        "lib/portable-net45+win+wpa81/Microsoft.OData.Core.xml",
-        "lib/portable-net45+win+wpa81/de/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/es/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/fr/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/it/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/ja/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/ko/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/ru/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/zh-Hans/Microsoft.OData.Core.resources.dll",
-        "lib/portable-net45+win+wpa81/zh-Hant/Microsoft.OData.Core.resources.dll"
       ]
     },
     "Microsoft.Spatial/6.15.0": {

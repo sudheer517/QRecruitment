@@ -11,9 +11,9 @@ namespace Quantium.Recruitment.Entities
 
         public virtual long QuestionId { get; set; }
 
-        public virtual DateTime StartTime { get; set; }
+        public virtual DateTime? StartTime { get; set; }
 
-        public virtual DateTime AnsweredTime { get; set; }
+        public virtual DateTime? AnsweredTime { get; set; }
 
         [ForeignKey("TestId")]
         public virtual Test Test { get; set; }

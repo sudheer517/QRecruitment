@@ -9,7 +9,6 @@ using System.IO;
 using Microsoft.Net.Http.Headers;
 using Quantium.Recruitment.Portal.Helpers;
 using Microsoft.AspNetCore.Http;
-using Simple.OData.Client;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;

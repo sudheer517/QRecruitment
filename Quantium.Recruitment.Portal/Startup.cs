@@ -37,7 +37,6 @@ namespace Quantium.Recruitment.Portal
                 .AddDefaultTokenProviders();
 
             services.AddTransient<ICandidateHelper, CandidateHelper>();
-            services.AddTransient<IOdataHelper, OdataHelper>();
             services.AddTransient<IHttpHelper, HttpHelper>();
 
             services.Configure<ConfigurationOptions>(Configuration.GetSection("ConfigurationOptions"));

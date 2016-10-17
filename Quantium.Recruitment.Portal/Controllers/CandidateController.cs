@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using IdentityModel.Client;
-using Simple.OData.Client;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Quantium.Recruitment.Portal.Helpers;

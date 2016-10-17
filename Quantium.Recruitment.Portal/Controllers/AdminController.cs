@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.Portal.Helpers;
-using Simple.OData.Client;
 using Quantium.Recruitment.ApiServiceModels;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,11 +12,11 @@ namespace Quantium.Recruitment.Portal.Controllers
 {
     public class AdminController : Controller
     {
-        private ODataClient _odataClient;
+        private IHttpHelper _httpHelper;
 
-        public AdminController(IOdataHelper _odataHelper)
+        public AdminController(IHttpHelper httpHelper)
         {
-            _odataClient = _odataHelper.GetOdataClient();
+            _httpHelper = httpHelper;
         }
 
         public IActionResult Index()
@@ -27,32 +26,37 @@ namespace Quantium.Recruitment.Portal.Controllers
 
         public IActionResult GetAdminList()
         {
-            return Json(_odataClient.For<AdminDto>().FindEntriesAsync().Result);
+            return Json("");
+            //return Json(_odataClient.For<AdminDto>().FindEntriesAsync().Result);
         }
 
         [HttpPost]
         public IActionResult AddAdmin([FromBody] AdminDto adminDto)
         {
+            return Json("");
             // the htttp request content-type should be set to application/json
-            return Json(_odataClient.For<AdminDto>().Set(adminDto).InsertEntryAsync());
+            //return Json(_odataClient.For<AdminDto>().Set(adminDto).InsertEntryAsync());
         }
 
         [HttpPost]
         public IActionResult UpdateAdmin([FromBody] AdminDto adminDto)
         {
+            return Json("");
             // the htttp request content-type should be set to application/json
-            return Json(_odataClient.For<AdminDto>().Key(adminDto.Id).Set(adminDto).UpdateEntriesAsync());
+            //return Json(_odataClient.For<AdminDto>().Key(adminDto.Id).Set(adminDto).UpdateEntriesAsync());
         }
 
         [HttpPost]
         public IActionResult DeleteAdmin([FromBody]int key)
         {
-            return Json(_odataClient.For<AdminDto>().Key(key).DeleteEntryAsync());
+            return Json("");
+            //return Json(_odataClient.For<AdminDto>().Key(key).DeleteEntryAsync());
         }
 
         public IActionResult GetDepartmentList()
         {
-            return Json(_odataClient.For<DepartmentDto>().FindEntriesAsync().Result);
+            return Json("");
+            //return Json(_odataClient.For<DepartmentDto>().FindEntriesAsync().Result);
         }
     }
 }
