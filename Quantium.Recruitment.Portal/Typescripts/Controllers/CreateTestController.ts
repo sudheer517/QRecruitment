@@ -72,9 +72,9 @@ module Recruitment.Controllers {
 
             _.each(candidateIds, (item, index) => {
                 if (item === true) {
-                    var candidateJob = new CandidateJobDto();
-                    candidateJob.Candidate = new CandidateDto(index);
-                    candidateJob.Job = new JobDto(this.$scope.selectedJob.Id);
+                    var candidateJob = new Quantium.Recruitment.ODataEntities.Candidate_JobDto();
+                    candidateJob.Candidate = new Quantium.Recruitment.ODataEntities.CandidateDto(index);
+                    candidateJob.Job = new Quantium.Recruitment.ODataEntities.JobDto(this.$scope.selectedJob.Id);
                     candidatesJobs.push(candidateJob);
                 }
             });
