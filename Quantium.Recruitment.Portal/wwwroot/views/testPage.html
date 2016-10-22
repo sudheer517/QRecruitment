@@ -24,14 +24,11 @@
                     <br />
                     <div class="text-left">
                         <div class="checkbox" ng-repeat="option in options">
-
-                            <input id="{{option.optionId}}" type="checkbox" value="{{option.optionText}}"
-                                    ng-checked="selection.indexOf(option.optionText) > -1"
-                                    ng-click="toggleSelection(option.optionId)" />
-
-                            <label for="{{option.optionId}}">
-                                <span></span><i>{{option.optionText}}</i>
-                            </label>
+                            <md-input-container class="createJobCheckbox">
+                                <md-checkbox ng-model="selectedQuestionOptions.optionIds[option.Id]">
+                                    {{option.Text}}
+                                </md-checkbox>
+                            </md-input-container>
                         </div>
 
                         <!--<ul>
@@ -43,7 +40,7 @@
             </div>
         </div>
         <div class="panel-footer flex">
-            <button class="btn redButton flex-start" ng-click="postQuestion()">Next Question &nbsp;<i class="fa fa-chevron-right"></i></button>
+            <button class="btn redButton flex-start" ng-click="postChallenge()">Next Question &nbsp;<i class="fa fa-chevron-right"></i></button>
             <span class="fill-space"></span>
             <button class="btn greyButton flex-end">Finish Test</button>
         </div>

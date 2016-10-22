@@ -12,7 +12,7 @@ namespace Quantium.Recruitment.ApiServices
         public static IDependencyResolver RegisterComponents()
         {
 			var container = new UnityContainer();
-            container.RegisterType<IRecruitmentContext, RecruitmentContext>(new PerThreadLifetimeManager());
+            container.RegisterType<IRecruitmentContext, RecruitmentContext>(new ExternallyControlledLifetimeManager());
             container.RegisterType<IConnectionString, ConnectionString>();
             container.RegisterType<ICandidateRepository, CandidateRepository>();
             container.RegisterType<IAdminRepository, AdminRepository>();
@@ -28,7 +28,8 @@ namespace Quantium.Recruitment.ApiServices
             container.RegisterType<ITestRepository, TestRepository>();
             container.RegisterType<IJobRepository, JobRepository>();
             container.RegisterType<ICandidateJobRepository, CandidateJobRepository>();
-            container.RegisterType<IChallengeRepository, ChallengeRepository>();
+            container.RegisterType<IChallengeRepository, ChallengeRepository>(new TransientLifetimeManager());
+            container.RegisterType<ICandidateSelectedOptionRepository, CandidateSelectedOptionRepository>();
 
             return new UnityDependencyResolver(container);
         }

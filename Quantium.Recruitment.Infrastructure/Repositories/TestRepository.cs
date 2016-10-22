@@ -7,6 +7,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
     {
         Test FindById(long Id);
         void Update(Test entity);
+        Test FindByCandidateId(long candidateId);
     }
 
     public class TestRepository : GenericRepository<Test>, ITestRepository
@@ -20,6 +21,11 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         public Test FindById(long Id)
         {
             return _dbContext.Tests.Single(entity => entity.Id == Id);
+        }
+
+        public Test FindByCandidateId(long candidateId)
+        {
+            return _dbContext.Tests.Single(entity => entity.Candidate.Id == candidateId);
         }
 
         public void Update(Test entity)

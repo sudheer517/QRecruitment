@@ -31,6 +31,11 @@ namespace Quantium.Recruitment.ApiServices
             cfg.CreateMap<Candidate, CandidateDto>().ReverseMap();
 
             cfg.CreateMap<Candidate_Job, Candidate_JobDto>().ReverseMap();
+
+            cfg.CreateMap<Test, TestDto>().ReverseMap();
+            cfg.CreateMap<Challenge, ChallengeDto>().ReverseMap();
+            cfg.CreateMap<CandidateSelectedOption, CandidateSelectedOptionDto>().ReverseMap();
+
             //cfg.CreateMap<Admin, AdminDto>();
             //cfg.CreateMap<AdminDto, Admin>();
             //cfg.CreateMap<Candidate, CandidateDto>();

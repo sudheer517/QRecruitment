@@ -14,6 +14,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
         public T Add(T entity)
         {
+            _dbContext.Entry(entity);
             var result = _dbContext.GetSet(typeof(T)).Add(entity);
             _dbContext.SaveChanges();
 

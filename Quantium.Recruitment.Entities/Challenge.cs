@@ -15,6 +15,10 @@ namespace Quantium.Recruitment.Entities
 
         public virtual DateTime? AnsweredTime { get; set; }
 
+        public virtual bool? IsSent { get; set; }
+
+        public virtual bool? IsAnswered { get; set; }
+
         [ForeignKey("TestId")]
         public virtual Test Test { get; set; }
 

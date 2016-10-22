@@ -25,6 +25,14 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         public void Update(Challenge entity)
         {
             _dbContext.Challenges.Add(entity);
+            _dbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+
+            foreach (var candidateSelectedOption in entity.CandidateSelectedOptions)
+            {
+                _dbContext.Entry(candidateSelectedOption).State = System.Data.Entity.EntityState.Added;
+            }
+
+            _dbContext.SaveChanges();
         }
     }
 }

@@ -69,7 +69,6 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public string Profile;
         public DepartmentDto Department;
         public List<Job_Difficulty_LabelDto> JobDifficultyLabels;
-        public List<Candidate_JobDto> CandidateJobs;
 
     }
 

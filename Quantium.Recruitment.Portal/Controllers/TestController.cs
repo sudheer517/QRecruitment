@@ -22,7 +22,21 @@ namespace Quantium.Recruitment.Portal.Controllers
         [HttpGet]
         public IActionResult GetNextChallenge()
         {
-            return Json(_helper.GetData("/api/Department/GetAllDepartments"));
+            var response = _helper.GetData("/api/Challenge/4");
+
+            if(response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+            {
+                throw new Exception("Challenge retrieval failed");
+            }
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
+        [HttpPost]
+        public IActionResult PostChallenge([FromBody]ChallengeDto challengedto)
+        {
+            var response = _helper.Post("/api/Challenge/PostChallenge", challengedto);
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
         }
     }
 }

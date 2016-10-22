@@ -1,24 +1,40 @@
 ﻿
 module Recruitment.Controllers {
+    import ChallengeDto = Quantium.Recruitment.ODataEntities.ChallengeDto;
+    import CandidateSelectedOptionDto = Quantium.Recruitment.ODataEntities.CandidateSelectedOptionDto;
+
     interface ITestControllerScope extends ng.IScope {
-        questionId: number;
-        question: string;
+        challengeId: number;
+        questionText: string;
         options: any;
-        postQuestion: () => void;
+        postChallenge: () => void;
         selection: any;
         toggleSelection: (employeeName: string) => void;
         //addSelection: (selectedOption: string) => void;
+        selectedQuestionOptions: SelectedQuestionOptions;
+        
     }
+
+    class SelectedQuestionOptions {
+        public optionIds: boolean[];
+        constructor() { }
+    }
+
     export class TestController {
         private selectedOptions: string[];
+        private currentChallenge: ChallengeDto;
 
-        constructor(private $scope: ITestControllerScope, private $log: ng.ILogService, private $http: ng.IHttpService, private $challengeService: Recruitment.Services.ChallengeService) {
-            this.getNextQuestion();
-            this.$scope.postQuestion = () => this.postQuestion();
+        constructor(
+            private $scope: ITestControllerScope,
+            private $log: ng.ILogService,
+            private $http: ng.IHttpService,
+            private $testService: Recruitment.Services.TestService) {
+            this.getNextChallenge();
+            this.$scope.postChallenge = () => this.postChallenge();
             //this.$scope.addSelection = (selectedOption) => this.addSelection(selectedOption);
             this.$scope.selection = [];
             this.$scope.toggleSelection = (employeeName) => this.toggleSelection(employeeName);
-
+            this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
         }
 
         private toggleSelection(employeeName: string): void {
@@ -37,16 +53,31 @@ module Recruitment.Controllers {
             }
         }
 
-        private postQuestion(): void {
+        private postChallenge(): void {
+            var challengeDto = this.currentChallenge;
+            var candidateSelectedOptionDtoItems: CandidateSelectedOptionDto[] = [];
+            var selectedOptionIds = this.$scope.selectedQuestionOptions.optionIds;
+            challengeDto.QuestionId = challengeDto.Question.Id;
+            _.each(selectedOptionIds, (item, index) => {
+                if (item === true) {
+                    var candidateSelectedOptionDto = new Quantium.Recruitment.ODataEntities.CandidateSelectedOptionDto();
+                    candidateSelectedOptionDto.ChallengeId = this.currentChallenge.Id;
+                    candidateSelectedOptionDto.OptionId = index;
+                    candidateSelectedOptionDtoItems.push(candidateSelectedOptionDto);
+                }
+            });
 
-            this.$challengeService.postChallenge(this.$scope.selection)
+            challengeDto.AnsweredTime = "2016-10-22 18:26:18.133";
+            challengeDto.CandidateSelectedOptions = candidateSelectedOptionDtoItems;
+            //this.currentChallenge.CandidateSelectedOptions.push(
+            //challengeDto.CandidateSelectedOptions.push(
+            this.$testService.postChallenge(challengeDto)
                 .then(result => {
                     this.$log.info("answer posted");
+                    this.getNextChallenge();
                 }, reason => {
                     this.$log.error("answer posting failed");
                 });
-
-            this.getNextQuestion();
         }
 
         private setTimer(questionTimeInSeconds: number) {
@@ -67,14 +98,17 @@ module Recruitment.Controllers {
             clock.start();
         }
 
-        private getNextQuestion(): any {
-            this.$challengeService.getNextChallenge()
+        private getNextChallenge(): any {
+            this.$testService.getNextChallenge()
                 .then(result => {
-                    this.$scope.questionId = result.data.questionNumber;
-                    this.$scope.question = result.data.questionText;
-                    this.$scope.options = result.data.options;
+                    this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
+                    this.currentChallenge = result.data;
+                    this.currentChallenge.StartTime = "2016-10-22 18:26:12.133";
+                    this.$scope.challengeId = result.data.Question.Id;
+                    this.$scope.questionText = result.data.Question.Text;
+                    this.$scope.options = result.data.Question.Options;
                     this.$log.info("new question retrieved");
-                    this.setTimer(result.data.questionTimeInSeconds);
+                    this.setTimer(result.data.Question.TimeInSeconds);
                 }, reason => {
                     this.$log.error("new question retrieval failed");
 
