@@ -6,63 +6,63 @@
     <md-sidenav class="md-sidenav-left"
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')"
-                md-whiteframe="4">
+                md-whiteframe="4" layout="column">
         <md-toolbar>
-            <h1>Custom Actions</h1>
+            <h1>Quantium</h1>
         </md-toolbar>
-        <md-content>
-            <md-list>
+        <md-content md-theme="dark-grey" md-theme-watch flex>
+            <md-list class="sideNavList fill-width">
                 <md-list-item>
-                    <md-button flex ui-sref="dashboard">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                    <md-button flex ui-sref="dashboard" layout-align="start center">
+                        <md-icon md-svg-icon="dashboard" class="s42"></md-icon>
                         <span>Dashboard</span>
                     </md-button>
                 </md-list-item>
-                <md-list-item>
+                <md-list-item layout-align="start center">
                     <md-button flex ui-sref="uploadQuestions">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <md-icon md-svg-icon="upload" class="s42"></md-icon>
                         <span>Upload Questions</span>
                     </md-button>
                 </md-list-item>
-                <md-list-item>
+                <md-list-item layout-align="start center">
                     <md-button flex ui-sref="createJob">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
-                        Create Job
+                        <md-icon md-svg-icon="createJob" class="s42"></md-icon>
+                        <span>Create Job</span>
                     </md-button>
                 </md-list-item>
-                <md-list-item>
+                <md-list-item layout-align="start center">
                     <md-button flex ui-sref="addCandidates">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <md-icon md-svg-icon="addCandidates" class="s42"></md-icon>
                         Add Candidates
                     </md-button>
                 </md-list-item>
                 <md-list-item>
                     <md-button flex ui-sref="createTest">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <md-icon md-svg-icon="createTest" class="s42"></md-icon>
                         Create Test
                     </md-button>
                 </md-list-item>
                 <md-list-item>
                     <md-button flex ui-sref="editTest">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <md-icon md-svg-icon="editTest" class="s42"></md-icon>
                         Edit Test
                     </md-button>
                 </md-list-item>
                 <md-list-item>
                     <md-button flex ui-sref="sendTest">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <md-icon md-svg-icon="sendTest" class="s42"></md-icon>
                         Send Test
                     </md-button>
                 </md-list-item>
                 <md-list-item>
                     <md-button flex ui-sref="addTeamAdmin">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <md-icon md-svg-icon="addAdmin" class="s42"></md-icon>
                         Add Admin
                     </md-button>
                 </md-list-item>
                 <md-list-item>
                     <md-button flex ui-sref="test">
-                        <md-icon md-svg-src="../img/upload.svg" class="s42"></md-icon>
+                        <md-icon md-svg-icon="takeTest" class="s42"></md-icon>
                         Take Test
                     </md-button>
                 </md-list-item>
@@ -73,19 +73,7 @@
 
 
 <div layout="column" flex>
-    <md-toolbar class="md-hue-2">
-        <div class="md-toolbar-tools">
-            <md-button hide-gt-sm class="md-icon-button">
-                <md-icon md-svg-src="../img/menu.svg"></md-icon>
-            </md-button>
-            <h1>
-                Content
-            </h1>
-        </div>
-    </md-toolbar>
-    <md-content flex>
-        <div ui-view></div>
-    </md-content>
+    <div ui-view></div>
 </div>
        
  @*<div ui-view></div>*@

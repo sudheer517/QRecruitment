@@ -1,45 +1,49 @@
-﻿<div ng-cloak="" class="md-inline-form" layout="column">
-    <md-card layout-padding="">
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline">Create Job</span>
-                <span class="md-subhead">Fill the below fields</span>
-            </md-card-title-text>
-        </md-card-title>
+﻿
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm class="md-icon-button">
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+        <h1>
+            Create Job
+        </h1>
+    </div>
+</md-toolbar>
+<md-content flex>
+    <div ng-cloak="" class="md-inline-form" layout="row" flex>
+        <md-card flex>
+            <md-card-content>
+                <div layout="column">
+                    <md-input-container>
+                        <label>Job Title</label>
+                        <input ng-model="job.Title">
+                    </md-input-container>
 
-        <md-card-content>
-            <div layout="row">
-                <md-input-container>
-                    <label>Job Title</label>
-                    <input ng-model="job.Title">
-                </md-input-container>
-
-                <md-input-container>
-                    <label>Department</label>
-                    <md-select ng-model="job.Department.Id">
-                        <md-option value="0"><em>None</em></md-option>
-                        <md-option ng-repeat="department in departments" ng-value="department.Id">
-                            {{department.Name}}
-                        </md-option>
-                    </md-select>
-                </md-input-container>
-            </div>
-            <div layout="row">
-                <md-input-container class="md-block" flex-gt-sm="">
-                    <label>Job Profile</label>
-                    <textarea ng-model="job.Profile" md-maxlength="150" rows="2" md-select-on-focus="" max-rows="5"></textarea>
-                </md-input-container>
-            </div>
-            <div layout="column">
-              
+                    <md-input-container>
+                        <label>Department</label>
+                        <md-select ng-model="job.Department.Id">
+                            <md-option value="0"><em>None</em></md-option>
+                            <md-option ng-repeat="department in departments" ng-value="department.Id">
+                                {{department.Name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container class="md-block" flex-gt-sm="">
+                        <label>Job Profile</label>
+                        <textarea ng-model="job.Profile" md-maxlength="150" rows="2" md-select-on-focus="" max-rows="5"></textarea>
+                    </md-input-container>
+                </div>
+                <div layout="column" flex>
                     <div ng-repeat="label in labels">
                         <div ng-cloak="" layout="row">
-                            <md-input-container class="createJobCheckbox">
+                            <md-input-container class="createJobCheckbox" flex="10">
                                 <md-checkbox ng-model="selectedOptions.labelIds[label.Id]">
                                     {{label.Name}}
                                 </md-checkbox>
                             </md-input-container>
-                            <md-input-container class="createJobChild">
+                            <md-input-container class="createJobChild" flex="45">
                                 <label>Difficulty</label>
                                 <md-select ng-model="selectedOptions.difficultyIds[label.Id]">
                                     <md-option><em>None</em></md-option>
@@ -48,18 +52,16 @@
                                     </md-option>
                                 </md-select>
                             </md-input-container>
-                            <md-input-container class="createJobChild">
+                            <md-input-container class="createJobChild" flex="45">
                                 <label>QuestionCount</label>
                                 <input ng-model="selectedOptions.questionCounts[label.Id]">
                             </md-input-container>
                         </div>
                     </div>
                     <md-button class="md-raised md-primary createJobButton" ng-click="createJob()">Create Job</md-button>
+                </div>
+            </md-card-content>
+        </md-card>
+    </div>
+</md-content>
 
-                    <span>bro{{selectedOptions}}</span>
-                    <span>bro{{job}}</span>
-
-            </div>
-        </md-card-content>
-    </md-card>
-</div>

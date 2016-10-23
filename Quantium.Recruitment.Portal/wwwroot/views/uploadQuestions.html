@@ -1,49 +1,72 @@
-﻿<div>
-    <h1>Upload Questions page</h1>
-    <md-content>
-        <md-button class="md-raised md-primary" href="/QuestionTemplate.csv">Download Bulk Upload Template</md-button>
-        
-        <lf-ng-md-file-input lf-files="files01" lf-api="api01"></lf-ng-md-file-input>
-
-        <md-button class="md-primary md-raised" ng-click="showPrerenderedDialog($event)">
-            Preview Questions
+﻿<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm class="md-icon-button">
+            <md-icon md-svg-icon="menu"></md-icon>
         </md-button>
-
-        <md-button class="md-primary md-raised" ng-click="saveChanges()">Save Changes</md-button>
-        <h6>{{uploadStatus}}</h6>
-    </md-content>
-
-    <div style="visibility: hidden">
-        <div class="md-dialog-container" id="myModal">
-            <md-dialog layout-padding="">
-                <h2>Your uploaded questions</h2>
-                <div class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Your uploaded questions can be found here bro</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p ng-hide="previewQuestionModels.length > 0">No questions uploaded yet</p>
-                                <div class="previewQuestion" ng-repeat="previewQuestionModel in previewQuestionModels">
-                                    <span>{{previewQuestionModel.Id}}.</span>
-                                    <h5>{{previewQuestionModel.Text}}</h5>
-                                    <h6>Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds</h6>
-                                    <h6>Label : {{previewQuestionModel.Label.Name}}</h6>
-                                    <h6>Difficulty : {{previewQuestionModel.Difficulty.Name}}</h6>
-                                    <h6>Randomize Options : {{previewQuestionModel.RandomizeOptions}}</h6>
-                                    <h6>Question Group : {{previewQuestionModel.QuestionGroup.Description}}</h6>
-                                    <div class="previewOptionList">
-                                        <ul>
-                                            <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.Text}}</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                            </div>
-                    </div>
-                </div>
-            </md-dialog>
-        </div>
+        <h1>
+            Upload Questions
+        </h1>
     </div>
+</md-toolbar>
+<md-content flex layout="column">
+    <md-card flex>
+        <md-card-content>
+            <h4>Questions should be uploaded using the .csv template file</h4>
+            <h4>You can download the template below</h4>
+            <h4>Upload the template after filling it with questions and other information</h4>
+        </md-card-content>
+    </md-card>
+    <md-card flex>
+        <md-card-content>
+            <md-button class="md-primary md-raised" href="/QuestionTemplate.csv">Download Bulk Upload Template</md-button>
+            <br /><br /><br /><br />
+            <h2 class="fileUpload">Upload questions csv file:</h2>
+            <lf-ng-md-file-input lf-files="files01" lf-api="api01" class="fileUpload" flex="50"></lf-ng-md-file-input>
+            <br /><br />
+            <md-button class="md-accent md-raised" ng-click="showPrerenderedDialog($event)">
+                Preview Questions
+            </md-button>
+
+            <md-button class="md-primary md-raised" ng-click="saveChanges()">Save Changes</md-button>
+            <h6>{{uploadStatus}}</h6>
+        </md-card-content>
+    </md-card >
+</md-content>
+
+<div style="visibility: hidden">
+    <div class="md-dialog-container" id="myModal">
+        <md-dialog>
+            <md-toolbar class="md-accent">
+                <div class="md-toolbar-tools">
+                    <h1>
+                        Your uploaded questions
+                    </h1>
+                </div>
+            </md-toolbar>
+            <div>
+                <p ng-hide="previewQuestionModels.length > 0">No questions uploaded yet</p>
+                <div class="previewQuestion" ng-repeat="previewQuestionModel in previewQuestionModels">
+                    <md-content>
+                        <md-card>
+                            <md-card-content>
+                                <h3>{{previewQuestionModel.Id}}.</h3>
+                                <h3>{{previewQuestionModel.Text}}</h3>
+                                <h4>Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds</h4>
+                                <h4>Label : {{previewQuestionModel.Label.Name}}</h4>
+                                <h4>Difficulty : {{previewQuestionModel.Difficulty.Name}}</h4>
+                                <h4>Randomize Options : {{previewQuestionModel.RandomizeOptions}}</h4>
+                                <h4>Question Group : {{previewQuestionModel.QuestionGroup.Description}}</h4>
+                                <div class="previewOptionList">
+                                    <ul>
+                                        <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.Text}}</li>
+                                    </ul>
+                                </div>
+                            </md-card-content>
+                        </md-card>
+                    </md-content>
+                </div>
+            </div>
+        </md-dialog>
+    </div>
+</div>
 

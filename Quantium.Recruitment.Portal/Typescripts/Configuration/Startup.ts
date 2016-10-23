@@ -21,6 +21,24 @@ module Recruitment {
             Services.ServicesConfiguration.RegisterAll(this.app);
             Routes.RouteConfiguration.RegisterAll(this.app);
 
+            this.app.config((
+                $mdIconProvider: ng.material.IIconProvider,
+                $mdThemingProvider: ng.material.IThemingProvider) => {
+
+                $mdIconProvider.icon("menu", "../img/menu.svg", 24);
+                $mdIconProvider.icon("dashboard", "../img/dashboard.svg", 24);
+                $mdIconProvider.icon("upload", "../img/upload.svg", 24);
+                $mdIconProvider.icon("createJob", "../img/createJob.svg", 24);
+                $mdIconProvider.icon("addCandidates", "../img/personAdd.svg", 24);
+                $mdIconProvider.icon("createTest", "../img/create.svg", 24);
+                $mdIconProvider.icon("editTest", "../img/editTest.svg", 24);
+                $mdIconProvider.icon("sendTest", "../img/sendTest.svg", 24);
+                $mdIconProvider.icon("addAdmin", "../img/addAdmin.svg", 24);
+                $mdIconProvider.icon("takeTest", "../img/takeTest.svg", 24);
+                $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('blue');
+                $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+
+            });
             //setting bootstrap theme for editable input directive xeditable
             //this.app.run((editableOptions) => { editableOptions.theme = 'bs3'; });
             this.app.run(($rootScope: any, $state: angular.ui.IStateService, $authService: Services.AuthService, editableOptions) => {

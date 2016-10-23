@@ -1,52 +1,54 @@
-﻿<div>
-    <h1> Administrator page</h1>
-    <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="form-group">
-                First Name:
-                <input type="text" ng-model="firstName"><br>
-                Last Name:
-                <input type="text" ng-model="lastName"><br>
-                Email:
-                <input type="text" ng-model="email"><br>
-                Mobile:
-                <input type="text" ng-model="mobile"><br>
-                Division:
-                <select ng-model="division">
-                    <option ng-repeat="department in departmentList" value="{{department.id}}">{{department.name}}</option>
-                </select>
-            </div>
-
-            <div class="panel-footer">
-                <button class="btn btn-success" ng-click="saveChanges()">{{submitText}}</button>
-            </div>
-        </div>
+﻿
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm class="md-icon-button">
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+        <h1>
+           Add team admin
+        </h1>
     </div>
+</md-toolbar>
+<md-content flex>
+    <div ng-cloak="" class="md-inline-form" layout="row" flex>
+        <md-card flex>
+            <md-card-content flex layout="column">
+                <div layout="column">
+                    <md-input-container>
+                        <label>First Name</label>
+                        <input ng-model="firstName">
+                    </md-input-container>
 
-    <div class="panel-body">
-        <div class="form-group">
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Email</th>
-                    <th>Mobile</th>
-                    <th>Department</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="admin in adminList">
-                    <td>{{admin.firstName}}</td>
-                    <td>{{admin.lastName}}</td>
-                    <td>{{admin.email}}</td>
-                    <td>{{admin.mobile}}</td>
-                    <td>{{admin.DepartmentId}}</td>
-                    <td><input type="button" ng-click="edit(admin)" value="Edit" /></td>
-                    <td><input type="button" ng-click="delete(admin)" value="Delete"/></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                    <md-input-container>
+                        <label>Last Name</label>
+                        <input ng-model="lastName">
+                    </md-input-container>
+
+                    <md-input-container>
+                        <label>Email</label>
+                        <input ng-model="email">
+                    </md-input-container>
+
+                    <md-input-container>
+                        <label>Mobile</label>
+                        <input ng-model="mobile">
+                    </md-input-container>
+
+                    <md-input-container>
+                        <label>Department</label>
+                        <md-select ng-model="division">
+                            <md-option value="0"><em>None</em></md-option>
+                            <md-option ng-repeat="department in departmentList" ng-value="department.Id">
+                                {{department.Name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    
+                </div>
+                <md-button class="md-primary md-raised align-center" ng-click="saveChanges()">
+                    Add admin
+                </md-button>
+            </md-card-content>
+        </md-card>
     </div>
-</div>
+</md-content>
