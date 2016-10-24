@@ -64,8 +64,8 @@ namespace Quantium.Recruitment.Portal
 
             GoogleOptions googleOptions = new GoogleOptions()
             {
-                ClientId = "95409331484-abicj4uqficjfb54il74spmp7s37um0h.apps.googleusercontent.com",
-                ClientSecret = "jVv0-QElNFTs3gSpVftpBKGP"
+                ClientId = "413971816292-1fneropitgu7o9tota8e3rk4a7e1jt46.apps.googleusercontent.com",
+                ClientSecret = "45kIiYPalGmJBZna0XMLp90x"
             };
 
             MicrosoftAccountOptions microsoftOptions = new MicrosoftAccountOptions()

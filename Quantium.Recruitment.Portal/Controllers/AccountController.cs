@@ -229,6 +229,8 @@ namespace Quantium.Recruitment.Portal.Controllers
 
                 var user = new ApplicationUser { UserName = email, Email = email };
                 var createUserTaskResult = _userManager.CreateAsync(user).Result;
+                
+                
                 IdentityResult roleCreationResult = null;
 
 
@@ -254,6 +256,12 @@ namespace Quantium.Recruitment.Portal.Controllers
                         }
                     }
                 }
+
+                if(createUserTaskResult.Errors.First().Code == "DuplicateUserName")
+                {
+                    return RedirectToAction("DuplicateUserError", "Unauthorized");
+                }
+
 
                 return RedirectToAction("UserCreationError", "Unauthorized");
             }

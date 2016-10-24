@@ -1,4 +1,5 @@
 ﻿using IdentityModel.Client;
+using Newtonsoft.Json;
 using Quantium.Recruitment.ApiServiceModels;
 using System;
 using System.Collections.Generic;
@@ -27,59 +28,43 @@ namespace Quantium.Recruitment.Portal.Helpers
 
         public bool CheckIfCandidateExistsAndActive(string email)
         {
-            return true;
-            //var client = _client;
+            var candidate = _helper.GetData($"api/Candidate/GetCandidateByEmail?Email={email}");
 
-            //var activeCandidates = client
-            //    .For<CandidateDto>()
-            //    .Filter(b => b.Email == email && b.IsActive == true)
-            //    .Select(y => y.IsActive)
-            //    .FindEntriesAsync();
+            var result = JsonConvert.DeserializeObject<CandidateDto>(candidate.Content.ReadAsStringAsync().Result);
 
-            //var candidate = activeCandidates.Result.FirstOrDefault();
-
-            //return candidate != null;
+            if (result != null)
+                return true;
+            else
+                return false;
         }
 
         public string GetRoleForEmail(string email)
         {
+            var isAdmin = IsAdminActive(email);
+
+            if (isAdmin)
+                return "SuperAdmin";
+
+            var candidate = _helper.GetData($"api/Candidate/GetCandidateByEmail?Email={email}");
+
+            var result = JsonConvert.DeserializeObject<CandidateDto>(candidate.Content.ReadAsStringAsync().Result);
+
+            if (result != null)
+                return "Candidate";
+
             return string.Empty;
-            //var client = _client;
-
-            //var activeCandidates = 
-            //    client.For<CandidateDto>().Filter(b => b.Email == email && b.IsActive == true).Select(y => y.IsActive).FindEntriesAsync();
-
-            //var candidate = activeCandidates.Result;
-
-            //var activeAdmins =
-            //    client.For<AdminDto>().Filter(a => a.Email == email && a.IsActive == true).Select(b => b.IsActive).FindEntriesAsync();
-
-            //var admin2 = activeAdmins;
-
-            //var admin = admin2.Result;
-
-            //if (admin.FirstOrDefault() != null)
-            //    return "SuperAdmin";
-            //else if (candidate.FirstOrDefault() != null)
-            //    return "Candidate";
-            //else
-            //    return string.Empty;
         }
 
         public bool IsAdminActive(string email)
         {
-            return true;
-            //var client = _client;
+            var candidate = _helper.GetData($"api/Admin/IsAdmin?Email={email}");
 
-            //var activeADmins = client
-            //    .For<AdminDto>()
-            //    .Filter(b => b.Email == email && b.IsActive == true)
-            //    .Select(y => y.IsActive)
-            //    .FindEntriesAsync();
+            var result = JsonConvert.DeserializeObject<AdminDto>(candidate.Content.ReadAsStringAsync().Result);
 
-            //var admin = activeADmins.Result.FirstOrDefault();
-
-            //return admin != null;
+            if (result != null)
+                return true;
+            else
+                return false;
         }
     }
 }

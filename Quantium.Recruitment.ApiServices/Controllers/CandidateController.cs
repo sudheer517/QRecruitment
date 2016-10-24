@@ -37,7 +37,18 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetSingleCandidate( int key)
+        public IHttpActionResult GetCandidateByEmail([FromUri]string email)
+        {
+            var candidate = _candidateRepository.GetAll().SingleOrDefault(item => item.Email == email && item.IsActive == true);
+
+            if(candidate != null)
+                return Ok(Mapper.Map<CandidateDto>(candidate));
+            else
+                return Ok();
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetSingleCandidate(int key)
         {
             var candidate = _candidateRepository.GetAll().Single(item => item.Id == key);
 

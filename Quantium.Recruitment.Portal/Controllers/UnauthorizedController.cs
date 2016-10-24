@@ -22,5 +22,10 @@ namespace Quantium.Recruitment.Portal.Controllers
         {
             return Ok("Error occurred during user creation. Please contact admin@quantium.com for assistance");
         }
+
+        public IActionResult DuplicateUserError()
+        {
+            return Ok("A user with the given email from another social login provider already exits in our system. Please contact admin@quantium.com for assistance");
+        }
     }
 }
