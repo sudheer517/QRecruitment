@@ -1,15 +1,36 @@
-﻿<p>
-    Welcome to Quantium !!
-    Please read the instructions before proceeding to take the test
+﻿<div layout="column" flex>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button hide-gt-sm class="md-icon-button">
+                <md-icon md-svg-src="../img/menu.svg"></md-icon>
+            </md-button>
+            <h1 class="justify-self-center">
+                Recruitment test
+            </h1>
+        </div>
+    </md-toolbar>
+    <md-content flex layout-align="center start">
+        <md-card flex-gt-sm="50">
+            <md-card-content>
+                <div>
+                    <p>
+                        Welcome to Quantium !!
+                        Please read the instructions before proceeding to take the test
 
-    <ul>
-        <li>You can view the number of questions and total time for test at the bottom of the page</li>
-        <li>Each question will have a different timer</li>
-        <li>You have to answer the question before the timer runs out</li>
-        <li>Questions can be from various domains</li>
-        <li>You cannot view the previous questions once you go to the next question</li>
-        <li>There could be multiple answers for each question</li>
-    </ul>
+                        <ul>
+                            <li>You can view the number of questions and total time for test at the bottom of the page</li>
+                            <li>Each question will have a different timer</li>
+                            <li>You have to answer the question before the timer runs out</li>
+                            <li>Questions can be from various domains</li>
+                            <li>You cannot view the previous questions once you go to the next question</li>
+                            <li>There could be multiple answers for each question</li>
+                        </ul>
 
-    <button type="submit" class="loginButton form-group btn" ui-sref="test"><i class="fa fa-unlock"></i>&nbsp; Take test</button>
-</p>
+                        <button type="submit" class="loginButton form-group btn" ui-sref="test"><i class="fa fa-unlock"></i>&nbsp; Take test</button>
+                    </p>
+                </div>
+            </md-card-content>
+        </md-card>
+    </md-content>
+</div>
+

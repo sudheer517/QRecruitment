@@ -2,32 +2,4 @@
     Layout = "~/Views/Shared/_MaterialLayout.cshtml";
 }
 
-<div layout="vertical">
-    <md-sidenav class="md-sidenav-left"
-                md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-sm')"
-                md-whiteframe="4">
-        <md-toolbar class="md-cyan-theme">
-            <h1>Custom Actions</h1>
-        </md-toolbar>
-        <md-content>
-            
-        </md-content>
-    </md-sidenav>
-
-</div>
-<div layout="column" flex>
-    <md-toolbar class="md-hue-2">
-        <div class="md-toolbar-tools">
-            <md-button hide-gt-sm class="md-icon-button">
-                <md-icon md-svg-src="../img/menu.svg"></md-icon>
-            </md-button>
-            <h1>
-                Content
-            </h1>
-        </div>
-    </md-toolbar>
-    <md-content flex>
-        <div ui-view></div>
-    </md-content>
-</div>
+<div ui-view flex></div>

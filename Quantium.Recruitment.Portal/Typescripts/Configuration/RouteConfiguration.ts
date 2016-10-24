@@ -77,6 +77,11 @@ module Recruitment.Routes {
                         url: "/dashboard", controller: Controllers.FirstController, templateUrl: "/views/dashboard.html"
                     })
 
+                    .state("candidateDetails",
+                    {
+                        url: "/candidateDetails", controller: Controllers.CandidateDetailsController, templateUrl: "/views/candidateDetails.html"
+                    })
+
             });
         }
     }
