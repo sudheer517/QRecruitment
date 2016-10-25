@@ -22,7 +22,16 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public string Country { get; set; }
 
+        public string Branch { get; set; }
+
         public string College { get; set; }
 
+        public string PassingYear { get; set; }
+
+        public double ExperienceInYears { get; set; }
+
+        public string CurrentCompany { get; set; }
+
+        public bool IsInformationFilled { get; set; }
     }
 }

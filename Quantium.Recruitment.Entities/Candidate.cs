@@ -22,7 +22,17 @@ namespace Quantium.Recruitment.Entities
 
         public virtual string Country { get; set; }
 
+        public virtual string Branch { get; set; }
+
         public virtual string College { get; set; }
+
+        public virtual string PassingYear { get; set; }
+
+        public virtual double ExperienceInYears { get; set; }
+
+        public virtual string CurrentCompany { get; set; }
+
+        public virtual bool IsInformationFilled { get; set; }
 
         public virtual List<Candidate_Job> CandidateJobs { get; set; }
 

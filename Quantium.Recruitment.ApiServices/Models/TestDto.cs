@@ -13,5 +13,7 @@ namespace Quantium.Recruitment.ApiServices.Models
         public List<Test_LabelDto> TestLabels { get; set; }
 
         public CandidateDto Candidate { get; set; }
+
+        public bool IsFinished { get; set; }
     }
 }

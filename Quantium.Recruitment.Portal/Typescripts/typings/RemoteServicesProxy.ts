@@ -37,10 +37,15 @@ module Quantium.Recruitment.ODataEntities {
         public City: string;
         public State: string;
         public Country: string;
+        public Branch: string;
         public College: string;
+        public PassingYear: string;
+        public ExperienceInYears: number;
+        public CurrentCompany: string;
+        public IsInformationFilled: boolean;
         constructor();
-        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, College?: string);
-        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, College?: string){
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean);
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean){
             this.Id = Id;
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -50,7 +55,12 @@ module Quantium.Recruitment.ODataEntities {
             this.City = City;
             this.State = State;
             this.Country = Country;
+            this.Branch = Branch;
             this.College = College;
+            this.PassingYear = PassingYear;
+            this.ExperienceInYears = ExperienceInYears;
+            this.CurrentCompany = CurrentCompany;
+            this.IsInformationFilled = IsInformationFilled;
         }
 
     }
@@ -255,14 +265,16 @@ module Quantium.Recruitment.ODataEntities {
         public Challenges: ChallengeDto[];
         public TestLabels: Test_LabelDto[];
         public Candidate: CandidateDto;
+        public IsFinished: boolean;
         constructor();
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto);
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto){
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, IsFinished?: boolean);
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, IsFinished?: boolean){
             this.Id = Id;
             this.Name = Name;
             this.Challenges = Challenges;
             this.TestLabels = TestLabels;
             this.Candidate = Candidate;
+            this.IsFinished = IsFinished;
         }
 
     }

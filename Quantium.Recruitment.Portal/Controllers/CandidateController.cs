@@ -102,5 +102,26 @@ namespace Quantium.Recruitment.Portal.Controllers
             return Json("");
             //return Json(this.User.Claims.SingleOrDefault(claim => claim.Type.Contains("role")).Value);
         }
+
+        public IActionResult IsInformationFilled()
+        {
+            var userEmail = this.User.Identities.First().Name;
+
+            var response = _helper.GetData("/api/Candidate/IsInformationFilled?email=" + userEmail);
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
+        [HttpPost]
+        public IActionResult FillCandidateInformation([FromBody]CandidateDto candidateDto)
+        {
+            var userEmail = this.User.Identities.First().Name;
+            candidateDto.Email = userEmail;
+            candidateDto.IsActive = true;
+            candidateDto.IsInformationFilled = true;
+            var response = _helper.Post("/api/Candidate/FillCandidateInformation", candidateDto);
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
     }
 }

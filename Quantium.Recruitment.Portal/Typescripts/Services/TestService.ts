@@ -8,6 +8,7 @@ module Recruitment.Services {
         getTest(testId: number): ng.IHttpPromise<TestDto>;
         getNextChallenge(): ng.IHttpPromise<ChallengeDto>;
         postChallenge(challenge: ChallengeDto): ng.IHttpPromise<any>;
+        hasActiveTestForCandidate(): void;
     }
 
     export class TestService implements ITestService {
@@ -24,6 +25,10 @@ module Recruitment.Services {
 
         public postChallenge(challenge: ChallengeDto): ng.IHttpPromise<any> {
             return this.$http.post("/Test/PostChallenge", challenge);
+        }
+
+        public hasActiveTestForCandidate(): ng.IHttpPromise<boolean> {
+            return this.$http.get("/Test/HasActiveTestForCandidate");
         }
     }
 }

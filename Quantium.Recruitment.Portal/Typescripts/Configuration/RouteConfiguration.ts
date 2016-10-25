@@ -64,7 +64,7 @@ module Recruitment.Routes {
 
                     .state("instructions",
                     {
-                        url: "/instructions", controller: Controllers.TestController, templateUrl: "/views/instructions.html"
+                        url: "/instructions", controller: Controllers.FirstController, templateUrl: "/views/instructions.html"
                     })
 
                     .state("createJob",
@@ -82,6 +82,10 @@ module Recruitment.Routes {
                         url: "/candidateDetails", controller: Controllers.CandidateDetailsController, templateUrl: "/views/candidateDetails.html"
                     })
 
+                    .state("candidateHome",
+                    {
+                        url: "/candidateHome", controller: Controllers.FirstController, templateUrl: "/views/candidateHomePage.html"
+                    })
             });
         }
     }

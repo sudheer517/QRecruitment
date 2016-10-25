@@ -22,7 +22,9 @@ namespace Quantium.Recruitment.Portal.Controllers
         [HttpGet]
         public IActionResult GetNextChallenge()
         {
-            var response = _helper.GetData("/api/Challenge/4");
+            var userEmail = this.User.Identities.First().Name;
+
+            var response = _helper.GetData("/api/Challenge/GetNext?email=" + userEmail);
 
             if(response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
             {
@@ -35,6 +37,16 @@ namespace Quantium.Recruitment.Portal.Controllers
         public IActionResult PostChallenge([FromBody]ChallengeDto challengedto)
         {
             var response = _helper.Post("/api/Challenge/PostChallenge", challengedto);
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
+        [HttpGet]
+        public IActionResult HasActiveTestForCandidate()
+        {
+            var userEmail = this.User.Identities.First().Name;
+
+            var response = _helper.GetData("/api/Test/HasActiveTestForCandidate?email=" + userEmail);
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }

@@ -6,6 +6,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
     public interface ICandidateRepository : IGenericRepository<Candidate>
     {
         Candidate FindById(long Id);
+        Candidate FindByEmail(string email);
         void Update(Candidate entity);
     }
 
@@ -19,12 +20,19 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
         public Candidate FindById(long Id)
         {
-            return _dbContext.Candidates.Single(entity => entity.Id == Id);
+            return _dbContext.Candidates.SingleOrDefault(entity => entity.Id == Id);
+        }
+
+        public Candidate FindByEmail(string email)
+        {
+            return _dbContext.Candidates.SingleOrDefault(entity => entity.Email == email);
         }
 
         public void Update(Candidate entity)
         {
             _dbContext.Candidates.Add(entity);
+            _dbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+            _dbContext.SaveChanges();
         }
     }
 }

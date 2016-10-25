@@ -102,5 +102,15 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             return Ok();
         }
+
+        public IHttpActionResult HasActiveTestForCandidate([FromUri]string email)
+        {
+            var activeTest = _testRepository.FindActiveTestByCandidateEmail(email);
+
+            if (activeTest == null)
+                return Ok(false);
+            else
+                return Ok(true);
+        }
     }
 }

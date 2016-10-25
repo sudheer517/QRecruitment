@@ -27,7 +27,12 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public string City;
         public string State;
         public string Country;
+        public string Branch;
         public string College;
+        public string PassingYear;
+        public Double ExperienceInYears;
+        public string CurrentCompany;
+        public bool IsInformationFilled;
 
     }
 
@@ -134,6 +139,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public List<ChallengeDto> Challenges;
         public List<Test_LabelDto> TestLabels;
         public CandidateDto Candidate;
+        public bool IsFinished;
 
     }
 

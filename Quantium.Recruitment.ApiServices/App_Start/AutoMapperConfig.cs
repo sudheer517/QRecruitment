@@ -20,7 +20,6 @@ namespace Quantium.Recruitment.ApiServices
             cfg.CreateMap<Option, OptionDto>().ReverseMap();
             cfg.CreateMap<QuestionGroup, QuestionGroupDto>().ReverseMap();
 
-
             cfg.CreateMap<Job, JobDto>().ReverseMap();
             cfg.CreateMap<Job_Difficulty_Label, Job_Difficulty_LabelDto>().ReverseMap();
             cfg.CreateMap<Label, LabelDto>().ReverseMap();
@@ -28,7 +27,8 @@ namespace Quantium.Recruitment.ApiServices
             cfg.CreateMap<Department, DepartmentDto>().ReverseMap();
             cfg.CreateMap<Admin, AdminDto>().ReverseMap();
 
-            cfg.CreateMap<Candidate, CandidateDto>().ReverseMap();
+            cfg.CreateMap<Candidate, CandidateDto>();
+            cfg.CreateMap<CandidateDto, Candidate>().ForMember((m => m.Id), c => c.Ignore());
 
             cfg.CreateMap<Candidate_Job, Candidate_JobDto>().ReverseMap();
 

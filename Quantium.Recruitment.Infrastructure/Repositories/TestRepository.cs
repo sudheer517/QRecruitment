@@ -8,6 +8,8 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         Test FindById(long Id);
         void Update(Test entity);
         Test FindByCandidateId(long candidateId);
+        Test FindByCandidateEmail(string candidateEmail);
+        Test FindActiveTestByCandidateEmail(string candidateEmail);
     }
 
     public class TestRepository : GenericRepository<Test>, ITestRepository
@@ -20,12 +22,22 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
         public Test FindById(long Id)
         {
-            return _dbContext.Tests.Single(entity => entity.Id == Id);
+            return _dbContext.Tests.SingleOrDefault(entity => entity.Id == Id);
         }
 
         public Test FindByCandidateId(long candidateId)
         {
-            return _dbContext.Tests.Single(entity => entity.Candidate.Id == candidateId);
+            return _dbContext.Tests.SingleOrDefault(entity => entity.Candidate.Id == candidateId);
+        }
+
+        public Test FindByCandidateEmail(string candidateEmail)
+        {
+            return _dbContext.Tests.FirstOrDefault(entity => entity.Candidate.Email == candidateEmail);
+        }
+
+        public Test FindActiveTestByCandidateEmail(string candidateEmail)
+        {
+            return _dbContext.Tests.FirstOrDefault(entity => entity.Candidate.Email == candidateEmail && entity.IsFinished != true);
         }
 
         public void Update(Test entity)

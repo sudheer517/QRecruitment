@@ -15,13 +15,6 @@ namespace Quantium.Recruitment.ApiServices.Controllers
     public class CandidateController : ApiController
     {
         private readonly ICandidateRepository _candidateRepository;
-        //private readonly IAdminRepository _adminRepository;
-
-        //public UsersController(ICandidateRepository candidateRepository, IAdminRepository adminRepository)
-        //{
-        //    _candidateRepository = candidateRepository;
-        //    _adminRepository = adminRepository;
-        //}
 
         public CandidateController(ICandidateRepository candidateRepository)
         {
@@ -48,6 +41,17 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult IsInformationFilled([FromUri]string email)
+        {
+            var candidate = _candidateRepository.GetAll().SingleOrDefault(item => item.Email == email && item.IsActive == true && item.IsInformationFilled == true);
+
+            if (candidate != null)
+                return Ok(true);
+            else
+                return Ok(false);
+        }
+
+        [HttpGet]
         public IHttpActionResult GetSingleCandidate(int key)
         {
             var candidate = _candidateRepository.GetAll().Single(item => item.Id == key);
@@ -68,24 +72,36 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok("Candidates Created");
         }
 
-            ////http://localhost:60606/odata/Admins
-            //[HttpGet]
-            //[ODataRoute("Admins")]
-            //public IHttpActionResult GetAdmins()
-            //{
-            //    var admins = _adminRepository.GetAll().ToList();
+        [HttpPost]
+        public IHttpActionResult FillCandidateInformation([FromBody]CandidateDto candidateDto)
+        {
+            var candidate = _candidateRepository.FindByEmail(candidateDto.Email);
 
-            //    return Ok(Mapper.Map<IList<AdminDto>>(admins));
-            //}
+            var updatedCandidate = (Candidate)Mapper.Map(candidateDto, candidate, typeof(CandidateDto), typeof(Candidate));
 
-            ////http://localhost:60606/odata/Admins(1)
-            //[HttpGet]
-            //[ODataRoute("Admins({key})")]
-            //public IHttpActionResult GetAdmin([FromODataUri] int key)
-            //{
-            //    var admin = _adminRepository.GetAll().Single(item => item.Id == key);
+            _candidateRepository.Update(updatedCandidate);
 
-            //    return Ok(Mapper.Map<AdminDto>(admin));
-            //}
+            return Ok("Candidate Created");
         }
+
+        ////http://localhost:60606/odata/Admins
+        //[HttpGet]
+        //[ODataRoute("Admins")]
+        //public IHttpActionResult GetAdmins()
+        //{
+        //    var admins = _adminRepository.GetAll().ToList();
+
+        //    return Ok(Mapper.Map<IList<AdminDto>>(admins));
+        //}
+
+        ////http://localhost:60606/odata/Admins(1)
+        //[HttpGet]
+        //[ODataRoute("Admins({key})")]
+        //public IHttpActionResult GetAdmin([FromODataUri] int key)
+        //{
+        //    var admin = _adminRepository.GetAll().Single(item => item.Id == key);
+
+        //    return Ok(Mapper.Map<AdminDto>(admin));
+        //}
+    }
 }

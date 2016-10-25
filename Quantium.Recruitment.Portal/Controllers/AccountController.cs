@@ -194,7 +194,8 @@ namespace Quantium.Recruitment.Portal.Controllers
                     {
                         return RedirectToAction("NotActive", "Unauthorized");
                     }
-                    return RedirectToAction("Test", "Candidate");
+                    return RedirectToLocal("/Candidate/Test#/candidateDetails");
+                    //return RedirectToAction("Test", "Candidate");
                 }
                 else if (roles.FirstOrDefault() == "SuperAdmin")
                 {
@@ -252,7 +253,8 @@ namespace Quantium.Recruitment.Portal.Controllers
                         }
                         if (roleName == "Candidate")
                         {
-                            return RedirectToAction("Test", "Candidate");
+                            return RedirectToLocal("/Candidate/Test#/candidateDetails");
+                            //return RedirectToAction("Test", "Candidate");
                         }
                     }
                 }

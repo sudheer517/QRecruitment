@@ -38,9 +38,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetNext(int id)
+        public IHttpActionResult GetNext([FromUri]string email)
         {
-            var test = _testRepository.FindByCandidateId(id);
+            var test = _testRepository.FindByCandidateEmail(email);
             var challenges = test.Challenges.Where(c => c.TestId == test.Id && c.IsSent != true).OrderBy(c => c.Id).ToList();
             var challenge = challenges.Count() > 0 ? challenges.First() : null;
             
