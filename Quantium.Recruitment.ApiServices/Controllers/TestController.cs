@@ -55,15 +55,24 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     Candidate = candidate
                 };
 
-                _candidateJobRepository.Add(newCandidateJob);
+                var candidateJob = candidate.CandidateJobs.FirstOrDefault(cj => cj.CandidateId == candidate.Id && cj.JobId == job.Id);
+                
+                if(candidateJob == null)
+                    _candidateJobRepository.Add(newCandidateJob);
 
                 Test newTest = new Test
                 {
                     Name = job.Title + candidate.FirstName,
-                    Candidate = candidate
+                    Candidate = candidate,
+                    Job = job
                 };
 
-                _testRepository.Add(newTest);
+                var activeTest = candidate.Tests.FirstOrDefault(t => t.IsFinished != true && t.Job.Id == job.Id);
+
+                if (activeTest == null)
+                {
+                    _testRepository.Add(newTest);
+                }
 
                 IList<Job_Difficulty_Label> jobDifficultyLabels = _jobDifficultyLabelRepository.FindByJobId(job.Id).ToList();
 
@@ -92,7 +101,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 {
                     Challenge newChallenge = new Challenge
                     {
-                        Test = newTest,
+                        Test = activeTest == null ? newTest : activeTest,
                         Question = question
                     };
 
@@ -103,6 +112,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok();
         }
 
+        [HttpGet]
         public IHttpActionResult HasActiveTestForCandidate([FromUri]string email)
         {
             var activeTest = _testRepository.FindActiveTestByCandidateEmail(email);

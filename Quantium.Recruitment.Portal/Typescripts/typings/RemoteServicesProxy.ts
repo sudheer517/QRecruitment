@@ -265,15 +265,17 @@ module Quantium.Recruitment.ODataEntities {
         public Challenges: ChallengeDto[];
         public TestLabels: Test_LabelDto[];
         public Candidate: CandidateDto;
+        public Job: JobDto;
         public IsFinished: boolean;
         constructor();
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, IsFinished?: boolean);
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, IsFinished?: boolean){
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean);
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean){
             this.Id = Id;
             this.Name = Name;
             this.Challenges = Challenges;
             this.TestLabels = TestLabels;
             this.Candidate = Candidate;
+            this.Job = Job;
             this.IsFinished = IsFinished;
         }
 

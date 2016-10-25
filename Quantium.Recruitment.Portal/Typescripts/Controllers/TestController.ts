@@ -12,7 +12,6 @@ module Recruitment.Controllers {
         toggleSelection: (employeeName: string) => void;
         //addSelection: (selectedOption: string) => void;
         selectedQuestionOptions: SelectedQuestionOptions;
-        
     }
 
     class SelectedQuestionOptions {

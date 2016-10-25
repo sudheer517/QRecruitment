@@ -22,7 +22,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult Get()
+        public IHttpActionResult GetAllCandidates()
         {
             var candidates = _candidateRepository.GetAll().Where(candidate => candidate.IsActive).ToList();
 

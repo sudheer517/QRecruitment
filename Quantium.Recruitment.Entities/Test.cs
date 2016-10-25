@@ -14,6 +14,8 @@ namespace Quantium.Recruitment.Entities
 
         public virtual Candidate Candidate { get; set; }
 
+        public virtual Job Job { get; set; }
+
         public virtual bool IsFinished { get; set; }
     }
 }

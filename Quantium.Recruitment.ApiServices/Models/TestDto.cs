@@ -14,6 +14,8 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public CandidateDto Candidate { get; set; }
 
+        public JobDto Job { get; set; }
+
         public bool IsFinished { get; set; }
     }
 }

@@ -64,7 +64,17 @@ module Recruitment.Routes {
 
                     .state("instructions",
                     {
-                        url: "/instructions", controller: Controllers.FirstController, templateUrl: "/views/instructions.html"
+                        url: "/instructions", controller: Controllers.FirstController, templateUrl: "/views/instructions.html",
+                        resolve: {
+                            hasActiveTest: ($testService: Recruitment.Services.TestService, $state: ng.ui.IStateService) => {
+                                return $testService.hasActiveTestForCandidate()
+                                    .then(success => {
+                                        if (String(success.data) === "false") {
+                                            $state.go("candidateHome");
+                                        }
+                                    }, error => { console.log(error); return false; });
+                            }
+                        }
                     })
 
                     .state("createJob",
@@ -79,7 +89,19 @@ module Recruitment.Routes {
 
                     .state("candidateDetails",
                     {
-                        url: "/candidateDetails", controller: Controllers.CandidateDetailsController, templateUrl: "/views/candidateDetails.html"
+                        url: "/candidateDetails",
+                        controller: Controllers.CandidateDetailsController,
+                        templateUrl: "/views/candidateDetails.html",
+                        resolve: {
+                            isInformationFilled: ($candidateService: Recruitment.Services.CandidateService, $state: ng.ui.IStateService) => {
+                                return $candidateService.isInformationFilled()
+                                    .then(success => {
+                                        if (String(success.data) === "true"){
+                                            $state.go("instructions");
+                                        }
+                                    }, error => { console.log(error); return false });
+                            }
+                        }
                     })
 
                     .state("candidateHome",

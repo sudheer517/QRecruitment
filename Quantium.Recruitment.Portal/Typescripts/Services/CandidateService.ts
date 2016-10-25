@@ -17,21 +17,8 @@ module Recruitment.Services {
             return this.$http.get("/Candidate/GetAllCandidates");
         }
 
-        public isInformationFilled(): ng.IPromise<boolean> {
-
-            var deferred = this.$q.defer <boolean>();
-            var promise = deferred.promise;
-            this.$http.get("/Candidate/IsInformationFilled").then(
-                success => {
-                    data = Boolean(success.data);
-                },
-                error => {
-                    console.log(error);
-                });
-
-            deferred.resolve();
-
-            return deferred.promise;;
+        public isInformationFilled(): ng.IHttpPromise<boolean> {
+            return this.$http.get("/Candidate/IsInformationFilled");
         }
 
         public fillCandidateInformation(candidateDto: CandidateDto): ng.IHttpPromise<boolean> {

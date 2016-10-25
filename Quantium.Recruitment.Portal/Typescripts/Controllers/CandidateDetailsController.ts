@@ -13,29 +13,13 @@ module Recruitment.Controllers {
             private $state: ng.ui.IStateService,
             private $http: ng.IHttpService,
             private $candidateService: Recruitment.Services.CandidateService,
-            private $testService: Recruitment.Services.TestService) {
+            private $testService: Recruitment.Services.TestService,
+            private isInformationFilled: string) {
             this.$scope.candidate = new Quantium.Recruitment.ODataEntities.CandidateDto();
             this.$scope.proceed = () => this.proceed();
-            this.isInformationFilled();
         }
 
-        private isInformationFilled(): void {
-            var result = this.$candidateService.isInformationFilled();
-        }
-
-        private hasActiveTest(): boolean {
-            var hasActiveTest = this.$testService.hasActiveTestForCandidate().then(
-                response => {
-                    return Boolean(response.data);
-                },
-                error => {
-                    console.log(error);
-                });
-
-            return false;
-        }
-
-        private fillCandidateInformation() {
+        private fillCandidateInformation(): void {
             this.$candidateService.fillCandidateInformation(this.$scope.candidate).then(
                 response => {
                     this.$state.go("instructions");
