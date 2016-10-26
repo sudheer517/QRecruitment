@@ -44,7 +44,7 @@ module Recruitment.Routes {
 
                     .state("sendTest",
                     {
-                        url: "/sendTest", controller: Controllers.CreateTestController, templateUrl: "/views/sendTestPage.html"
+                        url: "/sendTest", controller: Controllers.SendTestController, templateUrl: "/views/sendTestPage.html"
                     })
 
                     .state("addTeamAdmin",

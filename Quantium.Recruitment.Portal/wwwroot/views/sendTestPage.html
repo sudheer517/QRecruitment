@@ -1,3 +1,37 @@
-﻿<div>
-    <h3> send test page</h3>
-</div>
+﻿<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm class="md-icon-button">
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+        <h1>
+            Send Test
+        </h1>
+    </div>
+</md-toolbar>
+<md-content flex layout="column">
+    <md-card>
+        <md-card-content>
+            <h3 class="fileUpload">Select the candidates for this test</h3>
+            <div layout="row" layout-wrap>
+                <div ng-repeat="candidate in candidates">
+                    <md-card>
+                        <md-card-content>
+                            <md-input-container>
+                                <md-checkbox ng-model="selectedtestOptions.candidateIds[candidate.Id]">
+                                    {{candidate.FirstName}} {{candidate.LastName}}
+                                </md-checkbox>
+                                <h4>{{candidate.Email}}</h4>
+                            </md-input-container>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+            <br />
+            <br />
+            <md-button class="md-primary md-raised" ng-click="sendTest()">
+                Send test for selected Candidates
+            </md-button>
+        </md-card-content>
+    </md-card>
+</md-content>
+
