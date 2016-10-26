@@ -11,7 +11,7 @@ namespace Quantium.Recruitment.Infrastructure
     {
         public string GetConnectionString()
         {
-            return @"Server=.\MSSQL2012;Database=QRecruitment;Integrated security = SSPI";
+            return @"Server=.\MSSQL2012;Database=QRecruitment;Integrated security = SSPI;MultipleActiveResultSets=True;";
         }
     }
 }

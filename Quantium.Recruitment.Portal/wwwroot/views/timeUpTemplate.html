@@ -1,0 +1,21 @@
+﻿<md-content flex layout="column">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button hide-gt-sm class="md-icon-button">
+                <md-icon md-svg-icon="menu"></md-icon>
+            </md-button>
+            <h1>
+                OOPS !!! Time up
+            </h1>
+        </div>
+    </md-toolbar>
+    <br />
+    <h3 class="justify-self-center">You could either logout and resume the test later or move on to next question</h3>
+    <div flex>
+        <img src="../img/timer.svg" class="timeUpImage justify-self-center" />
+    </div>
+    <div layout="row">
+        <md-button class="md-primary md-raised createJobButton" ng-click="nextQuestion()">Next Question</md-button>
+        <md-button class="md-accent md-raised createJobButton justify-right">Logout</md-button>
+    </div>
+</md-content>

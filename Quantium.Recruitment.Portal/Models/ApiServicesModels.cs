@@ -49,7 +49,10 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public long QuestionId;
         public DateTime StartTime;
         public DateTime AnsweredTime;
+        public Int32 RemainingChallenges;
+        public Int32 currentChallenge;
         public QuestionDto Question;
+        public Boolean[] ChallengesAnswered;
         public List<CandidateSelectedOptionDto> CandidateSelectedOptions;
 
     }

@@ -7,11 +7,16 @@ module Recruitment.Controllers {
         challengeId: number;
         questionText: string;
         options: any;
-        postChallenge: () => void;
+        fillAndPostChallenge: () => void;
         selection: any;
         toggleSelection: (employeeName: string) => void;
+        currentChallenge: number;
+        remainingChallenges: number;
+        challengesAnswered: Boolean[];
         //addSelection: (selectedOption: string) => void;
         selectedQuestionOptions: SelectedQuestionOptions;
+        status: string;
+        nextQuestion: () => void;
     }
 
     class SelectedQuestionOptions {
@@ -22,37 +27,33 @@ module Recruitment.Controllers {
     export class TestController {
         private selectedOptions: string[];
         private currentChallenge: ChallengeDto;
+        private startDateTime: string;
+        private endDateTime: string;
 
         constructor(
             private $scope: ITestControllerScope,
             private $log: ng.ILogService,
             private $http: ng.IHttpService,
+            private $interval: ng.IIntervalService,
+            private $mdDialog: ng.material.IDialogService,
+            private $state: ng.ui.IStateService,
+            private $timeout: ng.ITimeoutService,
             private $testService: Recruitment.Services.TestService) {
             this.getNextChallenge();
-            this.$scope.postChallenge = () => this.postChallenge();
-            //this.$scope.addSelection = (selectedOption) => this.addSelection(selectedOption);
+            this.$scope.fillAndPostChallenge = () => this.fillAndPostChallenge();
             this.$scope.selection = [];
-            this.$scope.toggleSelection = (employeeName) => this.toggleSelection(employeeName);
             this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
+            this.$scope.nextQuestion = () => this.nextQuestion();
         }
 
-        private toggleSelection(employeeName: string): void {
-            //this.$scope.selection = [];
-            // toggle selection for a given employee by name
-            var idx = this.$scope.selection.indexOf(employeeName);
-
-            // is currently selected
-            if (idx > -1) {
-                this.$scope.selection.splice(idx, 1);
-            }
-
-            // is newly selected
-            else {
-                this.$scope.selection.push(employeeName);
-            }
+        private fillAndPostChallenge() {
+            this.endDateTime = moment().format("YYYY-MM-DD hh:mm:ss.SSS");
+            this.postChallenge();
         }
 
         private postChallenge(): void {
+            this.currentChallenge.StartTime = this.startDateTime;
+            this.currentChallenge.AnsweredTime = this.endDateTime;
             var challengeDto = this.currentChallenge;
             var candidateSelectedOptionDtoItems: CandidateSelectedOptionDto[] = [];
             var selectedOptionIds = this.$scope.selectedQuestionOptions.optionIds;
@@ -66,10 +67,8 @@ module Recruitment.Controllers {
                 }
             });
 
-            challengeDto.AnsweredTime = "2016-10-22 18:26:18.133";
             challengeDto.CandidateSelectedOptions = candidateSelectedOptionDtoItems;
-            //this.currentChallenge.CandidateSelectedOptions.push(
-            //challengeDto.CandidateSelectedOptions.push(
+            
             this.$testService.postChallenge(challengeDto)
                 .then(result => {
                     this.$log.info("answer posted");
@@ -82,13 +81,13 @@ module Recruitment.Controllers {
         private setTimer(questionTimeInSeconds: number) {
             var clock;
             var clockObj: any = $('.clock');
-
+            var self = this;
             clock = clockObj.FlipClock(questionTimeInSeconds, {
                 clockFace: 'MinuteCounter',
                 autoStart: false,
                 callbacks: {
                     stop: function () {
-                        $('.message').html('The clock has stopped!')
+                        self.showConfirm();
                     }
                 }
             });
@@ -97,20 +96,45 @@ module Recruitment.Controllers {
             clock.start();
         }
 
+        private nextQuestion(): void {
+            this.$mdDialog.hide();
+            this.postChallenge();
+        }
+
+        private showConfirm(): void {
+            this.endDateTime = moment().format("YYYY-MM-DD hh:mm:ss.SSS");
+            this.$mdDialog.show({
+                    templateUrl: '/views/timeUpTemplate.html',
+                    disableParentScroll: true,
+                    escapeToClose: false,
+                    clickOutsideToClose: false,
+                    scope: this.$scope,
+                    preserveScope: true
+                });
+        }
+
         private getNextChallenge(): any {
             this.$testService.getNextChallenge()
                 .then(result => {
+                    if (result.data.Question === undefined && JSON.parse(_.toString(result.data)) === "Finished") {
+                        this.$state.go("candidateHome");
+                        return;
+                    }
+
+                   // this.$timeout(() => { this.showConfirm() }, (result.data.Question.TimeInSeconds * 1000));
+                    this.startDateTime = moment().format("YYYY-MM-DD hh:mm:ss.SSS");
                     this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
                     this.currentChallenge = result.data;
-                    this.currentChallenge.StartTime = "2016-10-22 18:26:12.133";
                     this.$scope.challengeId = result.data.Question.Id;
                     this.$scope.questionText = result.data.Question.Text;
                     this.$scope.options = result.data.Question.Options;
+                    this.$scope.currentChallenge = result.data.currentChallenge;
+                    this.$scope.remainingChallenges = result.data.RemainingChallenges;
+                    this.$scope.challengesAnswered = result.data.ChallengesAnswered;
                     this.$log.info("new question retrieved");
                     this.setTimer(result.data.Question.TimeInSeconds);
                 }, reason => {
                     this.$log.error("new question retrieval failed");
-
                 });
         }
     }

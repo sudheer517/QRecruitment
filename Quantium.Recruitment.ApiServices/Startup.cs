@@ -15,7 +15,7 @@ namespace Quantium.Recruitment.ApiServices
             app.UseIdentityServerBearerTokenAuthentication(
                 new IdentityServerBearerTokenAuthenticationOptions
                 {
-                    Authority = "https://localhost:44318/identity",
+                    Authority = "https://localhost:44316/identity",
                     RequiredScopes = new [] { "qrecruitment" }
                 });
 

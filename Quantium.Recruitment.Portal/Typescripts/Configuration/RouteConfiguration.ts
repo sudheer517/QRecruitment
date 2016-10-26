@@ -59,7 +59,17 @@ module Recruitment.Routes {
 
                     .state("test",
                     {
-                        url: "/test", controller: Controllers.TestController, templateUrl: "/views/testPage.html"
+                        url: "/test", controller: Controllers.TestController, templateUrl: "/views/testPage.html",
+                        resolve: {
+                            hasActiveTest: ($testService: Recruitment.Services.TestService, $state: ng.ui.IStateService) => {
+                                return $testService.hasActiveTestForCandidate()
+                                    .then(success => {
+                                        if (String(success.data) === "false") {
+                                            $state.go("candidateHome");
+                                        }
+                                    }, error => { console.log(error); return false; });
+                            }
+                        }
                     })
 
                     .state("instructions",
@@ -106,7 +116,17 @@ module Recruitment.Routes {
 
                     .state("candidateHome",
                     {
-                        url: "/candidateHome", controller: Controllers.FirstController, templateUrl: "/views/candidateHomePage.html"
+                        url: "/candidateHome", controller: Controllers.FirstController, templateUrl: "/views/candidateHomePage.html",
+                        resolve: {
+                            hasActiveTest: ($testService: Recruitment.Services.TestService, $state: ng.ui.IStateService) => {
+                                return $testService.hasActiveTestForCandidate()
+                                    .then(success => {
+                                        if (String(success.data) === "true") {
+                                            $state.go("instructions");
+                                        }
+                                    }, error => { console.log(error); return false; });
+                            }
+                        }
                     })
             });
         }

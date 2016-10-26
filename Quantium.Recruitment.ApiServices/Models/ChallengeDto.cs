@@ -15,9 +15,13 @@ namespace Quantium.Recruitment.ApiServices.Models
 
         public DateTime AnsweredTime { get; set; }
 
-        //public TestDto Test { get; set; }
+        public int RemainingChallenges { get; set; }
+
+        public int currentChallenge { get; set; }
 
         public QuestionDto Question { get; set; }
+
+        public bool[] ChallengesAnswered { get; set; }
 
         public List<CandidateSelectedOptionDto> CandidateSelectedOptions { get; set; }
 

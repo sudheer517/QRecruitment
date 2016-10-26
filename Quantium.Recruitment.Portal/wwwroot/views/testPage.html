@@ -4,10 +4,18 @@
                 md-is-locked-open="$mdMedia('gt-sm')"
                 md-whiteframe="4">
         <md-toolbar class="md-cyan-theme">
-            <h1>Questions</h1>
+            <h1>Answered</h1>
         </md-toolbar>
-        <md-content>
-
+        <md-content md-theme="dark-grey" md-theme-watch flex>
+            <div>
+                <div layout="row" layout-wrap>
+                    <md-input-container class="createJobCheckbox" ng-repeat="challengeAnswered in challengesAnswered track by $index" flex="40" flex-offset="5">
+                        <md-checkbox ng-model="challengeAnswered" ng-disabled="true">
+                            Question - {{$index + 1}}
+                        </md-checkbox>
+                    </md-input-container>
+                </div>
+            </div>
         </md-content>
     </md-sidenav>
 </div>
@@ -18,7 +26,7 @@
                 <md-icon md-svg-src="../img/menu.svg"></md-icon>
             </md-button>
             <h1 class="justify-self-center">
-                Recruitment test
+               Quantium Recruitment test
             </h1>
         </div>
     </md-toolbar>
@@ -26,35 +34,31 @@
         <md-card>
             <md-card-content>
                 <div  layout="column" flex>
-                    <h3 class="inline-block-display">Question - {{questionId}} </h3>
-                    <h3 class="inline-block-display"> / Remaining - {{questionId}}</h3>
+                    <div layout="row" class="align-center">
+                        <h3>Question - {{currentChallenge}} </h3>
+                        <h3> : Remaining - {{remainingChallenges}}</h3>
+                    </div>
                     <div class="clockContainer">
                         <div class="clock"></div>
                     </div>
-
-                    <div class="container">
-                        <div class="form-group pull-left test-panel-body">
-                            <label class="control-label">{{question}}</label>
-                            <br />
-                            <div class="text-left">
-                                <div class="checkbox" ng-repeat="option in options">
-                                    <md-input-container class="createJobCheckbox">
-                                        <md-checkbox ng-model="selectedQuestionOptions.optionIds[option.Id]">
-                                            {{option.Text}}
-                                        </md-checkbox>
-                                    </md-input-container>
-                                </div>
-
-                                <ul>
-                                    <li ng-repeat="item in selection"><h3>{{item}}</h3></li>
-                                </ul>
-
+                    {{status}}
+                    <div class="test-panel-body">
+                        <h4>{{questionText}}</h4>
+                        <div class="text-left">
+                            <div class="checkbox" ng-repeat="option in options">
+                                <md-input-container class="createJobCheckbox">
+                                    <md-checkbox ng-model="selectedQuestionOptions.optionIds[option.Id]">
+                                        {{option.Text}}
+                                    </md-checkbox>
+                                </md-input-container>
                             </div>
                         </div>
                     </div>
 
-                    <button class="btn redButton flex-start" ng-click="postChallenge()">Next Question &nbsp;<i class="fa fa-chevron-right"></i></button>
-                    <button class="btn greyButton flex-end">Finish Test</button>
+                    <div layout="row">
+                        <md-button class="md-raised md-primary createJobButton" ng-click="fillAndPostChallenge()">Next Question</md-button>
+                        <md-button class="md-raised md-accent createJobButton justify-right">Finish Test</md-button>
+                    </div>
                 </div>
             </md-card-content>
         </md-card>

@@ -43,6 +43,8 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         public void Update(Test entity)
         {
             _dbContext.Tests.Add(entity);
+            _dbContext.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+            _dbContext.SaveChanges();
         }
     }
 }

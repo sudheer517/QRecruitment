@@ -122,18 +122,6 @@ namespace Quantium.Recruitment.DbInitialize
 
             #endregion Admin
 
-            #region Test
-
-            Test test1 = new Test();
-            test1.Name = "Test1";
-            Test test2 = new Test();
-            test2.Name = "Test2";
-
-            _dbContext.Tests.Add(test1);
-            _dbContext.Tests.Add(test2);
-
-            #endregion Test
-
             #region Job
 
             Job job1 = new Job()
@@ -219,6 +207,23 @@ namespace Quantium.Recruitment.DbInitialize
             _dbContext.Candidates.Add(candidate6);
 
             #endregion Candidate
+
+            #region Test
+
+            Test test1 = new Test();
+            test1.Name = "Test1";
+            test1.Candidate = candidate6;
+            test1.Job = job1;
+
+            Test test2 = new Test();
+            test2.Name = "Test2";
+            test2.Candidate = candidate5;
+            test2.Job = job2;
+
+            _dbContext.Tests.Add(test1);
+            _dbContext.Tests.Add(test2);
+
+            #endregion Test
 
             #region Label
 

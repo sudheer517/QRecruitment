@@ -85,17 +85,23 @@ module Quantium.Recruitment.ODataEntities {
         public QuestionId: number;
         public StartTime: string;
         public AnsweredTime: string;
+        public RemainingChallenges: number;
+        public currentChallenge: number;
         public Question: QuestionDto;
+        public ChallengesAnswered: Boolean[];
         public CandidateSelectedOptions: CandidateSelectedOptionDto[];
         constructor();
-        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, Question?: QuestionDto, CandidateSelectedOptions?: CandidateSelectedOptionDto[]);
-        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, Question?: QuestionDto, CandidateSelectedOptions?: CandidateSelectedOptionDto[]){
+        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, RemainingChallenges?: number, currentChallenge?: number, Question?: QuestionDto, ChallengesAnswered?: Boolean[], CandidateSelectedOptions?: CandidateSelectedOptionDto[]);
+        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, RemainingChallenges?: number, currentChallenge?: number, Question?: QuestionDto, ChallengesAnswered?: Boolean[], CandidateSelectedOptions?: CandidateSelectedOptionDto[]){
             this.Id = Id;
             this.TestId = TestId;
             this.QuestionId = QuestionId;
             this.StartTime = StartTime;
             this.AnsweredTime = AnsweredTime;
+            this.RemainingChallenges = RemainingChallenges;
+            this.currentChallenge = currentChallenge;
             this.Question = Question;
+            this.ChallengesAnswered = ChallengesAnswered;
             this.CandidateSelectedOptions = CandidateSelectedOptions;
         }
 
