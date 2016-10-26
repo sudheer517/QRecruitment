@@ -18,18 +18,21 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly IChallengeRepository _challengeRepository;
         private readonly ITestRepository _testRepository;
         private readonly ICandidateRepository _candidateRepository;
+        private readonly IOptionRepository _optionRepository;
         private readonly ICandidateSelectedOptionRepository _candidateSelectedOptionRepository;
 
         public ChallengeController(
             IChallengeRepository challengeRepository,
             ITestRepository testRepository,
             ICandidateSelectedOptionRepository candidateSelectedOptionRepository,
-            ICandidateRepository candidateRepository)
+            ICandidateRepository candidateRepository,
+            IOptionRepository optionRepository)
         {
             _challengeRepository = challengeRepository;
             _testRepository = testRepository;
             _candidateSelectedOptionRepository = candidateSelectedOptionRepository;
             _candidateRepository = candidateRepository;
+            _optionRepository = optionRepository;
         }
 
         [HttpGet]
@@ -97,6 +100,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             challenge.CandidateSelectedOptions = Mapper.Map<List<CandidateSelectedOption>>(challengeDto.CandidateSelectedOptions);
             //challenge.CandidateSelectedOptions.ForEach(item => item.Challenge = challenge);
 
+            foreach (var item in challenge.CandidateSelectedOptions)
+            {
+                item.Challenge = challenge;
+                item.Option = _optionRepository.FindById(item.OptionId);
+            }
             //challenge.Question.Challenges = new List<Challenge>();
             //challenge.Question.Challenges.Add(challenge);
 
