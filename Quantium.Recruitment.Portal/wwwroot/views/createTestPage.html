@@ -24,7 +24,7 @@
             <ul>
                 <li ng-repeat="jobDifficultyLabel in selectedJob.JobDifficultyLabels">{{jobDifficultyLabel.Label.Name}} - {{jobDifficultyLabel.Difficulty.Name}} - {{jobDifficultyLabel.QuestionCount}}</li>
             </ul>
-                
+
         </md-card-content>
     </md-card>
     <md-card>
@@ -47,8 +47,13 @@
             <br />
             <br />
             <md-button class="md-primary md-raised" ng-click="generateTest()">
-                Generate test for selected Candidates
+                Generate test for selected candidates
             </md-button>
+            <div class="_md-right" ng-show="testGenerationResult">
+                <md-button class="md-primary md-raised" ng-click="sendTest()">
+                    Send test for selected candidates
+                </md-button>
+            </div>
         </md-card-content>
     </md-card>
 </md-content>

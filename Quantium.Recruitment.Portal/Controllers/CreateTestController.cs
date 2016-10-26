@@ -24,9 +24,17 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [HttpPost]
-        public IActionResult GenerateTests([FromBody] List<Candidate_JobDto> candidateJobDtos) 
+        public IActionResult GenerateTests([FromBody] List<Candidate_JobDto> candidateJobDtos)
         {
             var response = _helper.Post("api/Test/GenerateTests", candidateJobDtos);
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
+        [HttpPost]
+        public IActionResult SendTests([FromBody] List<CandidateDto> candidateDtos)
+        {
+            var response = _helper.Post("api/Test/GenerateTests", candidateDtos);
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }

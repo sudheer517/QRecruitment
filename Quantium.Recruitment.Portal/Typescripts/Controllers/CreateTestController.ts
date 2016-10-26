@@ -14,7 +14,8 @@ module Recruitment.Controllers {
         selectedtestOptions: SelectedTestOptions;
         testOptions: any;
         generateTest: () => void;
-        testGenerationResult: string;
+        sendTest: () => void;
+        testGenerationResult: boolean;
     }
     class SelectedTestOptions {
         public candidateIds: boolean[];
@@ -27,6 +28,7 @@ module Recruitment.Controllers {
             private $scope: ICreateTestControllerScope,
             private $log: ng.ILogService,
             private $http: ng.IHttpService,
+            private $q: ng.IQService,
             private $jobService: Recruitment.Services.JobService,
             private $candidateService: Recruitment.Services.CandidateService) {
             this.getJobs();
@@ -35,6 +37,7 @@ module Recruitment.Controllers {
             this.$scope.selectedJobName = "Select Job";
             this.$scope.changeSelectedJob = (selectedJob) => this.changeSelectedJob(selectedJob);
             this.$scope.generateTest = () => this.generateTest();
+            this.$scope.sendTest = () => this.sendTest();
         }
 
         private changeSelectedJob(selectedJob: JobDto) {
@@ -80,10 +83,38 @@ module Recruitment.Controllers {
             });
 
             this.$http.post("/CreateTest/GenerateTests", candidatesJobs).then(response => {
-                this.$scope.testGenerationResult = "Tests generated successfully";
+                this.$scope.testGenerationResult = true;
                 console.log(response);
             }, error => {
-                this.$scope.testGenerationResult = "Tests generation failed";
+                this.$scope.testGenerationResult = false;
+                console.log(error);
+            });
+        }
+
+        private sendTest(): void {
+            var candidates: CandidateDto[] = [];
+            var candidateIds = this.$scope.selectedtestOptions.candidateIds;
+            var getDataPromise = this.$candidateService.getAllCandidates().then(
+                response => {
+                    _.each(candidateIds, (item, index) => {
+                        if (item === true) {
+                            var candidate = new Quantium.Recruitment.ODataEntities.CandidateDto();
+                            candidate = response.data[index - 1];
+                            candidates.push(candidate);
+                        }
+                    })
+                },
+                error => {
+                    this.$log.error("Candidates retrieval failed");
+                }
+            );
+            this.$q.all([getDataPromise]).then(() => this.sendTestData(candidates));
+        }
+
+        private sendTestData(candidates: Quantium.Recruitment.ODataEntities.CandidateDto[]): void {
+            this.$http.post("/CreateTest/SendTests", candidates).then(response => {
+                console.log(response);
+            }, error => {
                 console.log(error);
             });
         }
