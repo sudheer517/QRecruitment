@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
-    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
+    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class, IDisposable
     {
         private readonly IRecruitmentContext _dbContext;
 
@@ -31,6 +31,12 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         {
             var dbSet = _dbContext.GetSet(typeof(T));
             return dbSet.Cast<T>();
+        }
+
+        public void Dispose()
+        {
+            if (_dbContext != null)
+                _dbContext.Dispose();
         }
     }
 }

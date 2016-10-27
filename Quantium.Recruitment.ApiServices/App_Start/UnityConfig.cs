@@ -12,7 +12,7 @@ namespace Quantium.Recruitment.ApiServices
         public static IDependencyResolver RegisterComponents()
         {
 			var container = new UnityContainer();
-            container.RegisterType<IRecruitmentContext, RecruitmentContext>(new ExternallyControlledLifetimeManager());
+            container.RegisterType<IRecruitmentContext, RecruitmentContext>(new PerThreadLifetimeManager());
             container.RegisterType<IConnectionString, ConnectionString>();
             container.RegisterType<ICandidateRepository, CandidateRepository>();
             container.RegisterType<IAdminRepository, AdminRepository>();

@@ -9,5 +9,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         void Delete(T entity);
 
         IQueryable<T> GetAll();
+
+        void Dispose();
     }
 }

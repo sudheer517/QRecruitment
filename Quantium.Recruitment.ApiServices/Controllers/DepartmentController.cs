@@ -21,7 +21,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetAllDepartments()
+        public IHttpActionResult GetAll()
         {
             var departments = _departmentRepository.GetAll().ToList();
 

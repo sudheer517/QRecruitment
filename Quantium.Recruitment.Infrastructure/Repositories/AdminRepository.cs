@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity.Migrations;
 using System.Linq;
 using Quantium.Recruitment.Entities;
+using System;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
