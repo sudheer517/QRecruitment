@@ -128,6 +128,18 @@ module Recruitment.Routes {
                             }
                         }
                     })
+
+                    .state("candidateTestList",
+                    {
+                        url: "/candidateTestList", controller: Controllers.CandidateTestListController, templateUrl: "/views/candidateTestListPage.html"
+                    })
+
+                    .state("testResults",
+                    {
+                        url: "/testResults", controller: Controllers.TestResultsController, templateUrl: "/views/testResults.html", params: { 'example': null }
+                    })
+
+                    
             });
         }
     }

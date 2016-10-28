@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
@@ -23,5 +24,7 @@ namespace Quantium.Recruitment.Entities
         public virtual Job Job { get; set; }
 
         public virtual bool IsFinished { get; set; }
+
+        public virtual DateTime? FinishedDate { get; set; }
     }
 }

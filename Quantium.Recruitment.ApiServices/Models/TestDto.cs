@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Quantium.Recruitment.ApiServices.Models
 {
@@ -17,5 +18,7 @@ namespace Quantium.Recruitment.ApiServices.Models
         public JobDto Job { get; set; }
 
         public bool IsFinished { get; set; }
+
+        public DateTime FinishedDate { get; set; }
     }
 }

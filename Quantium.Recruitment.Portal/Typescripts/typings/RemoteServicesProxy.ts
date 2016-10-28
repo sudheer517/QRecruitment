@@ -273,9 +273,10 @@ module Quantium.Recruitment.ODataEntities {
         public Candidate: CandidateDto;
         public Job: JobDto;
         public IsFinished: boolean;
+        public FinishedDate: string;
         constructor();
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean);
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean){
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string);
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string){
             this.Id = Id;
             this.Name = Name;
             this.Challenges = Challenges;
@@ -283,6 +284,7 @@ module Quantium.Recruitment.ODataEntities {
             this.Candidate = Candidate;
             this.Job = Job;
             this.IsFinished = IsFinished;
+            this.FinishedDate = FinishedDate;
         }
 
     }

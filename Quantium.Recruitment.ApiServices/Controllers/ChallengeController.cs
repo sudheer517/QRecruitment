@@ -74,6 +74,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             if(currentChallenge == null)
             {
                 test.IsFinished = true;
+                test.FinishedDate = DateTime.Today.Date;
                 _testRepository.Update(test);
                 return Ok("Finished");
             }
@@ -87,6 +88,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             if(currentChallengeDto.RemainingChallenges == 0)
             {
                 test.IsFinished = true;
+                test.FinishedDate = DateTime.Today.Date;
                 _testRepository.Update(test);
             }
 

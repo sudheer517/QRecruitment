@@ -1,0 +1,27 @@
+﻿<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm class="md-icon-button">
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+        <h1 class="justify-self-center">
+            Finished Tests By Candidates
+        </h1>
+    </div>
+</md-toolbar>
+<md-content>
+    <h3>Candidates who finished the test</h3>
+    <div>
+        <md-card ng-repeat="test in tests" ng-click="getTestDetails(test)" class="testResultCard cursor-pointer"
+                 ng-class="{true:'md-whiteframe-4dp' ,false: 'md-whiteframe-1dp'}[hovered]"
+                 ng-mouseenter="hovered=true"
+                 ng-mouseleave="hovered=false">
+            <md-card-content>
+                <h4><i class="fa fa-user"></i> {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</h4>
+                <h5><i class="fa fa-envelope"></i> {{test.Candidate.Email}}</h5>
+                <h5><i class="fa fa-mobile fa-2x"></i> {{test.Candidate.Mobile}}</h5>
+                <h5><i class="fa fa-id-card fa"></i> {{test.Job.Title}}</h5>
+                <h5><i class="fa fa-hourglass-end"></i> {{test.FinishedDate | date}}</h5>
+            </md-card-content>
+        </md-card>
+    </div>
+</md-content>

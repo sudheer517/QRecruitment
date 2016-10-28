@@ -50,5 +50,13 @@ namespace Quantium.Recruitment.Portal.Controllers
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
+
+        [HttpGet]
+        public IActionResult GetAllFinishedTests()
+        {
+            var response = _helper.GetData("/api/Test/GetFinishedTests");
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
     }
 }

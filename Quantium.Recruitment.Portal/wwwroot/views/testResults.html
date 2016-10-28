@@ -1,0 +1,31 @@
+﻿<md-toolbar>
+    <div class="md-toolbar-tools">
+        <md-button hide-gt-sm class="md-icon-button">
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+        <h1 class="justify-self-center">
+            Test information - {{test.Candidate.FirstName}} {{test.Candidate.LastName}}
+        </h1>
+    </div>
+</md-toolbar>
+<md-content>
+    <md-card>
+        <md-card-content>
+            <h4><i class="fa fa-user"></i> {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</h4>
+            <h5><i class="fa fa-envelope"></i> {{test.Candidate.Email}}</h5>
+            <h5><i class="fa fa-mobile fa-2x"></i> {{test.Candidate.Mobile}}</h5>
+        </md-card-content>
+    </md-card>
+        <h5><i class="fa fa-id-card fa"></i> {{test.Job.Title}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.FinishedDate | date}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.City}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.State}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.Country}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.Branch}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.College}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.PassingYear}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.ExperienceInYears}}</h5>
+        <h5><i class="fa fa-hourglass-end"></i> {{test.CurrentCompany}}</h5>
+
+    
+</md-content>

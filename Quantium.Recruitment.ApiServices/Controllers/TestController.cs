@@ -122,5 +122,12 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             else
                 return Ok(true);
         }
+
+        [HttpGet]
+        public IHttpActionResult GetFinishedTests()
+        {
+            var finishedTestDtos = Mapper.Map<List<TestDto>>(_testRepository.GetAll().Where(t => t.IsFinished == true).OrderByDescending(t => t.FinishedDate).ToList());
+            return Ok(finishedTestDtos);
+        }
     }
 }

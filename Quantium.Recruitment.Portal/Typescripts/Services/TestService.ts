@@ -9,6 +9,7 @@ module Recruitment.Services {
         getNextChallenge(): ng.IHttpPromise<ChallengeDto>;
         postChallenge(challenge: ChallengeDto): ng.IHttpPromise<any>;
         hasActiveTestForCandidate(): void;
+        getFinishedTests(): ng.IHttpPromise<TestDto[]>;
     }
 
     export class TestService implements ITestService {
@@ -29,6 +30,10 @@ module Recruitment.Services {
 
         public hasActiveTestForCandidate(): ng.IHttpPromise<boolean> {
             return this.$http.get("/Test/HasActiveTestForCandidate");
+        }
+
+        public getFinishedTests(): ng.IHttpPromise<TestDto[]> {
+            return this.$http.get("/Test/GetAllFinishedTests");
         }
     }
 }

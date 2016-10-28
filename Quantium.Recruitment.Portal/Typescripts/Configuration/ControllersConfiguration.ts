@@ -7,6 +7,8 @@
 /// <reference path="../controllers/addCandidatesController.ts" />
 /// <reference path="../controllers/candidatedetailscontroller.ts" />
 /// <reference path="../controllers/sendTestController.ts" />
+/// <reference path="../controllers/testresultscontroller.ts" />
+/// <reference path="../controllers/candidatetestlistcontroller.ts" />
 
 module Recruitment.Controllers {
     export class ControllersConfiguration {
@@ -20,6 +22,8 @@ module Recruitment.Controllers {
             app.controller("addCandidatesController", Controllers.AddCandidatesController);
             app.controller("candidateDetailsController", Controllers.CandidateDetailsController);
             app.controller("sendTestController", Controllers.SendTestController);
+            app.controller("testResultsController", Controllers.TestResultsController);
+            app.controller("candidateTestListController", Controllers.CandidateTestListController);
         }
     }
 }

@@ -144,6 +144,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public CandidateDto Candidate;
         public JobDto Job;
         public bool IsFinished;
+        public DateTime FinishedDate;
 
     }
 
