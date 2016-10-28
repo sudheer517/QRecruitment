@@ -69,7 +69,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 totalChallengesAnswered[i] = (challenges[i].IsAnswered == null || challenges[i].IsAnswered == false) ? false: true;
             }
 
-            var currentChallenge = notSentChallenges.Count() > 0 ? notSentChallenges.First() : null;
+            var currentChallenge = notSentChallenges.Count() > 0 ? notSentChallenges.OrderBy(c => c.Id).First() : null;
 
             if(currentChallenge == null)
             {
@@ -84,6 +84,12 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             currentChallengeDto.RemainingChallenges = notSentChallenges.Count() - 1;
             currentChallengeDto.currentChallenge = totalCount - notSentChallenges.Count() + 1;
             currentChallengeDto.ChallengesAnswered = totalChallengesAnswered;
+            if(currentChallengeDto.RemainingChallenges == 0)
+            {
+                test.IsFinished = true;
+                _testRepository.Update(test);
+            }
+
             return Ok(currentChallengeDto);
         }
 

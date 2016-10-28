@@ -29,6 +29,8 @@ module Recruitment.Controllers {
         private currentChallenge: ChallengeDto;
         private startDateTime: string;
         private endDateTime: string;
+        private clock: any;
+        private myTimer: any;
 
         constructor(
             private $scope: ITestControllerScope,
@@ -51,7 +53,7 @@ module Recruitment.Controllers {
             this.postChallenge();
         }
 
-        private postChallenge(): void {
+        private postChallenge(shouldGetNextQuestion: boolean = true): void {
             this.currentChallenge.StartTime = this.startDateTime;
             this.currentChallenge.AnsweredTime = this.endDateTime;
             var challengeDto = this.currentChallenge;
@@ -72,37 +74,38 @@ module Recruitment.Controllers {
             this.$testService.postChallenge(challengeDto)
                 .then(result => {
                     this.$log.info("answer posted");
-                    this.getNextChallenge();
+                    if (shouldGetNextQuestion) {
+                        this.getNextChallenge();
+                    }
                 }, reason => {
                     this.$log.error("answer posting failed");
                 });
         }
 
         private setTimer(questionTimeInSeconds: number) {
-            var clock;
             var clockObj: any = $('.clock');
-            var self = this;
-            clock = clockObj.FlipClock(questionTimeInSeconds, {
+            this.clock = clockObj.FlipClock(questionTimeInSeconds, {
                 clockFace: 'MinuteCounter',
                 autoStart: false,
                 callbacks: {
-                    stop: function () {
-                        self.showConfirm();
+                    stop: () => {
+                        this.$timeout.cancel();
                     }
                 }
             });
 
-            clock.setCountdown(true);
-            clock.start();
+            this.clock.setCountdown(true);
+            this.clock.start();
         }
 
         private nextQuestion(): void {
             this.$mdDialog.hide();
-            this.postChallenge();
+            this.getNextChallenge();
         }
 
         private showConfirm(): void {
             this.endDateTime = moment().format("YYYY-MM-DD hh:mm:ss.SSS");
+            this.postChallenge(false);
             this.$mdDialog.show({
                     templateUrl: '/views/timeUpTemplate.html',
                     disableParentScroll: true,
@@ -120,8 +123,8 @@ module Recruitment.Controllers {
                         this.$state.go("candidateHome");
                         return;
                     }
-
-                   // this.$timeout(() => { this.showConfirm() }, (result.data.Question.TimeInSeconds * 1000));
+                    this.$timeout.cancel(this.myTimer);
+                    this.myTimer = this.$timeout(() => { this.showConfirm() }, (result.data.Question.TimeInSeconds * 1000));
                     this.startDateTime = moment().format("YYYY-MM-DD hh:mm:ss.SSS");
                     this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
                     this.currentChallenge = result.data;
