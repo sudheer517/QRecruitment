@@ -8,24 +8,56 @@
         </h1>
     </div>
 </md-toolbar>
-<md-content>
-    <md-card>
-        <md-card-content>
-            <h4><i class="fa fa-user"></i> {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</h4>
-            <h5><i class="fa fa-envelope"></i> {{test.Candidate.Email}}</h5>
-            <h5><i class="fa fa-mobile fa-2x"></i> {{test.Candidate.Mobile}}</h5>
-        </md-card-content>
-    </md-card>
-        <h5><i class="fa fa-id-card fa"></i> {{test.Job.Title}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.FinishedDate | date}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.City}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.State}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.Country}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.Branch}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.College}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.PassingYear}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.ExperienceInYears}}</h5>
-        <h5><i class="fa fa-hourglass-end"></i> {{test.CurrentCompany}}</h5>
+<div layout="column">
+    <md-content>
+        <div layout="row">
+            <md-card>
+                <md-card-content>
+                    <h4><i class="fa fa-user"></i> Name : {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</h4>
+                    <h5><i class="fa fa-envelope"></i> Email : {{test.Candidate.Email}}</h5>
+                    <h5><i class="fa fa-mobile fa-2x"></i> Mobile: {{test.Candidate.Mobile}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> City : {{test.Candidate.City}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> State : {{test.Candidate.State}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Country: {{test.Candidate.Country}}</h5>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-content>
+                    <h5><i class="fa fa-hourglass-end"></i> Branch : {{test.Candidate.Branch}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> College : {{test.Candidate.College}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Passing Year : {{test.Candidate.PassingYear}}</h5>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-content>
+                    <h5><i class="fa fa-hourglass-end"></i> Experience : {{test.Candidate.ExperienceInYears}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Current company : {{test.Candidate.CurrentCompany}}</h5>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-content>
+                    <h5><i class="fa fa-hourglass-end"></i> Job applied for: {{test.Job.Title}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Test Finished on : {{test.FinishedDate | date}}</h5>
+                </md-card-content>
+            </md-card>
+            <md-card>
+                <md-card-content>
+                    <h5><i class="fa fa-hourglass-end"></i> Total Questions displayed : </h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Total Questions answered :</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Total right answers :</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Test result : </h5>
 
-    
-</md-content>
+                </md-card-content>
+            </md-card>
+        </div>
+        <div>
+            <md-card>
+                <h3 class="padding-left-6">Questions displayed to candidate</h3>
+                <md-card-content>
+                    <h5 ng-repeat="challenge in test.Challenges"><i class="fa fa-star"></i> {{challenge.Question.Text}}</h5>
+                </md-card-content>
+            </md-card>
+        </div>
+    </md-content>
+
+</div>

@@ -30,7 +30,10 @@ module Recruitment.Controllers {
             private $http: ng.IHttpService,
             private $departmentService: Recruitment.Services.DepartmentService,
             private $labelService: Recruitment.Services.LabelService,
-            private $difficultyService: Recruitment.Services.DifficultyService) {
+            private $difficultyService: Recruitment.Services.DifficultyService,
+            private $mdDialog: ng.material.IDialogService,
+            private $state: ng.ui.IStateService,
+            private $mdToast: ng.material.IToastService) {
             this.getDepartments();
             this.getLabels();
             this.getDifficulties();
@@ -46,6 +49,18 @@ module Recruitment.Controllers {
                     this.$log.info('departments retrieval failed');
                     console.log(error);
                 });
+        }
+
+        private showPrerenderedDialog(): void {
+            var dialogOptions: ng.material.IDialogOptions = {
+                contentElement: '#myModal',
+                clickOutsideToClose: false,
+                escapeToClose : false,
+                scope: this.$scope,
+                preserveScope: true
+            };
+
+            this.$mdDialog.show(dialogOptions);
         }
 
         private getLabels(): void {
@@ -68,7 +83,24 @@ module Recruitment.Controllers {
                 });
         }
 
+        private showToast(toastMessage: string): void {
+            var toast = this.$mdToast.simple()
+                .textContent(toastMessage)
+                .action('Ok')
+                .highlightAction(true)
+                .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+                .position("top right");
+
+            this.$mdToast.show(toast).then(response => {
+                if (response == 'ok') {
+                    this.$mdToast.hide();
+                    //alert('You clicked the \'UNDO\' action.');
+                }
+            });
+        }
+
         private createJob(): void {
+            this.showPrerenderedDialog();
             var job = this.$scope.job;
             var labelIds = this.$scope.selectedOptions.labelIds;
             var difficultyIds = this.$scope.selectedOptions.difficultyIds;
@@ -86,8 +118,12 @@ module Recruitment.Controllers {
 
             this.$http.post("/Job/Create", job).then(response => {
                 console.log(response);
+                this.$mdDialog.hide();
+                this.$state.go("dashboard");
+                this.showToast("Job created");
             }, error => {
                 console.log(error);
+                this.showToast("Job creation failed");
             });
         }
     }

@@ -34,9 +34,7 @@ module Recruitment.Controllers {
         }
 
         private getTestDetails(selectedTest: TestDto) {
-            console.log("state go2 done");
-            this.$state.go("testResults", { 'example': 'Just' }, { location: "replace" });
-            //this.$state.go("testResults", { example : "Just" });
+            this.$state.go("testResults", { 'selectedTest': selectedTest, 'selectedTestId': selectedTest.Id }, { location: "replace" });
         }
 
         public logout(): void{

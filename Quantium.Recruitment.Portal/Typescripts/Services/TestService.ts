@@ -35,5 +35,9 @@ module Recruitment.Services {
         public getFinishedTests(): ng.IHttpPromise<TestDto[]> {
             return this.$http.get("/Test/GetAllFinishedTests");
         }
+
+        public getTestById(testId: number): ng.IHttpPromise<TestDto> {
+            return this.$http.get("/Test/GetTestById?id=" + testId);
+        }
     }
 }

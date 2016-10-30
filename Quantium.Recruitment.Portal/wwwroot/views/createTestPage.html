@@ -8,18 +8,20 @@
         </h1>
     </div>
 </md-toolbar>
-<md-content flex layout="column">
-    <md-card flex>
-        <md-card-content layout="column" flex>
-            <md-input-container>
-                <label>Job</label>
-                <md-select ng-model="selectedJobId">
-                    <md-option value="0"><em>None</em></md-option>
-                    <md-option ng-repeat="job in jobs" ng-value="job.Id" ng-click="changeSelectedJob(job)">
-                        {{job.Title}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
+<md-content>
+    <md-card>
+        <md-card-content layout="column">
+            <div layout="row">
+                <md-input-container flex-gt-sm="30">
+                    <label>Job</label>
+                    <md-select ng-model="selectedJobId">
+                        <md-option value="0"><em>None</em></md-option>
+                        <md-option ng-repeat="job in jobs" ng-value="job.Id" ng-click="changeSelectedJob(job)">
+                            {{job.Title}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
             <h3>Total questions in selected job: {{totalQuestionsInSelectedJob}}</h3>
             <ul>
                 <li ng-repeat="jobDifficultyLabel in selectedJob.JobDifficultyLabels">{{jobDifficultyLabel.Label.Name}} - {{jobDifficultyLabel.Difficulty.Name}} - {{jobDifficultyLabel.QuestionCount}}</li>
@@ -27,6 +29,7 @@
 
         </md-card-content>
     </md-card>
+
     <md-card>
         <md-card-content>
             <h3 class="fileUpload">Select the candidates for this job</h3>
@@ -44,6 +47,8 @@
                     </md-card>
                 </div>
             </div>
+
+            <br />
             <br />
             <br />
             <md-button class="md-primary md-raised" ng-click="generateTest()">

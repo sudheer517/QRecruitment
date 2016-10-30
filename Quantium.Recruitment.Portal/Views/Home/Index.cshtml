@@ -11,7 +11,7 @@
             <h1>Quantium</h1>
         </md-toolbar>
         <md-content md-theme="dark-grey" md-theme-watch flex>
-            <md-list class="sideNavList fill-width">
+            <md-list class="sideNavList fill-width" flex layout="column">
                 <md-list-item>
                     <md-button flex ui-sref="dashboard" layout-align="start center">
                         <md-icon md-svg-icon="dashboard" class="s42"></md-icon>
@@ -42,12 +42,12 @@
                         Create Test
                     </md-button>
                 </md-list-item>
-                <md-list-item>
+                @*<md-list-item>
                     <md-button flex ui-sref="editTest">
                         <md-icon md-svg-icon="editTest" class="s42"></md-icon>
                         Edit Test
                     </md-button>
-                </md-list-item>
+                </md-list-item>*@
                 <md-list-item>
                     <md-button flex ui-sref="addTeamAdmin">
                         <md-icon md-svg-icon="addAdmin" class="s42"></md-icon>
@@ -67,7 +67,5 @@
 
 
 <div layout="column" flex>
-    <div ui-view></div>
+    <div ui-view md-scroll-y layout="column" class="fill-height fill-width"></div>
 </div>
-
-@*<div ui-view></div>*@

@@ -1,9 +1,9 @@
 ﻿html, body {
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
+    overflow: hidden;
+    max-height: 100%;
+    max-width: 100%;
 }
 md-toolbar h1{
     font-size: 1.250em;
@@ -29,11 +29,11 @@ md-sidenav md-list{
 }
 md-list-item{
     .md-button {
-        padding-top: 20px;
-        height: 80px;
+        padding-top: 18px;
+        height: 75px;
     }
     span{
-        font-size: 1.4em;
+        font-size: 1em;
         font-weight: 400;
     }
     md-icon{
@@ -52,6 +52,11 @@ md-list-item{
 .fill-width{
     width: 100%;
 }
+
+.fill-height{
+    height: 100%;
+}
+
 .align-center{
     align-self: center;
 }
@@ -68,15 +73,11 @@ md-list-item{
   display: inline-block;
 }
 
-
-
 @media screen and (min-width:1200px) {
     md-dialog{
         width: 40vw;
         height: 40vh;
     }
-
-    
 }
 .timeUpImage{
     width: 200px;
@@ -90,6 +91,10 @@ md-list-item{
     &:hover{
         
     }
+}
+
+.padding-left-6{
+    padding-left: 7px;
 }
 //for changing angular material disabled checkboxes
 /*md-checkbox.md-default-theme[disabled].md-checked .md-icon, md-checkbox[disabled].md-checked .md-icon{

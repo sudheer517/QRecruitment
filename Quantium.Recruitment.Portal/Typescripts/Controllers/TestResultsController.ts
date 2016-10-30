@@ -2,20 +2,22 @@
 
     import TestDto = Quantium.Recruitment.ODataEntities.TestDto;
     export interface ITestResultsControllerScope extends ng.IScope {
-        
+        test: TestDto;
     }
-
 
     export class TestResultsController {
 
         constructor(
             private $scope: ITestResultsControllerScope,
             private $testService: Recruitment.Services.TestService,
-            private $state: ng.ui.IStateService,
-            private $stateParams: ng.ui.IStateParamsService) {
-            console.log("goal");
-            console.log(this.$stateParams);
-            console.log(this.$state.params);
+            private $state: ng.ui.IStateService) {
+            var stateParamTest = <TestDto>this.$state.params['selectedTest'];
+            if (!stateParamTest) {
+                this.getTestById(this.$state.params['selectedTestId']);
+            }
+            else {
+                this.$scope.test = stateParamTest;
+            }
             //this.getAllFinishedTests();
             //this.$scope.getTestDetails = (selectedTest) => this.getTestDetails(selectedTest);
             //console.log("brah");
@@ -24,15 +26,23 @@
             //console.log(this.$state.params);
         }
 
-        //private getAllFinishedTests(): void {
-        //    this.$testService.getFinishedTests().then(
-        //        success => {
-        //            this.$scope.tests = success.data;
-        //        },
-        //        error => {
-        //            console.log(error);
-        //        });
-        //}
+        private getTestById(testId: number): void {
+            this.$testService.getTestById(testId).then(
+                success => {
+                    this.$scope.test = success.data;
+                    console.log(success.data);
+                    _.each(success.data.Challenges, (item, index) => {
+                        _.each(item.Question.Options, (optionItem, optionIndex) => {
+                            if (optionItem.IsAnswer == true) {
+                                console.log(item.Question.Text + '-' + item.Id);
+                            }
+                        });
+                    });
+                },
+                error => {
+                    console.log(error);
+                });
+        }
 
         
 

@@ -136,7 +136,7 @@ module Recruitment.Routes {
 
                     .state("testResults",
                     {
-                        url: "/testResults", controller: Controllers.TestResultsController, templateUrl: "/views/testResults.html", params: { 'example': null }
+                        url: "/testResults/{selectedTestId}", controller: Controllers.TestResultsController, templateUrl: "/views/testResults.html", params: { 'selectedTest': null }
                     })
 
                     
