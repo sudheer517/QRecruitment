@@ -53,7 +53,7 @@ module Recruitment.Controllers {
 
         private showPrerenderedDialog(): void {
             var dialogOptions: ng.material.IDialogOptions = {
-                contentElement: '#myModal',
+                contentElement: '#uploadStatusModal',
                 clickOutsideToClose: false,
                 escapeToClose : false,
                 scope: this.$scope,

@@ -10,9 +10,9 @@
     </div>
 </md-toolbar>
 <md-content>
-    <div ng-cloak="" class="md-inline-form" layout="row" flex>
-        <md-card flex>
-            <md-card-content layout="column">
+    <md-card>
+        <md-card-content>
+            <div layout="column">
                 <div layout="row">
                     <div layout="column" flex-gt-sm="30">
                         <md-input-container>
@@ -62,35 +62,30 @@
                     </div>
                     <md-button class="md-raised md-primary createJobButton" ng-click="createJob()">Create Job</md-button>
                 </div>
-            </md-card-content>
-        </md-card>
-    </div>
+            </div>
+        </md-card-content>
+    </md-card>
 </md-content>
 
 <div style="visibility: hidden">
-    <div class="md-dialog-container" id="myModal">
+    <div class="md-dialog-container" id="uploadStatusModal">
         <md-dialog>
             <md-toolbar class="md-accent">
                 <div class="md-toolbar-tools">
-                    <h1>
-                        Creating Job
-                    </h1>
+                    <h3>
+                        Job creation in progress
+                    </h3>
                 </div>
             </md-toolbar>
-            <div>
-                <div>
-                    <md-content>
-                        <md-card>
-                            <md-card-content>
-                                Job creation in progress
-                                <div layout="row" layout-align="space-around">
-                                    <md-progress-circular md-mode="indeterminate" class="md-accent"></md-progress-circular>
-                                </div>
-                            </md-card-content>
-                        </md-card>
-                    </md-content>
-                </div>
-            </div>
+            <md-content>
+                <md-card>
+                    <md-card-content>
+                        <div layout="row" layout-align="space-around">
+                            <md-progress-circular md-mode="indeterminate" class="md-primary"></md-progress-circular>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </md-content>
         </md-dialog>
     </div>
 </div>

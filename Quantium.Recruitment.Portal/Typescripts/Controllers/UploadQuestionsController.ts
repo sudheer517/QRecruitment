@@ -26,7 +26,9 @@ module Recruitment.Controllers {
             private $log: ng.ILogService, private $http: ng.IHttpService,
             private Upload: ng.angularFileUpload.IUploadService,
             private $timeout: ng.ITimeoutService,
-            private $mdDialog: ng.material.IDialogService) {
+            private $mdDialog: ng.material.IDialogService,
+            private $mdToast: ng.material.IToastService,
+            private $state: ng.ui.IStateService) {
             this.$scope.saveChanges = () => this.saveChanges();
             this.$scope.previewQuestions = () => this.previewQuestions();
             this.$scope.previewQuestionModels = [];
@@ -46,9 +48,37 @@ module Recruitment.Controllers {
             this.$mdDialog.show(dialogOptions);
         }
 
-        public uploadFile(): void {
-            var file: any = this.$scope.files01[0].lfFile;
+        private showUploadStatusDialog(): void {
+            var dialogOptions: ng.material.IDialogOptions = {
+                contentElement: '#uploadStatusModal',
+                clickOutsideToClose: false,
+                escapeToClose : false,
+                scope: this.$scope,
+                preserveScope: true,
+            };
 
+            this.$mdDialog.show(dialogOptions);
+        }
+
+        private showToast(toastMessage: string): void {
+            var toast = this.$mdToast.simple()
+                .textContent(toastMessage)
+                .action('Ok')
+                .highlightAction(true)
+                .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+                .position("top right");
+
+            this.$mdToast.show(toast).then(response => {
+                if (response == 'ok') {
+                    this.$mdToast.hide();
+                    //alert('You clicked the \'UNDO\' action.');
+                }
+            });
+        }
+
+        public uploadFile(): void {
+            this.showUploadStatusDialog();
+            var file: any = this.$scope.files01[0].lfFile;
             if (file) {
                 file.upload = this.Upload.upload({
                     url: '/Question/AddQuestions',
@@ -62,6 +92,11 @@ module Recruitment.Controllers {
                     this.$timeout(() => {
                         file.result = response.data;
                         this.$scope.uploadStatus = "File upload successful";
+                        this.$state.go("dashboard");
+                        this.$timeout(() => {
+                            this.showToast("Questions uploaded successfully");
+                        }, 1000);
+                        
                     });
                 }, error => {
                     if (error.status > 0)
