@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.ApiServiceModels;
+using System.Net.Http;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,9 +33,14 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddAdmin([FromBody] AdminDto adminDto)
+        public HttpResponseMessage AddAdmin([FromBody] AdminDto adminDto)
         {
-            return Json("");
+            var response = _httpHelper.Post("/api/Admin/AddAdmin", adminDto);
+
+            if (response.StatusCode != HttpStatusCode.Created)
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            return response;
             // the htttp request content-type should be set to application/json
             //return Json(_odataClient.For<AdminDto>().Set(adminDto).InsertEntryAsync());
         }

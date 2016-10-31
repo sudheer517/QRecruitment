@@ -4,4 +4,5 @@
 /// <reference path="angularjs/angular-mocks.d.ts" />
 /// <reference path="ng-file-upload/ng-file-upload.d.ts" />
 /// <reference path="angular-material/angular-material.d.ts" />
-/// <reference path="moment/moment.d.ts" />
+/// <reference path="highcharts/highcharts.d.ts" />
+undefined

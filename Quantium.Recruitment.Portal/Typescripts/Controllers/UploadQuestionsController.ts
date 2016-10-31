@@ -66,7 +66,8 @@ module Recruitment.Controllers {
                 .action('Ok')
                 .highlightAction(true)
                 .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
-                .position("top right");
+                .position("top right")
+                .hideDelay(4000);
 
             this.$mdToast.show(toast).then(response => {
                 if (response == 'ok') {
@@ -89,6 +90,7 @@ module Recruitment.Controllers {
                 });
 
                 file.upload.then(response => {
+                    this.$mdDialog.hide();
                     this.$timeout(() => {
                         file.result = response.data;
                         this.$scope.uploadStatus = "File upload successful";
@@ -96,7 +98,6 @@ module Recruitment.Controllers {
                         this.$timeout(() => {
                             this.showToast("Questions uploaded successfully");
                         }, 1000);
-                        
                     });
                 }, error => {
                     if (error.status > 0)

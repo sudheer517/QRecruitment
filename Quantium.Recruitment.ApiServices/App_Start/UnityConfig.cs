@@ -4,6 +4,7 @@ using System.Web.Http;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Unity.WebApi;
 using System.Web.Http.Dependencies;
+using System.Web;
 
 namespace Quantium.Recruitment.ApiServices
 {
@@ -12,7 +13,7 @@ namespace Quantium.Recruitment.ApiServices
         public static IDependencyResolver RegisterComponents()
         {
 			var container = new UnityContainer();
-            container.RegisterType<IRecruitmentContext, RecruitmentContext>(new ExternallyControlledLifetimeManager());
+            container.RegisterType<IRecruitmentContext, RecruitmentContext>(new PerRequestLifetimeManager());
             container.RegisterType<IConnectionString, ConnectionString>();
             container.RegisterType<ICandidateRepository, CandidateRepository>();
             container.RegisterType<IAdminRepository, AdminRepository>();
@@ -32,6 +33,32 @@ namespace Quantium.Recruitment.ApiServices
             container.RegisterType<ICandidateSelectedOptionRepository, CandidateSelectedOptionRepository>();
 
             return new UnityDependencyResolver(container);
+        }
+    }
+
+    public class PerRequestLifetimeManager : LifetimeManager
+    {
+        private readonly object key = new object();
+
+        public override object GetValue()
+        {
+            if (HttpContext.Current != null &&
+                HttpContext.Current.Items.Contains(key))
+                return HttpContext.Current.Items[key];
+            else
+                return null;
+        }
+
+        public override void RemoveValue()
+        {
+            if (HttpContext.Current != null)
+                HttpContext.Current.Items.Remove(key);
+        }
+
+        public override void SetValue(object newValue)
+        {
+            if (HttpContext.Current != null)
+                HttpContext.Current.Items[key] = newValue;
         }
     }
 }

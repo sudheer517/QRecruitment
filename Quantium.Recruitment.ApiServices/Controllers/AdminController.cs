@@ -31,29 +31,23 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(Mapper.Map<AdminDto>(admin));
         }
 
-        //    //http://localhost:60606/odata/Admins(1)
-        //    [HttpGet]
-        //    [ODataRoute("Admins({key})")]
-        //    [EnableQuery]
-        //    public IHttpActionResult GetAdmin([FromODataUri] int key)
-        //    {
-        //        var admin = _adminRepository.GetAll().Single(item => item.Id == key);
+        [HttpGet]
+        public IHttpActionResult GetAdmin(int key)
+        {
+            var admin = _adminRepository.GetAll().Single(item => item.Id == key);
 
-        //        return Ok(Mapper.Map<AdminDto>(admin));
-        //    }
+            return Ok(Mapper.Map<AdminDto>(admin));
+        }
 
-        //    //http://localhost:60606/odata/Admins
-        //    [HttpPost]
-        //    [ODataRoute("Admins")]
-        //    [EnableQuery]
-        //    public IHttpActionResult Post(AdminDto adminDto)
-        //    {
-        //        var admin = Mapper.Map<Admin>(adminDto);
+        [HttpPost]
+        public HttpResponseMessage AddAdmin(AdminDto adminDto)
+        {
+            var admin = Mapper.Map<Admin>(adminDto);
 
-        //        var result = _adminRepository.Add(admin);
+            var result = _adminRepository.Add(admin);
 
-        //        return Created(Mapper.Map<AdminDto>(result));
-        //    }
+            return Request.CreateResponse(HttpStatusCode.Created);
+        }
 
         //    //http://localhost:60606/odata/Admins(1)
         //    [HttpDelete]

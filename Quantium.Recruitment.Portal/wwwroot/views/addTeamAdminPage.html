@@ -10,46 +10,93 @@
     </div>
 </md-toolbar>
 <md-content flex>
-    <div ng-cloak="" class="md-inline-form" layout="row" flex>
-        <md-card flex>
+    <div ng-cloak="" class="md-inline-form" layout="row" flex layout-align="center">
+        <md-card flex-gt-sm="50">
             <md-card-content flex layout="column">
                 <div>
                     <form name="adminForm" layout="column">
                         <md-input-container>
                             <label>First Name</label>
-                            <input ng-model="firstName" required>
+                            <input ng-model="admin.FirstName" required md-maxlength="30" name="firstName">
+                            <div ng-messages="adminForm.firstName.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The first name must be less than 30 characters long.</div>
+                            </div>
                         </md-input-container>
 
                         <md-input-container>
                             <label>Last Name</label>
-                            <input ng-model="lastName" required>
+                            <input ng-model="admin.LastName" required md-maxlength="40" name="lastName">
+                            <div ng-messages="adminForm.lastName.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">The last name must be less than 40 characters long.</div>
+                            </div>
                         </md-input-container>
 
                         <md-input-container>
                             <label>Email</label>
-                            <input ng-model="email" required>
+                            <input ng-model="admin.Email" name="email" required minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/">
+                            <div ng-messages="adminForm.email.$error" role="alert">
+                                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                                    Your email must be between 10 and 100 characters long and look like an e-mail address.
+                                </div>
+                            </div>
                         </md-input-container>
 
                         <md-input-container>
                             <label>Mobile</label>
-                            <input ng-model="mobile" required>
+                            <input ng-model="admin.Mobile" name="mobile" required type="number" minlength="10" maxlength="10" ng-pattern="^\d{9}$">
+                            <div ng-messages="adminForm.mobile.$error" role="alert">
+                                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                                    Your mobile number should be 10 digits
+                                </div>
+                            </div>
                         </md-input-container>
 
                         <md-input-container>
                             <label>Department</label>
-                            <md-select ng-model="division" required>
+                            <md-select ng-model="admin.DepartmentId" required name="division">
                                 <md-option value="0"><em>None</em></md-option>
                                 <md-option ng-repeat="department in departmentList" ng-value="department.Id">
                                     {{department.Name}}
                                 </md-option>
                             </md-select>
+                            <div ng-messages="adminForm.division.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
                         </md-input-container>
+
+                        <md-button type="submit" class="md-primary md-raised align-center" ng-click="adminForm.$valid && saveChanges()">
+                            Add admin
+                        </md-button>
+
                     </form> 
                 </div>
-                <md-button class="md-primary md-raised align-center" ng-click="saveChanges()">
-                    Add admin
-                </md-button>
+               
             </md-card-content>
         </md-card>
     </div>
 </md-content>
+
+<div style="visibility: hidden">
+    <div class="md-dialog-container" id="uploadStatusModal">
+        <md-dialog flex-gt-sm="50">
+            <md-toolbar class="md-accent">
+                <div class="md-toolbar-tools">
+                    <h3>
+                        Please wait while admin is being added
+                    </h3>
+                </div>
+            </md-toolbar>
+            <md-content layout="row" class="fill">
+                <md-card flex>
+                    <md-card-content>
+                        <div layout="row" layout-align="space-around">
+                            <md-progress-circular md-mode="indeterminate" class="md-primary"></md-progress-circular>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </md-content>
+        </md-dialog>
+    </div>
+</div>
