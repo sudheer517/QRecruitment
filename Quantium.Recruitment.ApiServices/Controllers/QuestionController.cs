@@ -140,6 +140,25 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
-       
+
+        [HttpGet]
+        public IHttpActionResult GetQuestionsByLabelAndDifficulty()
+        {
+            var allQuestions = _questionRepository.GetAll();
+
+            var questionDifficultyLabelDto = allQuestions.GroupBy(x => new { x.LabelId, x.DifficultyId}, (key, group) => new Question_Difficulty_LabelDto
+            {
+                LabelId = key.LabelId.Value,
+                DifficultyId = key.DifficultyId.Value,
+                QuestionCount = group.ToList().Count
+            }).ToList();
+
+            if(questionDifficultyLabelDto.Count < 1)
+            {
+                throw new Exception("No questions found");
+            }
+
+            return Ok(questionDifficultyLabelDto);
+        }
     }
 }

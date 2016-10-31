@@ -5,6 +5,7 @@ module Recruitment.Controllers {
     import LabelDto = Quantium.Recruitment.ODataEntities.LabelDto;
     import DifficultyDto = Quantium.Recruitment.ODataEntities.DifficultyDto;
     import JobDifficultyLabelDto = Quantium.Recruitment.ODataEntities.Job_Difficulty_LabelDto;
+    import QuestionDifficultyLabelDto = Quantium.Recruitment.ODataEntities.Question_Difficulty_LabelDto;
 
     interface ICreateJobControllerScope extends ng.IScope {
         job: JobDto;
@@ -14,6 +15,11 @@ module Recruitment.Controllers {
         selectedDepartment: DepartmentDto;
         selectedOptions: SelectedOptions;
         createJob(): void;
+        jobDifficultyLabelArray: any;
+        removeJobDifficultyLabel: (index: number) => void;
+        addJobDifficultyLabel(): void;
+        questionDifficultyLabels: QuestionDifficultyLabelDto[];
+        showAvailableQuestions(jobDifficultyLabel: any): void;
     }
     export class SelectedOptions {
         public labelIds: boolean[];
@@ -28,17 +34,54 @@ module Recruitment.Controllers {
             private $scope: ICreateJobControllerScope,
             private $log: ng.ILogService,
             private $http: ng.IHttpService,
-            private $departmentService: Recruitment.Services.DepartmentService,
-            private $labelService: Recruitment.Services.LabelService,
-            private $difficultyService: Recruitment.Services.DifficultyService,
+            private $departmentService: Services.DepartmentService,
+            private $labelService: Services.LabelService,
+            private $difficultyService: Services.DifficultyService,
             private $mdDialog: ng.material.IDialogService,
             private $state: ng.ui.IStateService,
-            private $mdToast: ng.material.IToastService) {
+            private $mdToast: ng.material.IToastService,
+            private $questionService: Services.QuestionService) {
             this.getDepartments();
             this.getLabels();
             this.getDifficulties();
             this.$scope.selectedOptions = new SelectedOptions();
             this.$scope.createJob = () => this.createJob();
+            this.$scope.jobDifficultyLabelArray = {
+                jobDifficultyLabels: []
+            };
+            this.$scope.removeJobDifficultyLabel = (index) => this.removeJobDifficultyLabel(index);
+            this.$scope.addJobDifficultyLabel = () => this.addJobDifficultyLabel();
+            this.getQuestionDifficultyLabels();
+            this.$scope.showAvailableQuestions = (jobDifficultyLabel: any) => this.showAvailableQuestions(jobDifficultyLabel);
+            //this.$scope.jobDifficultyLabelArray.QuestionCount = this.$scope.questionDifficultyLabels.filter((qdlDto, index) => {
+            //    qdlDto.LabelId = 
+            //});
+
+            //_.each(this.$scope.jobDifficultyLabelArray, (item, index) => {
+            //    item.QuestionCount = _.each(this.$scope.questionDifficultyLabels, (qdlItem, qdlIndex) => {
+            //        if (item.LabelId === qdlItem.LabelId && item.DifficultyId === qdlItem.DifficultyId)
+            //            return qdlItem.QuestionCount;
+            //        else
+            //            return "";
+            //    });
+            //});
+        }
+
+        private showAvailableQuestions(jobDifficultyLabel: any): void {
+            _.each(this.$scope.questionDifficultyLabels, (qdlItem, qdlIndex) => {
+                if (jobDifficultyLabel.LabelId === qdlItem.LabelId && jobDifficultyLabel.DifficultyId === qdlItem.DifficultyId) {
+                    //alert("found");
+                    jobDifficultyLabel.QuestionCount = qdlItem.QuestionCount;
+                    return false;
+                }
+                else {
+                    jobDifficultyLabel.QuestionCount = 0;
+                }
+            });
+
+            if (jobDifficultyLabel.LabelId && jobDifficultyLabel.DifficultyId && jobDifficultyLabel.QuestionCount === 0) {
+                this.showToast("No questions found");
+            }
         }
 
         private getDepartments(): void {
@@ -49,6 +92,23 @@ module Recruitment.Controllers {
                     this.$log.info('departments retrieval failed');
                     console.log(error);
                 });
+        }
+
+        private getQuestionDifficultyLabels(): void {
+            this.$questionService.getQuestionsByLabelAndDifficulty()
+                .then(result => {
+                    this.$scope.questionDifficultyLabels = result.data;
+                }, error => {
+                    this.$log.error('question difficulty labels retrieval failed');
+                });
+        }
+
+        public removeJobDifficultyLabel(index: number): void {
+            this.$scope.jobDifficultyLabelArray.jobDifficultyLabels.splice(index, 1);
+        }
+
+        public addJobDifficultyLabel(): void {
+            this.$scope.jobDifficultyLabelArray.jobDifficultyLabels.push({});
         }
 
         private showPrerenderedDialog(): void {
@@ -101,6 +161,7 @@ module Recruitment.Controllers {
         }
 
         private createJob(): void {
+
             this.showPrerenderedDialog();
             var job = this.$scope.job;
             var labelIds = this.$scope.selectedOptions.labelIds;

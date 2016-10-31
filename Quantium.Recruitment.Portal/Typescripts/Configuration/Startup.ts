@@ -35,6 +35,7 @@ module Recruitment {
                 $mdIconProvider.icon("sendTest", "../img/sendTest.svg", 24);
                 $mdIconProvider.icon("addAdmin", "../img/addAdmin.svg", 24);
                 $mdIconProvider.icon("takeTest", "../img/takeTest.svg", 24);
+                $mdIconProvider.icon("close", "../img/close.svg", 24);
                 $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('blue');
                 $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
 

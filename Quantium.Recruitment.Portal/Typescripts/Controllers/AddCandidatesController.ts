@@ -126,8 +126,6 @@ module Recruitment.Controllers {
                 this.$scope.previewCandidatesModel.push(questionModel);
                 this.$scope.$apply();
             }
-
-            
         }
 
         public saveChanges(): void {
