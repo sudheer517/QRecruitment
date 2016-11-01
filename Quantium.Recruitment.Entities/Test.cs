@@ -13,6 +13,8 @@ namespace Quantium.Recruitment.Entities
 
         public virtual long CandidateId { get; set; }
 
+        public virtual long CreatedByUserId { get; set; }
+
         public virtual List<Challenge> Challenges { get; set; }
 
         public virtual List<Test_Label> TestLabels { get; set; }
@@ -26,5 +28,7 @@ namespace Quantium.Recruitment.Entities
         public virtual bool IsFinished { get; set; }
 
         public virtual DateTime? FinishedDate { get; set; }
+
+        public virtual DateTime? CreatedUtc { get; set; }
     }
 }

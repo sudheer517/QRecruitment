@@ -28,5 +28,7 @@ namespace Quantium.Recruitment.ApiServices.Models
         public int TotalChallengesAnswered { get; set; }
 
         public bool IsTestPassed { get; set; }
+
+        public long CreatedByUserId { get; set; }
     }
 }

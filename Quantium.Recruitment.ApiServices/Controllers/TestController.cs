@@ -40,76 +40,88 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult GenerateTests(List<Candidate_JobDto> candidatesJobsDto)
+        public HttpResponseMessage GenerateTests(List<Candidate_JobDto> candidatesJobsDto)
         {
-            var candidatesJobs = Mapper.Map<List<Candidate_Job>>(candidatesJobsDto);
-            var job = _jobRepository.FindById(candidatesJobsDto.First().Job.Id);
-            
-            foreach (var candidateJobDto in candidatesJobsDto)
+            try
             {
-                var candidate = _candidateRepository.FindById(candidateJobDto.Candidate.Id);
+                var candidatesJobs = Mapper.Map<List<Candidate_Job>>(candidatesJobsDto);
+                var job = _jobRepository.FindById(candidatesJobsDto.First().Job.Id);
 
-                var newCandidateJob = new Candidate_Job
+                foreach (var candidateJobDto in candidatesJobsDto)
                 {
-                    Job = job,
-                    Candidate = candidate
-                };
+                    var candidate = _candidateRepository.FindById(candidateJobDto.Candidate.Id);
 
-                var candidateJob = candidate.CandidateJobs.FirstOrDefault(cj => cj.CandidateId == candidate.Id && cj.JobId == job.Id);
-                
-                if(candidateJob == null)
-                    _candidateJobRepository.Add(newCandidateJob);
-
-                Test newTest = new Test
-                {
-                    Name = job.Title + candidate.FirstName,
-                    Candidate = candidate,
-                    Job = job
-                };
-
-                var activeTest = candidate.Tests.FirstOrDefault(t => t.IsFinished != true && t.Job.Id == job.Id);
-
-                if (activeTest == null)
-                {
-                    _testRepository.Add(newTest);
-                }
-
-                IList<Job_Difficulty_Label> jobDifficultyLabels = _jobDifficultyLabelRepository.FindByJobId(job.Id).ToList();
-
-                List<Question> selectedQuestions = new List<Question>();
-
-                foreach (var jobDiffLabel in jobDifficultyLabels)
-                {
-                    var questions = 
-                        _questionRepository
-                        .GetAll()
-                        .Where(ques => ques.DifficultyId == jobDiffLabel.Difficulty.Id && ques.Label.Id == jobDiffLabel.Label.Id).ToList();
-
-                    var availableQuestionCount = questions.Count();
-
-                    if(availableQuestionCount < jobDiffLabel.DisplayQuestionCount)
+                    var newCandidateJob = new Candidate_Job
                     {
-                        throw new Exception("Question count exceeds available questions count");
-                    }
-
-                    var randomQuestions = questions.OrderBy(item => Guid.NewGuid()).Take(jobDiffLabel.DisplayQuestionCount);
-
-                    selectedQuestions.AddRange(randomQuestions);
-                }
-
-                foreach (var question in selectedQuestions)
-                {
-                    Challenge newChallenge = new Challenge
-                    {
-                        Test = activeTest == null ? newTest : activeTest,
-                        Question = question
+                        Job = job,
+                        Candidate = candidate
                     };
 
-                    _challengeRepository.Add(newChallenge);
+                    var candidateJob = candidate.CandidateJobs.FirstOrDefault(cj => cj.CandidateId == candidate.Id && cj.JobId == job.Id);
+
+                    if (candidateJob == null)
+                        _candidateJobRepository.Add(newCandidateJob);
+
+                    Test newTest = new Test
+                    {
+                        Name = job.Title + candidate.FirstName,
+                        Candidate = candidate,
+                        Job = job,
+                        CreatedUtc = DateTime.Now
+                    };
+
+                    var activeTest = candidate.Tests.FirstOrDefault(t => t.IsFinished != true && t.Job.Id == job.Id);
+
+                    if (activeTest == null)
+                    {
+                        _testRepository.Add(newTest);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    IList<Job_Difficulty_Label> jobDifficultyLabels = _jobDifficultyLabelRepository.FindByJobId(job.Id).ToList();
+
+                    List<Question> selectedQuestions = new List<Question>();
+
+                    foreach (var jobDiffLabel in jobDifficultyLabels)
+                    {
+                        var questions =
+                            _questionRepository
+                            .GetAll()
+                            .Where(ques => ques.DifficultyId == jobDiffLabel.Difficulty.Id && ques.Label.Id == jobDiffLabel.Label.Id).ToList();
+
+                        var availableQuestionCount = questions.Count();
+
+                        if (availableQuestionCount < jobDiffLabel.DisplayQuestionCount)
+                        {
+                            throw new Exception("Question count exceeds available questions count");
+                        }
+
+                        var randomQuestions = questions.OrderBy(item => Guid.NewGuid()).Take(jobDiffLabel.DisplayQuestionCount);
+
+                        selectedQuestions.AddRange(randomQuestions);
+                    }
+
+                    foreach (var question in selectedQuestions)
+                    {
+                        Challenge newChallenge = new Challenge
+                        {
+                            Test = activeTest == null ? newTest : activeTest,
+                            Question = question
+                        };
+
+                        _challengeRepository.Add(newChallenge);
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
 
-            return Ok();
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         [HttpGet]
