@@ -22,6 +22,7 @@ module Recruitment.Controllers {
     }
 
     export class AddCandidatesController {
+        private isDataValidated: boolean;
 
         constructor(
             private $scope: ICandidatesControllerScope,
@@ -32,6 +33,7 @@ module Recruitment.Controllers {
             private $connectionService: Recruitment.Services.ConnectionService,
             private $candidateService: Recruitment.Services.CandidateService,
             private $state: ng.ui.IStateService,
+            private $mdToast: ng.material.IToastService,
             private $mdDialog: ng.material.IDialogService) {
             this.$scope.candidatesArray = {
                  candidates: []
@@ -65,7 +67,8 @@ module Recruitment.Controllers {
        private saveCandidate(): void {
            this.$candidateService.saveCandidate(this.$scope.candidatesArray.candidates).then(
                response => {
-                   this.$scope.uploadResult = "Candidates added successfully";
+                   this.showToast("Candidate(s) added successfully");
+                   this.$scope.uploadResult = "Candidate(s) added successfully";
                    this.$state.go("dashboard");
                    console.log(response);
                },
@@ -80,6 +83,23 @@ module Recruitment.Controllers {
 
         public uploadFile(): void {
             var file: any = this.$scope.files01[0].lfFile;
+            var fileReader = new FileReader();
+
+            fileReader.readAsText(file);
+            fileReader.onload = (event: any) => {
+                var csv = event.target.result;
+                var allLines: string[] = csv.split(/\r|\n/);
+                allLines = allLines.filter(line => line.length > 0);
+
+                for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
+                    var columns: string[] = allLines[csvLine].split(",");
+
+                    if (!this.validateEmail(columns[3])) {
+                        this.showToast("Email format is not correct, check preview for more details");
+                        this.$state.go("dashboard");
+                    }
+                }
+            }
 
             if (file) {
                 file.upload = this.Upload.upload({
@@ -134,18 +154,52 @@ module Recruitment.Controllers {
 
             for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
                 var columns: string[] = allLines[csvLine].split(",");
-                var questionModel: PreviewCandidatesModel = new PreviewCandidatesModel();
-                questionModel.id = Number(columns[0]);
-                questionModel.name = columns[1];
-                questionModel.email = columns[2];
+                var candidateModel: PreviewCandidatesModel = new PreviewCandidatesModel();
+                candidateModel.Id= Number(columns[0]);
+                candidateModel.FirstName = columns[1];
+                candidateModel.LastName = columns[2];
 
-                this.$scope.previewCandidatesModel.push(questionModel);
+                if (this.validateEmail(columns[3])) {
+                    candidateModel.Email = columns[3];
+                }
+                else
+                {
+                    candidateModel.Email = "<b color='red'>"+columns[3]+"</b>";
+                }
+
+                this.$scope.previewCandidatesModel.push(candidateModel);
                 this.$scope.$apply();
             }
         }
 
         public saveChanges(): void {
-            this.uploadFile();
+            if (this.isDataValidated) {
+                this.uploadFile();
+                this.$timeout(() => {
+                    this.$state.go("dashboard");
+                }, 1000);
+            }
+        }
+
+        private showToast(toastMessage: string): void {
+            var toast = this.$mdToast.simple()
+                .textContent(toastMessage)
+                .action('Ok')
+                .highlightAction(true)
+                .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+                .position("top right")
+                .hideDelay(2000);
+
+            this.$mdToast.show(toast).then(response => {
+                if (response == 'ok') {
+                    this.$mdToast.hide();
+                    //alert('You clicked the \'UNDO\' action.');
+                }
+            });
+        }
+
+        private validateEmail(input: string): boolean {
+            return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
         }
     }
 }

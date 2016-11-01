@@ -73,21 +73,16 @@ namespace Quantium.Recruitment.Portal.Controllers
 
         private CandidateDto ParseLineToCandidate(string[] headers, string candidateLine)
         {
-            string[] candidateOptions = candidateLine.Split(',');
-            string[] candidateFirstLastNames = candidateOptions[1].Split(' ');
-
-            candidateFirstLastNames = candidateFirstLastNames.Where(item => item.Trim().Length > 0).ToArray();
+            string[] candidateOptions = candidateLine.Split(',');            
 
             CandidateDto newCandidate = new CandidateDto
             {
-                FirstName = candidateFirstLastNames.Length > 0 ? candidateFirstLastNames[0] : string.Empty,
-                LastName = candidateFirstLastNames.Length > 1 ? candidateFirstLastNames[1] : string.Empty,
-                Email = candidateOptions[2],
-                IsActive = true
+                FirstName = candidateOptions[1],
+                LastName = candidateOptions[2],
+                Email = candidateOptions[3]
             };
 
             return newCandidate;
-
         }
 
         public IActionResult GetAllCandidates()

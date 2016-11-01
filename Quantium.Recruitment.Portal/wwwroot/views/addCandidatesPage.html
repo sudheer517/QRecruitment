@@ -8,65 +8,71 @@
         </h1>
     </div>
 </md-toolbar>
-<md-content layout="column">
-    <md-card>
-        <md-card-content>
-            <h4>You can either add individual candidates or in bulk</h4>
-            <h4>You can download the template  for upload below</h4>
-            <h4>Upload the template after filling it with candidates and other information</h4>
-        </md-card-content>
-    </md-card>
-    <div>
+<md-content layout="column">    
         <md-card>
             <md-card-content>
-                <md-tabs md-selected="selectedIndex" md-dynamic-height md-border-bottom md-autoselect>
-                    <md-tab label="Add Candidates">
-                        <div class="" style="padding: 25px; text-align: center;">
-                            <div class="input-append" ng-repeat="candidate in candidatesArray.candidates">
-                                <md-input-container>
-                                    <label>First Name</label>
-                                    <input ng-model="candidate.FirstName">
-                                </md-input-container>
-
-                                <md-input-container>
-                                    <label>Last Name</label>
-                                    <input ng-model="candidate.LastName">
-                                </md-input-container>
-
-                                <md-input-container>
-                                    <label>Email</label>
-                                    <input ng-model="candidate.email">
-                                </md-input-container>
-
-                                <md-button class="md-primary md-raised" ng-click="remove($index)">Remove Candidate</md-button>
-                            </div>
-                            <md-button class="md-primary md-raised" ng-click="add()">Add Candidate</md-button>
-                            <md-button class="md-primary md-raised" ng-click="saveCandidate()">Save Candidate(s)</md-button>
-                        </div>
-                    </md-tab>
-                    <md-tab label="Bulk upload">
-                        <div>
-                            <br /><br />
-                            <md-button class="md-primary md-raised" href="/CandidatesTemplate.csv">Download Template</md-button>
-
-                            <br /><br />
-                            <h2 class="fileUpload">Upload candidates csv file:</h2>
-                            <lf-ng-md-file-input lf-files="files01" lf-api="api01" class="fileUpload" flex="50"></lf-ng-md-file-input>
-                            <br /><br />
-                            <md-button class="md-accent md-raised" ng-click="showPrerenderedDialog($event)">
-                                Preview Candidates
-                            </md-button>
-
-                            <md-button class="md-primary md-raised" ng-click="saveChanges()">
-                                Save Changes
-                            </md-button>
-                            {{uploadResult}}
-                        </div>
-                    </md-tab>
-                </md-tabs>
+                <h4>You can either add individual candidates or in bulk</h4>
+                <h4>You can download the template  for upload below</h4>
+                <h4>Upload the template after filling it with candidates and other information</h4>
             </md-card-content>
         </md-card>
-    </div>
+        <div>
+            <md-card>
+                <md-card-content>
+                    <md-tabs md-selected="selectedIndex" md-dynamic-height md-border-bottom md-autoselect>
+                        <md-tab label="Add Candidates">
+                            <form name="candidateDetailsForm" class="candidateDetailsForm">
+                                <div class="" style="padding: 25px; text-align: center;">
+                                    <div class="input-append" ng-repeat="candidate in candidatesArray.candidates">
+                                        <md-input-container>
+                                            <label>First Name</label>
+                                            <input ng-model="candidate.FirstName">
+                                        </md-input-container>
+
+                                        <md-input-container>
+                                            <label>Last Name</label>
+                                            <input ng-model="candidate.LastName">
+                                        </md-input-container>
+
+                                        <md-input-container>
+                                            <label>Email</label>
+                                            <input type="email" ng-model="candidate.email" required name="email">
+                                            <div ng-messages="candidateDetailsForm.email.$error">
+                                                <div ng-message="required"></div>
+                                            </div>
+                                        </md-input-container>
+
+                                        <md-button class="md-primary md-raised" ng-click="remove($index)">Remove Candidate</md-button>
+                                    </div>
+                                    <md-button class="md-primary md-raised" ng-click="add()">Add Candidate</md-button>
+                                    <md-button ng-disabled="candidatesArray.candidates.length > 0 ? false : true" type="submit" class="md-primary md-raised" ng-click="candidateDetailsForm.$valid && saveCandidate()">Save Candidate(s)</md-button>
+                                </div>
+                            </form>
+                        </md-tab>
+                        
+                            <md-tab label="Bulk upload">
+                                <div>
+                                    <br /><br />
+                                    <md-button class="md-primary md-raised" href="/CandidatesTemplate.csv">Download Template</md-button>
+
+                                    <br /><br />
+                                    <h2 class="fileUpload">Upload candidates csv file:</h2>
+                                    <lf-ng-md-file-input lf-files="files01" lf-api="api01" class="fileUpload" flex="50"></lf-ng-md-file-input>
+                                    <br /><br />
+                                    <md-button ng-disabled="files01.length > 0 ? false : true" class="md-accent md-raised" ng-click="showPrerenderedDialog($event)">
+                                        Preview Candidates
+                                    </md-button>
+
+                                    <md-button ng-disabled="files01.length > 0 ? false : true" class="md-primary md-raised" ng-click="saveChanges()">
+                                        Save Changes
+                                    </md-button>
+                                    {{uploadResult}}
+                                </div>
+                            </md-tab>
+</md-tabs>
+                </md-card-content>
+            </md-card>
+        </div>
 </md-content>
 
 <div style="visibility: hidden">
@@ -84,8 +90,9 @@
                 <div class="previewCandidates" ng-repeat="candidatesModel in previewCandidatesModel">
                     <md-card>
                         <md-card-content>
-                            <h3>{{candidatesModel.name}}</h3>
-                            <h3>{{candidatesModel.email}}</h3>
+                            <h3>{{candidatesModel.FirstName}}</h3>
+                            <h3>{{candidatesModel.LastName}}</h3>
+                            <h3>{{candidatesModel.Email}}</h3>
                         </md-card-content>
                     </md-card>
                 </div>
