@@ -44,6 +44,7 @@
                             <textarea ng-model="job.Profile" required md-maxlength="150" rows="2" md-select-on-focus="" minlength="20" max-rows="5" name="profile"></textarea>
                             <div ng-messages="difficultyLabelForm.profile.$error">
                                 <div ng-message="required">Job Profile is required.</div>
+                                <div ng-message="minlength">Job Profile should be a minimum of 20 characters .</div>
                             </div>
                         </md-input-container>
                     </div>
@@ -58,6 +59,12 @@
             </md-card>-->
             <md-card>
                 <md-card-content>
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">Add Label and Difficulties</span>
+                        </md-card-title-text>
+                    </md-card-title>
+
                     <div layout="column" flex>
                         <div>
                             <div class="input-append" ng-repeat="jobDifficultyLabel in jobDifficultyLabelArray.jobDifficultyLabels" layout-gt-sm="row" layout-lt-sm="column" layout-align="space-around">
@@ -94,8 +101,8 @@
                                 </md-input-container>
 
                                 <md-input-container class="" flex-gt-sm="20" flex-lt-sm="100"
-                                                    ng-show="jobDifficultyLabel.DifficultyId && jobDifficultyLabel.LabelId && jobDifficultyLabel.QuestionCount">
-                                    <label>Display Question Count</label>
+                                                    ng-show="(jobDifficultyLabel.QuestionCount &&  (jobDifficultyLabel.QuestionCount > 0)) === true">
+                                    <label>Questions to display</label>
                                     <input ng-model="jobDifficultyLabel.UserQuestionCount" name="userQuestionCount{{jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId}}" required type="number" min="1" max={{jobDifficultyLabel.QuestionCount}} ng-pattern="/^\d+$/" placeholder="{{jobDifficultyLabel.QuestionCount}}">
                                     <div ng-messages="difficultyLabelForm['userQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$error" 
                                           ng-show="difficultyLabelForm['userQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$touched" role="alert">
@@ -107,7 +114,7 @@
 
                                 <md-input-container class="" flex-gt-sm="20" flex-lt-sm="100"
                                                     ng-show="jobDifficultyLabel.UserQuestionCount">
-                                    <label>Passing Question Count</label>
+                                    <label>Questions to pass</label>
                                     <input ng-model="jobDifficultyLabel.PassingQuestionCount" name="passingQuestionCount{{jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId}}" required type="number" min="1" max={{jobDifficultyLabel.UserQuestionCount}} ng-pattern="/^\d+$/" placeholder="{{jobDifficultyLabel.UserQuestionCount}}">
                                     <div ng-messages="difficultyLabelForm['passingQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$error"
                                          ng-show="difficultyLabelForm['passingQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$touched" role="alert">
@@ -122,7 +129,9 @@
                                 </md-button>
 
                             </div>
-                            <md-button class="md-primary md-raised" ng-click="addJobDifficultyLabel()">Add Label & Difficulty</md-button>
+                            <md-button class="md-fab md-accent md-raised" ng-click="addJobDifficultyLabel()">
+                                <md-icon md-svg-icon="add"></md-icon>
+                            </md-button>
                         </div>
                         <md-button type="submit" class="md-raised md-primary createJobButton" ng-click="difficultyLabelForm.$valid && createJob()">Create Job</md-button>
                     </div>
