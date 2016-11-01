@@ -81,26 +81,7 @@ module Recruitment.Controllers {
             this.$scope.candidatesArray.candidates.push({});
         }
 
-        public uploadFile(): void {
-            var file: any = this.$scope.files01[0].lfFile;
-            var fileReader = new FileReader();
-
-            fileReader.readAsText(file);
-            fileReader.onload = (event: any) => {
-                var csv = event.target.result;
-                var allLines: string[] = csv.split(/\r|\n/);
-                allLines = allLines.filter(line => line.length > 0);
-
-                for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
-                    var columns: string[] = allLines[csvLine].split(",");
-
-                    if (!this.validateEmail(columns[3])) {
-                        this.showToast("Email format is not correct, check preview for more details");
-                        this.$state.go("dashboard");
-                    }
-                }
-            }
-
+        public uploadFile(file: any): void {
             if (file) {
                 file.upload = this.Upload.upload({
                     url: '/Candidate/Add',
@@ -113,11 +94,11 @@ module Recruitment.Controllers {
                 file.upload.then(response => {
                     this.$timeout(() => {
                         file.result = response.data;
-                        this.$scope.uploadResult = "Candidates added successfully";
+                        this.showToast("Candidates added successfully");
                     });
                 }, error => {
                     if (error.status > 0)
-                        this.$scope.uploadResult = error.status + ': ' + error.data;
+                        this.showToast(error.status + ': ' + error.data);
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));
                 });
@@ -164,7 +145,7 @@ module Recruitment.Controllers {
                 }
                 else
                 {
-                    candidateModel.Email = "<b color='red'>"+columns[3]+"</b>";
+                    candidateModel.Email = "<b color='red'>" + columns[3] + "</b>";
                 }
 
                 this.$scope.previewCandidatesModel.push(candidateModel);
@@ -173,11 +154,32 @@ module Recruitment.Controllers {
         }
 
         public saveChanges(): void {
-            if (this.isDataValidated) {
-                this.uploadFile();
-                this.$timeout(() => {
-                    this.$state.go("dashboard");
-                }, 1000);
+            var file: any = this.$scope.files01[0].lfFile;
+            var fileReader = new FileReader();
+
+            fileReader.readAsText(file);
+            fileReader.onload = (event: any) => {
+                var csv = event.target.result;
+                var allLines: string[] = csv.split(/\r|\n/);
+                allLines = allLines.filter(line => line.length > 0);
+
+                this.isDataValidated = true;
+
+                for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
+                    var columns: string[] = allLines[csvLine].split(",");
+
+                    if (!this.validateEmail(columns[3])) {
+                        this.showToast("Email format is not correct, check preview for more details");
+                        this.isDataValidated = false;
+                    }
+                }
+
+                if (this.isDataValidated) {
+                    this.uploadFile(file);
+                    this.$timeout(() => {
+                        this.$state.go("dashboard");
+                    }, 1000);
+                }
             }
         }
 
