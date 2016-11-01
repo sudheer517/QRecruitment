@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
@@ -12,6 +14,8 @@ namespace Quantium.Recruitment.Entities
 
         public virtual long DepartmentId { get; set; }
 
+        public virtual long CreatedByUserId { get; set; }
+
         [ForeignKey("DepartmentId")]
         public virtual Department Department { get; set; }
 
@@ -20,5 +24,8 @@ namespace Quantium.Recruitment.Entities
         public virtual List<Candidate_Job> CandidateJobs { get; set; }
 
         public virtual List<Test> Tests { get; set; }
+
+        [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime CreatedUtc { get; set; }
     }
 }

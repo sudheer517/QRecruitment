@@ -126,7 +126,33 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         [HttpGet]
         public IHttpActionResult GetFinishedTests()
         {
-            var finishedTestDtos = Mapper.Map<List<TestDto>>(_testRepository.GetAll().Where(t => t.IsFinished == true).OrderByDescending(t => t.FinishedDate).ToList());
+            var finishedTests = _testRepository.GetAll().Where(t => t.IsFinished == true).OrderByDescending(t => t.FinishedDate).ToList();
+            var finishedTestDtos = Mapper.Map<List<TestDto>>(finishedTests);
+            finishedTestDtos.ForEach(finishedTestDto =>
+            {
+                finishedTestDto.TotalChallengesDisplayed = finishedTestDto.Challenges.Count;
+                var answeredChallenges =
+                    finishedTests.SingleOrDefault(t => t.Id == finishedTestDto.Id).Challenges.Where(c => c.IsAnswered == true);
+
+                int totalRightAnswers = 0;
+
+                finishedTestDto.TotalChallengesAnswered = answeredChallenges.Count();
+
+                foreach (var answeredChallenge in answeredChallenges)
+                {
+                    var answersIds = answeredChallenge.Question.Options.Where(o => o.IsAnswer == true).Select(o => o.Id);
+                    var candidateAnswersIds = answeredChallenge.CandidateSelectedOptions.Select(cso => cso.OptionId);
+
+                    if(answersIds.Intersect(candidateAnswersIds).Count() == answersIds.Count())
+                    {
+                        totalRightAnswers += 1;
+                    }
+                }
+
+                finishedTestDto.TotalRightAnswers = totalRightAnswers;
+                finishedTestDto.IsTestPassed = true;
+            });
+
             return Ok(finishedTestDtos);
         }
 

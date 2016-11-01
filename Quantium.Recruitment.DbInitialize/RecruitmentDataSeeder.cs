@@ -125,22 +125,22 @@ namespace Quantium.Recruitment.DbInitialize
 
             #region Job
 
-            Job job1 = new Job()
-            {
-                Title = "Mid-Level Software Developer",
-                Profile = "Software Developer is responsible for requirements analysis and object modelling of new software features and ensuring adequate testing and quality control measures are followed. The ideal candidates should have very strong technical ability and be able to apply programming techniques to solve complex problems. They should also have well developed written and verbal communication skills",
-                Department = softwareDepartment
-            };
+            //Job job1 = new Job()
+            //{
+            //    Title = "Mid-Level Software Developer",
+            //    Profile = "Software Developer is responsible for requirements analysis and object modelling of new software features and ensuring adequate testing and quality control measures are followed. The ideal candidates should have very strong technical ability and be able to apply programming techniques to solve complex problems. They should also have well developed written and verbal communication skills",
+            //    Department = softwareDepartment
+            //};
 
-            Job job2 = new Job()
-            {
-                Title = "Data Analyst",
-                Profile = "We are looking for a passionate Data Analyst to turn data into information, information into insight and insight into business decisions.Data analyst responsibilities include conducting full lifecycle activities to include requirements analysis and design, developing analysis and reporting capabilities,and continuously monitoring performance and quality control plans to identify improvements",
-                Department = analyticsDepartment
-            };
+            //Job job2 = new Job()
+            //{
+            //    Title = "Data Analyst",
+            //    Profile = "We are looking for a passionate Data Analyst to turn data into information, information into insight and insight into business decisions.Data analyst responsibilities include conducting full lifecycle activities to include requirements analysis and design, developing analysis and reporting capabilities,and continuously monitoring performance and quality control plans to identify improvements",
+            //    Department = analyticsDepartment
+            //};
 
-            _dbContext.Jobs.Add(job1);
-            _dbContext.Jobs.Add(job2);
+            //_dbContext.Jobs.Add(job1);
+            //_dbContext.Jobs.Add(job2);
 
             #endregion Job
 

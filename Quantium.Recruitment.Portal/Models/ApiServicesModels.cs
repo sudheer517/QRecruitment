@@ -80,6 +80,13 @@ namespace Quantium.Recruitment.ApiServiceModels {
 
     }
 
+     public class Question_Difficulty_LabelDto { 
+        public long DifficultyId;
+        public long LabelId;
+        public Int32 QuestionCount;
+
+    }
+
      public class LabelDto { 
         public long Id;
         public string Name;
@@ -145,6 +152,10 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public JobDto Job;
         public bool IsFinished;
         public DateTime FinishedDate;
+        public Int32 TotalRightAnswers;
+        public Int32 TotalChallengesDisplayed;
+        public Int32 TotalChallengesAnswered;
+        public bool IsTestPassed;
 
     }
 

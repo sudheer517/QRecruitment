@@ -20,5 +20,13 @@ namespace Quantium.Recruitment.ApiServices.Models
         public bool IsFinished { get; set; }
 
         public DateTime FinishedDate { get; set; }
+
+        public int TotalRightAnswers { get; set; }
+
+        public int TotalChallengesDisplayed { get; set; }
+
+        public int TotalChallengesAnswered { get; set; }
+
+        public bool IsTestPassed { get; set; }
     }
 }

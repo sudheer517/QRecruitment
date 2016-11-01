@@ -8,6 +8,7 @@
 /// <reference path="../services/labelservice.ts" />
 /// <reference path="../services/difficultyservice.ts" />
 /// <reference path="../services/candidateservice.ts" />
+/// <reference path="../services/questionservice.ts" />
 
 module Recruitment.Services {
     export class ServicesConfiguration {
@@ -22,6 +23,7 @@ module Recruitment.Services {
             app.service("$labelService", Recruitment.Services.LabelService);
             app.service("$difficultyService", Recruitment.Services.DifficultyService);
             app.service("$candidateService", Recruitment.Services.CandidateService);
+            app.service("$questionService", Recruitment.Services.QuestionService);
         }
     }
 }

@@ -11,6 +11,7 @@ using Quantium.Recruitment.Portal.Helpers;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http;
 using System.Text;
+using System.Net;
 using Newtonsoft.Json;
 using Quantium.Recruitment.ApiServiceModels;
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -50,7 +51,7 @@ namespace Quantium.Recruitment.Portal.Controllers
             {
                 var response = _helper.Post("api/Question/AddQuestions", questions);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return Json(ex);
             }
@@ -60,7 +61,7 @@ namespace Quantium.Recruitment.Portal.Controllers
 
         private string[] GetContentFromFile(IFormFile file)
         {
-            
+
             string fileContent;
 
             using (var reader = new StreamReader(file.OpenReadStream()))
@@ -124,6 +125,17 @@ namespace Quantium.Recruitment.Portal.Controllers
             };
 
             return newQuestion;
+        }
+
+        [HttpGet]
+        public IActionResult GetQuestionsByLabelAndDifficulty()
+        {
+            var response = _helper.GetData("api/Question/GetQuestionsByLabelAndDifficulty");
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new Exception("Question retrival failed");
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
         }
     }
 }

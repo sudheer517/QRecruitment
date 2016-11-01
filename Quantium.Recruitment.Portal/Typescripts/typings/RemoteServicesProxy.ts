@@ -153,6 +153,20 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
+    export class Question_Difficulty_LabelDto { 
+        public DifficultyId: number;
+        public LabelId: number;
+        public QuestionCount: number;
+        constructor();
+        constructor(DifficultyId?: number, LabelId?: number, QuestionCount?: number);
+        constructor(DifficultyId?: number, LabelId?: number, QuestionCount?: number){
+            this.DifficultyId = DifficultyId;
+            this.LabelId = LabelId;
+            this.QuestionCount = QuestionCount;
+        }
+
+    }
+
     export class LabelDto { 
         public Id: number;
         public Name: string;
@@ -274,9 +288,13 @@ module Quantium.Recruitment.ODataEntities {
         public Job: JobDto;
         public IsFinished: boolean;
         public FinishedDate: string;
+        public TotalRightAnswers: number;
+        public TotalChallengesDisplayed: number;
+        public TotalChallengesAnswered: number;
+        public IsTestPassed: boolean;
         constructor();
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string);
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string){
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean);
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean){
             this.Id = Id;
             this.Name = Name;
             this.Challenges = Challenges;
@@ -285,6 +303,10 @@ module Quantium.Recruitment.ODataEntities {
             this.Job = Job;
             this.IsFinished = IsFinished;
             this.FinishedDate = FinishedDate;
+            this.TotalRightAnswers = TotalRightAnswers;
+            this.TotalChallengesDisplayed = TotalChallengesDisplayed;
+            this.TotalChallengesAnswered = TotalChallengesAnswered;
+            this.IsTestPassed = IsTestPassed;
         }
 
     }
