@@ -123,5 +123,13 @@ namespace Quantium.Recruitment.Portal.Controllers
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
+
+        [HttpPost]
+        public IActionResult SaveCandidate([FromBody]List<CandidateDto> candidateDtos)
+        {
+            var response = _helper.Post("/api/Candidate/AddCandidates", candidateDtos);
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
     }
 }

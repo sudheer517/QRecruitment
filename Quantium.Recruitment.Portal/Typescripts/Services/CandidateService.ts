@@ -24,5 +24,9 @@ module Recruitment.Services {
         public fillCandidateInformation(candidateDto: CandidateDto): ng.IHttpPromise<boolean> {
             return this.$http.post("/Candidate/FillCandidateInformation", candidateDto);
         }
+
+        public saveCandidate(candidateDto: CandidateDto): ng.IHttpPromise<boolean> {
+            return this.$http.post("/Candidate/SaveCandidate", candidateDto);
+        }
     }
 }

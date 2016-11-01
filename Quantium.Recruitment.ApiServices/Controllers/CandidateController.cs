@@ -66,11 +66,13 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             foreach (var candidate in candidates)
             {
+                candidate.IsActive = true;
                 _candidateRepository.Add(candidate);
             }
 
             return Ok("Candidates Created");
         }
+
 
         [HttpPost]
         public IHttpActionResult FillCandidateInformation([FromBody]CandidateDto candidateDto)

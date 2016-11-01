@@ -24,8 +24,13 @@
                         <div class="" style="padding: 25px; text-align: center;">
                             <div class="input-append" ng-repeat="candidate in candidatesArray.candidates">
                                 <md-input-container>
-                                    <label>Name</label>
-                                    <input ng-model="candidate.name">
+                                    <label>First Name</label>
+                                    <input ng-model="candidate.FirstName">
+                                </md-input-container>
+
+                                <md-input-container>
+                                    <label>Last Name</label>
+                                    <input ng-model="candidate.LastName">
                                 </md-input-container>
 
                                 <md-input-container>
@@ -36,6 +41,7 @@
                                 <md-button class="md-primary md-raised" ng-click="remove($index)">Remove Candidate</md-button>
                             </div>
                             <md-button class="md-primary md-raised" ng-click="add()">Add Candidate</md-button>
+                            <md-button class="md-primary md-raised" ng-click="saveCandidate()">Save Candidate(s)</md-button>
                         </div>
                     </md-tab>
                     <md-tab label="Bulk upload">

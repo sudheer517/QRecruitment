@@ -2,12 +2,13 @@
 
 module Recruitment.Controllers {
 
-    import PreviewCandidatesModel = Recruitment.ViewModels.CandiatesInfoViewModel;;
+    import PreviewCandidatesModel = Quantium.Recruitment.ODataEntities.CandidateDto;
 
     interface ICandidatesControllerScope extends ng.IScope {
         candidatesArray: any;
         remove: (index: number) => void;
         add: () => void;
+        saveCandidate: () => void;
         fileUploadObj: any;
         selectFile: (file: any, errFiles: any) => void;
         uploadedFile: any;
@@ -29,12 +30,15 @@ module Recruitment.Controllers {
             private Upload: ng.angularFileUpload.IUploadService,
             private $timeout: ng.ITimeoutService,
             private $connectionService: Recruitment.Services.ConnectionService,
+            private $candidateService: Recruitment.Services.CandidateService,
+            private $state: ng.ui.IStateService,
             private $mdDialog: ng.material.IDialogService) {
             this.$scope.candidatesArray = {
                  candidates: []
             };
             this.$scope.remove = (index) => this.remove(index);
             this.$scope.add = () => this.add();
+            this.$scope.saveCandidate = () => this.saveCandidate();
             this.$scope.selectFile = (file, errFiles) => this.selectFile(file, errFiles);
             this.$scope.saveChanges = () => this.saveChanges();
             this.$scope.previewCandidates = () => this.previewCandidates();
@@ -56,11 +60,23 @@ module Recruitment.Controllers {
         }
        public remove(index: number): void {
            this.$scope.candidatesArray.candidates.splice(index, 1);
+        }
+
+       private saveCandidate(): void {
+           this.$candidateService.saveCandidate(this.$scope.candidatesArray.candidates).then(
+               response => {
+                   this.$scope.uploadResult = "Candidates added successfully";
+                   this.$state.go("dashboard");
+                   console.log(response);
+               },
+               error => {
+                   console.log(error);
+               });
        }
 
         public add(): void {
             this.$scope.candidatesArray.candidates.push({});
-       }
+        }
 
         public uploadFile(): void {
             var file: any = this.$scope.files01[0].lfFile;
