@@ -52,24 +52,32 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult Create(JobDto jobDto)
+        public HttpResponseMessage Create(JobDto jobDto)
         {
-            
-            var job = Mapper.Map<Job>(jobDto);
-
-            var department = _departmentRepository.FindById(job.Department.Id);
-
-            foreach (var jobDifficultyLabel in job.JobDifficultyLabels)
+            try
             {
-                var label = _labelRepostory.FindById(jobDifficultyLabel.Label.Id);
-                var difficulty = _difficultyRepository.FindById(jobDifficultyLabel.Difficulty.Id);
-                jobDifficultyLabel.Label = label;
-                jobDifficultyLabel.Difficulty = difficulty;
-            }
+                var job = Mapper.Map<Job>(jobDto);
 
-            job.Department = department;
-            _jobRepository.Add(job);
-            return Ok(Mapper.Map<JobDto>(job));
+                var department = _departmentRepository.FindById(job.Department.Id);
+
+                foreach (var jobDifficultyLabel in job.JobDifficultyLabels)
+                {
+                    var label = _labelRepostory.FindById(jobDifficultyLabel.Label.Id);
+                    var difficulty = _difficultyRepository.FindById(jobDifficultyLabel.Difficulty.Id);
+                    jobDifficultyLabel.Label = label;
+                    jobDifficultyLabel.Difficulty = difficulty;
+                }
+
+                job.CreatedUtc = DateTime.Now;
+                job.Department = department;
+                _jobRepository.Add(job);
+                var responseDto = Mapper.Map<JobDto>(job);
+            }
+            catch(Exception ex)
+            {
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            }
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
     }
 }

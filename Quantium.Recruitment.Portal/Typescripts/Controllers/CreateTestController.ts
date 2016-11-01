@@ -44,7 +44,7 @@ module Recruitment.Controllers {
             this.$scope.selectedJob = selectedJob;
             this.$scope.selectedJobName = selectedJob.Title;
             var count = 0;
-            selectedJob.JobDifficultyLabels.forEach(item => count += item.QuestionCount)
+            selectedJob.JobDifficultyLabels.forEach(item => count += item.DisplayQuestionCount)
             this.$scope.totalQuestionsInSelectedJob = count;
         }
 

@@ -87,12 +87,12 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
                     var availableQuestionCount = questions.Count();
 
-                    if(availableQuestionCount < jobDiffLabel.QuestionCount)
+                    if(availableQuestionCount < jobDiffLabel.DisplayQuestionCount)
                     {
                         throw new Exception("Question count exceeds available questions count");
                     }
 
-                    var randomQuestions = questions.OrderBy(item => Guid.NewGuid()).Take(jobDiffLabel.QuestionCount);
+                    var randomQuestions = questions.OrderBy(item => Guid.NewGuid()).Take(jobDiffLabel.DisplayQuestionCount);
 
                     selectedQuestions.AddRange(randomQuestions);
                 }
