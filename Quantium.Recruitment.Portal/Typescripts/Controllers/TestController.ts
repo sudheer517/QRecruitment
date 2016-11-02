@@ -17,6 +17,8 @@ module Recruitment.Controllers {
         selectedQuestionOptions: SelectedQuestionOptions;
         status: string;
         nextQuestion: () => void;
+        finishTest: () => void;
+        logout: () => void;
     }
 
     class SelectedQuestionOptions {
@@ -31,6 +33,7 @@ module Recruitment.Controllers {
         private endDateTime: string;
         private clock: any;
         private myTimer: any;
+        private currentTestId: number;
 
         constructor(
             private $scope: ITestControllerScope,
@@ -40,16 +43,60 @@ module Recruitment.Controllers {
             private $mdDialog: ng.material.IDialogService,
             private $state: ng.ui.IStateService,
             private $timeout: ng.ITimeoutService,
-            private $testService: Recruitment.Services.TestService) {
+            private $testService: Recruitment.Services.TestService,
+            private $mdToast: ng.material.IToastService) {
             this.getNextChallenge();
             this.$scope.fillAndPostChallenge = () => this.fillAndPostChallenge();
             this.$scope.selection = [];
             this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
             this.$scope.nextQuestion = () => this.nextQuestion();
+            this.$scope.finishTest = () => this.finishTest();
+            this.$scope.logout = () => this.logout();
+        }
+
+        private logout(): void {
+            this.$testService.logout().then(
+                success => {
+                    console.log("logoff success");
+                },
+                error => {
+                    console.log("logoff failed");
+                });
+        }
+
+        private finishTest(): void {
+            this.$timeout.cancel(this.myTimer);
+            this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
+            this.postChallenge(false);
+            this.$testService.finishTest(this.currentTestId).then(
+                response => {
+                    this.showToast("Test finished");
+                    this.$state.go("candidateHome");
+                },
+                error => {
+                    console.log(error);
+                });;
+        }
+
+        private showToast(toastMessage: string): void {
+            var toast = this.$mdToast.simple()
+                .textContent(toastMessage)
+                .action('Ok')
+                .highlightAction(true)
+                .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+                .position("top right")
+                .hideDelay(4000);
+
+            this.$mdToast.show(toast).then(response => {
+                if (response == 'ok') {
+                    this.$mdToast.hide();
+                    //alert('You clicked the \'UNDO\' action.');
+                }
+            });
         }
 
         private fillAndPostChallenge() {
-            this.endDateTime = moment().format("YYYY-MM-DD hh:mm:ss.SSS");
+            this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
             this.postChallenge();
         }
 
@@ -104,15 +151,17 @@ module Recruitment.Controllers {
         }
 
         private showConfirm(): void {
-            this.endDateTime = moment().format("YYYY-MM-DD hh:mm:ss.SSS");
+            this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
             this.postChallenge(false);
+            var parentElement = angular.element("#timeUpModal");
             this.$mdDialog.show({
                     templateUrl: '/views/timeUpTemplate.html',
                     disableParentScroll: true,
                     escapeToClose: false,
                     clickOutsideToClose: false,
                     scope: this.$scope,
-                    preserveScope: true
+                    preserveScope: true,
+                    parent: parentElement
                 });
         }
 
@@ -123,9 +172,10 @@ module Recruitment.Controllers {
                         this.$state.go("candidateHome");
                         return;
                     }
+                    this.currentTestId = result.data.TestId;
                     this.$timeout.cancel(this.myTimer);
                     this.myTimer = this.$timeout(() => { this.showConfirm() }, (result.data.Question.TimeInSeconds * 1000));
-                    this.startDateTime = moment().format("YYYY-MM-DD hh:mm:ss.SSS");
+                    this.startDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
                     this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
                     this.currentChallenge = result.data;
                     this.$scope.challengeId = result.data.Question.Id;

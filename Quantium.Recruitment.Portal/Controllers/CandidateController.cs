@@ -11,6 +11,8 @@ using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.ApiServiceModels;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Identity;
+using Quantium.Recruitment.Portal.Models;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,10 +22,17 @@ namespace Quantium.Recruitment.Portal.Controllers
     public class CandidateController : Controller
     {
         private readonly IHttpHelper _helper;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public CandidateController(IHttpHelper helper)
+        public CandidateController(
+            IHttpHelper helper,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _helper = helper;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
         // GET: /<controller>/
         public IActionResult Test()
@@ -126,5 +135,13 @@ namespace Quantium.Recruitment.Portal.Controllers
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> LogOff()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction(nameof(AccountController.Login), "Account");
+        }
+
     }
 }

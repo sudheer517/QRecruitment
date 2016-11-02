@@ -68,7 +68,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     jobDifficultyLabel.Difficulty = difficulty;
                 }
 
-                job.CreatedUtc = DateTime.Now;
+                job.CreatedUtc = DateTime.UtcNow;
                 job.Department = department;
                 _jobRepository.Add(job);
                 var responseDto = Mapper.Map<JobDto>(job);

@@ -63,7 +63,6 @@
                             <span class="md-headline">Add Label and Difficulties</span>
                         </md-card-title-text>
                     </md-card-title>
-
                     <div layout="column" flex>
                         <div>
                             <div class="input-append" ng-repeat="jobDifficultyLabel in jobDifficultyLabelArray.jobDifficultyLabels" layout-gt-sm="row" layout-lt-sm="column" layout-align="space-around">
@@ -82,7 +81,6 @@
                                         <div ng-message="required">This is required.</div>
                                     </div>
                                 </md-input-container>
-
                                 <md-input-container flex-gt-sm="20" flex-lt-sm="100">
                                     <label>Difficulty</label>
                                     <md-select required name="difficulty{{jobDifficultyLabel.DifficultyId}}" 

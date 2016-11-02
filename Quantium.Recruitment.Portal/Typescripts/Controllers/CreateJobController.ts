@@ -62,7 +62,6 @@ module Recruitment.Controllers {
             jobDifficultyLabel.UserQuestionCount = null;
             _.each(this.$scope.questionDifficultyLabels, (qdlItem, qdlIndex) => {
                 if (jobDifficultyLabel.LabelId === qdlItem.LabelId && jobDifficultyLabel.DifficultyId === qdlItem.DifficultyId) {
-                    //alert("found");
                     jobDifficultyLabel.QuestionCount = qdlItem.QuestionCount;
                     return false;
                 }
@@ -72,7 +71,8 @@ module Recruitment.Controllers {
                 }
             });
 
-            if (jobDifficultyLabel.LabelId && jobDifficultyLabel.DifficultyId && jobDifficultyLabel.QuestionCount === 0) {
+            if ((jobDifficultyLabel.LabelId && jobDifficultyLabel.DifficultyId && jobDifficultyLabel.QuestionCount === 0) ||
+                (jobDifficultyLabel.LabelId && jobDifficultyLabel.DifficultyId && (!jobDifficultyLabel.QuestionCount))) {
                 this.showToast("No questions found");
             }
         }

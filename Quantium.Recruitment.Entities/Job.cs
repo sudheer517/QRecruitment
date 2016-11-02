@@ -26,5 +26,7 @@ namespace Quantium.Recruitment.Entities
         public virtual List<Test> Tests { get; set; }
 
         public virtual DateTime? CreatedUtc { get; set; }
+
+        public virtual bool? IsActive { get; set; }
     }
 }

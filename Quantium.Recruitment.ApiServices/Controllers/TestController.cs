@@ -67,7 +67,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         Name = job.Title + candidate.FirstName,
                         Candidate = candidate,
                         Job = job,
-                        CreatedUtc = DateTime.Now
+                        CreatedUtc = DateTime.UtcNow
                     };
 
                     var activeTest = candidate.Tests.FirstOrDefault(t => t.IsFinished != true && t.Job.Id == job.Id);
@@ -173,6 +173,41 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             var finishedTestDto = Mapper.Map<TestDto>(_testRepository.GetAll().SingleOrDefault(t => t.Id == id));
             return Ok(finishedTestDto);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage FinishTest([FromBody]long id)
+        {
+            try
+            {
+                var test = _testRepository.FindById(id);
+                test.IsFinished = true;
+                test.FinishedDate = DateTime.UtcNow;
+                _testRepository.Update(test);
+            }
+            catch(Exception ex)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+
+            return new HttpResponseMessage(HttpStatusCode.Accepted);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage ArchiveTest(long id)
+        {
+            try
+            {
+                var test = _testRepository.FindById(id);
+                test.IsArchived = true;
+                _testRepository.Update(test);
+            }
+            catch (Exception ex)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+
+            return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
     }
 }

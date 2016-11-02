@@ -1,4 +1,4 @@
-﻿<md-content flex layout="column">
+﻿<md-content flex layout="column" class="time-up-template">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <md-button hide-gt-sm class="md-icon-button">
@@ -18,6 +18,6 @@
     <div layout="row">
         <md-button class="md-primary md-raised createJobButton" ng-click="nextQuestion()" ng-hide="remainingChallenges === 0">Next Question</md-button>
         <md-button class="md-primary md-raised createJobButton" ui-sref="candidateHome" ng-show="remainingChallenges === 0">My Home</md-button>
-        <md-button class="md-accent md-raised createJobButton justify-right">Logout</md-button>
+        <md-button type="submit" class="md-accent md-raised createJobButton justify-right" href="/Candidate/LogOff">Logout</md-button>
     </div>
 </md-content>
