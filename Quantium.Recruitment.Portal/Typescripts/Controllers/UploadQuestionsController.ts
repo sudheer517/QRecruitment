@@ -11,7 +11,6 @@ module Recruitment.Controllers {
     interface IUploadQuestionsControllerScope extends ng.IScope {
         fileUploadObj: any;
         uploadedFile: any;
-        uploadStatus: string;
         fileName: string;
         saveChanges: () => void;
         previewQuestions: () => void;
@@ -93,15 +92,14 @@ module Recruitment.Controllers {
                     this.$mdDialog.hide();
                     this.$timeout(() => {
                         file.result = response.data;
-                        this.$scope.uploadStatus = "File upload successful";
-                        this.$state.go("dashboard");
+                        this.showToast("Questions uploaded successfully");
                         this.$timeout(() => {
-                            this.showToast("Questions uploaded successfully");
-                        }, 1000);
-                    });
+                            this.$state.go("dashboard");
+                        }, 2000);
+                    }, 1000);
                 }, error => {
                     if (error.status > 0)
-                        this.$scope.uploadStatus = error.status + ': ' + error.data;
+                        this.showToast(error.status + ': ' + error.data);
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));
                 });
@@ -114,17 +112,19 @@ module Recruitment.Controllers {
         }
 
         public previewQuestions(): void {
-            if (this.$scope.previewQuestionModels.length < 1) {
-                var file = this.$scope.files01[0].lfFile;
-                if (file) {
-                    var fileReader = new FileReader();
-                    fileReader.readAsText(file);
+            this.$scope.previewQuestionModels = [];
+            var file = this.$scope.files01[0].lfFile;
+            if (file && this.validateFormat(file)) {
+                var fileReader = new FileReader();
+                fileReader.readAsText(file);
 
-                    fileReader.onload = (event: any) => {
-                        var csv = event.target.result;
-                        this.processData(csv);
-                    }
+                fileReader.onload = (event: any) => {
+                    var csv = event.target.result;
+                    this.processData(csv);
                 }
+            }
+            else {
+                this.showToast("Please upload csv file");
             }
         }
 
@@ -166,7 +166,19 @@ module Recruitment.Controllers {
         }
 
         public saveChanges(): void {
-            this.uploadFile();
+            var file: any = this.$scope.files01[0].lfFile;
+            var fileReader = new FileReader();
+
+            if (this.validateFormat(file)) {
+                this.uploadFile();
+            }
+            else {
+                this.showToast("Please upload csv file");
+            }
+        }
+
+        private validateFormat(file: any): boolean {
+            return /^.+\.(csv)$/.test(file.name);
         }
     }
 }

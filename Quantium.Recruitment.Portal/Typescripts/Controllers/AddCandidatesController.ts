@@ -12,7 +12,6 @@ module Recruitment.Controllers {
         fileUploadObj: any;
         selectFile: (file: any, errFiles: any) => void;
         uploadedFile: any;
-        uploadResult: string;
         fileName: string;
         saveChanges: () => void;
         previewCandidates: () => void;
@@ -70,8 +69,9 @@ module Recruitment.Controllers {
            this.$candidateService.saveCandidate(this.$scope.candidatesArray.candidates).then(
                response => {
                    this.showToast("Candidate(s) added successfully");
-                   this.$scope.uploadResult = "Candidate(s) added successfully";
-                   this.$state.go("dashboard");
+                   this.$timeout(() => {
+                       this.$state.go("dashboard");
+                   }, 1500);                 
                    console.log(response);
                },
                error => {
@@ -95,10 +95,11 @@ module Recruitment.Controllers {
                 });
 
                 file.upload.then(response => {
+                    file.result = response.data;
+                    this.showToast("Candidate(s) added successfully");
                     this.$timeout(() => {
-                        file.result = response.data;
-                        this.showToast("Candidates added successfully");
-                    });
+                        this.$state.go("dashboard");
+                    }, 1500);
                 }, error => {
                     if (error.status > 0)
                         this.showToast(error.status + ': ' + error.data);
@@ -176,9 +177,6 @@ module Recruitment.Controllers {
 
                     if (this.isDataValidated) {
                         this.uploadFile(file);
-                        this.$timeout(() => {
-                            this.$state.go("dashboard");
-                        }, 1000);
                     }
                 }
             }
