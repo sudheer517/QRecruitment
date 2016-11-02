@@ -97,6 +97,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 _testRepository.Update(test);
             }
 
+            currentChallenge.IsSent = true;
+            _challengeRepository.Update(currentChallenge);
+
             return Ok(currentChallengeDto);
         }
 
