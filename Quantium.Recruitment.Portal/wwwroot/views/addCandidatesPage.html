@@ -88,11 +88,14 @@
             <div>
                 <p ng-hide="previewCandidatesModel.length > 0">Dude, Upload the CSV first !!!</p>
                 <div class="previewCandidates" ng-repeat="candidatesModel in previewCandidatesModel">
+                    <h3 ng-if="!validateEmail(candidatesModel.Email)">*Below email is not in correct format</h3>
                     <md-card>
                         <md-card-content>
                             <h3>{{candidatesModel.FirstName}}</h3>
                             <h3>{{candidatesModel.LastName}}</h3>
-                            <h3>{{candidatesModel.Email}}</h3>
+                            <h3 ng-class="{'emailClass': !validateEmail(candidatesModel.Email)}">
+                                {{candidatesModel.Email}}
+                            </h3>
                         </md-card-content>
                     </md-card>
                 </div>

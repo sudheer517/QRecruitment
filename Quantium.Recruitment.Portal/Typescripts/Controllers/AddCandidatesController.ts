@@ -19,6 +19,7 @@ module Recruitment.Controllers {
         previewCandidatesModel: PreviewCandidatesModel[];
         showPrerenderedDialog: (event: any) => void;
         files01: any;
+        validateEmail: any;
     }
 
     export class AddCandidatesController {
@@ -46,6 +47,7 @@ module Recruitment.Controllers {
             this.$scope.previewCandidates = () => this.previewCandidates();
             this.$scope.previewCandidatesModel = [];
             this.$scope.showPrerenderedDialog = (event) => this.showPrerenderedDialog(event);
+            this.$scope.validateEmail = (input) => this.validateEmail(input);
         }
 
         private showPrerenderedDialog(ev: any): void {
@@ -139,14 +141,7 @@ module Recruitment.Controllers {
                 candidateModel.Id= Number(columns[0]);
                 candidateModel.FirstName = columns[1];
                 candidateModel.LastName = columns[2];
-
-                if (this.validateEmail(columns[3])) {
-                    candidateModel.Email = columns[3];
-                }
-                else
-                {
-                    candidateModel.Email = "<b color='red'>" + columns[3] + "</b>";
-                }
+                candidateModel.Email = columns[3];
 
                 this.$scope.previewCandidatesModel.push(candidateModel);
                 this.$scope.$apply();
@@ -200,7 +195,7 @@ module Recruitment.Controllers {
             });
         }
 
-        private validateEmail(input: string): boolean {
+        public validateEmail(input: string): boolean {
             return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
         }
     }
