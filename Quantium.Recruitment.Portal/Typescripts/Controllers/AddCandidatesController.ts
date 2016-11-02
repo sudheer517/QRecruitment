@@ -114,17 +114,20 @@ module Recruitment.Controllers {
         }
 
         public previewCandidates(): void {
-            if (this.$scope.previewCandidatesModel.length < 1) {
-                var file = this.$scope.files01[0].lfFile;
-                if (file) {
-                    var fileReader = new FileReader();
-                    fileReader.readAsText(file);
+            this.$scope.previewCandidatesModel = [];
+            var file = this.$scope.files01[0].lfFile;
 
-                    fileReader.onload = (event: any) => {
-                        var csv = event.target.result;
-                        this.processData(csv);
-                    }
+            if (file && this.validateFormat(file)) {
+                var fileReader = new FileReader();
+                fileReader.readAsText(file);
+
+                fileReader.onload = (event: any) => {
+                    var csv = event.target.result;
+                    this.processData(csv);
                 }
+            }
+            else {
+                this.showToast("Please upload csv file");
             }
         }
 
@@ -152,29 +155,34 @@ module Recruitment.Controllers {
             var file: any = this.$scope.files01[0].lfFile;
             var fileReader = new FileReader();
 
-            fileReader.readAsText(file);
-            fileReader.onload = (event: any) => {
-                var csv = event.target.result;
-                var allLines: string[] = csv.split(/\r|\n/);
-                allLines = allLines.filter(line => line.length > 0);
+            if (this.validateFormat(file)) {
+                fileReader.readAsText(file);
+                fileReader.onload = (event: any) => {
+                    var csv = event.target.result;
+                    var allLines: string[] = csv.split(/\r|\n/);
+                    allLines = allLines.filter(line => line.length > 0);
 
-                this.isDataValidated = true;
+                    this.isDataValidated = true;
 
-                for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
-                    var columns: string[] = allLines[csvLine].split(",");
+                    for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
+                        var columns: string[] = allLines[csvLine].split(",");
 
-                    if (!this.validateEmail(columns[3])) {
-                        this.showToast("Email format is not correct, check preview for more details");
-                        this.isDataValidated = false;
+                        if (!this.validateEmail(columns[3])) {
+                            this.showToast("Email format is not correct, check preview for more details");
+                            this.isDataValidated = false;
+                        }
+                    }
+
+                    if (this.isDataValidated) {
+                        this.uploadFile(file);
+                        this.$timeout(() => {
+                            this.$state.go("dashboard");
+                        }, 1000);
                     }
                 }
-
-                if (this.isDataValidated) {
-                    this.uploadFile(file);
-                    this.$timeout(() => {
-                        this.$state.go("dashboard");
-                    }, 1000);
-                }
+            }
+            else {
+                this.showToast("Please upload csv file");
             }
         }
 
@@ -197,6 +205,10 @@ module Recruitment.Controllers {
 
         public validateEmail(input: string): boolean {
             return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
+        }
+
+        private validateFormat(file: any): boolean {
+            return /^.+\.(csv)$/.test(file.name);
         }
     }
 }

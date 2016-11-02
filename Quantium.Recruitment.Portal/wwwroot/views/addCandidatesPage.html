@@ -57,7 +57,7 @@
 
                                     <br /><br />
                                     <h2 class="fileUpload">Upload candidates csv file:</h2>
-                                    <lf-ng-md-file-input lf-files="files01" lf-api="api01" class="fileUpload" flex="50"></lf-ng-md-file-input>
+                                    <lf-ng-md-file-input accept=".csv,text/csv" lf-files="files01" lf-api="api01" class="fileUpload" flex="50"></lf-ng-md-file-input>
                                     <br /><br />
                                     <md-button ng-disabled="files01.length > 0 ? false : true" class="md-accent md-raised" ng-click="showPrerenderedDialog($event)">
                                         Preview Candidates
