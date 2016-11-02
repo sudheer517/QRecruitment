@@ -75,6 +75,7 @@ module Recruitment.Controllers {
                    console.log(response);
                },
                error => {
+                   this.showToast(error);
                    console.log(error);
                });
        }
