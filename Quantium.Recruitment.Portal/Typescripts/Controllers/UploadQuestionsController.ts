@@ -137,31 +137,38 @@ module Recruitment.Controllers {
 
             for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
                 var columns: string[] = allLines[csvLine].split(",");
-                var previewQuestionModel = new Question();
-                previewQuestionModel.Id = Number(columns[0]);
-                previewQuestionModel.Text = columns[1];
-                var selectedOptions: string[] = columns[2].split(";");
-                previewQuestionModel.TimeInSeconds = Number(columns[3]);
-                previewQuestionModel.RandomizeOptions = columns[12] === "TRUE" ? true : false;
-                previewQuestionModel.ImageUrl = columns[13];
-                previewQuestionModel.Label = new Label(null, columns[10]);
-                previewQuestionModel.Difficulty = new Difficulty(null, columns[11]);
-                previewQuestionModel.QuestionGroup = new QuestionGroup(null, columns[14]);
-                var options: Option[] = [];
+                if (this.validateQuestions(columns, headers)) {
+                    var previewQuestionModel = new Question();
+                    previewQuestionModel.Id = Number(columns[0]);
+                    previewQuestionModel.Text = columns[1];
+                    var selectedOptions: string[] = columns[2].split(";");
+                    previewQuestionModel.TimeInSeconds = Number(columns[3]);
+                    previewQuestionModel.RandomizeOptions = columns[12] === "TRUE" ? true : false;
+                    previewQuestionModel.ImageUrl = columns[13];
+                    previewQuestionModel.Label = new Label(null, columns[10]);
+                    previewQuestionModel.Difficulty = new Difficulty(null, columns[11]);
+                    previewQuestionModel.QuestionGroup = new QuestionGroup(null, columns[14]);
+                    var options: Option[] = [];
 
-                for (var columnIndex = 4; columnIndex < (supportedOptionCount + 4); columnIndex++) {
-                    var option = new Option();
-                    option.Text = columns[columnIndex];
-                    option.IsAnswer = selectedOptions.indexOf(headers[columnIndex]) == -1 ? false : true;
+                    for (var columnIndex = 4; columnIndex < (supportedOptionCount + 4); columnIndex++) {
+                        var option = new Option();
+                        option.Text = columns[columnIndex];
+                        option.IsAnswer = selectedOptions.indexOf(headers[columnIndex]) == -1 ? false : true;
 
-                    if (!_.isEmpty(option.Text.trim())) {
-                        options.push(option);
+                        if (!_.isEmpty(option.Text.trim())) {
+                            options.push(option);
+                        }
                     }
-                }
 
-                previewQuestionModel.Options = options;
-                this.$scope.previewQuestionModels.push(previewQuestionModel);
-                this.$scope.$apply();
+                    previewQuestionModel.Options = options;
+                    this.$scope.previewQuestionModels.push(previewQuestionModel);
+                    this.$scope.$apply();
+                }
+                else
+                {
+                    this.showToast("column with id " + columns[0] + " has some invlaid data")
+                    break;
+                }
             }
         }
 
@@ -179,6 +186,32 @@ module Recruitment.Controllers {
 
         private validateFormat(file: any): boolean {
             return /^.+\.(csv)$/.test(file.name);
+        }
+
+        private validateQuestions(question: any, headers: any): boolean{
+            var mandatoryFields = [1, 2, 3, 10, 11]   
+            var dataValid = true;        
+
+            mandatoryFields.forEach(function (value) {
+                if (_.isEmpty(question[value])) {
+                    dataValid = false;
+                }
+            });
+
+            var optionFields = [4, 5, 6, 7, 8, 9]
+            var options: string[] = question[2].split(";");
+
+            options.forEach(function (value) {
+                if (!(optionFields.some(field => headers[field] === value))) {
+                    dataValid = false;
+                }
+            });
+
+            if (optionFields.every(field => _.isEmpty(question[field]))) {
+                dataValid = false;
+            }
+
+            return dataValid;
         }
     }
 }
