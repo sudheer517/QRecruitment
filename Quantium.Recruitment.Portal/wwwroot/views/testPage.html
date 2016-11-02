@@ -8,12 +8,14 @@
         </md-toolbar>
         <md-content md-theme="dark-grey" md-theme-watch flex>
             <div>
-                <div layout="row">
-                    <md-input-container class="createJobCheckbox" ng-repeat="challengeAnswered in challengesAnswered track by $index" flex="40">
-                        <md-checkbox ng-model="challengeAnswered" ng-disabled="true">
-                            Question - {{$index + 1}}
-                        </md-checkbox>
-                    </md-input-container>
+                <div layout="row" layout-wrap layout-align="space-around">
+                    <div ng-repeat="challengeAnswered in challengesAnswered track by $index">
+                        <md-input-container class="createJobCheckbox">
+                            <md-checkbox ng-model="challengeAnswered" ng-disabled="true">
+                                Question - {{$index + 1}}
+                            </md-checkbox>
+                        </md-input-container>
+                    </div>
                 </div>
             </div>
         </md-content>
