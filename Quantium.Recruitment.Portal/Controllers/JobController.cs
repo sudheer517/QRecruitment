@@ -6,6 +6,8 @@ using Quantium.Recruitment.Portal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
@@ -32,11 +34,14 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]JobDto job)
+        public HttpResponseMessage Create([FromBody]JobDto job)
         {
             var response = _helper.Post("api/Job/Create", job);
 
-            return Ok(response.Content.ReadAsStringAsync().Result);
+            if (response.StatusCode != HttpStatusCode.Created)
+                throw new Exception("Job creation failed");
+
+            return response;
         }
 
     }

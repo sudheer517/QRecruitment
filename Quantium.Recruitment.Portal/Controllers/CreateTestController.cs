@@ -6,6 +6,8 @@ using Quantium.Recruitment.Portal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
@@ -24,11 +26,13 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [HttpPost]
-        public IActionResult GenerateTests([FromBody] List<Candidate_JobDto> candidateJobDtos)
+        public HttpResponseMessage GenerateTests([FromBody] List<Candidate_JobDto> candidateJobDtos)
         {
             var response = _helper.Post("api/Test/GenerateTests", candidateJobDtos);
+            if (response.StatusCode != HttpStatusCode.Created)
+                throw new Exception("Test creation failed");
 
-            return Ok(response.Content.ReadAsStringAsync().Result);
+            return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         [HttpPost]

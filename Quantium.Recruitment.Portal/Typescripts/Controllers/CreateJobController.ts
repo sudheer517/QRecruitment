@@ -20,6 +20,7 @@ module Recruitment.Controllers {
         addJobDifficultyLabel(): void;
         questionDifficultyLabels: QuestionDifficultyLabelDto[];
         showAvailableQuestions(jobDifficultyLabel: any): void;
+        isQuestionsFound: boolean;
     }
     export class SelectedOptions {
         public labelIds: boolean[];
@@ -40,7 +41,8 @@ module Recruitment.Controllers {
             private $mdDialog: ng.material.IDialogService,
             private $state: ng.ui.IStateService,
             private $mdToast: ng.material.IToastService,
-            private $questionService: Services.QuestionService) {
+            private $questionService: Services.QuestionService,
+            private $timeout: ng.ITimeoutService) {
 
                 this.getDepartments();
                 this.getLabels();
@@ -72,9 +74,6 @@ module Recruitment.Controllers {
 
             if (jobDifficultyLabel.LabelId && jobDifficultyLabel.DifficultyId && jobDifficultyLabel.QuestionCount === 0) {
                 this.showToast("No questions found");
-                console.log('hey');
-                console.log((jobDifficultyLabel.QuestionCount && (jobDifficultyLabel.QuestionCount > 0)) === true);
-                this.$scope.$apply();
             }
         }
 
@@ -93,6 +92,7 @@ module Recruitment.Controllers {
                 .then(result => {
                     this.$scope.questionDifficultyLabels = result.data;
                 }, error => {
+                    this.showToast("No questions found.Please add questions");
                     this.$log.error('question difficulty labels retrieval failed');
                 });
         }
@@ -164,31 +164,36 @@ module Recruitment.Controllers {
             var job = this.$scope.job;
             var labelIds = [];
             var difficultyIds = [];
-
+            var displayQuestionCounts = [];
+            var passingQuestionCounts = [];
             _.each(this.$scope.jobDifficultyLabelArray.jobDifficultyLabels, (item, index) => {
                 labelIds.push(item.LabelId);
                 difficultyIds.push(item.DifficultyId);
+                displayQuestionCounts.push(item.UserQuestionCount);
+                passingQuestionCounts.push(item.PassingQuestionCount);
             });
 
             job.JobDifficultyLabels = [];
 
             _.each(labelIds, (item, index) => {
-                if (item === true) {
-                    var jobDifficultyLabel = new JobDifficultyLabelDto();
-                    jobDifficultyLabel.Label = new LabelDto(index);
-                    jobDifficultyLabel.Difficulty = new DifficultyDto(difficultyIds[index]);
-                    jobDifficultyLabel.QuestionCount = this.$scope.selectedOptions.questionCounts[index];
-                    job.JobDifficultyLabels.push(jobDifficultyLabel);
-                }
+                var jobDifficultyLabel = new JobDifficultyLabelDto();
+                jobDifficultyLabel.Label = new LabelDto(labelIds[index]);
+                jobDifficultyLabel.Difficulty = new DifficultyDto(difficultyIds[index]);
+                jobDifficultyLabel.DisplayQuestionCount = displayQuestionCounts[index];
+                jobDifficultyLabel.PassingQuestionCount = passingQuestionCounts[index];
+                job.JobDifficultyLabels.push(jobDifficultyLabel);
             });
 
             this.$http.post("/Job/Create", job).then(response => {
                 console.log(response);
                 this.$mdDialog.hide();
-                this.$state.go("dashboard");
+                this.$timeout(() => {
+                    this.$state.go("dashboard");
+                }, 1000);
                 this.showToast("Job created");
             }, error => {
                 console.log(error);
+                this.$mdDialog.hide();
                 this.showToast("Job creation failed");
             });
         }

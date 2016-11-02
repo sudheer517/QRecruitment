@@ -7,15 +7,16 @@ module Recruitment.Controllers {
     interface ICreateTestControllerScope extends ng.IScope {
         jobs: JobDto[];
         candidates: CandidateDto[];
-        selectedJobName: string;
         changeSelectedJob: (selectedJob: JobDto) => void;
         totalQuestionsInSelectedJob: number;
+        totalCorrectAnswersInSelectedJob: number;
         selectedJob: JobDto;
         selectedtestOptions: SelectedTestOptions;
         testOptions: any;
         generateTest: () => void;
         sendTest: () => void;
         testGenerationResult: boolean;
+        hasSelectedAtleastOneCandidate: boolean;
     }
     class SelectedTestOptions {
         public candidateIds: boolean[];
@@ -30,22 +31,71 @@ module Recruitment.Controllers {
             private $http: ng.IHttpService,
             private $q: ng.IQService,
             private $jobService: Recruitment.Services.JobService,
-            private $candidateService: Recruitment.Services.CandidateService) {
+            private $candidateService: Recruitment.Services.CandidateService,
+            private $mdDialog: ng.material.IDialogService,
+            private $mdToast: ng.material.IToastService,
+            private $timeout: ng.ITimeoutService,
+            private $state: ng.ui.IStateService) {
             this.getJobs();
             this.getCandidates();
             this.$scope.selectedtestOptions = new SelectedTestOptions();
-            this.$scope.selectedJobName = "Select Job";
             this.$scope.changeSelectedJob = (selectedJob) => this.changeSelectedJob(selectedJob);
             this.$scope.generateTest = () => this.generateTest();
             this.$scope.sendTest = () => this.sendTest();
+            this.$scope.$watchCollection(() => this.$scope.selectedtestOptions.candidateIds, () => this.updateSelectedCandidateCount());
+        }
+
+        private updateSelectedCandidateCount(): void {
+            
+            var isSelected = false;
+            _.each(this.$scope.selectedtestOptions.candidateIds, (item, index) => {
+                if (item === true) {
+                    isSelected = true;
+                }
+            });
+
+            this.$scope.hasSelectedAtleastOneCandidate = isSelected;
         }
 
         private changeSelectedJob(selectedJob: JobDto) {
             this.$scope.selectedJob = selectedJob;
-            this.$scope.selectedJobName = selectedJob.Title;
             var count = 0;
-            selectedJob.JobDifficultyLabels.forEach(item => count += item.QuestionCount)
+            var rightAnswersCount = 0;
+            selectedJob.JobDifficultyLabels.forEach(item => {
+                count += item.DisplayQuestionCount;
+                rightAnswersCount += item.PassingQuestionCount;
+            });
             this.$scope.totalQuestionsInSelectedJob = count;
+            this.$scope.totalCorrectAnswersInSelectedJob = rightAnswersCount;
+
+        }
+
+        private showPrerenderedDialog(): void {
+            var dialogOptions: ng.material.IDialogOptions = {
+                contentElement: '#uploadStatusModal',
+                clickOutsideToClose: false,
+                escapeToClose: false,
+                scope: this.$scope,
+                preserveScope: true
+            };
+
+            this.$mdDialog.show(dialogOptions);
+        }
+
+        private showToast(toastMessage: string): void {
+            var toast = this.$mdToast.simple()
+                .textContent(toastMessage)
+                .action('Ok')
+                .highlightAction(true)
+                .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
+                .position("top right")
+                .hideDelay(4000);
+
+            this.$mdToast.show(toast).then(response => {
+                if (response == 'ok') {
+                    this.$mdToast.hide();
+                }
+            });
         }
 
         private getJobs(): void {
@@ -70,6 +120,7 @@ module Recruitment.Controllers {
         }
 
         private generateTest(): void {
+            this.showPrerenderedDialog();
             var candidateIds = this.$scope.selectedtestOptions.candidateIds;
             var candidatesJobs: CandidateJobDto[] = [];
 
@@ -83,11 +134,14 @@ module Recruitment.Controllers {
             });
 
             this.$http.post("/CreateTest/GenerateTests", candidatesJobs).then(response => {
+                this.$mdDialog.hide();
+                this.showToast("Tests generated successfully");
+                this.$timeout(() => {
+                    this.$state.go("dashboard");
+                }, 1000);
                 this.$scope.testGenerationResult = true;
-                console.log(response);
             }, error => {
                 this.$scope.testGenerationResult = false;
-                console.log(error);
             });
         }
 

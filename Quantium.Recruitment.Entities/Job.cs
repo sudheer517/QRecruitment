@@ -25,7 +25,6 @@ namespace Quantium.Recruitment.Entities
 
         public virtual List<Test> Tests { get; set; }
 
-        [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime CreatedUtc { get; set; }
+        public virtual DateTime? CreatedUtc { get; set; }
     }
 }

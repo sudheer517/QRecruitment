@@ -56,7 +56,6 @@
                         <md-input-container>
                             <label>Department</label>
                             <md-select ng-model="admin.DepartmentId" required name="division">
-                                <md-option value="0"><em>None</em></md-option>
                                 <md-option ng-repeat="department in departmentList" ng-value="department.Id">
                                     {{department.Name}}
                                 </md-option>

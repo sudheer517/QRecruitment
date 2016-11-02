@@ -120,7 +120,8 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public long Id;
         public DifficultyDto Difficulty;
         public LabelDto Label;
-        public Int32 QuestionCount;
+        public Int32 DisplayQuestionCount;
+        public Int32 PassingQuestionCount;
 
     }
 

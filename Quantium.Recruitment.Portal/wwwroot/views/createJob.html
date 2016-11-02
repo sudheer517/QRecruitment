@@ -27,7 +27,6 @@
                             <md-input-container>
                                 <label>Department</label>
                                 <md-select ng-model="job.Department.Id" required name="department">
-                                    <md-option value="0"><em>None</em></md-option>
                                     <md-option ng-repeat="department in departments" ng-value="department.Id">
                                         {{department.Name}}
                                     </md-option>
@@ -133,7 +132,8 @@
                                 <md-icon md-svg-icon="add"></md-icon>
                             </md-button>
                         </div>
-                        <md-button type="submit" class="md-raised md-primary createJobButton" ng-click="difficultyLabelForm.$valid && createJob()">Create Job</md-button>
+                        <md-button ng-disabled="!questionDifficultyLabels" type="submit" class="md-raised md-primary createJobButton" ng-click="difficultyLabelForm.$valid && createJob()"
+                                   >Create Job</md-button>
                     </div>
                 </md-card-content>
             </md-card>

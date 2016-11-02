@@ -229,14 +229,16 @@ module Quantium.Recruitment.ODataEntities {
         public Id: number;
         public Difficulty: DifficultyDto;
         public Label: LabelDto;
-        public QuestionCount: number;
+        public DisplayQuestionCount: number;
+        public PassingQuestionCount: number;
         constructor();
-        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, QuestionCount?: number);
-        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, QuestionCount?: number){
+        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number);
+        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number){
             this.Id = Id;
             this.Difficulty = Difficulty;
             this.Label = Label;
-            this.QuestionCount = QuestionCount;
+            this.DisplayQuestionCount = DisplayQuestionCount;
+            this.PassingQuestionCount = PassingQuestionCount;
         }
 
     }

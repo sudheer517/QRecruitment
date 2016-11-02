@@ -21,6 +21,8 @@ namespace Quantium.Recruitment.Entities
         [ForeignKey("LabelId")]
         public virtual Label Label { get; set; }
 
-        public virtual int QuestionCount { get; set; }
+        public virtual int DisplayQuestionCount { get; set; }
+
+        public virtual int PassingQuestionCount { get; set; }
     }
 }
