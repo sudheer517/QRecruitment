@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.ApiServiceModels;
 using System.Web.Http;
+using System.Net;
+using System.Net.Http;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -64,6 +66,16 @@ namespace Quantium.Recruitment.Portal.Controllers
         {
             var response = _helper.GetData("/api/Test/GetTestById?id=" + id);
             return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
+        [HttpPost]
+        public HttpResponseMessage FinishTest([FromBody]long id)
+        {
+            var response = _helper.Post("/api/Test/FinishTest", id);
+            if (response.StatusCode != HttpStatusCode.Accepted)
+                throw new Exception("Finish test failed");
+
+            return new HttpResponseMessage(HttpStatusCode.Accepted);
         }
     }
 }

@@ -30,5 +30,7 @@ namespace Quantium.Recruitment.Entities
         public virtual DateTime? FinishedDate { get; set; }
 
         public virtual DateTime? CreatedUtc { get; set; }
+
+        public virtual bool? IsArchived { get; set; }
     }
 }

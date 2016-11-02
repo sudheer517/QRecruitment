@@ -32,5 +32,7 @@ namespace Quantium.Recruitment.Entities
         public virtual List<Option> Options { get; set; }
 
         public virtual List<Challenge> Challenges { get; set; }
+
+        public virtual long CreatedByUserId { get; set; }
     }
 }

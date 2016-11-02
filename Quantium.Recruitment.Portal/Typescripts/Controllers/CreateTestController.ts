@@ -18,6 +18,7 @@ module Recruitment.Controllers {
         testGenerationResult: boolean;
         hasSelectedAtleastOneCandidate: boolean;
     }
+
     class SelectedTestOptions {
         public candidateIds: boolean[];
         constructor() { };

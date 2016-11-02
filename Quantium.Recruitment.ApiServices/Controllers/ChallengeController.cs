@@ -50,6 +50,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             var test = _testRepository.FindByCandidateEmail(email);
 
+            if(test.IsFinished == true)
+            {
+                return Ok("Finished");
+            }
+
             if(test.Challenges == null)
             {
                 test.IsFinished = true;
@@ -88,7 +93,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             if(currentChallengeDto.RemainingChallenges == 0)
             {
                 test.IsFinished = true;
-                test.FinishedDate = DateTime.Now;
+                test.FinishedDate = DateTime.UtcNow;
                 _testRepository.Update(test);
             }
 

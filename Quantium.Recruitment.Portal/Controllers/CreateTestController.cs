@@ -28,7 +28,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         [HttpPost]
         public HttpResponseMessage GenerateTests([FromBody] List<Candidate_JobDto> candidateJobDtos)
         {
-            var response = _helper.Post("api/Test/GenerateTests", candidateJobDtos);
+            var response = _helper.Post("/api/Test/GenerateTests", candidateJobDtos);
             if (response.StatusCode != HttpStatusCode.Created)
                 throw new Exception("Test creation failed");
 
@@ -38,7 +38,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         [HttpPost]
         public IActionResult SendTests([FromBody] List<CandidateDto> candidateDtos)
         {
-            var response = _helper.Post("api/Test/GenerateTests", candidateDtos);
+            var response = _helper.Post("/api/Test/GenerateTests", candidateDtos);
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }

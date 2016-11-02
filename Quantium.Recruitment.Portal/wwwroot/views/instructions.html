@@ -10,27 +10,47 @@
         </div>
     </md-toolbar>
     <md-content flex layout-align="center start">
-        <md-card flex-gt-sm="50">
-            <md-card-content>
-                <div>
-                    <p flex layout="column">
-                        Welcome to Quantium !!
-                        Please read the instructions before proceeding to take the test
-
-                        <ul>
-                            <li>You can view the number of questions and total time for test at the bottom of the page</li>
-                            <li>Each question will have a different timer</li>
-                            <li>You have to answer the question before the timer runs out</li>
-                            <li>Questions can be from various domains</li>
-                            <li>You cannot view the previous questions once you go to the next question</li>
-                            <li>There could be multiple answers for each question</li>
-                        </ul>
-
-                        <md-button class="md-accent md-raised justify-center" ui-sref="test">Take test</md-button>
-                    </p>
-                </div>
-            </md-card-content>
-        </md-card>
+        <div layout="column">
+            <div layout="row">
+                <md-card md-theme="dark-grey" md-theme-watch>
+                    <md-card-content>
+                        <h2>
+                            Welcome to Quantium !! Please read the instructions before proceeding to take the test
+                        </h2>
+                    </md-card-content>
+                </md-card>
+            </div>
+            <div layout="row">
+                <md-card flex>
+                    <md-card-content>
+                        <div layout="column">
+                            <md-list class="no-pointer ">
+                                <md-subheader class="md-no-sticky text-align-center instructions">Instructions</md-subheader>
+                                <md-list-item class="md-3-line" ng-click="null">
+                                    <div class="md-list-item-text" layout="column">
+                                        <ul>
+                                            <li>You can view the number of questions and total time for test one left side of the page</li>
+                                            <li>Each question will have a different timer</li>
+                                            <li>You have to answer the question before the timer runs out</li>
+                                            <li><b>Do not click 'FINISH TEST' unless you want complete the test</b></li>
+                                            <li><b>You can LOGOUT and resume the test from the next question if you want to take a break</b></li>
+                                            <li><b>If you LOGOUT, the current question will be marked as Answered along with the options you selected</b></li>
+                                            <li><b>If you LOGOUT, the current question will not be visible the next time you login</b></li>
+                                            <li>Questions can be from various domains</li>
+                                            <li>You cannot view the previous questions once you go to the next question</li>
+                                            <li>There could be multiple answers for each question</li>
+                                        </ul>
+                                    </div>
+                                </md-list-item>
+                            </md-list>
+                            <div layout="row" layout-align="center">
+                                <md-button class="md-accent md-raised justify-center" ui-sref="test">Take test</md-button>
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </div>
+        </div>
     </md-content>
 </div>
 

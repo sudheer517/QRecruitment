@@ -12,68 +12,103 @@
     <md-content flex layout-align="center start">
         <div flex-gt-sm="50">
             <md-card>
-                <md-card-content layout="column">
+                <md-card-content>
                     <h3 class="align-center">Please enter your details</h3>
-                    <div layout="row">
-                        <md-input-container flex="50">
-                            <label>First Name</label>
-                            <input ng-model="candidate.FirstName">
+                    <form name="candidateDetailsForm" layout="column">
+                        <div layout="row">
+                            <md-input-container flex="50">
+                                <label>First Name</label>
+                                <input ng-model="candidate.FirstName" name="firstname" maxlength="20" required type="text">
+                                <div ng-messages="candidateDetailsForm.firstname.$error">
+                                    <div ng-message="required">First name is required.</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container flex="50">
+                                <label>Last Name</label>
+                                <input ng-model="candidate.LastName" name="lastname" maxlength="30" required type="text">
+                                <div ng-messages="candidateDetailsForm.lastname.$error">
+                                    <div ng-message="required">Last name is required.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex="100">
+                                <label>Mobile</label>
+                                <input ng-model="candidate.Mobile" name="mobile" required type="number" minlength="10" maxlength="10" ng-pattern="^\d{9}$">
+                                <div ng-messages="candidateDetailsForm.mobile.$error">
+                                    <div ng-message="required">Mobile is required.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex="33">
+                                <label>City</label>
+                                <input ng-model="candidate.City" name="city" required maxlength="30">
+                                <div ng-messages="candidateDetailsForm.city.$error">
+                                    <div ng-message="required">City is required.</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container flex="33">
+                                <label>State</label>
+                                <input ng-model="candidate.State" name="state" required maxlength="30">
+                                <div ng-messages="candidateDetailsForm.state.$error">
+                                    <div ng-message="required">State is required.</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container flex="33">
+                                <label>Country</label>
+                                <input ng-model="candidate.Country" name="country" required maxlength="30" value="India">
+                                <div ng-messages="candidateDetailsForm.country.$error">
+                                    <div ng-message="required">Country is required.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div layout="row">
+                            <md-input-container flex="50">
+                                <label>Branch</label>
+                                <input ng-model="candidate.Branch" name="branch" required maxlength="50">
+                                <div ng-messages="candidateDetailsForm.branch.$error">
+                                    <div ng-message="required">First name is required.</div>
+                                </div>
+                            </md-input-container>
+
+                            <md-input-container flex="50">
+                                <label>College</label>
+                                <input ng-model="candidate.College" name="college" required maxlength="50">
+                                <div ng-messages="candidateDetailsForm.college.$error">
+                                    <div ng-message="required">College is required.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <md-input-container>
+                            <label>Year of passing</label>
+                            <input ng-model="candidate.PassingYear" name="passingYear" required maxlength="4" type="number" ng-pattern="^(20)\d{2}$">
+                            <div ng-messages="candidateDetailsForm.passingYear.$error">
+                                <div ng-message="required">Graduation year is required.</div>
+                            </div>
                         </md-input-container>
 
-                        <md-input-container flex="50">
-                            <label>Last Name</label>
-                            <input ng-model="candidate.LastName">
-                        </md-input-container>
-                    </div>
-
-                    <md-input-container flex="50">
-                        <label>Mobile</label>
-                        <input ng-model="candidate.Mobile">
-                    </md-input-container>
-
-                    <div layout="row">
-                        <md-input-container flex="33">
-                            <label>City</label>
-                            <input ng-model="candidate.City">
+                        <md-input-container>
+                            <label>Experience(in years)</label>
+                            <input ng-model="candidate.ExperienceInYears" name="experience" maxlength="4" type="number" required>
+                            <div ng-messages="candidateDetailsForm.experience.$error">
+                                <div ng-message="required">Experience is required.</div>
+                            </div>
                         </md-input-container>
 
-                        <md-input-container flex="33">
-                            <label>State</label>
-                            <input ng-model="candidate.State">
+                        <md-input-container>
+                            <label>Current company</label>
+                            <input ng-model="candidate.CurrentCompany" name="company" required maxlength="50">
+                            <div ng-messages="candidateDetailsForm.company.$error">
+                                <div ng-message="required">Current company is required.</div>
+                            </div>
                         </md-input-container>
 
-                        <md-input-container flex="33">
-                            <label>Country</label>
-                            <input ng-model="candidate.Country">
-                        </md-input-container>
-                    </div>
-                    <div layout="row">
-                        <md-input-container flex="50">
-                            <label>Branch</label>
-                            <input ng-model="candidate.Branch">
-                        </md-input-container>
-
-                        <md-input-container flex="50">
-                            <label>College</label>
-                            <input ng-model="candidate.College">
-                        </md-input-container>
-                    </div>
-                    <md-input-container>
-                        <label>Year of passing</label>
-                        <input ng-model="candidate.PassingYear">
-                    </md-input-container>
-
-                    <md-input-container>
-                        <label>Experience(in years)</label>
-                        <input ng-model="candidate.ExperienceInYears">
-                    </md-input-container>
-
-                    <md-input-container>
-                        <label>Current company</label>
-                        <input ng-model="candidate.CurrentCompany">
-                    </md-input-container>
-
-                    <md-button class="md-raised md-primary createJobButton" ng-click="proceed()">Proceed</md-button>
+                        <md-button type="submit" class="md-raised md-primary createJobButton" ng-click="candidateDetailsForm.$valid && proceed()">Proceed</md-button>
+                    </form>
                 </md-card-content>
             </md-card>
         </div>

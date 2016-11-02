@@ -8,8 +8,8 @@
         </md-toolbar>
         <md-content md-theme="dark-grey" md-theme-watch flex>
             <div>
-                <div layout="row" layout-wrap>
-                    <md-input-container class="createJobCheckbox" ng-repeat="challengeAnswered in challengesAnswered track by $index" flex="40" flex-offset="5">
+                <div layout="row">
+                    <md-input-container class="createJobCheckbox" ng-repeat="challengeAnswered in challengesAnswered track by $index" flex="40">
                         <md-checkbox ng-model="challengeAnswered" ng-disabled="true">
                             Question - {{$index + 1}}
                         </md-checkbox>
@@ -57,10 +57,11 @@
 
                     <div layout="row">
                         <md-button class="md-raised md-primary createJobButton" ng-click="fillAndPostChallenge()" ng-hide="remainingChallenges === 0">Next Question</md-button>
-                        <md-button class="md-raised md-accent createJobButton justify-right">Finish Test</md-button>
+                        <md-button class="md-raised md-accent createJobButton justify-right" ng-click="finishTest()">Finish Test</md-button>
                     </div>
                 </div>
             </md-card-content>
         </md-card>
     </md-content>
 </div>
+<div id="timeUpModal"></div>
