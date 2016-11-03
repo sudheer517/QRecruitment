@@ -21,6 +21,7 @@
                 <h5><i class="fa fa-mobile fa-2x"></i> {{test.Candidate.Mobile}}</h5>
                 <h5><i class="fa fa-id-card fa"></i> {{test.Job.Title}}</h5>
                 <h5><i class="fa fa-hourglass-end"></i> {{test.FinishedDate | date}}</h5>
+                <h5><i class="fa fa-hourglass-end"></i> Test result : <span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h5>
             </md-card-content>
         </md-card>
     </div>

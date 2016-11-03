@@ -37,9 +37,11 @@ module Recruitment {
                 $mdIconProvider.icon("takeTest", "../img/takeTest.svg", 24);
                 $mdIconProvider.icon("close", "../img/close.svg", 24);
                 $mdIconProvider.icon("add", "../img/add.svg", 24);
+                $mdIconProvider.icon("print", "../img/print.svg", 24);
                 $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('blue');
                 $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
-
+                $mdThemingProvider.theme('grey-variant').primaryPalette('grey').accentPalette('cyan');
+                $mdThemingProvider.theme('deep-orange').primaryPalette('blue-grey').accentPalette('grey');
             });
             //setting bootstrap theme for editable input directive xeditable
             //this.app.run((editableOptions) => { editableOptions.theme = 'bs3'; });

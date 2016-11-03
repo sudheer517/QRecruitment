@@ -12,5 +12,7 @@ namespace Quantium.Recruitment.ApiServices.Models
         public string ImageUrl { get; set; }
 
         public bool IsAnswer { get; set; }
+
+        public bool IsCandidateSelected { get; set; }
     }
 }

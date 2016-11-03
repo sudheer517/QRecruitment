@@ -38,6 +38,10 @@ module Recruitment.Services {
 
         public getTestById(testId: number): ng.IHttpPromise<TestDto> {
             return this.$http.get("/Test/GetTestById?id=" + testId);
+        } 
+
+        public getFinishedTestById(testId: number): ng.IHttpPromise<TestDto> {
+            return this.$http.get("/Test/GetFinishedTestById?id=" + testId);
         }
 
         public finishTest(testId: number): ng.IHttpPromise<any> {

@@ -90,11 +90,13 @@ module Recruitment.Controllers {
 
                 file.upload.then(response => {
                     this.$mdDialog.hide();
-                    file.result = response.data;
-                    this.showToast("Questions uploaded successfully");
                     this.$timeout(() => {
-                        this.$state.go("dashboard");
-                    }, 500);
+                        file.result = response.data;
+                        this.showToast("Questions uploaded successfully");
+                        this.$timeout(() => {
+                            this.$state.go("dashboard");
+                        }, 1000);
+                    }, 1000);
                 }, error => {
                     if (error.status > 0)
                         this.showToast(error.status + ': ' + error.data);

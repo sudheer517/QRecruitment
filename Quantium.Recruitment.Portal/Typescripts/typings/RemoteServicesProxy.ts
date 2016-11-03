@@ -141,14 +141,16 @@ module Quantium.Recruitment.ODataEntities {
         public Profile: string;
         public Department: DepartmentDto;
         public JobDifficultyLabels: Job_Difficulty_LabelDto[];
+        public CreatedByUserId: number;
         constructor();
-        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Difficulty_LabelDto[]);
-        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Difficulty_LabelDto[]){
+        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Difficulty_LabelDto[], CreatedByUserId?: number);
+        constructor(Id?: number, Title?: string, Profile?: string, Department?: DepartmentDto, JobDifficultyLabels?: Job_Difficulty_LabelDto[], CreatedByUserId?: number){
             this.Id = Id;
             this.Title = Title;
             this.Profile = Profile;
             this.Department = Department;
             this.JobDifficultyLabels = JobDifficultyLabels;
+            this.CreatedByUserId = CreatedByUserId;
         }
 
     }
@@ -199,14 +201,16 @@ module Quantium.Recruitment.ODataEntities {
         public Text: string;
         public ImageUrl: string;
         public IsAnswer: boolean;
+        public IsCandidateSelected: boolean;
         constructor();
-        constructor(Id?: number, QuestionId?: number, Text?: string, ImageUrl?: string, IsAnswer?: boolean);
-        constructor(Id?: number, QuestionId?: number, Text?: string, ImageUrl?: string, IsAnswer?: boolean){
+        constructor(Id?: number, QuestionId?: number, Text?: string, ImageUrl?: string, IsAnswer?: boolean, IsCandidateSelected?: boolean);
+        constructor(Id?: number, QuestionId?: number, Text?: string, ImageUrl?: string, IsAnswer?: boolean, IsCandidateSelected?: boolean){
             this.Id = Id;
             this.QuestionId = QuestionId;
             this.Text = Text;
             this.ImageUrl = ImageUrl;
             this.IsAnswer = IsAnswer;
+            this.IsCandidateSelected = IsCandidateSelected;
         }
 
     }
@@ -231,14 +235,16 @@ module Quantium.Recruitment.ODataEntities {
         public Label: LabelDto;
         public DisplayQuestionCount: number;
         public PassingQuestionCount: number;
+        public AnsweredCount: number;
         constructor();
-        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number);
-        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number){
+        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number, AnsweredCount?: number);
+        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number, AnsweredCount?: number){
             this.Id = Id;
             this.Difficulty = Difficulty;
             this.Label = Label;
             this.DisplayQuestionCount = DisplayQuestionCount;
             this.PassingQuestionCount = PassingQuestionCount;
+            this.AnsweredCount = AnsweredCount;
         }
 
     }
@@ -294,9 +300,10 @@ module Quantium.Recruitment.ODataEntities {
         public TotalChallengesDisplayed: number;
         public TotalChallengesAnswered: number;
         public IsTestPassed: boolean;
+        public CreatedByUserId: number;
         constructor();
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean);
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean){
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean, CreatedByUserId?: number);
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean, CreatedByUserId?: number){
             this.Id = Id;
             this.Name = Name;
             this.Challenges = Challenges;
@@ -309,6 +316,7 @@ module Quantium.Recruitment.ODataEntities {
             this.TotalChallengesDisplayed = TotalChallengesDisplayed;
             this.TotalChallengesAnswered = TotalChallengesAnswered;
             this.IsTestPassed = IsTestPassed;
+            this.CreatedByUserId = CreatedByUserId;
         }
 
     }

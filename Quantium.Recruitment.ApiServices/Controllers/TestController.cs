@@ -142,36 +142,135 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             var finishedTestDtos = Mapper.Map<List<TestDto>>(finishedTests);
             finishedTestDtos.ForEach(finishedTestDto =>
             {
-                finishedTestDto.TotalChallengesDisplayed = finishedTestDto.Challenges.Count;
-                var answeredChallenges =
-                    finishedTests.SingleOrDefault(t => t.Id == finishedTestDto.Id).Challenges.Where(c => c.IsAnswered == true);
-
-                int totalRightAnswers = 0;
-
-                finishedTestDto.TotalChallengesAnswered = answeredChallenges.Count();
-
-                foreach (var answeredChallenge in answeredChallenges)
-                {
-                    var answersIds = answeredChallenge.Question.Options.Where(o => o.IsAnswer == true).Select(o => o.Id);
-                    var candidateAnswersIds = answeredChallenge.CandidateSelectedOptions.Select(cso => cso.OptionId);
-
-                    if(answersIds.Intersect(candidateAnswersIds).Count() == answersIds.Count())
-                    {
-                        totalRightAnswers += 1;
-                    }
-                }
-
-                finishedTestDto.TotalRightAnswers = totalRightAnswers;
-                finishedTestDto.IsTestPassed = true;
+                var finishedTest = finishedTests.SingleOrDefault(t => t.Id == finishedTestDto.Id);
+                FillTestDto(finishedTest, finishedTestDto);
             });
 
             return Ok(finishedTestDtos);
         }
 
+        private TestDto FillTestDto(Test finishedTest, TestDto finishedTestDto)
+        {
+            finishedTestDto.TotalChallengesDisplayed = finishedTestDto.Challenges.Count;
+            var answeredChallenges = finishedTest.Challenges.Where(c => c.IsAnswered == true);
+            var jobDiffLabels = Mapper.Map<List<Job_Difficulty_LabelDto>>(finishedTest.Job.JobDifficultyLabels);
+
+            var twoKeyJobDiffLabelMap = jobDiffLabels.Select(jdl => new Job_Difficulty_LabelDto
+            {
+                Label = jdl.Label,
+                Difficulty = jdl.Difficulty,
+                PassingQuestionCount = jdl.PassingQuestionCount,
+                AnsweredCount = 0
+            }).ToList();
+
+            int totalRightAnswers = 0;
+            finishedTestDto.TotalChallengesAnswered = answeredChallenges.Count();
+
+            foreach (var answeredChallenge in answeredChallenges)
+            {
+                var questionLabel = answeredChallenge.Question.Label;
+                var questionDifficulty = answeredChallenge.Question.Difficulty;
+
+                var answersIds = answeredChallenge.Question.Options.Where(o => o.IsAnswer == true).Select(o => o.Id);
+                var candidateAnswersIds = answeredChallenge.CandidateSelectedOptions.Select(cso => cso.OptionId);
+
+                if (answersIds.Intersect(candidateAnswersIds).Count() == answersIds.Count() && answersIds.Count() == candidateAnswersIds.Count())
+                {
+                    totalRightAnswers += 1;
+                    var jobDiffLabel =
+                        twoKeyJobDiffLabelMap.Single(
+                          item =>
+                              item.Difficulty.Id == answeredChallenge.Question.DifficultyId &&
+                              item.Label.Id == answeredChallenge.Question.LabelId);
+
+                    jobDiffLabel.AnsweredCount += 1;
+
+                    }
+
+                var optionDtos = finishedTestDto.Challenges.Single(c => c.Id == answeredChallenge.Id).Question.Options;
+
+                foreach (var option in answeredChallenge.Question.Options)
+                {
+                    if (option.IsAnswer == true && candidateAnswersIds.Contains(option.Id))
+                    {
+                        optionDtos.Single(o => o.Id == option.Id).IsCandidateSelected = true;
+                    }
+                }
+            }
+
+            finishedTestDto.TotalRightAnswers = totalRightAnswers;
+            finishedTestDto.IsTestPassed = true;
+
+            foreach (var item in twoKeyJobDiffLabelMap)
+            {
+                if (item.PassingQuestionCount != item.AnsweredCount)
+                {
+                    finishedTestDto.IsTestPassed = false;
+                    break;
+                }
+            }
+
+            return finishedTestDto;
+        }
+
+
+        private void IsTestPassed(Test finishedTest, TestDto finishedTestDto)
+        {
+            var jobDiffLabels = Mapper.Map<List<Job_Difficulty_LabelDto>>(finishedTest.Job.JobDifficultyLabels);
+
+            var answeredChallenges = finishedTest.Challenges.Where(c => c.IsAnswered == true);
+
+            int totalRightAnswers = 0;
+
+            var twoKeyJobDiffLabelMap = jobDiffLabels.Select(jdl => new Job_Difficulty_LabelDto
+            {
+                Label = jdl.Label,
+                Difficulty = jdl.Difficulty,
+                PassingQuestionCount = jdl.PassingQuestionCount,
+                AnsweredCount = 0
+            });
+
+            foreach (var answeredChallenge in answeredChallenges)
+            {
+                var questionLabel = answeredChallenge.Question.Label;
+                var questionDifficulty = answeredChallenge.Question.Difficulty;
+
+                var answersIds = answeredChallenge.Question.Options.Where(o => o.IsAnswer == true).Select(o => o.Id);
+                var candidateAnswersIds = answeredChallenge.CandidateSelectedOptions.Select(cso => cso.OptionId);
+
+                if (answersIds.Intersect(candidateAnswersIds).Count() == answersIds.Count() && answersIds.Count() == candidateAnswersIds.Count())
+                {
+                    totalRightAnswers += 1;
+                    twoKeyJobDiffLabelMap.Single(
+                        item =>
+                            item.Difficulty.Id == answeredChallenge.Question.DifficultyId &&
+                            item.Label.Id == answeredChallenge.Question.LabelId).AnsweredCount += 1;
+                }
+            }
+
+            
+
+            
+        }
+
         [HttpGet]
         public IHttpActionResult GetTestById([FromUri]long id)
         {
-            var finishedTestDto = Mapper.Map<TestDto>(_testRepository.GetAll().SingleOrDefault(t => t.Id == id));
+            var testDto = Mapper.Map<TestDto>(_testRepository.GetAll().SingleOrDefault(t => t.Id == id));
+            return Ok(testDto);
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetFinishedTestById([FromUri]long id)
+        {
+            var finishedTest = _testRepository.GetAll().SingleOrDefault(t => t.Id == id && t.IsFinished == true);
+
+            if (finishedTest == null)
+                throw new Exception("Finished test not found");
+
+            var finishedTestDto = Mapper.Map<TestDto>(finishedTest);
+            FillTestDto(finishedTest, finishedTestDto);
+
             return Ok(finishedTestDto);
         }
 

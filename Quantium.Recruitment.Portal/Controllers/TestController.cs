@@ -68,6 +68,13 @@ namespace Quantium.Recruitment.Portal.Controllers
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
 
+        [HttpGet]
+        public IActionResult GetFinishedTestById([FromUri]long id)
+        {
+            var response = _helper.GetData("/api/Test/GetFinishedTestById?id=" + id);
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
         [HttpPost]
         public HttpResponseMessage FinishTest([FromBody]long id)
         {

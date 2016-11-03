@@ -77,6 +77,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public string Profile;
         public DepartmentDto Department;
         public List<Job_Difficulty_LabelDto> JobDifficultyLabels;
+        public long CreatedByUserId;
 
     }
 
@@ -106,6 +107,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public string Text;
         public string ImageUrl;
         public bool IsAnswer;
+        public bool IsCandidateSelected;
 
     }
 
@@ -122,6 +124,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public LabelDto Label;
         public Int32 DisplayQuestionCount;
         public Int32 PassingQuestionCount;
+        public Int32 AnsweredCount;
 
     }
 
@@ -157,6 +160,7 @@ namespace Quantium.Recruitment.ApiServiceModels {
         public Int32 TotalChallengesDisplayed;
         public Int32 TotalChallengesAnswered;
         public bool IsTestPassed;
+        public long CreatedByUserId;
 
     }
 

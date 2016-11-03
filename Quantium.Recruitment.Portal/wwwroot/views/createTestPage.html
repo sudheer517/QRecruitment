@@ -27,15 +27,23 @@
                     </md-input-container>
                 </div>
                 <div ng-hide="selectedJobId == 0">
-                    <h4 ng-show="totalQuestionsInSelectedJob">Total questions in selected job: {{totalQuestionsInSelectedJob}}</h4>
-                    <h4 ng-show="totalCorrectAnswersInSelectedJob">Total right answers to pass the test: {{totalCorrectAnswersInSelectedJob}}</h4>
-                    <div ng-repeat="jobDifficultyLabel in selectedJob.JobDifficultyLabels">
-                        <md-chips>
-                            <md-chip>{{jobDifficultyLabel.Label.Name}}</md-chip>
-                            <md-chip>Difficulty - {{jobDifficultyLabel.Difficulty.Name}}</md-chip>
-                            <md-chip>Questions - {{jobDifficultyLabel.DisplayQuestionCount}}</md-chip>
-                            <md-chip>Passing criteria - {{jobDifficultyLabel.PassingQuestionCount}}</md-chip>
-                        </md-chips>
+                    <div layout="row">
+                        <div flex-gt-sm="35">
+                            <h4 ng-show="totalQuestionsInSelectedJob">Total questions in selected job: {{totalQuestionsInSelectedJob}}</h4>
+                            <h4 ng-show="totalCorrectAnswersInSelectedJob">Total right answers to pass the test: {{totalCorrectAnswersInSelectedJob}}</h4>
+                        </div>
+                        <div flex-gt-sm="50">
+                            <div>
+                                <div ng-repeat="jobDifficultyLabel in selectedJob.JobDifficultyLabels">
+                                    <md-chips>
+                                        <md-chip>{{jobDifficultyLabel.Label.Name}}</md-chip>
+                                        <md-chip>Difficulty - {{jobDifficultyLabel.Difficulty.Name}}</md-chip>
+                                        <md-chip>Questions - {{jobDifficultyLabel.DisplayQuestionCount}}</md-chip>
+                                        <md-chip>Passing criteria - {{jobDifficultyLabel.PassingQuestionCount}}</md-chip>
+                                    </md-chips>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </md-card-content>

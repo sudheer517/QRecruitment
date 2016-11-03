@@ -1,8 +1,11 @@
 ﻿module Recruitment.Controllers {
 
     import TestDto = Quantium.Recruitment.ODataEntities.TestDto;
+    import OptionDto = Quantium.Recruitment.ODataEntities.OptionDto;
+    import ChallengeDto = Quantium.Recruitment.ODataEntities.ChallengeDto;
     export interface ITestResultsControllerScope extends ng.IScope {
         test: TestDto;
+        hasCandidateSelected: (option: OptionDto, currentChallenge: ChallengeDto) => boolean;
     }
 
     export class TestResultsController {
@@ -18,6 +21,7 @@
             else {
                 this.$scope.test = stateParamTest;
             }
+            this.$scope.hasCandidateSelected = (option, currentChallenge) => this.hasCandidateSelected(option, currentChallenge);
             //this.getAllFinishedTests();
             //this.$scope.getTestDetails = (selectedTest) => this.getTestDetails(selectedTest);
             //console.log("brah");
@@ -26,8 +30,16 @@
             //console.log(this.$state.params);
         }
 
+        private hasCandidateSelected(option: OptionDto, currentChallenge: ChallengeDto): boolean {
+            var test = this.$scope.test;
+            if (currentChallenge.CandidateSelectedOptions.filter(cso => cso.OptionId === option.Id).length == 1)
+                return true;
+
+            return false;
+        }
+
         private getTestById(testId: number): void {
-            this.$testService.getTestById(testId).then(
+            this.$testService.getFinishedTestById(testId).then(
                 success => {
                     this.$scope.test = success.data;
                     console.log(success.data);

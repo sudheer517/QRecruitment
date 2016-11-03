@@ -17,5 +17,7 @@ namespace Quantium.Recruitment.ApiServices.Models
         public int DisplayQuestionCount { get; set; }
 
         public int PassingQuestionCount { get; set; }
+
+        public int AnsweredCount { get; set; }
     }
 }

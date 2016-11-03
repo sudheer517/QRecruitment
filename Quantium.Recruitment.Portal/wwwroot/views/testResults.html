@@ -8,10 +8,17 @@
         </h1>
     </div>
 </md-toolbar>
-<div layout="column">
-    <md-content>
-        <div layout="row">
+<div layout="column" class="fill-height">
+    <md-content class="">
+        <div layout="row" layout-wrap>
             <md-card>
+                <md-toolbar md-theme="grey-variant" class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h5 class="justify-self-center">
+                            Candidate Information
+                        </h5>
+                    </div>
+                </md-toolbar>
                 <md-card-content>
                     <h4><i class="fa fa-user"></i> Name : {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</h4>
                     <h5><i class="fa fa-envelope"></i> Email : {{test.Candidate.Email}}</h5>
@@ -22,41 +29,70 @@
                 </md-card-content>
             </md-card>
             <md-card>
+                <md-toolbar md-theme="grey-variant" class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h5 class="justify-self-center">
+                            Education & Experience
+                        </h5>
+                    </div>
+                </md-toolbar>
                 <md-card-content>
                     <h5><i class="fa fa-hourglass-end"></i> Branch : {{test.Candidate.Branch}}</h5>
                     <h5><i class="fa fa-hourglass-end"></i> College : {{test.Candidate.College}}</h5>
                     <h5><i class="fa fa-hourglass-end"></i> Passing Year : {{test.Candidate.PassingYear}}</h5>
-                </md-card-content>
-            </md-card>
-            <md-card>
-                <md-card-content>
-                    <h5><i class="fa fa-hourglass-end"></i> Experience : {{test.Candidate.ExperienceInYears}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Experience : {{test.Candidate.ExperienceInYears}} years</h5>
                     <h5><i class="fa fa-hourglass-end"></i> Current company : {{test.Candidate.CurrentCompany}}</h5>
                 </md-card-content>
             </md-card>
             <md-card>
+                <md-toolbar md-theme="grey-variant" class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <h5 class="justify-self-center">
+                            Test Details
+                        </h5>
+                    </div>
+                </md-toolbar>
                 <md-card-content>
                     <h5><i class="fa fa-hourglass-end"></i> Job applied for: {{test.Job.Title}}</h5>
                     <h5><i class="fa fa-hourglass-end"></i> Test Finished on : {{test.FinishedDate | date}}</h5>
-                </md-card-content>
-            </md-card>
-            <md-card>
-                <md-card-content>
-                    <h5><i class="fa fa-hourglass-end"></i> Total Questions displayed : </h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Total Questions answered :</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Total right answers :</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Test result : </h5>
-
+                    <h5><i class="fa fa-hourglass-end"></i> Total Questions displayed : {{test.Challenges.length}} </h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Total Questions answered : {{test.TotalChallengesAnswered}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Total right answers : {{test.TotalRightAnswers}}</h5>
+                    <h5><i class="fa fa-hourglass-end"></i> Test result : <span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h5>
                 </md-card-content>
             </md-card>
         </div>
         <div>
-            <md-card>
-                <h3 class="padding-left-6">Questions displayed to candidate</h3>
-                <md-card-content>
-                    <h5 ng-repeat="challenge in test.Challenges"><i class="fa fa-star"></i> {{challenge.Question.Text}}</h5>
+            <md-content>
+                <md-toolbar md-theme="deep-orange" class="">
+                    <div class="md-toolbar-tools">
+                        <h1 class="justify-self-center">
+                            Questions displayed to candidate
+                        </h1>
+                        <!--<md-button class="md-icon-button">
+                            <md-icon md-svg-icon="print"></md-icon>
+                        </md-button>-->
+                    </div>
+                </md-toolbar>
+                <md-card-content  class="finishedTestQuestions" id="finishedTestQuestionsDisplay">
+                    
+                    <div ng-repeat="challenge in test.Challenges">
+                        <md-card>
+                            <md-card-content>
+                                <h4 ng-if="challenge.Question.QuestionGroup.Description"><i class="fa fa-star"></i> {{challenge.Question.QuestionGroup.Description}}</h4>
+                                <h4><i class="fa fa-star"></i> {{challenge.Question.Text}}</h4>
+                                <div ng-repeat="option in challenge.Question.Options">
+                                    <md-chips>
+                                        <md-chip ng-show="option.IsAnswer">Right Answer</md-chip>
+                                        <md-chip ng-show="hasCandidateSelected(option, challenge)">CandidateSelected</md-chip>
+                                    </md-chips>
+                                    <h4 class="finishedTestQuestionOption" ng-class="{'green-color': option.IsAnswer,'blue-color': option.IsCandidateSelected ,'red-color': hasCandidateSelected(option, challenge)}"><i class="fa fa-caret-right"></i>{{option.Text}}- {{option.IsAnswer}}</h4>
+                                </div>
+                            </md-card-content>
+                        </md-card>
+                    </div>
                 </md-card-content>
-            </md-card>
+            </md-content>
         </div>
     </md-content>
 

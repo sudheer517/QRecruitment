@@ -84,13 +84,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 return Ok("Finished");
             }
 
-            currentChallenge.Question.Options.ForEach(o => o.IsAnswer = false);
             var currentChallengeDto = Mapper.Map<ChallengeDto>(currentChallenge);
 
             currentChallengeDto.RemainingChallenges = notSentChallenges.Count() - 1;
             currentChallengeDto.currentChallenge = totalCount - notSentChallenges.Count() + 1;
             currentChallengeDto.ChallengesAnswered = totalChallengesAnswered;
-            if(currentChallengeDto.RemainingChallenges == 0)
+            currentChallengeDto.Question.Options.ForEach(o => o.IsAnswer = false);
+
+            if (currentChallengeDto.RemainingChallenges == 0)
             {
                 test.IsFinished = true;
                 test.FinishedDate = DateTime.UtcNow;
