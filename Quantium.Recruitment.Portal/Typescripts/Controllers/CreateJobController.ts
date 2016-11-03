@@ -21,6 +21,7 @@ module Recruitment.Controllers {
         questionDifficultyLabels: QuestionDifficultyLabelDto[];
         showAvailableQuestions(jobDifficultyLabel: any): void;
         isQuestionsFound: boolean;
+        toggleSidenav(): void;
     }
     export class SelectedOptions {
         public labelIds: boolean[];
@@ -42,7 +43,8 @@ module Recruitment.Controllers {
             private $state: ng.ui.IStateService,
             private $mdToast: ng.material.IToastService,
             private $questionService: Services.QuestionService,
-            private $timeout: ng.ITimeoutService) {
+            private $timeout: ng.ITimeoutService,
+            private $mdSidenav: ng.material.ISidenavService) {
 
                 this.getDepartments();
                 this.getLabels();
@@ -55,7 +57,12 @@ module Recruitment.Controllers {
                 this.$scope.removeJobDifficultyLabel = (index) => this.removeJobDifficultyLabel(index);
                 this.$scope.addJobDifficultyLabel = () => this.addJobDifficultyLabel();
                 this.getQuestionDifficultyLabels();
+                this.$scope.toggleSidenav = () => this.toggleSidenav();
                 this.$scope.showAvailableQuestions = (jobDifficultyLabel: any) => this.showAvailableQuestions(jobDifficultyLabel);
+        }
+
+        private toggleSidenav(): void {
+            this.$mdSidenav("left").toggle();
         }
 
         private showAvailableQuestions(jobDifficultyLabel: any): void {

@@ -9,6 +9,7 @@ module Recruitment.Controllers {
         saveChanges: () => void;
         admin: AdminDto;
         departmentList: DepartmentDto[];
+        toggleSidenav(): void;
     }
 
     export class AdminController {
@@ -19,14 +20,20 @@ module Recruitment.Controllers {
             private $departmentService: Services.DepartmentService,
             private $state: ng.ui.IStateService,
             private $mdToast: ng.material.IToastService,
-            private $mdDialog: ng.material.IDialogService) {
+            private $mdDialog: ng.material.IDialogService,
+            private $mdSidenav: ng.material.ISidenavService) {
 
             this.getDepartmentList();
             //this.getAdminList();
             this.$scope.admin = new Quantium.Recruitment.ODataEntities.AdminDto();
             this.$scope.saveChanges = () => this.saveChanges();
+            this.$scope.toggleSidenav = () => this.toggleSidenav();
             //this.$scope.edit = (admin: adminModel) => this.edit(admin);
             //this.$scope.delete = (admin: adminModel) => this.delete(admin);
+        }
+
+        private toggleSidenav(): void {
+            this.$mdSidenav("left").toggle();
         }
 
         private showAdminCreationStatusDialog(): void {

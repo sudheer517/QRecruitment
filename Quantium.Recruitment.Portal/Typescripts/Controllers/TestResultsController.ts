@@ -6,6 +6,7 @@
     export interface ITestResultsControllerScope extends ng.IScope {
         test: TestDto;
         hasCandidateSelected: (option: OptionDto, currentChallenge: ChallengeDto) => boolean;
+        toggleSidenav(): void;
     }
 
     export class TestResultsController {
@@ -13,7 +14,8 @@
         constructor(
             private $scope: ITestResultsControllerScope,
             private $testService: Recruitment.Services.TestService,
-            private $state: ng.ui.IStateService) {
+            private $state: ng.ui.IStateService,
+            private $mdSidenav: ng.material.ISidenavService) {
             var stateParamTest = <TestDto>this.$state.params['selectedTest'];
             if (!stateParamTest) {
                 this.getTestById(this.$state.params['selectedTestId']);
@@ -22,12 +24,17 @@
                 this.$scope.test = stateParamTest;
             }
             this.$scope.hasCandidateSelected = (option, currentChallenge) => this.hasCandidateSelected(option, currentChallenge);
+            this.$scope.toggleSidenav = () => this.toggleSidenav();
             //this.getAllFinishedTests();
             //this.$scope.getTestDetails = (selectedTest) => this.getTestDetails(selectedTest);
             //console.log("brah");
             //console.log(this.$scope);
             //console.log(this.$stateParams["selectedTest"]);
             //console.log(this.$state.params);
+        }
+
+        private toggleSidenav(): void {
+            this.$mdSidenav("left").toggle();
         }
 
         private hasCandidateSelected(option: OptionDto, currentChallenge: ChallengeDto): boolean {

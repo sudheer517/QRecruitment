@@ -94,7 +94,7 @@ module Recruitment.Routes {
 
                     .state("dashboard",
                     {
-                        url: "/dashboard", controller: Controllers.FirstController, templateUrl: "/views/dashboard.html"
+                        url: "/dashboard", controller: Controllers.DashboardController, templateUrl: "/views/dashboard.html"
                     })
 
                     .state("candidateDetails",

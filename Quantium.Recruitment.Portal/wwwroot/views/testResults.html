@@ -1,6 +1,6 @@
 ﻿<md-toolbar>
     <div class="md-toolbar-tools">
-        <md-button hide-gt-sm class="md-icon-button">
+        <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenav()">
             <md-icon md-svg-icon="menu"></md-icon>
         </md-button>
         <h1 class="justify-self-center">
@@ -23,9 +23,9 @@
                     <h4><i class="fa fa-user"></i> Name : {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</h4>
                     <h5><i class="fa fa-envelope"></i> Email : {{test.Candidate.Email}}</h5>
                     <h5><i class="fa fa-mobile fa-2x"></i> Mobile: {{test.Candidate.Mobile}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> City : {{test.Candidate.City}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> State : {{test.Candidate.State}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Country: {{test.Candidate.Country}}</h5>
+                    <h5><i class="fa fa-map-signs"></i> City : {{test.Candidate.City}}</h5>
+                    <h5><i class="fa fa-map-pin"></i> State : {{test.Candidate.State}}</h5>
+                    <h5><i class="fa fa-map-marker"></i> Country: {{test.Candidate.Country}}</h5>
                 </md-card-content>
             </md-card>
 
@@ -38,11 +38,11 @@
                     </div>
                 </md-toolbar>
                 <md-card-content>
-                    <h5><i class="fa fa-hourglass-end"></i> Branch : {{test.Candidate.Branch}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> College : {{test.Candidate.College}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Passing Year : {{test.Candidate.PassingYear}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Experience : {{test.Candidate.ExperienceInYears}} years</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Current company : {{test.Candidate.CurrentCompany}}</h5>
+                    <h5><i class="fa fa-universal-access"></i> Branch : {{test.Candidate.Branch}}</h5>
+                    <h5><i class="fa fa-bank"></i> College : {{test.Candidate.College}}</h5>
+                    <h5><i class="fa fa-star"></i> Passing Year : {{test.Candidate.PassingYear}}</h5>
+                    <h5><i class="fa fa-road"></i> Experience : {{test.Candidate.ExperienceInYears}} years</h5>
+                    <h5><i class="fa fa-industry"></i> Current company : {{test.Candidate.CurrentCompany}}</h5>
                 </md-card-content>
             </md-card>
 
@@ -55,12 +55,12 @@
                     </div>
                 </md-toolbar>
                 <md-card-content>
-                    <h5><i class="fa fa-hourglass-end"></i> Job applied for: {{test.Job.Title}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Test Finished on : {{test.FinishedDate | date}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Total Questions displayed : {{test.Challenges.length}} </h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Total Questions answered : {{test.TotalChallengesAnswered}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Total right answers : {{test.TotalRightAnswers}}</h5>
-                    <h5><i class="fa fa-hourglass-end"></i> Test result : <span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h5>
+                    <h5><i class="fa fa-info-circle"></i> Job applied for: {{test.Job.Title}}</h5>
+                    <h5><i class="fa fa-info-circle"></i> Test Finished on : {{test.FinishedDate | date}}</h5>
+                    <h5><i class="fa fa-info-circle"></i> Total Questions displayed : {{test.Challenges.length}} </h5>
+                    <h5><i class="fa fa-info-circle"></i> Total Questions answered : {{test.TotalChallengesAnswered}}</h5>
+                    <h5><i class="fa fa-info-circle"></i> Total right answers : {{test.TotalRightAnswers}}</h5>
+                    <h5><i class="fa fa-info-circle"></i> Test result : <span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h5>
                 </md-card-content>
             </md-card>
         </div>

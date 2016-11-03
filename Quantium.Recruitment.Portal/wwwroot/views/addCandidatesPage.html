@@ -1,9 +1,9 @@
 ﻿<md-toolbar>
     <div class="md-toolbar-tools">
-        <md-button hide-gt-sm class="md-icon-button">
+        <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenav()">
             <md-icon md-svg-icon="menu"></md-icon>
         </md-button>
-        <h1>
+        <h1 class="justify-self-center">
             Add Candidates
         </h1>
     </div>
@@ -57,7 +57,7 @@
 
                                     <br /><br />
                                     <h2 class="fileUpload">Upload candidates csv file:</h2>
-                                    <lf-ng-md-file-input accept=".csv,text/csv" lf-files="files01" lf-api="api01" class="fileUpload" flex="50"></lf-ng-md-file-input>
+                                    <lf-ng-md-file-input accept=".csv,text/csv" lf-files="files01" lf-api="api01" class="fileUpload" flex-gt-sm="50"></lf-ng-md-file-input>
                                     <br /><br />
                                     <md-button ng-disabled="files01.length > 0 ? false : true" class="md-accent md-raised" ng-click="showPrerenderedDialog($event)">
                                         Preview Candidates

@@ -10,17 +10,23 @@ module Recruitment.Controllers {
         selectedTest: TestDto;
         logout(): void;
         getTestDetails(test: TestDto): void;
+        toggleSidenav(): void;
     }
-
 
     export class CandidateTestListController {
         constructor(
             private $scope: ICandidateTestListControllerScope,
             private $testService: Recruitment.Services.TestService,
             private $state: ng.ui.IStateService,
-            private $stateParams: ng.ui.IStateParamsService) {
+            private $stateParams: ng.ui.IStateParamsService,
+            private $mdSidenav: ng.material.ISidenavService) {
             this.getAllFinishedTests();
             this.$scope.getTestDetails = (selectedTest) => this.getTestDetails(selectedTest);
+            this.$scope.toggleSidenav = () => this.toggleSidenav();
+        }
+
+        private toggleSidenav(): void {
+            this.$mdSidenav("left").toggle();
         }
 
         private getAllFinishedTests(): void {

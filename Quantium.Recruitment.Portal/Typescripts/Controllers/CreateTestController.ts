@@ -17,6 +17,7 @@ module Recruitment.Controllers {
         sendTest: () => void;
         testGenerationResult: boolean;
         hasSelectedAtleastOneCandidate: boolean;
+        toggleSidenav(): void;
     }
 
     class SelectedTestOptions {
@@ -36,14 +37,20 @@ module Recruitment.Controllers {
             private $mdDialog: ng.material.IDialogService,
             private $mdToast: ng.material.IToastService,
             private $timeout: ng.ITimeoutService,
-            private $state: ng.ui.IStateService) {
+            private $state: ng.ui.IStateService,
+            private $mdSidenav: ng.material.ISidenavService) {
             this.getJobs();
             this.getCandidates();
             this.$scope.selectedtestOptions = new SelectedTestOptions();
             this.$scope.changeSelectedJob = (selectedJob) => this.changeSelectedJob(selectedJob);
             this.$scope.generateTest = () => this.generateTest();
             this.$scope.sendTest = () => this.sendTest();
+            this.$scope.toggleSidenav = () => this.toggleSidenav();
             this.$scope.$watchCollection(() => this.$scope.selectedtestOptions.candidateIds, () => this.updateSelectedCandidateCount());
+        }
+
+        private toggleSidenav(): void {
+            this.$mdSidenav("left").toggle();
         }
 
         private updateSelectedCandidateCount(): void {

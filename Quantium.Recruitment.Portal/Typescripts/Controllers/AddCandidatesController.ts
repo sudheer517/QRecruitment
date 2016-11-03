@@ -19,6 +19,7 @@ module Recruitment.Controllers {
         showPrerenderedDialog: (event: any) => void;
         files01: any;
         validateEmail: any;
+        toggleSidenav(): void;
     }
 
     export class AddCandidatesController {
@@ -32,7 +33,8 @@ module Recruitment.Controllers {
             private $candidateService: Recruitment.Services.CandidateService,
             private $state: ng.ui.IStateService,
             private $mdToast: ng.material.IToastService,
-            private $mdDialog: ng.material.IDialogService) {
+            private $mdDialog: ng.material.IDialogService,
+            private $mdSidenav: ng.material.ISidenavService) {
             this.$scope.candidatesArray = {
                  candidates: []
             };
@@ -45,6 +47,11 @@ module Recruitment.Controllers {
             this.$scope.previewCandidatesModel = [];
             this.$scope.showPrerenderedDialog = (event) => this.showPrerenderedDialog(event);
             this.$scope.validateEmail = (input) => this.validateEmail(input);
+            this.$scope.toggleSidenav = () => this.toggleSidenav();
+        }
+
+        private toggleSidenav(): void {
+            this.$mdSidenav("left").toggle();
         }
 
         private showPrerenderedDialog(ev: any): void {

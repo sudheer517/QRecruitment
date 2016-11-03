@@ -19,6 +19,7 @@ module Recruitment.Controllers {
         nextQuestion: () => void;
         finishTest: () => void;
         logout: () => void;
+        toggleSidenav(): void;
     }
 
     class SelectedQuestionOptions {
@@ -44,7 +45,8 @@ module Recruitment.Controllers {
             private $state: ng.ui.IStateService,
             private $timeout: ng.ITimeoutService,
             private $testService: Recruitment.Services.TestService,
-            private $mdToast: ng.material.IToastService) {
+            private $mdToast: ng.material.IToastService,
+            private $mdSidenav: ng.material.ISidenavService) {
             this.getNextChallenge();
             this.$scope.fillAndPostChallenge = () => this.fillAndPostChallenge();
             this.$scope.selection = [];
@@ -52,6 +54,7 @@ module Recruitment.Controllers {
             this.$scope.nextQuestion = () => this.nextQuestion();
             this.$scope.finishTest = () => this.finishTest();
             this.$scope.logout = () => this.logout();
+            this.$scope.toggleSidenav = () => this.toggleSidenav();
         }
 
         private logout(): void {

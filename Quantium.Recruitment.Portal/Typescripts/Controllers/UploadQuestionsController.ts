@@ -17,6 +17,7 @@ module Recruitment.Controllers {
         previewQuestionModels: Question[];
         files01: any;
         showPrerenderedDialog: (event: any) => void;
+        toggleSidenav(): void;
     }
 
     export class UploadQuestionsController {
@@ -27,11 +28,17 @@ module Recruitment.Controllers {
             private $timeout: ng.ITimeoutService,
             private $mdDialog: ng.material.IDialogService,
             private $mdToast: ng.material.IToastService,
-            private $state: ng.ui.IStateService) {
+            private $state: ng.ui.IStateService,
+            private $mdSidenav: ng.material.ISidenavService) {
             this.$scope.saveChanges = () => this.saveChanges();
             this.$scope.previewQuestions = () => this.previewQuestions();
             this.$scope.previewQuestionModels = [];
             this.$scope.showPrerenderedDialog = (event) => this.showPrerenderedDialog(event);
+            this.$scope.toggleSidenav = () => this.toggleSidenav();
+        }
+
+        private toggleSidenav(): void {
+            this.$mdSidenav("left").toggle();
         }
 
         private showPrerenderedDialog(ev: any): void {
