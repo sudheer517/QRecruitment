@@ -11,6 +11,8 @@ namespace Quantium.Recruitment.DbInitialize
             var dataSeeder = container.Resolve<IDataSeeder>();
 
             Console.WriteLine("Beginning database initialization");
+
+            dataSeeder.DeleteEntries();
             dataSeeder.Seed();
             Console.WriteLine("DB initialization finished. Press any key to exit bro !");
             Console.ReadKey();

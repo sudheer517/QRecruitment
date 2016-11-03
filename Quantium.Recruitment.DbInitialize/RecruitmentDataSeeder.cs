@@ -8,6 +8,7 @@ namespace Quantium.Recruitment.DbInitialize
     public interface IDataSeeder
     {
         void Seed();
+        void DeleteEntries();
     }
     public class DataSeeder: IDataSeeder
     {
@@ -15,6 +16,11 @@ namespace Quantium.Recruitment.DbInitialize
         public DataSeeder(IRecruitmentContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public void DeleteEntries()
+        {
+            _dbContext.GetDatabase().Delete();
         }
 
         public void Seed()
