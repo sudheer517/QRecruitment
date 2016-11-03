@@ -175,9 +175,31 @@ module Recruitment.Controllers {
         public saveChanges(): void {
             var file: any = this.$scope.files01[0].lfFile;
             var fileReader = new FileReader();
+            var isDataValid = true;
 
-            if (this.validateFormat(file)) {
-                this.uploadFile();
+            if (file && this.validateFormat(file)) {
+                var fileReader = new FileReader();
+                fileReader.readAsText(file);
+
+                fileReader.onload = (event: any) => {
+                    var csv = event.target.result;
+                    var allLines: string[] = csv.split(/\r|\n/);
+                    allLines = allLines.filter(line => line.length > 0);
+                    
+                    var headers: string[] = allLines[0].split(",");
+
+                    for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
+                        var columns: string[] = allLines[csvLine].split(",");
+                        if (!(this.validateQuestions(columns, headers))) {
+                            isDataValid = false;
+                            this.showToast("column with id " + columns[0] + " has some invlaid data");
+                            break;
+                        }
+                    }
+                    if (isDataValid) {
+                        this.uploadFile();
+                    }
+                }
             }
             else {
                 this.showToast("Please upload csv file");

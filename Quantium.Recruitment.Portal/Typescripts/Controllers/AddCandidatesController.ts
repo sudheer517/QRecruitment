@@ -22,8 +22,6 @@ module Recruitment.Controllers {
     }
 
     export class AddCandidatesController {
-        private isDataValidated: boolean;
-
         constructor(
             private $scope: ICandidatesControllerScope,
             private $log: ng.ILogService,
@@ -156,6 +154,7 @@ module Recruitment.Controllers {
         public saveChanges(): void {
             var file: any = this.$scope.files01[0].lfFile;
             var fileReader = new FileReader();
+            var isDataValidated = true;
 
             if (this.validateFormat(file)) {
                 fileReader.readAsText(file);
@@ -164,18 +163,16 @@ module Recruitment.Controllers {
                     var allLines: string[] = csv.split(/\r|\n/);
                     allLines = allLines.filter(line => line.length > 0);
 
-                    this.isDataValidated = true;
-
                     for (var csvLine = 1; csvLine < allLines.length; csvLine++) {
                         var columns: string[] = allLines[csvLine].split(",");
 
                         if (!this.validateEmail(columns[3])) {
                             this.showToast("Email format is not correct, check preview for more details");
-                            this.isDataValidated = false;
+                            isDataValidated = false;
                         }
                     }
 
-                    if (this.isDataValidated) {
+                    if (isDataValidated) {
                         this.uploadFile(file);
                     }
                 }
