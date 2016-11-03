@@ -69,7 +69,7 @@ module Recruitment.Controllers {
                    this.showToast("Candidate(s) added successfully");
                    this.$timeout(() => {
                        this.$state.go("dashboard");
-                   }, 1500);                 
+                   }, 500);                 
                    console.log(response);
                },
                error => {
@@ -97,7 +97,7 @@ module Recruitment.Controllers {
                     this.showToast("Candidate(s) added successfully");
                     this.$timeout(() => {
                         this.$state.go("dashboard");
-                    }, 1500);
+                    }, 500);
                 }, error => {
                     if (error.status > 0)
                         this.showToast(error.status + ': ' + error.data);
@@ -189,7 +189,7 @@ module Recruitment.Controllers {
                 .highlightAction(true)
                 .highlightClass('md-accent')// Accent is used by default, this just demonstrates the usage.
                 .position("top right")
-                .hideDelay(2000);
+                .hideDelay(3000);
 
             this.$mdToast.show(toast).then(response => {
                 if (response == 'ok') {
