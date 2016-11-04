@@ -1,1 +1,44 @@
-﻿<p> you have no active tests bro!!</p>
+﻿<div layout="column" flex>
+    <md-toolbar>
+        <div class="md-toolbar-tools qlogo" layout-gt-md="row" layout-lt-md="column" layout-align="center center">
+                <md-button class="md-icon-button">
+                    <md-icon md-svg-icon="logo" class=""></md-icon>
+                </md-button>
+        </div>
+    </md-toolbar>
+    <md-content flex layout-align="center start">
+        <div layout="row" flex="100" flex-gt-sm="60">
+            <div layout="column" class="fill">
+                <div>
+                    <md-card md-theme="dark-grey" md-theme-watch>
+                        <md-card-content  class="justify-self-center">
+                            <h2>
+                                Recruitment Test
+                            </h2>
+                        </md-card-content>
+                    </md-card>
+                </div>
+                <div>
+                    <md-card>
+                        <md-card-content>
+                            <div layout="column">
+                                <md-list class="no-pointer ">
+                                    <md-subheader class="md-no-sticky text-align-center instructions">Welcome <b>{{candidateName}}</b></md-subheader>
+                                    <md-list-item class="md-3-line" ng-click="null">
+                                        <div class="md-list-item-text" layout="column">
+                                            <ul>
+                                                <li><b>You don't have any active tests at the moment</b></li>
+                                                <li>Please wait while we evaluate your test</li>
+                                            </ul>
+                                        </div>
+                                    </md-list-item>
+                                </md-list>
+                            </div>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</div>
+

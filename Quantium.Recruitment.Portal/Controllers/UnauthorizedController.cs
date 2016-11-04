@@ -10,22 +10,26 @@ namespace Quantium.Recruitment.Portal.Controllers
     {
         public IActionResult NotActive()
         {
-            return Ok("You are no longer Active dude");
+            ViewBag.UserMessage = "You are no longer active in our system";
+            return View("Restricted");
         }
 
         public IActionResult NotRegistered()
         {
-            return Ok("You are not registered in our system. Please contact admin@quantium.com for assistance UserCreationError");
+            ViewBag.UserMessage = "You are not registered in our system";
+            return View("Restricted");
         }
 
         public IActionResult UserCreationError()
         {
-            return Ok("Error occurred during user creation. Please contact admin@quantium.com for assistance");
+            ViewBag.UserMessage = "Error occurred during user creation";
+            return View("Restricted");
         }
 
         public IActionResult DuplicateUserError()
         {
-            return Ok("A user with the given email from another social login provider already exits in our system. Please contact admin@quantium.com for assistance");
+            ViewBag.UserMessage = "A user with the given email from another social login provider already exits in our system";
+            return View("Restricted");
         }
     }
 }

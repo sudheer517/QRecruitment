@@ -116,7 +116,7 @@ module Recruitment.Routes {
 
                     .state("candidateHome",
                     {
-                        url: "/candidateHome", controller: Controllers.FirstController, templateUrl: "/views/candidateHomePage.html",
+                        url: "/candidateHome", controller: Controllers.CandidateHomeController, templateUrl: "/views/candidateHomePage.html",
                         resolve: {
                             hasActiveTest: ($testService: Recruitment.Services.TestService, $state: ng.ui.IStateService) => {
                                 return $testService.hasActiveTestForCandidate()

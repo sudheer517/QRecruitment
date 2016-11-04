@@ -38,6 +38,7 @@ module Recruitment {
                 $mdIconProvider.icon("close", "../img/close.svg", 24);
                 $mdIconProvider.icon("add", "../img/add.svg", 24);
                 $mdIconProvider.icon("print", "../img/print.svg", 24);
+                $mdIconProvider.icon("logo", "../img/logo2.svg", 24);
                 $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('blue');
                 $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
                 $mdThemingProvider.theme('grey-variant').primaryPalette('grey').accentPalette('cyan');

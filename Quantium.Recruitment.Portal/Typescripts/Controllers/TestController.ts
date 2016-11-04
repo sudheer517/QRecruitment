@@ -57,6 +57,10 @@ module Recruitment.Controllers {
             this.$scope.toggleSidenav = () => this.toggleSidenav();
         }
 
+        private toggleSidenav(): void {
+            this.$mdSidenav("left").toggle();
+        }
+
         private logout(): void {
             this.$testService.logout().then(
                 success => {

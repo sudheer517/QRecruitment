@@ -59,6 +59,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(Mapper.Map<CandidateDto>(candidate));
         }
 
+        [HttpGet]
+        public IHttpActionResult GetCandidateName([FromUri]string email)
+        {
+            var candidate = _candidateRepository.GetAll().Single(item => item.Email == email);
+
+            return Ok($"{candidate.FirstName} {candidate.LastName}");
+        }
+
         [HttpPost]
         public IHttpActionResult AddCandidates([FromBody]List<CandidateDto> candidateDtos)
         {

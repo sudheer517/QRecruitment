@@ -71,7 +71,7 @@ namespace Quantium.Recruitment.Portal
             MicrosoftAccountOptions microsoftOptions = new MicrosoftAccountOptions()
             {
                 ClientId = "0d3fc5fa-3c69-4457-858d-8646a18d39c2",
-                ClientSecret = "rkeVUyRiUfNhucaLe9CWYMJ"
+                ClientSecret = "goiWPhP8rxggoq1Mggn0VFh"
             };
 
             FacebookOptions facebookOptions = new FacebookOptions()
