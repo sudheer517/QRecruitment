@@ -18,7 +18,7 @@ using Quantium.Recruitment.Portal.Models;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class CandidateController : Controller
     {
         private readonly IHttpHelper _helper;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
+    [Authorize]
     public class UnauthorizedController: Controller
     {
         public IActionResult NotActive()

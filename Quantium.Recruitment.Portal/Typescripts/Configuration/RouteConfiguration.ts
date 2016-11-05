@@ -16,45 +16,49 @@ module Recruitment.Routes {
                 $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
 
                 //Default route
-                $urlRouterProvider.otherwise('/superAdmin');
+                $urlRouterProvider.otherwise('/dashboard');
                 //$urlRouterProvider.otherwise('/');
                 $stateProvider
                     .state("superAdmin",
                     {
                         url: "/superAdmin", controller: Controllers.SuperAdminController, templateUrl: "/views/superAdminPage.html"
-                        //,data: { role: "SuperAdmin" , redirectTo: "test"}
+                        ,data: { role: "SuperAdmin" , redirectTo: "candidateDetails"}
                     })
 
                     .state("createTest",
                     {
                         url: "/createTest", controller: Controllers.CreateTestController, templateUrl: "/views/createTestPage.html"
-                        //,data: { role: "SuperAdmin", redirectTo: "test" }
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("uploadQuestions",
                     {
                         url: "/uploadQuestions", controller: Controllers.UploadQuestionsController, templateUrl: "/views/uploadQuestions.html"
-                        //,data: { role: "SuperAdmin", redirectTo: "test" }
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("editTest",
                     {
                         url: "/editTest", controller: Controllers.EditTestController, templateUrl: "/views/editTest1.html"
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("sendTest",
                     {
                         url: "/sendTest", controller: Controllers.SendTestController, templateUrl: "/views/sendTestPage.html"
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("addTeamAdmin",
                     {
                         url: "/addTeamAdmin", controller: Controllers.AdminController, templateUrl: "/views/addTeamAdminPage.html"
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("addCandidates",
                     {
                         url: "/addCandidates", controller: Controllers.AddCandidatesController, templateUrl: "/views/addCandidatesPage.html"
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("test",
@@ -90,11 +94,13 @@ module Recruitment.Routes {
                     .state("createJob",
                     {
                         url: "/createJob", controller: Controllers.CreateJobController, templateUrl: "/views/createJob.html"
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("dashboard",
                     {
                         url: "/dashboard", controller: Controllers.DashboardController, templateUrl: "/views/dashboard.html"
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("candidateDetails",
@@ -132,11 +138,13 @@ module Recruitment.Routes {
                     .state("candidateTestList",
                     {
                         url: "/candidateTestList", controller: Controllers.CandidateTestListController, templateUrl: "/views/candidateTestListPage.html"
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     .state("testResults",
                     {
                         url: "/testResults/{selectedTestId}", controller: Controllers.TestResultsController, templateUrl: "/views/testResults.html", params: { 'selectedTest': null }
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
                     

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.ApiServiceModels;
 using Quantium.Recruitment.Portal.Helpers;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class JobController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

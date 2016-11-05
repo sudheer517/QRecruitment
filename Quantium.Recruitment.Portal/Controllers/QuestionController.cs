@@ -14,10 +14,12 @@ using System.Text;
 using System.Net;
 using Newtonsoft.Json;
 using Quantium.Recruitment.ApiServiceModels;
+using Microsoft.AspNetCore.Authorization;
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
+    [Authorize]
     public class QuestionController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

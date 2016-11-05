@@ -8,11 +8,13 @@ using Quantium.Recruitment.ApiServiceModels;
 using System.Web.Http;
 using System.Net;
 using System.Net.Http;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
+    [Authorize]
     public class TestController : Controller
     {
         private readonly IHttpHelper _helper;

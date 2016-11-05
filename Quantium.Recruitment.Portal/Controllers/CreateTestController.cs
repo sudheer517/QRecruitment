@@ -9,9 +9,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
+    [Authorize]
     public class CreateTestController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

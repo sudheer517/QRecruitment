@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.Portal.Models;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
+    [Authorize]
     public class DifficultyController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
