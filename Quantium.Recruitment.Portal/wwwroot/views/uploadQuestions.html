@@ -55,6 +55,9 @@
                                 <h4>Difficulty : {{previewQuestionModel.Difficulty.Name}}</h4>
                                 <h4>Randomize Options : {{previewQuestionModel.RandomizeOptions}}</h4>
                                 <h4>Question Group : {{previewQuestionModel.QuestionGroup.Description}}</h4>
+                                <div>
+                                    <img ng-src="{{previewQuestionModel.ImageUrl}}" class="imagePreview"/>
+                                </div>
                                 <div class="previewOptionList">
                                     <ul>
                                         <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.Text}}</li>

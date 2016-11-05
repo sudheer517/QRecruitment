@@ -10,6 +10,8 @@ using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using System.Collections;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -20,6 +22,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly ICandidateRepository _candidateRepository;
         private readonly IOptionRepository _optionRepository;
         private readonly ICandidateSelectedOptionRepository _candidateSelectedOptionRepository;
+        private CancellationTokenSource source;
 
         public ChallengeController(
             IChallengeRepository challengeRepository,
@@ -46,7 +49,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetNext([FromUri]string email)
+        public async Task<IHttpActionResult> GetNext([FromUri]string email)
         {
             var test = _testRepository.FindByCandidateEmail(email);
 
@@ -98,10 +101,33 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 _testRepository.Update(test);
             }
 
-            currentChallenge.IsSent = true;
             _challengeRepository.Update(currentChallenge);
 
+            await Task.Run(() => RunTimer(currentChallengeDto));
+
             return Ok(currentChallengeDto);
+
+        }
+
+        private async void RunTimer(ChallengeDto currentChallengeDto)
+        {
+            this.source = new CancellationTokenSource();
+            //source.CancelAfter(TimeSpan.FromSeconds(currentChallengeDto.Question.TimeInSeconds));
+            await Task.Delay((currentChallengeDto.Question.TimeInSeconds * 1000) + 8000); //8 buffer seconds for latency
+            Task<bool> task = Task.Run(() => UpdateQuestionAfterTimer(currentChallengeDto, source.Token), source.Token);
+        }
+
+        private bool UpdateQuestionAfterTimer(ChallengeDto currentChallengeDto, CancellationToken cancellationToken)
+        {
+            var currentChallenge =_challengeRepository.FindByIdUsingNewContext(currentChallengeDto.Id);
+
+            if (currentChallenge.IsSent != true)
+            {
+                currentChallenge.IsSent = true;
+                _challengeRepository.Update(currentChallenge);
+            }
+
+            return true;
         }
 
         [HttpPost]
@@ -109,7 +135,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             //var challenge = Mapper.Map<Challenge>(challengeDto);
 
-            var challenge = _challengeRepository.FindById(challengeDto.Id);
+            var challenge = _challengeRepository.GetAll().SingleOrDefault(c => c.IsSent != true && c.Id == challengeDto.Id);
+            if (challenge == null)
+                return Ok("Answer received too late");
             challenge.IsSent = true;
             challenge.IsAnswered = challengeDto.CandidateSelectedOptions.Count > 0 ? true : false;
             challenge.StartTime = challengeDto.StartTime;

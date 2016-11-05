@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using Quantium.Recruitment.Entities;
+using Quantium.Recruitment.Infrastructure.Unity;
+using Microsoft.Practices.Unity;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
@@ -7,19 +9,35 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
     {
         Challenge FindById(long Id);
         void Update(Challenge entity);
+        Challenge FindByIdUsingNewContext(long id);
     }
 
     public class ChallengeRepository : GenericRepository<Challenge>, IChallengeRepository
     {
         private readonly IRecruitmentContext _dbContext;
-        public ChallengeRepository(IRecruitmentContext dbContext) : base(dbContext)
+        //private readonly IResolver<RecruitmentContext> _resolver;
+        private readonly IConnectionString _connString; 
+        public ChallengeRepository(IRecruitmentContext dbContext, IConnectionString connString) : base(dbContext)
         {
             _dbContext = dbContext;
+            _connString = connString;
+            //_resolver = resolver;
         }
 
         public Challenge FindById(long Id)
         {
             return _dbContext.Challenges.Single(entity => entity.Id == Id);
+        }
+
+        public Challenge FindByIdUsingNewContext(long Id)
+        {
+            //var _newContext = _resolver.Resolve();
+
+            using (var _newContext = new RecruitmentContext(_connString))
+            {
+                return _newContext.Challenges.Single(entity => entity.Id == Id);
+            }
+            
         }
 
         public void Update(Challenge entity)

@@ -20,6 +20,8 @@ module Recruitment.Controllers {
         finishTest: () => void;
         logout: () => void;
         toggleSidenav(): void;
+        questionGroupText: string;
+        imageUrl: string;
     }
 
     class SelectedQuestionOptions {
@@ -185,6 +187,9 @@ module Recruitment.Controllers {
                     this.startDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
                     this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
                     this.currentChallenge = result.data;
+                    this.$scope.imageUrl = result.data.Question.ImageUrl;
+                    var questionGroup = result.data.Question.QuestionGroup;
+                    this.$scope.questionGroupText = questionGroup ? questionGroup.Description : "";
                     this.$scope.challengeId = result.data.Question.Id;
                     this.$scope.questionText = result.data.Question.Text;
                     this.$scope.options = result.data.Question.Options;

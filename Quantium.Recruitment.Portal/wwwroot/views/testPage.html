@@ -28,7 +28,7 @@
                 <md-icon md-svg-src="../img/menu.svg"></md-icon>
             </md-button>
             <h1 class="justify-self-center">
-               Quantium Recruitment test
+               Quantium Recruitment
             </h1>
         </div>
     </md-toolbar>
@@ -45,7 +45,11 @@
                     </div>
                     {{status}}
                     <div class="test-panel-body">
+                        <h4>{{questionGroupText}}</h4>
                         <h4>{{questionText}}</h4>
+                        <div>
+                            <img ng-src="{{imageUrl}}" class="imagePreview"/>
+                        </div>
                         <div class="text-left">
                             <div class="checkbox" ng-repeat="option in options">
                                 <md-input-container class="createJobCheckbox">

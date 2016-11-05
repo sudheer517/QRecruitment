@@ -35,7 +35,7 @@
                         <div layout="row">
                             <md-input-container flex="100">
                                 <label>Mobile</label>
-                                <input ng-model="candidate.Mobile" name="mobile" required type="number" minlength="10" maxlength="10" ng-pattern="^\d{9}$">
+                                <input ng-model="candidate.Mobile" name="mobile" required type="number" minlength="10" maxlength="10">
                                 <div ng-messages="candidateDetailsForm.mobile.$error">
                                     <div ng-message="required">Mobile is required.</div>
                                 </div>
@@ -85,7 +85,7 @@
                         </div>
                         <md-input-container>
                             <label>Year of passing</label>
-                            <input ng-model="candidate.PassingYear" name="passingYear" required maxlength="4" type="number" ng-pattern="^(20)\d{2}$">
+                            <input ng-model="candidate.PassingYear" name="passingYear" required maxlength="4" type="number">
                             <div ng-messages="candidateDetailsForm.passingYear.$error">
                                 <div ng-message="required">Graduation year is required.</div>
                             </div>
@@ -93,7 +93,7 @@
 
                         <md-input-container>
                             <label>Experience(in years)</label>
-                            <input ng-model="candidate.ExperienceInYears" name="experience" maxlength="4" type="number" ng-pattern="[1-2]*[0-9](\.[0-9][0-9]?)?" required>
+                            <input ng-model="candidate.ExperienceInYears" name="experience" maxlength="4" type="number" required>
                             <div ng-messages="candidateDetailsForm.experience.$error">
                                 <div ng-message="required">Experience is required.</div>
                             </div>
