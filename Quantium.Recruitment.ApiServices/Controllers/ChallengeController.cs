@@ -101,6 +101,19 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 _testRepository.Update(test);
             }
 
+            currentChallenge.StartTime = currentChallenge.StartTime == null ? DateTime.Now : currentChallenge.StartTime;
+            var challengeStartTime = currentChallenge.StartTime.Value;
+            var elapsedTime = DateTime.Now.Subtract(challengeStartTime).Seconds;
+            var calculatedTime = currentChallengeDto.Question.TimeInSeconds - elapsedTime;
+            if (calculatedTime > 0)
+            {
+                currentChallengeDto.Question.TimeInSeconds = currentChallengeDto.Question.TimeInSeconds - elapsedTime;
+            }
+            else
+            {
+                currentChallengeDto.Question.TimeInSeconds = 0;
+            }
+
             _challengeRepository.Update(currentChallenge);
 
             await Task.Run(() => RunTimer(currentChallengeDto));

@@ -8,6 +8,7 @@
         </h1>
     </div>
 </md-toolbar>
+<div ng-include="'../views/settingsFab.html'"></div>
 <md-content>
     <div>
         <md-card ng-repeat="test in tests" ng-click="getTestDetails(test)" class="testResultCard cursor-pointer"
