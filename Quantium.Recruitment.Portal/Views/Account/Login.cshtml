@@ -8,7 +8,8 @@
 @inject SignInManager<ApplicationUser> signInManager
 
 @{
-    Layout = null;
+
+    Layout = "~/Views/Shared/_MaterialLayout.cshtml"; ;
     string loginActive =
         ViewData["activeAnchor"] == null ?
         "active" :
@@ -19,32 +20,67 @@
         string.Empty :
         ViewData["activeAnchor"].ToString() == "registerView" ? "active" : string.Empty;
 }
-<html>
-<head prefix="og: http://ogp.me/ns#">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <meta property="og:title" content="Quantium • Recruitment"/>
+<md-content class="loginBody fill">
+        <div hide-xs>
+            <div class="brand">Quantium Recruitment</div>
+            <div class="address-bar">Mezzanine Level, Waverock, Nanakramguda, Hyderabad, India</div>
+        </div>
 
-    <title>Quantium • Recruitment</title>
+        <md-card flex-gt-sm="60" class="justify-self-center overflow-hidden">
+            <md-toolbar md-theme="grey-variant" class="md-hue-2">
+                <div class="md-toolbar-tools">
+                    <div layout="row" flex layout-align="center center" class="">
+                        <img src="~/img/logo2.svg" class="logo-medium" />
+                    </div>
+                </div>
+            </md-toolbar>
+            <md-card-conent>
+                <md-tabs md-dynamic-height="" md-stretch-tabs="always">
+                    <md-tab label="Login">
+                        <div class="margin-10">
+                            <div class="tab-pane @loginActive" id="loginView">
+                                @Html.Partial("_PersonalEmailLoginPartial", new LoginViewModel())
+                            </div>
+                        </div>
+                    </md-tab>
+                    <md-tab label="Register">
+                        <div class="margin-10">
+                            <div class="tab-pane @registerActive" id="registerView">
+                                @Html.Partial("_RegisterPartial", new RegisterViewModel())
+                            </div>
+                        </div>
+                    </md-tab>
+                </md-tabs>
+                <md-card>
+                    <md-card-content>
+                        <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="col-md-6 col-md-offset-3">
+                            <div class="externalLogins">
+                                <div flex  layout-align="space-around">
+                                    @{
+                                        var loginProviders = signInManager.GetExternalAuthenticationSchemes().ToList();
+                                        <div class="buttonWrapper" flex  layout-align="space-around">
+                                            @foreach (var provider in loginProviders)
+                                            {
+                                                <button type="submit" class="externalLoginIcon"
+                                                        name="provider" value="@provider.AuthenticationScheme"
+                                                        title="Log in using your @provider.DisplayName account">
+                                                    <i class="fa fa-@(
+                                                    provider.DisplayName == "Microsoft" ? "windows" : provider.DisplayName.ToLower()) fa-4x"></i>
+                                                </button>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </form>
 
-    <link rel="icon" href="~/img/favicon.png">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+                    </md-card-content>
+                </md-card>
+            </md-card-conent>
+        </md-card>
 
-    <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/font-awesome.css">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" type="text/css" href="~/css/site.css"/>
-
-</head>
-<body class="loginBody">
-
-    <div class="container">
+    @*<div class="container">
         <div class="row">
             <div class="brand">Quantium Recruitment</div>
             <div class="address-bar">Mezzanine Level, Waverock, Nanakramguda, Hyderabad, India</div>
@@ -96,13 +132,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript">
-        @*$(document).ready(function () {
-            var anchor = document.getElementById('@Model.Section');
-            anchor.scrollIntoView(true);
-        });*@
-    </script>
-</body>
-</html>
+    </div>*@
+</md-content>
 
