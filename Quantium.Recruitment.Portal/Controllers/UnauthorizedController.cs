@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    [Authorize]
     public class UnauthorizedController: Controller
     {
         public IActionResult NotActive()

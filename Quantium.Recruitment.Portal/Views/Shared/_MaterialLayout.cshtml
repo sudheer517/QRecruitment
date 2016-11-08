@@ -12,49 +12,71 @@
 
     <title>Quantium • Recruitment</title>
 
-    <link rel="icon" href="~/img/favicon.png">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/highcharts/js/highcharts.js"></script>
-    <script src="~/lib/highcharts/modules/exporting.js"></script>
-    <script src="~/lib/highcharts/modules/drilldown.js"></script>
-    @*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
-    <script src="~/lib/angular/angular.js"></script>
-    <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="~/lib/ng-file-upload/ng-file-upload.js"></script>
-    <link rel="stylesheet" href="~/lib/flipclock/compiled/flipclock.css" />
-    <script src="~/lib/flipclock/compiled/flipclock.min.js"></script>
-    <script src="~/lib/lodash/dist/lodash.min.js"></script>
+    <link rel="stylesheet" href="~/css/main.css"/>
+    <script src="~/lib/modernizr/modernizr.js"></script>
 
+    <link rel="icon" href="~/img/favicon.png">
+    
+    <link rel="stylesheet" href="~/lib/flipclock/compiled/flipclock.css" />
     <link rel="stylesheet" type="text/css" href="~/lib/font-awesome/css/font-awesome.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    @*<link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
     <link rel="stylesheet" type="text/css" href="~/lib/angular-xeditable/dist/css/xeditable.css" />
     <link rel="stylesheet" type="text/css" href="~/css/site.css" />
 
-    <script src="~/lib/angular-mocks/angular-mocks.js"></script>
-    <script src="~/lib/flipclock/compiled/flipclock.js"></script>
-    <script src="~/lib/angular-xeditable/dist/js/xeditable.js"></script>
-    <script src="~/lib/angular-animate/angular-animate.js"></script>
-    <script src="~/lib/angular-aria/angular-aria.min.js"></script>
-    <script src="~/lib/angular-messages/angular-messages.js"></script>
-    <script src="~/lib/angular-material/angular-material.js"></script>
-    <script src="~/lib/angular-material-icons/angular-material-icons.min.js"></script>
-    <script src="~/lib/lf-ng-md-file-input/dist/lf-ng-md-file-input.min.js"></script>
-    <script src="~/lib/moment/moment.js"></script>
     
-    <link rel="stylesheet" type="text/css" href="~/lib/angular-material/angular-material.min.css" />
-    <link rel="stylesheet" type="text/css" href="~/lib/highcharts/css/highcharts.css" />
-    <link rel="stylesheet" type="text/css" href="~/lib/angular-material-icons/angular-material-icons.css" />
-    <link rel="stylesheet" type="text/css" href="~/lib/lf-ng-md-file-input/dist/lf-ng-md-file-input.css" />
-    <script src="~/bootstrapper.js"></script>
 
 </head>
 <body layout="row">
-    @*<body layout="row" md-no-ink> to cancel the ripple effect of angular material*@
 
-        @RenderBody()
+    <div id="loader-wrapper">
+        <div id="loader"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
+    @RenderBody()
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            setTimeout(function () {
+                $('body').addClass('loaded');
+            }, 1500);
+
+        });
+    </script>
+
+    <script src="~/lib/highcharts/js/highcharts.js"></script>
+    <script src="~/lib/highcharts/modules/exporting.js"></script>
+    <script src="~/lib/highcharts/modules/drilldown.js"></script>
+    <script src="~/lib/angular/angular.min.js"></script>
+    <script src="~/lib/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="~/lib/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="~/lib/flipclock/compiled/flipclock.min.js"></script>
+    <script src="~/lib/lodash/dist/lodash.min.js"></script>
+
+    @*<script src="~/lib/angular-mocks/angular-mocks.js"></script>*@
+    <script src="~/lib/flipclock/compiled/flipclock.min.js"></script>
+    <script src="~/lib/angular-xeditable/dist/js/xeditable.min.js"></script>
+    <script src="~/lib/angular-animate/angular-animate.min.js"></script>
+    <script src="~/lib/angular-aria/angular-aria.min.js"></script>
+    <script src="~/lib/angular-messages/angular-messages.min.js"></script>
+    <script src="~/lib/angular-material/angular-material.min.js"></script>
+    <script src="~/lib/angular-material-icons/angular-material-icons.min.js"></script>
+    <script src="~/lib/lf-ng-md-file-input/dist/lf-ng-md-file-input.min.js"></script>
+    <script src="~/lib/moment/min/moment.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/lib/angular-material/angular-material.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/highcharts/css/highcharts.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/angular-material-icons/angular-material-icons.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/lf-ng-md-file-input/dist/lf-ng-md-file-input.min.css" />
+    <script src="~/bootstrapper.js"></script>
+
+    
 
     </body>
 </html>
