@@ -37,21 +37,28 @@ namespace Quantium.Recruitment.Portal.Controllers
         public IActionResult AddQuestions()
         {
             var file = Request.Form.Files[0];
+            
+            //file.OpenReadStream();
 
-            string[] contentAsLines = GetContentFromFile(file);
+            //using (var streamReader = new StreamReader(file.OpenReadStream()))
+            //{
+            //    var contents = streamReader.ReadToEnd();
+            //}
 
-            string[] headers = contentAsLines[0].Split(',');
-            //var fileName = file.FileName;
-            IList<QuestionDto> questions = new List<QuestionDto>();
+            //string[] contentAsLines = GetContentFromFile(file);
 
-            for (int i = 1; i < contentAsLines.Length; i++)
-            {
-                questions.Add(ParseLineToQuestion(headers, contentAsLines[i]));
-            }
+            //string[] headers = contentAsLines[0].Split(',');
+            ////var fileName = file.FileName;
+            //IList<QuestionDto> questions = new List<QuestionDto>();
+
+            //for (int i = 1; i < contentAsLines.Length; i++)
+            //{
+            //    questions.Add(ParseLineToQuestion(headers, contentAsLines[i]));
+            //}
 
             try
             {
-                var response = _helper.Post("api/Question/AddQuestions", questions);
+                var response = _helper.Post("api/Question/AddQuestions", file.OpenReadStream());
             }
             catch (Exception ex)
             {

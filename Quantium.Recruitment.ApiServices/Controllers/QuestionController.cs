@@ -10,6 +10,11 @@ using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Quantium.Recruitment.Infrastructure.Unity;
 using Microsoft.Practices.Unity;
+using System.Web;
+using ClosedXML.Excel;
+using Excel;
+using System.Data;
+using System.IO;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -53,9 +58,107 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(Mapper.Map<QuestionDto>(question));
         }
 
-        [HttpPost]
-        public IHttpActionResult AddQuestions([FromBody]List<QuestionDto> questionDtos)
+        private List<QuestionDto> ParseInputQuestionFile()
         {
+            var httpRequest = HttpContext.Current.Request;
+
+            //var file2 = httpRequest.Files[0];
+            //var result = Request.Content.ReadAsMultipartAsync();
+
+            var streamResult = Request.Content.ReadAsStreamAsync().Result;
+
+            List<QuestionDto> questionDtos = new List<QuestionDto>();
+            using (var ms = new MemoryStream())
+            {
+                //streamResult.CopyTo(ms);
+                httpRequest.InputStream.CopyToAsync(ms);
+                //ms.Position = 0;
+                // now work with ms
+                IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(ms);
+                DataSet dataset = reader.AsDataSet();
+                var count = 1;
+                List<string> headers = new List<string>();
+                foreach (DataRow item in dataset.Tables[0].Rows)
+                {
+                    if (count == 1)
+                    {
+                        item.ItemArray.ForEach(i => headers.Add(i.ToString()));
+                    }
+                    else
+                    {
+                        List<string> questionAndOptions = new List<string>();
+                        item.ItemArray.ForEach(i => questionAndOptions.Add(i.ToString()));
+
+                        string[] selectedOptions = questionAndOptions[2].Split(';');
+
+                        QuestionDto newQuestion = new QuestionDto
+                        {
+                            Text = questionAndOptions[1],
+                            TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
+                            Label = new LabelDto { Name = questionAndOptions[10] },
+                            Difficulty = new DifficultyDto { Name = questionAndOptions[11] },
+                            RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
+                            ImageUrl = questionAndOptions[13],
+                            QuestionGroup = new QuestionGroupDto
+                            {
+                                Description = questionAndOptions[14]
+                            },
+                            Options = new List<OptionDto>
+                            {
+                                new OptionDto
+                                {
+                                    Text = questionAndOptions[4],
+                                    IsAnswer = selectedOptions.Contains(headers[4])
+                                },
+                                new OptionDto
+                                {
+                                    Text = questionAndOptions[5],
+                                    IsAnswer = selectedOptions.Contains(headers[5])
+                                },
+                                new OptionDto
+                                {
+                                    Text = questionAndOptions[6],
+                                    IsAnswer = selectedOptions.Contains(headers[6])
+                                },
+                                new OptionDto
+                                {
+                                    Text = questionAndOptions[7],
+                                    IsAnswer = selectedOptions.Contains(headers[7])
+                                },
+                                new OptionDto
+                                {
+                                    Text = questionAndOptions[8],
+                                    IsAnswer = selectedOptions.Contains(headers[8])
+                                },
+                                new OptionDto
+                                {
+                                    Text = questionAndOptions[9],
+                                    IsAnswer = selectedOptions.Contains(headers[9])
+                                }
+                            }
+                        };
+
+                        questionDtos.Add(newQuestion);
+                    }
+                    count++;
+                }
+            }
+
+            return questionDtos;
+        }
+
+        [HttpPost]
+        public IHttpActionResult PreviewQuestions()
+        {
+            var questionDtos = ParseInputQuestionFile();
+            return Ok(questionDtos);
+        }
+
+        [HttpPost]
+        public IHttpActionResult AddQuestions()
+        {
+            var questionDtos = ParseInputQuestionFile();
+
             try
             {
                 foreach (var questionDto in questionDtos)
@@ -86,7 +189,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         inputQuestion.QuestionGroupId = null;
                     }
 
-                    if(label != null)
+                    if (label != null)
                     {
                         inputQuestion.Label = label;
                     }
@@ -109,7 +212,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     var result = _questionRepository.Add(inputQuestion);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return InternalServerError(ex);
             }

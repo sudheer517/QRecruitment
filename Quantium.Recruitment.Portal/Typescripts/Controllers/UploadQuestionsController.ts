@@ -180,6 +180,7 @@ module Recruitment.Controllers {
         }
 
         public saveChanges(): void {
+            this.uploadFile();
             var file: any = this.$scope.files01[0].lfFile;
             var fileReader = new FileReader();
             var isDataValid = true;

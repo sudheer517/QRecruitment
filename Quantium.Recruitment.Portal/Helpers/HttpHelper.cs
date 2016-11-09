@@ -6,6 +6,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Quantium.Recruitment.Portal.Helpers
 {
@@ -13,6 +16,7 @@ namespace Quantium.Recruitment.Portal.Helpers
     {
         HttpResponseMessage Post(string uri, object data);
         HttpResponseMessage GetData(string uri);
+        HttpResponseMessage Post(string uri, Stream fileStream);
     }
 
     public class HttpHelper : IHttpHelper
@@ -32,6 +36,19 @@ namespace Quantium.Recruitment.Portal.Helpers
             HttpContent contentPost = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
             return client.PostAsync(uri, contentPost).Result;
+        }
+
+        public HttpResponseMessage Post(string uri, Stream fileStream)
+        {
+            var client = GetClient();
+
+            //new MultipartContent();
+            //var multiContent = new MultipartFormDataContent();
+            //var stream = file.OpenReadStream();
+            var streamContent = new StreamContent(fileStream);
+            //streamContent.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            //multiContent.Add(streamContent);
+            return client.PostAsync(uri, streamContent).Result;
         }
 
         public HttpResponseMessage GetData(string uri)
