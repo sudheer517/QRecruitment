@@ -48,35 +48,38 @@ module Recruitment {
             });
             //setting bootstrap theme for editable input directive xeditable
             //this.app.run((editableOptions) => { editableOptions.theme = 'bs3'; });
-            this.app.run(($rootScope: any, $state: angular.ui.IStateService, $authService: Services.AuthService, editableOptions) => {
+            this.app.run(($rootScope: any, $state: angular.ui.IStateService, $authService: Services.AuthService, editableOptions, $location: ng.ILocationService) => {
 
                 editableOptions.theme = 'bs3';
+                var abs = $location.absUrl();
+                if (abs.indexOf("/Account/Register") === -1) {
+                    $authService.getRoleFromServer();
+                    $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
 
-                $rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
-
-                    if (toState.name == "superAdmin") {
-                        if ($authService.getRole() !== "SuperAdmin") {
-                            $state.go(toState.data.redirectTo);
+                        if (toState.name == "superAdmin") {
+                            if ($authService.getRole() !== "SuperAdmin") {
+                                $state.go(toState.data.redirectTo);
+                            }
                         }
-                    }
-                    //if (!$authService.isAuthorized()) {
-                    //    if ($authService.getMemorizedState() && (!_.has(fromState, 'data.redirectTo') || toState.name !== fromState.data.redirectTo)) {
-                    //        $authService.clear();
-                    //    }
-                    //    if (_.has(toState, 'data.authorization') && _.has(toState, 'data.redirectTo')) {
-                    //        if (_.has(toState, 'data.memory')) {
-                    //            $authService.setMemorizedState(toState.name);
-                    //        }
-                    //        $state.go(toState.data.redirectTo);
-                    //    }
-                    //}
+                        //if (!$authService.isAuthorized()) {
+                        //    if ($authService.getMemorizedState() && (!_.has(fromState, 'data.redirectTo') || toState.name !== fromState.data.redirectTo)) {
+                        //        $authService.clear();k
+                        //    }
+                        //    if (_.has(toState, 'data.authorization') && _.has(toState, 'data.redirectTo')) {
+                        //        if (_.has(toState, 'data.memory')) {
+                        //            $authService.setMemorizedState(toState.name);
+                        //        }
+                        //        $state.go(toState.data.redirectTo);
+                        //    }
+                        //}
 
-                });
+                    });
 
-                $rootScope.onLogout = function () {
-                    $authService.clear();
-                    $state.go('home');
-                };
+                    $rootScope.onLogout = function () {
+                        $authService.clear();
+                        $state.go('home');
+                    };
+                }
             });
         }
 

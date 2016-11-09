@@ -16,6 +16,10 @@ module Recruitment.Services {
         private role: string;
 
         constructor(private $state: angular.ui.IStateService, private $http: ng.IHttpService) {
+            
+        }
+
+        public getRoleFromServer() {
             this.$http.get("/Candidate/GetRoleName").then(response => {
                 this.role = _.toString(response.data);
             },
@@ -23,7 +27,6 @@ module Recruitment.Services {
                 console.log(error);
             });
         }
-
         public getRole(): string {
             return this.role;
         }

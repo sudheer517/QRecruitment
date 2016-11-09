@@ -1,6 +1,7 @@
 ﻿@model Quantium.Recruitment.Portal.Models.AccountViewModels.LoginViewModel
 
-    <form name="loginForm" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+    <form name="loginForm" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="loginForm">
+        <div asp-validation-summary="ModelOnly" class="text-danger text-align-center red-color"></div>
         <div layout="row" flex-gt-sm="50" class="justify-self-center">
             <div layout="column"  class="fill-width">
                 <md-input-container>

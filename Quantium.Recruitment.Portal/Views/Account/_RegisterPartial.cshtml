@@ -1,6 +1,7 @@
 ﻿@model Quantium.Recruitment.Portal.Models.AccountViewModels.RegisterViewModel
 
-    <form name="registerForm" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+    <form name="registerForm" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="registerForm">
+        <div asp-validation-summary="ModelOnly" class="text-danger text-align-center red-color"></div>
         <div layout="row" flex-gt-sm="50" class="justify-self-center">
             <div layout="column" class="fill-width">
                 <md-input-container>
@@ -9,6 +10,7 @@
                     <div ng-messages="registerForm.email.$error">
                         <div ng-message="required">Email is required.</div>
                     </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </md-input-container>
 
                 <md-input-container>
@@ -17,6 +19,7 @@
                     <div ng-messages="registerForm.password.$error">
                         <div ng-message="required">Password is required.</div>
                     </div>
+                    <span asp-validation-for="Password" class="red-color"></span>
                 </md-input-container>
 
                 <md-input-container>
@@ -25,6 +28,7 @@
                     <div ng-messages="registerForm.confirmPassword.$error">
                         <div ng-message="required">Confirm Password is required.</div>
                     </div>
+                    <span asp-validation-for="ConfirmPassword" class="red-color"></span>
                 </md-input-container>
 
                 <md-button class="md-primary md-raised createJobButton" type="submit" ng-click="registerForm.$valid">

@@ -69,8 +69,24 @@ namespace Quantium.Recruitment.Portal.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation(1, "User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    var userRole = _candidateHelper.GetRoleForEmail(model.Email);
+
+                    if (string.IsNullOrEmpty(userRole))
+                    {
+                        return RedirectToAction("NotRegistered", "Unauthorized");
+                    }
+                    if (userRole == "SuperAdmin")
+                    {
+                        return RedirectToLocal("/Home/Index#/dashboard");
+                    }
+                    if (userRole == "Candidate")
+                    {
+                        return RedirectToLocal("/Candidate/Test#/candidateDetails");
+                    }
+                    else
+                    {
+                        return RedirectToAction("NotRegistered", "Unauthorized");
+                    }
                 }
                 //if (result.RequiresTwoFactor)
                 //{
@@ -110,16 +126,43 @@ namespace Quantium.Recruitment.Portal.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
+                var userRole = _candidateHelper.GetRoleForEmail(model.Email);
+
+                if (string.IsNullOrEmpty(userRole))
+                {
+                    return RedirectToAction("NotRegistered", "Unauthorized");
+                }
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    IdentityResult roleCreationResult = null;
+
+                    if (!_roleManager.RoleExistsAsync(userRole).Result)
+                    {
+                        roleCreationResult = _roleManager.CreateAsync(new QRecruitmentRole(userRole)).Result;
+                    }
+
                     _logger.LogInformation(3, $"User created a new account with email:{model.Email}");
-                    return RedirectToLocal("/Candidate/Test#/test");
+
+                    var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, userRole).Result;
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    if (userRole == "SuperAdmin")
+                    {
+                        return RedirectToLocal("/Home/Index#/dashboard");
+                    }
+                    if (userRole == "Candidate")
+                    {
+                        return RedirectToLocal("/Candidate/Test#/candidateDetails");
+                    }
                 }
                 AddErrors(result);
             }
+
             ViewData["activeAnchor"] = "registerView";
             return View("Login", model);
         }
@@ -233,7 +276,6 @@ namespace Quantium.Recruitment.Portal.Controllers
                 
                 
                 IdentityResult roleCreationResult = null;
-
 
                 if (!_roleManager.RoleExistsAsync(roleName).Result)
                 {

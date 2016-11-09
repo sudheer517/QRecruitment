@@ -33,8 +33,8 @@ namespace Quantium.Recruitment.Portal
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, QRecruitmentRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddTransient<ICandidateHelper, CandidateHelper>();
             services.AddTransient<IHttpHelper, HttpHelper>();
