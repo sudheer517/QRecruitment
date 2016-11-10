@@ -37,7 +37,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         public IActionResult AddQuestions()
         {
             var file = Request.Form.Files[0];
-            
+
             //file.OpenReadStream();
 
             //using (var streamReader = new StreamReader(file.OpenReadStream()))
@@ -56,16 +56,13 @@ namespace Quantium.Recruitment.Portal.Controllers
             //    questions.Add(ParseLineToQuestion(headers, contentAsLines[i]));
             //}
 
-            try
+            var response = _helper.Post("api/Question/AddQuestions", file.OpenReadStream());
+            if (response.StatusCode != HttpStatusCode.Created)
             {
-                var response = _helper.Post("api/Question/AddQuestions", file.OpenReadStream());
-            }
-            catch (Exception ex)
-            {
-                return Json(ex);
+                throw new Exception(response.ReasonPhrase);
             }
 
-            return Json("Success");
+            return Json(response);
         }
 
         [HttpPost]
@@ -73,19 +70,16 @@ namespace Quantium.Recruitment.Portal.Controllers
         {
             var file = Request.Form.Files[0];
 
-            HttpResponseMessage response = null;
-            try
+            HttpResponseMessage response = _helper.Post("api/Question/PreviewQuestions", file.OpenReadStream());
+            if(response.StatusCode != HttpStatusCode.OK)
             {
-                response = _helper.Post("api/Question/PreviewQuestions", file.OpenReadStream());
-                var responseStream = response.Content.ReadAsStreamAsync().Result;
-                StreamReader reader = new StreamReader(responseStream);
-                var result = reader.ReadToEnd();
-                return Ok(result);
+                throw new Exception(response.ReasonPhrase);
             }
-            catch (Exception ex)
-            {
-                return Json(ex);
-            }
+
+            var responseStream = response.Content.ReadAsStreamAsync().Result;
+            StreamReader reader = new StreamReader(responseStream);
+            var result = reader.ReadToEnd();
+            return Ok(result);
             
         }
 

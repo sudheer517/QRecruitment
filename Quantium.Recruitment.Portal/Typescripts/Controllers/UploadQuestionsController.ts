@@ -101,11 +101,13 @@ module Recruitment.Controllers {
                         this.showToast("Questions uploaded successfully");
                         this.$timeout(() => {
                             this.$state.go("dashboard");
-                        }, 1000);
-                    }, 1000);
+                        }, 500);
+                    }, 500);
                 }, error => {
-                    if (error.status > 0)
-                        this.showToast(error.status + ': ' + error.data);
+                    this.$mdDialog.hide();
+                    this.showToast("Error " + error.status + " occurred");
+                    if (error.status > 0) { }
+                       
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));
                 });
@@ -129,8 +131,11 @@ module Recruitment.Controllers {
                     this.$scope.previewQuestionModels = response.data;
                     this.showPrerenderedDialog();
                 }, error => {
-                    if (error.status > 0)
-                        this.showToast(error.status + ': ' + error.data);
+                    this.$mdDialog.hide();
+                    this.showToast("Error " + error.status + " occurred");
+                    if (error.status > 0) {
+                        
+                    }
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));
                 });
