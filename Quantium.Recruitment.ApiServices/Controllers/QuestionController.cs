@@ -93,6 +93,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
                         QuestionDto newQuestion = new QuestionDto
                         {
+                            Id = Convert.ToInt32(questionAndOptions[0]),
                             Text = questionAndOptions[1],
                             TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
                             Label = new LabelDto { Name = questionAndOptions[10] },
