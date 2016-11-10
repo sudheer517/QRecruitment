@@ -54,13 +54,13 @@
                             <md-tab label="Bulk upload">
                                 <div>
                                     <br /><br />
-                                    <md-button class="md-primary md-raised" href="/CandidatesTemplate.csv">Download Template</md-button>
+                                    <md-button class="md-primary md-raised" href="/CandidatesTemplate.xlsx">Download Template</md-button>
 
                                     <br /><br />
                                     <h2 class="fileUpload">Upload candidates csv file:</h2>
-                                    <lf-ng-md-file-input accept=".csv,text/csv" lf-files="files01" lf-api="api01" class="fileUpload" flex-gt-sm="50"></lf-ng-md-file-input>
+                                    <lf-ng-md-file-input accept=".xlsx" lf-files="files01" lf-api="api01" class="fileUpload" flex-gt-sm="50"></lf-ng-md-file-input>
                                     <br /><br />
-                                    <md-button ng-disabled="files01.length > 0 ? false : true" class="md-accent md-raised" ng-click="showPrerenderedDialog($event)">
+                                    <md-button ng-disabled="files01.length > 0 ? false : true" class="md-accent md-raised" ng-click="previewCandidates()">
                                         Preview Candidates
                                     </md-button>
 
@@ -86,7 +86,7 @@
                 </div>
             </md-toolbar>
             <div>
-                <p ng-hide="previewCandidatesModel.length > 0">Dude, Upload the CSV first !!!</p>
+                <p ng-hide="previewCandidatesModel.length > 0">Please upload candidate excel file !!!</p>
                 <div class="previewCandidates" ng-repeat="candidatesModel in previewCandidatesModel">
                     <h3 ng-if="!validateEmail(candidatesModel.Email)">*Below email is not in correct format</h3>
                     <md-card>
@@ -100,6 +100,29 @@
                     </md-card>
                 </div>
             </div>
+        </md-dialog>
+    </div>
+</div>
+
+<div style="visibility: hidden">
+    <div class="md-dialog-container" id="uploadStatusModal">
+        <md-dialog flex-gt-sm="50">
+            <md-toolbar class="md-accent">
+                <div class="md-toolbar-tools">
+                    <h3>
+                        Please wait while candidates are uploaded
+                    </h3>
+                </div>
+            </md-toolbar>
+            <md-content layout="row" class="fill">
+                <md-card flex>
+                    <md-card-content>
+                        <div layout="row" layout-align="space-around">
+                            <md-progress-circular md-mode="indeterminate" class="md-primary"></md-progress-circular>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </md-content>
         </md-dialog>
     </div>
 </div>

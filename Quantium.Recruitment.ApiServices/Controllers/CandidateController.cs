@@ -9,6 +9,11 @@ using AutoMapper;
 using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
+using System.Web;
+using System.IO;
+using Excel;
+using System.Data;
+using ClosedXML.Excel;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -67,8 +72,50 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok($"{candidate.FirstName} {candidate.LastName}");
         }
 
+        private List<CandidateDto> ParseInputCandidateFile()
+        {
+            var httpRequest = HttpContext.Current.Request;
+
+            var streamResult = Request.Content.ReadAsStreamAsync().Result;
+
+            List<CandidateDto> candidateDtos = new List<CandidateDto>();
+            using (var ms = new MemoryStream())
+            {
+                httpRequest.InputStream.CopyToAsync(ms);
+                IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(ms);
+                DataSet dataset = reader.AsDataSet();
+                var count = 1;
+                List<string> headers = new List<string>();
+                foreach (DataRow item in dataset.Tables[0].Rows)
+                {
+                    if (count == 1)
+                    {
+                        item.ItemArray.ForEach(i => headers.Add(i.ToString()));
+                    }
+                    else
+                    {
+                        List<string> candidateColumns = new List<string>();
+                        item.ItemArray.ForEach(i => candidateColumns.Add(i.ToString()));
+
+                        CandidateDto newCandidate = new CandidateDto
+                        {
+                            Id = Convert.ToInt32(candidateColumns[0]),
+                            FirstName = candidateColumns[1],
+                            LastName = candidateColumns[2],
+                            Email = candidateColumns[3]
+                        };
+
+                        candidateDtos.Add(newCandidate);
+                    }
+                    count++;
+                }
+            }
+
+            return candidateDtos;
+        }
+
         [HttpPost]
-        public IHttpActionResult AddCandidates([FromBody]List<CandidateDto> candidateDtos)
+        public IHttpActionResult Add([FromBody]List<CandidateDto> candidateDtos)
         {
             var candidates = Mapper.Map<List<Candidate>>(candidateDtos);
 
@@ -78,9 +125,31 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 _candidateRepository.Add(candidate);
             }
 
-            return Ok("Candidates Created");
+            return Created(string.Empty, "Candidates Created");
         }
 
+        [HttpPost]
+        public IHttpActionResult AddCandidates()
+        {
+            var candidateDtos = ParseInputCandidateFile();
+
+            var candidates = Mapper.Map<List<Candidate>>(candidateDtos);
+
+            foreach (var candidate in candidates)
+            {
+                candidate.IsActive = true;
+                _candidateRepository.Add(candidate);
+            }
+
+            return Created(string.Empty, "Candidates Created");
+        }
+
+        [HttpPost]
+        public IHttpActionResult PreviewCandidates()
+        {
+            var candidateDtos = ParseInputCandidateFile();
+            return Ok(candidateDtos);
+        }
 
         [HttpPost]
         public IHttpActionResult FillCandidateInformation([FromBody]CandidateDto candidateDto)

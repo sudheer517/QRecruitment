@@ -62,18 +62,13 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             var httpRequest = HttpContext.Current.Request;
 
-            //var file2 = httpRequest.Files[0];
-            //var result = Request.Content.ReadAsMultipartAsync();
-
             var streamResult = Request.Content.ReadAsStreamAsync().Result;
 
             List<QuestionDto> questionDtos = new List<QuestionDto>();
             using (var ms = new MemoryStream())
             {
-                //streamResult.CopyTo(ms);
                 httpRequest.InputStream.CopyToAsync(ms);
-                //ms.Position = 0;
-                // now work with ms
+                
                 IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(ms);
                 DataSet dataset = reader.AsDataSet();
                 var count = 1;

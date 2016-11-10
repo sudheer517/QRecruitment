@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Quantium.Recruitment.Portal.Models;
+using System.Net;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -39,59 +40,38 @@ namespace Quantium.Recruitment.Portal.Controllers
         {
             return View();
         }
-        
+
+        [HttpPost]
         public IActionResult Add()
         {
             var file = Request.Form.Files[0];
 
-            string[] contentAsLines = GetContentFromFile(file);
+            var response = _helper.Post("api/Candidate/AddCandidates", file.OpenReadStream());
 
-            string[] headers = contentAsLines[0].Split(',');
-            //var fileName = file.FileName;
-            IList<CandidateDto> candidates = new List<CandidateDto>();
-
-            for (int i = 1; i < contentAsLines.Length; i++)
+            if (response.StatusCode != HttpStatusCode.Created)
             {
-                candidates.Add(ParseLineToCandidate(headers, contentAsLines[i]));
-            }
-
-            try
-            {
-                var response = _helper.Post("api/Candidate/AddCandidates", candidates);
-            }
-            catch (Exception ex)
-            {
-                return Json(ex);
+                throw new Exception(response.ReasonPhrase);
             }
 
             return Created(string.Empty, string.Empty);
         }
 
-        private string[] GetContentFromFile(IFormFile file)
+        [HttpPost]
+        public IActionResult PreviewCandidates()
         {
+            var file = Request.Form.Files[0];
 
-            string fileContent;
-
-            using (var reader = new StreamReader(file.OpenReadStream()))
+            HttpResponseMessage response = _helper.Post("api/Candidate/PreviewCandidates", file.OpenReadStream());
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                fileContent = reader.ReadToEnd();
+                throw new Exception(response.ReasonPhrase);
             }
 
-            return fileContent.Split(new string[] { "\r\n" }, StringSplitOptions.None).Where(item => item.Trim().Length > 0).ToArray();
-        }
+            var responseStream = response.Content.ReadAsStreamAsync().Result;
+            StreamReader reader = new StreamReader(responseStream);
+            var result = reader.ReadToEnd();
+            return Ok(result);
 
-        private CandidateDto ParseLineToCandidate(string[] headers, string candidateLine)
-        {
-            string[] candidateOptions = candidateLine.Split(',');            
-
-            CandidateDto newCandidate = new CandidateDto
-            {
-                FirstName = candidateOptions[1],
-                LastName = candidateOptions[2],
-                Email = candidateOptions[3]
-            };
-
-            return newCandidate;
         }
 
         public IActionResult GetAllCandidates()
@@ -108,10 +88,10 @@ namespace Quantium.Recruitment.Portal.Controllers
             return Ok(response.Content.ReadAsStringAsync().Result);
 
         }
+
         public IActionResult GetRoleName()
         {
-            return Json("");
-            //return Json(this.User.Claims.SingleOrDefault(claim => claim.Type.Contains("role")).Value);
+            return Json(this.User.Claims.SingleOrDefault(claim => claim.Type.Contains("role")).Value);
         }
 
         public IActionResult IsInformationFilled()
@@ -138,7 +118,12 @@ namespace Quantium.Recruitment.Portal.Controllers
         [HttpPost]
         public IActionResult SaveCandidate([FromBody]List<CandidateDto> candidateDtos)
         {
-            var response = _helper.Post("/api/Candidate/AddCandidates", candidateDtos);
+            var response = _helper.Post("/api/Candidate/Add", candidateDtos);
+
+            if(response.StatusCode != HttpStatusCode.Created)
+            {
+                throw new Exception("Candidate creation failed");
+            }
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
