@@ -87,13 +87,21 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     else
                     {
                         List<string> questionAndOptions = new List<string>();
+
                         item.ItemArray.ForEach(i => questionAndOptions.Add(i.ToString()));
 
                         string[] selectedOptions = questionAndOptions[2].Split(';');
 
+                        if (!validateQuestions(questionAndOptions, headers, selectedOptions))
+                        {
+                            string message = "Id " + questionAndOptions[0] + " has some invalid data";
+
+                            throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotAcceptable, message));
+                        }
+
                         QuestionDto newQuestion = new QuestionDto
                         {
-                            Id = Convert.ToInt32(questionAndOptions[0]),
+                            Id = Convert.ToInt64(questionAndOptions[0]),
                             Text = questionAndOptions[1],
                             TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
                             Label = new LabelDto { Name = questionAndOptions[10] },
@@ -263,6 +271,37 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             }
 
             return Ok(questionDifficultyLabelDto);
+        }
+
+        private bool validateQuestions(IList<string> question, IList<string> headers, IList<string> options)
+        {
+            var mandatoryFields = new List<int> { 1, 2, 3, 10, 11 };
+            var dataValid = true;
+
+            foreach (int mandatory in mandatoryFields)
+            {
+                if (question.ElementAt(mandatory) == string.Empty)
+                {
+                    dataValid = false;
+                }
+            }
+
+            var optionFields = new List<int> { 4, 5, 6, 7, 8, 9 };
+
+            foreach (string option in options)
+            {
+                if (!(optionFields.Any(field => headers.ElementAt(field) == option)))
+                {
+                    dataValid = false;
+                }
+            }
+
+            if (optionFields.All(field => question.ElementAt(field) == string.Empty))
+            {
+                dataValid = false;
+            }
+
+            return dataValid;
         }
     }
 }

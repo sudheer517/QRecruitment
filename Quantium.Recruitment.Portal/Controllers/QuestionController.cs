@@ -15,6 +15,7 @@ using System.Net;
 using Newtonsoft.Json;
 using Quantium.Recruitment.ApiServiceModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Web.Http;
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Quantium.Recruitment.Portal.Controllers
@@ -71,16 +72,17 @@ namespace Quantium.Recruitment.Portal.Controllers
             var file = Request.Form.Files[0];
 
             HttpResponseMessage response = _helper.Post("api/Question/PreviewQuestions", file.OpenReadStream());
-            if(response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception(response.ReasonPhrase);
-            }
 
             var responseStream = response.Content.ReadAsStreamAsync().Result;
             StreamReader reader = new StreamReader(responseStream);
             var result = reader.ReadToEnd();
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                throw new Exception(result);
+            }
+
             return Ok(result);
-            
         }
 
         private string[] GetContentFromFile(IFormFile file)
