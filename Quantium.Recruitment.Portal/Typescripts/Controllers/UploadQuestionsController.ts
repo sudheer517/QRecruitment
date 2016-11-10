@@ -101,8 +101,8 @@ module Recruitment.Controllers {
                         this.showToast("Questions uploaded successfully");
                         this.$timeout(() => {
                             this.$state.go("dashboard");
-                        }, 1000);
-                    }, 1000);
+                        }, 500);
+                    }, 500);
                 }, error => {
                     if (error.status > 0)
                         this.showToast(error.status + ': ' + error.data);
