@@ -247,7 +247,7 @@ namespace Quantium.Recruitment.Portal.Controllers
                     {
                         return RedirectToAction("NotActive", "Unauthorized");
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToLocal("/Home/Index#/dashboard");
                 }
 
 
@@ -291,7 +291,7 @@ namespace Quantium.Recruitment.Portal.Controllers
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         if (roleName == "SuperAdmin")
                         {
-                            return RedirectToAction("Index", "Home");
+                            return RedirectToLocal("/Home/Index#/dashboard");
                         }
                         if (roleName == "Candidate")
                         {
@@ -324,7 +324,7 @@ namespace Quantium.Recruitment.Portal.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToLocal("/Home/Index#/dashboard");
             }
         }
 
