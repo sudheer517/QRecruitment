@@ -61,7 +61,7 @@ namespace Quantium.Recruitment.Portal.Controllers
 
             if (response.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception(result);
+                return BadRequest(result);
             }
 
             return Ok(result);

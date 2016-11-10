@@ -132,7 +132,7 @@ module Recruitment.Controllers {
                     this.showPrerenderedDialog();
                 }, error => {
                     this.$mdDialog.hide();
-                    this.showToast("Error " + error.status + " occurred");
+                    this.showToast("Error: " + error.data.Message);
                     if (error.status > 0) {
                         
                     }
