@@ -68,6 +68,27 @@ namespace Quantium.Recruitment.Portal.Controllers
             return Json("Success");
         }
 
+        [HttpPost]
+        public IActionResult PreviewQuestions()
+        {
+            var file = Request.Form.Files[0];
+
+            HttpResponseMessage response = null;
+            try
+            {
+                response = _helper.Post("api/Question/PreviewQuestions", file.OpenReadStream());
+                var responseStream = response.Content.ReadAsStreamAsync().Result;
+                StreamReader reader = new StreamReader(responseStream);
+                var result = reader.ReadToEnd();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(ex);
+            }
+            
+        }
+
         private string[] GetContentFromFile(IFormFile file)
         {
 
