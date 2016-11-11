@@ -48,9 +48,13 @@ namespace Quantium.Recruitment.Portal.Controllers
 
             var response = _helper.Post("api/Candidate/AddCandidates", file.OpenReadStream());
 
+            var responseStream = response.Content.ReadAsStreamAsync().Result;
+            StreamReader reader = new StreamReader(responseStream);
+            var result = reader.ReadToEnd();
+
             if (response.StatusCode != HttpStatusCode.Created)
             {
-                throw new Exception(response.ReasonPhrase);
+                return BadRequest(result);
             }
 
             return Created(string.Empty, string.Empty);
@@ -62,16 +66,17 @@ namespace Quantium.Recruitment.Portal.Controllers
             var file = Request.Form.Files[0];
 
             HttpResponseMessage response = _helper.Post("api/Candidate/PreviewCandidates", file.OpenReadStream());
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                throw new Exception(response.ReasonPhrase);
-            }
 
             var responseStream = response.Content.ReadAsStreamAsync().Result;
             StreamReader reader = new StreamReader(responseStream);
             var result = reader.ReadToEnd();
-            return Ok(result);
 
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
         public IActionResult GetAllCandidates()

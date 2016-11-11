@@ -40,9 +40,14 @@ namespace Quantium.Recruitment.Portal.Controllers
             var file = Request.Form.Files[0];
 
             var response = _helper.Post("api/Question/AddQuestions", file.OpenReadStream());
+
+            var responseStream = response.Content.ReadAsStreamAsync().Result;
+            StreamReader reader = new StreamReader(responseStream);
+            var result = reader.ReadToEnd();
+
             if (response.StatusCode != HttpStatusCode.Created)
             {
-                throw new Exception(response.ReasonPhrase);
+                return BadRequest(result);
             }
 
             return Json(response);

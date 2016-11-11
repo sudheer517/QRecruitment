@@ -114,7 +114,7 @@ module Recruitment.Controllers {
                     }, 500);
                 }, error => {
                     if (error.status > 0)
-                        this.showToast(error.status);
+                        this.showToast("Error: " + error.data.Message);
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));
                 });
@@ -137,7 +137,7 @@ module Recruitment.Controllers {
                     this.showPrerenderedDialog();
                 }, error => {
                     this.$mdDialog.hide();
-                    this.showToast("Error " + error.status + " occurred");
+                    this.showToast("Error: " + error.data.Message);
                     if (error.status > 0) { }
                 }, evt => {
                     file.progress = Math.min(100, parseInt((100.0 * evt.loaded / evt.total) + ''));

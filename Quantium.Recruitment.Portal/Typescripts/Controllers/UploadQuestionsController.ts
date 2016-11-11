@@ -105,7 +105,7 @@ module Recruitment.Controllers {
                     }, 500);
                 }, error => {
                     this.$mdDialog.hide();
-                    this.showToast("Error " + error.status + " occurred");
+                    this.showToast("Error: " + error.data.Message);
                     if (error.status > 0) { }
                        
                 }, evt => {

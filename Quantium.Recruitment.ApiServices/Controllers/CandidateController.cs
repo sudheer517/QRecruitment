@@ -14,6 +14,7 @@ using System.IO;
 using Excel;
 using System.Data;
 using ClosedXML.Excel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -97,12 +98,20 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         List<string> candidateColumns = new List<string>();
                         item.ItemArray.ForEach(i => candidateColumns.Add(i.ToString()));
 
+                        var email = candidateColumns[3];
+
+                        if (!IsValidEmail(email))
+                        {
+                            string message = "Email " + email + " is not in correct format";
+                            throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotAcceptable, message));
+                        }
+
                         CandidateDto newCandidate = new CandidateDto
                         {
                             Id = Convert.ToInt32(candidateColumns[0]),
                             FirstName = candidateColumns[1],
                             LastName = candidateColumns[2],
-                            Email = candidateColumns[3]
+                            Email = email
                         };
 
                         candidateDtos.Add(newCandidate);
@@ -161,6 +170,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             _candidateRepository.Update(updatedCandidate);
 
             return Ok("Candidate Created");
+        }
+
+        private bool IsValidEmail(string input)
+        {
+            return new EmailAddressAttribute().IsValid(input);
         }
 
         ////http://localhost:60606/odata/Admins
