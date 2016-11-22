@@ -55,12 +55,18 @@ module Recruitment.Controllers {
             this.$scope.selectedQuestionOptions = new SelectedQuestionOptions();
             this.$scope.nextQuestion = () => this.nextQuestion();
             this.$scope.finishTest = () => this.finishTest();
-            this.$scope.logout = () => this.logout();
+            this.$scope.logout = () => this.settingsBeforeLogout();
             this.$scope.toggleSidenav = () => this.toggleSidenav();
         }
 
         private toggleSidenav(): void {
             this.$mdSidenav("left").toggle();
+        }
+
+        private settingsBeforeLogout(): void {
+            this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
+            this.postChallenge(false);
+            this.logout();
         }
 
         private logout(): void {
