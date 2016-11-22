@@ -57,6 +57,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult GetAllFinishedTests()
         {
             var response = _helper.GetData("/api/Test/GetFinishedTests");
@@ -64,6 +65,7 @@ namespace Quantium.Recruitment.Portal.Controllers
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult GetTestById([FromUri]long id)
         {
             var response = _helper.GetData("/api/Test/GetTestById?id=" + id);
@@ -71,6 +73,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
         public IActionResult GetFinishedTestById([FromUri]long id)
         {
             var response = _helper.GetData("/api/Test/GetFinishedTestById?id=" + id);

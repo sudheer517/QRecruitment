@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.Portal.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
+    [Authorize(Roles = "SuperAdmin")]
     public class TempController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

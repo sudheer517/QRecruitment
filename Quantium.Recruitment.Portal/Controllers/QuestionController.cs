@@ -20,7 +20,7 @@ using System.Web.Http;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin")]
     public class QuestionController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

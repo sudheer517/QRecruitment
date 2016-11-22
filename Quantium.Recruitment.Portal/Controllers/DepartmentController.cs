@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin")]
     public class DepartmentController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

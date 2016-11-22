@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin")]
     public class CreateTestController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
