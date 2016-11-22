@@ -86,6 +86,13 @@ namespace Quantium.Recruitment.Portal.Controllers
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
 
+        public IActionResult GetCandidatesWithoutActiveTests()
+        {
+            var response = _helper.GetData("/api/Candidate/GetCandidatesWithoutActiveTests");
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
         public IActionResult GetCandidateName()
         {
             var response = _helper.GetData("/api/Candidate/GetCandidateName?email=" + this.User.Identities.First().Name);

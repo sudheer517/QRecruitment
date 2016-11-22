@@ -36,6 +36,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
+        public IHttpActionResult GetCandidatesWithoutActiveTests()
+        {
+            var candidates = _candidateRepository.GetAll().Where(c => c.IsActive && c.Tests.Count() == 0).ToList();
+
+            return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
+        }
+
+        [HttpGet]
         public IHttpActionResult GetCandidateByEmail([FromUri]string email)
         {
             var candidate = _candidateRepository.GetAll().SingleOrDefault(item => item.Email == email && item.IsActive == true);
