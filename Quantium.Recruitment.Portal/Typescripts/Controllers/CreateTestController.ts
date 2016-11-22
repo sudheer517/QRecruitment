@@ -117,7 +117,7 @@ module Recruitment.Controllers {
         }
 
         private getCandidates(): void {
-            this.$candidateService.getAllCandidates().then(
+            this.$candidateService.getCandidatesWithoutActiveTests().then(
                 response => {
                     this.$scope.candidates = response.data;
                 },

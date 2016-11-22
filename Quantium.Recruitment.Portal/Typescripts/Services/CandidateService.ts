@@ -5,6 +5,7 @@ module Recruitment.Services {
 
     interface ICandidateService {
         getAllCandidates(): ng.IHttpPromise<CandidateDto[]>;
+        getCandidatesWithoutActiveTests(): ng.IHttpPromise<CandidateDto[]>;
     }
 
     export class CandidateService implements ICandidateService {
@@ -15,6 +16,10 @@ module Recruitment.Services {
 
         public getAllCandidates(): ng.IHttpPromise<CandidateDto[]> {
             return this.$http.get("/Candidate/GetAllCandidates");
+        }
+
+        public getCandidatesWithoutActiveTests(): ng.IHttpPromise<CandidateDto[]> {
+            return this.$http.get("/Candidate/GetCandidatesWithoutActiveTests");
         }
 
         public isInformationFilled(): ng.IHttpPromise<boolean> {
