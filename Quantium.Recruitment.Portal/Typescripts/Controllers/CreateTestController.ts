@@ -18,6 +18,9 @@ module Recruitment.Controllers {
         testGenerationResult: boolean;
         hasSelectedAtleastOneCandidate: boolean;
         toggleSidenav(): void;
+        selectedAll: boolean;
+        checkAll: (filteredCandidates: CandidateDto[]) => void;
+        selectedOptionsMap: any;
     }
 
     class SelectedTestOptions {
@@ -47,6 +50,8 @@ module Recruitment.Controllers {
             this.$scope.sendTest = () => this.sendTest();
             this.$scope.toggleSidenav = () => this.toggleSidenav();
             this.$scope.$watchCollection(() => this.$scope.selectedtestOptions.candidateIds, () => this.updateSelectedCandidateCount());
+            this.$scope.checkAll = (filteredCandidates) => this.checkAll(filteredCandidates);
+            this.$scope.selectedOptionsMap = {};
         }
 
         private toggleSidenav(): void {
@@ -56,13 +61,17 @@ module Recruitment.Controllers {
         private updateSelectedCandidateCount(): void {
             
             var isSelected = false;
+            var selectedOptions = this.$scope.selectedOptionsMap;
+
             _.each(this.$scope.selectedtestOptions.candidateIds, (item, index) => {
                 if (item === true) {
                     isSelected = true;
+                    selectedOptions[index] = isSelected;
                 }
             });
 
             this.$scope.hasSelectedAtleastOneCandidate = isSelected;
+            this.$scope.selectedOptionsMap = selectedOptions;
         }
 
         private changeSelectedJob(selectedJob: JobDto) {
@@ -179,6 +188,25 @@ module Recruitment.Controllers {
             }, error => {
                 console.log(error);
             });
+        }
+
+        private checkAll(filteredCandidates: CandidateDto[]): void {
+
+            var isSelected;
+
+            if (this.$scope.selectedAll) {
+                isSelected = true;
+            } else {
+                isSelected = false;
+            }
+
+            var selectedOptions = this.$scope.selectedOptionsMap;
+
+            _.each(filteredCandidates, (filteredCandidate, index) => {  
+                selectedOptions[filteredCandidate.Id] = isSelected;
+            });
+
+            this.$scope.selectedtestOptions.candidateIds = selectedOptions;
         }
     }
 }

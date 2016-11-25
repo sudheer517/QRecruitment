@@ -27,6 +27,12 @@
                         </div>
                     </md-input-container>
                 </div>
+                <div layout="row">
+                    <md-input-container flex-gt-sm="30">
+                        <label>Search Candidates</label>
+                        <input ng-model="search" type="text">
+                    </md-input-container>
+                </div>
                 <div ng-hide="selectedJobId == 0">
                     <div layout="row">
                         <div flex-gt-sm="35">
@@ -52,9 +58,10 @@
 
         <md-card>
             <md-card-content>
+                <md-checkbox ng-model="selectedAll" ng-change="checkAll(filteredCandidates)"> Select All</md-checkbox>
                 <h3 class="fileUpload">Select the candidates for this job</h3>
                 <div layout="row" layout-wrap>
-                    <div ng-repeat="candidate in candidates">
+                    <div ng-repeat="candidate in (filteredCandidates = (candidates | filter:search))">
                         <md-card>
                             <md-card-content>
                                 <md-input-container>
