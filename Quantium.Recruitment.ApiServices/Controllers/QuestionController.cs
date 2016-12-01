@@ -176,9 +176,34 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
                     var inputQuestion = Mapper.Map<Question>(questionDto);
 
-                    var label = _labelRepository.FindByName(questionDto.Label.Name);
+                    string userEnteredLabel = questionDto.Label.Name.Trim();
+                    string labelName = "Others";
+                    if (!string.IsNullOrEmpty(userEnteredLabel)) {
+                        labelName = userEnteredLabel;
+                    }
+                    var label = _labelRepository.FindByName(labelName);
+                    inputQuestion.Label = label;
+                    if (label == null)
+                    {
+                        var newLabel = _labelRepository.Add(new Label { Name = labelName });
+                        inputQuestion.Label = newLabel;
+                        inputQuestion.LabelId = newLabel.Id;
+                    }
 
-                    var difficulty = _difficultyRepository.FindByName(questionDto.Difficulty.Name);
+                    string userEnteredDifficulty = questionDto.Difficulty.Name.Trim();
+                    string difficultyName = "Easy";
+                    if (!string.IsNullOrEmpty(userEnteredDifficulty))
+                    {
+                        difficultyName = userEnteredDifficulty;
+                    }
+                    var difficulty = _difficultyRepository.FindByName(difficultyName);
+                    inputQuestion.Difficulty = difficulty;
+                    if (difficulty == null)
+                    {
+                        var newDifficulty = _difficultyRepository.Add(new Difficulty { Name = questionDto.Difficulty.Name });
+                        inputQuestion.Difficulty = newDifficulty;
+                        inputQuestion.DifficultyId = newDifficulty.Id;
+                    }
 
                     if (!string.IsNullOrEmpty(questionDto.QuestionGroup.Description))
                     {
@@ -191,26 +216,6 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     {
                         inputQuestion.QuestionGroup = null;
                         inputQuestion.QuestionGroupId = null;
-                    }
-
-                    if (label != null)
-                    {
-                        inputQuestion.Label = label;
-                    }
-                    else
-                    {
-                        inputQuestion.Label = null;
-                        inputQuestion.LabelId = null;
-                    }
-
-                    if (difficulty != null)
-                    {
-                        inputQuestion.Difficulty = difficulty;
-                    }
-                    else
-                    {
-                        inputQuestion.Difficulty = null;
-                        inputQuestion.DifficultyId = null;
                     }
 
                     var result = _questionRepository.Add(inputQuestion);

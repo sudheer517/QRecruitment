@@ -237,10 +237,16 @@ namespace Quantium.Recruitment.DbInitialize
                 Name = "Modelling",
             };
 
+            Label label5 = new Label
+            {
+                Name = "Others",
+            };
+
             _dbContext.Labels.Add(label1);
             _dbContext.Labels.Add(label2);
             _dbContext.Labels.Add(label3);
             _dbContext.Labels.Add(label4);
+            _dbContext.Labels.Add(label5);
 
             #endregion Label
 
