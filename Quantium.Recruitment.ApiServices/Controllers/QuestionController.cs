@@ -86,6 +86,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         item.ItemArray.ForEach(i => questionAndOptions.Add(i.ToString()));
 
                         string[] selectedOptions = questionAndOptions[2].Split(';');
+                        selectedOptions.ForEach(so => so.Trim());
 
                         if (!validateQuestions(questionAndOptions, headers, selectedOptions))
                         {
@@ -142,6 +143,34 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                             }
                         };
 
+                        var optionsList = new List<OptionDto>();
+
+                        for (int i = 4; i < 10; i++)
+                        {
+                            string questionText = questionAndOptions[i].Trim();
+                            if (!string.IsNullOrEmpty(questionText))
+                            {
+                                optionsList.Add(new OptionDto
+                                {
+                                    Text = questionText,
+                                    IsAnswer = selectedOptions.Contains(headers[i])
+                                });
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        if(optionsList.Count == 0)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            newQuestion.Options = optionsList;
+                        }
+                        
                         questionDtos.Add(newQuestion);
                     }
                     count++;

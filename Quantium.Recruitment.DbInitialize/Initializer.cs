@@ -14,7 +14,7 @@ namespace Quantium.Recruitment.DbInitialize
 
             dataSeeder.DeleteEntries();
             dataSeeder.Seed();
-            Console.WriteLine("DB initialization finished. Press any key to exit bro !");
+            Console.WriteLine("DB initialization finished. Press any key to exit !");
             Console.ReadKey();
 
         }

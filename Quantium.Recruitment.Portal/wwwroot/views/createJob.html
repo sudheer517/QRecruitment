@@ -11,7 +11,7 @@
 </md-toolbar>
 <div ng-include="'../views/settingsFab.html'"></div>
 <md-content class="fill" layout="column">
-    <form name="difficultyLabelForm" class="difficultyLabelForm">
+    <form name="difficultyLabelForm" class="difficultyLabelForm" novalidate>
         <div layout="column">
             <md-card>
                 <md-card-content>
@@ -44,7 +44,7 @@
                             <textarea ng-model="job.Profile" required md-maxlength="150" rows="2" md-select-on-focus="" minlength="20" max-rows="5" name="profile"></textarea>
                             <div ng-messages="difficultyLabelForm.profile.$error">
                                 <div ng-message="required">Job Profile is required.</div>
-                                <div ng-message="minlength">Job Profile should be a minimum of 20 characters .</div>
+                                <div ng-message="minlength">Job Profile should be atleast 20 characters</div>
                             </div>
                         </md-input-container>
                     </div>

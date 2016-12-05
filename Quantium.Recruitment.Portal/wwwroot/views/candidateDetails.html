@@ -1,11 +1,8 @@
 ﻿<div layout="column" flex>
     <md-toolbar>
-        <div class="md-toolbar-tools">
-            <md-button hide-gt-sm class="md-icon-button">
-                <md-icon md-svg-src="../img/menu.svg"></md-icon>
-            </md-button>
-            <h1 class="justify-self-center">
-                Recruitment test
+        <div class="md-toolbar-tools" layout-gt-sm="row" layout-lt-sm="column">
+            <h1 class="justify-self-center materialHeading">
+                Please fill Profile Information
             </h1>
         </div>
     </md-toolbar>
@@ -14,8 +11,7 @@
         <div flex-gt-sm="50">
             <md-card>
                 <md-card-content>
-                    <h3 class="align-center">Please enter your details</h3>
-                    <form name="candidateDetailsForm" layout="column">
+                    <form name="candidateDetailsForm" layout="column" novalidate>
                         <div layout="row">
                             <md-input-container flex="50">
                                 <label>First Name</label>
@@ -39,6 +35,8 @@
                                 <input ng-model="candidate.Mobile" name="mobile" required type="number" minlength="10" maxlength="10">
                                 <div ng-messages="candidateDetailsForm.mobile.$error">
                                     <div ng-message="required">Mobile is required.</div>
+                                    <div ng-message="minlength">Mobile number should not contain less than 10 digits</div>
+                                    <div ng-message="maxlength">Mobile number should not contain more than 10 digits</div>
                                 </div>
                             </md-input-container>
                         </div>
@@ -84,30 +82,38 @@
                                 </div>
                             </md-input-container>
                         </div>
-                        <md-input-container>
-                            <label>Year of passing</label>
-                            <input ng-model="candidate.PassingYear" name="passingYear" required maxlength="4" type="number">
-                            <div ng-messages="candidateDetailsForm.passingYear.$error">
-                                <div ng-message="required">Graduation year is required.</div>
-                            </div>
-                        </md-input-container>
+                        <div layout="row">
+                            <md-input-container flex="100">
+                                <label>Gradudation year</label>
+                                <md-select ng-model="candidate.PassingYear" name="passingYear" required>
+                                    <md-option ng-value="year" ng-repeat="year in [2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000]">{{ year }}</md-option>
+                                </md-select>
+                                <div ng-messages="candidateDetailsForm.passingYear.$error">
+                                    <div ng-message="required">Graduation year is required.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
 
-                        <md-input-container>
-                            <label>Experience(in years)</label>
-                            <input ng-model="candidate.ExperienceInYears" name="experience" maxlength="4" type="number" required>
-                            <div ng-messages="candidateDetailsForm.experience.$error">
-                                <div ng-message="required">Experience is required.</div>
-                            </div>
-                        </md-input-container>
-
-                        <md-input-container>
-                            <label>Current company</label>
-                            <input ng-model="candidate.CurrentCompany" name="company" required maxlength="50">
-                            <div ng-messages="candidateDetailsForm.company.$error">
-                                <div ng-message="required">Current company is required.</div>
-                            </div>
-                        </md-input-container>
-
+                        <div layout-gt-xs="row" class="materialDropdownMargin">
+                            <md-input-container flex-sm="40" class="fill-width">
+                                <label>Experience(in years)</label>
+                                <md-select ng-model="candidate.ExperienceInYears" name="experience" required>
+                                    <md-option ng-value="year" ng-repeat="year in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]">{{ year + (year == 1 ? ' year' : ' years')}}</md-option>
+                                </md-select>
+                                <div ng-messages="candidateDetailsForm.experience.$error">
+                                    <div ng-message="required">Experience is required.</div>
+                                </div>
+                            </md-input-container>
+                       
+                            <md-input-container flex-sm="60" class="fill-width">
+                                <label>Current company</label>
+                                <input ng-model="candidate.CurrentCompany" name="company" maxlength="50" placeholder="N/A">
+                                <div ng-messages="candidateDetailsForm.company.$error">
+                                    <div ng-message="required">Current company is required.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        
                         <md-button type="submit" class="md-raised md-primary createJobButton" ng-click="candidateDetailsForm.$valid && proceed()">Proceed</md-button>
                     </form>
                 </md-card-content>
