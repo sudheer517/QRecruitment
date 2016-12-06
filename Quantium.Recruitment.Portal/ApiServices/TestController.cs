@@ -9,10 +9,12 @@ using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    [Route("api/test")]
+    //[Route("api/test")]
+    [Route("api/[controller]/[action]/{id?}")]
     public class TestController : Controller
     {
         private readonly ITestRepository _testRepository;
@@ -42,7 +44,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage GenerateTests(List<Candidate_JobDto> candidatesJobsDto)
+        public IActionResult GenerateTests([FromBody]List<Candidate_JobDto> candidatesJobsDto)
         {
             try
             {
@@ -120,10 +122,10 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             }
             catch(Exception ex)
             {
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return new HttpResponseMessage(HttpStatusCode.Created);
+            return StatusCode(StatusCodes.Status201Created);
         }
 
         [HttpGet]

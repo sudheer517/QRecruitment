@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    [Route("api/department")]
+    [Route("api/[controller]/[action]/{id?}")]
     public class DepartmentController : Controller
     {
         private readonly IDepartmentRepository _departmentRepository;

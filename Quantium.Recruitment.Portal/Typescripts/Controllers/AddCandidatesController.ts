@@ -27,7 +27,6 @@ module Recruitment.Controllers {
             private $http: ng.IHttpService,
             private Upload: ng.angularFileUpload.IUploadService,
             private $timeout: ng.ITimeoutService,
-            private $connectionService: Recruitment.Services.ConnectionService,
             private $candidateService: Recruitment.Services.CandidateService,
             private $state: ng.ui.IStateService,
             private $mdToast: ng.material.IToastService,

@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    [Route("api/label")]
+    //[Route("api/label")]
+    [Route("api/[controller]/[action]/{id?}")]
     public class LabelController : Controller
     {
         private readonly ILabelRepository _labelRepository;

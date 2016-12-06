@@ -13,7 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
     //[Authorize]
-    [Route("api/option")]
+    //[Route("api/option")]
+    [Route("api/[controller]/[action]/{id?}")]
     public class OptionController : Controller
     {
         private readonly IOptionRepository _optionRepository;

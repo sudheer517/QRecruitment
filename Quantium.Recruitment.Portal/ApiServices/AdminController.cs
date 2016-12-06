@@ -14,7 +14,8 @@ using Microsoft.AspNetCore.Http;
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
     //[Authorize]
-    [Route("api/admin")]
+    //[Route("api/admin")]
+    [Route("api/[controller]/[action]/{id?}")]
     public class AdminController : Controller
     {
         private readonly ICandidateRepository _candidateRepository;
@@ -51,31 +52,5 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
-
-        //    //http://localhost:60606/odata/Admins(1)
-        //    [HttpDelete]
-        //    [ODataRoute("Admins({key})")]
-        //    [EnableQuery]
-        //    public void DeleteAdmin([FromODataUri] int key)
-        //    {
-        //        var admin = _adminRepository.GetAll().Single(item => item.Id == key);
-
-        //        if (admin != null)
-        //        {
-        //            _adminRepository.Delete(admin);
-        //        }
-        //    }
-
-        //    //http://localhost:60606/odata/Admins
-        //    [HttpPatch]
-        //    [ODataRoute("Admins")]
-        //    [EnableQuery]
-        //    public void Patch([FromODataUri] int key,AdminDto adminDto)
-        //    {
-        //        var admin = Mapper.Map<Admin>(adminDto);
-
-        //        _adminRepository.Update(admin);
-        //    }
-
     }
 }

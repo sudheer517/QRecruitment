@@ -19,7 +19,8 @@ using Microsoft.AspNetCore.Http;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    [Route("api/candidate")]
+    //[Route("api/candidate")]
+    [Route("api/[controller]/[action]/{id?}")]
     public class CandidateController : Controller
     {
         private readonly ICandidateRepository _candidateRepository;

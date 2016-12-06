@@ -13,7 +13,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
     //[Authorize]
-    [Route("api/job")]
+    //[Route("api/job")]
+    [Route("api/[controller]/[action]/{id?}")]
     public class JobController : Controller
     {
         private readonly IJobRepository _jobRepository;

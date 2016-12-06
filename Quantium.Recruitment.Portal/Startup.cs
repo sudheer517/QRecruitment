@@ -11,6 +11,7 @@ using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.Portal.Models;
 using Quantium.Recruitment.Infrastructure;
 using Quantium.Recruitment.Infrastructure.Repositories;
+using Newtonsoft.Json.Serialization;
 
 namespace Quantium.Recruitment.Portal
 {
@@ -38,6 +39,7 @@ namespace Quantium.Recruitment.Portal
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+            AutoMapperConfig.RegisterMappings();
             services.AddTransient<ICandidateHelper, CandidateHelper>();
             services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddScoped<IRecruitmentContext, RecruitmentContext>();
@@ -60,7 +62,7 @@ namespace Quantium.Recruitment.Portal
             services.AddTransient<ICandidateSelectedOptionRepository, CandidateSelectedOptionRepository>();
 
             services.Configure<ConfigurationOptions>(Configuration.GetSection("ConfigurationOptions"));
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,8 +81,6 @@ namespace Quantium.Recruitment.Portal
             });
 
             app.UseStaticFiles();
-
-            
 
             app.UseIdentity();
 
@@ -109,12 +109,11 @@ namespace Quantium.Recruitment.Portal
             
             app.UseMvc(routes =>
             {
-                routes
-                .MapRoute(
+                routes.MapRoute(
                     name: "default",
-                    template: "{controller=Account}/{Action=Login}/{id?}")
+                    template: "{controller=Account}/{Action=Login}/{id?}");
 
-                .MapRoute(
+                routes.MapRoute(
                     name: "apiRoute",
                     template: "api/{controller}/{Action}/{id?}");
             });

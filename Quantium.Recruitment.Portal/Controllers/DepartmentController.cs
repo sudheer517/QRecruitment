@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace Quantium.Recruitment.Portal.Controllers
 {
     [Authorize(Roles = "SuperAdmin")]
+    [System.Web.Http.RoutePrefix("/api/")]
     public class DepartmentController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

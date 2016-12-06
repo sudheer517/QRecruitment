@@ -1,349 +1,159 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using AutoMapper;
-using Quantium.Recruitment.ApiServices.Models;
-using Quantium.Recruitment.Entities;
-using Quantium.Recruitment.Infrastructure.Repositories;
-using Quantium.Recruitment.Infrastructure.Unity;
-using System.Web;
-using ClosedXML.Excel;
-using Excel;
-using System.Data;
-using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Quantium.Recruitment.Portal.Models;
+using Microsoft.AspNetCore.Identity;
+using System.IO;
+using Microsoft.Net.Http.Headers;
+using Quantium.Recruitment.Portal.Helpers;
 using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using System.Text;
+using System.Net;
+using Newtonsoft.Json;
+using Quantium.Recruitment.ApiServiceModels;
+using Microsoft.AspNetCore.Authorization;
+// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
-    //[Authorize]
-    [Route("api/question")]
+    //[Authorize(Roles = "SuperAdmin")]
     public class QuestionController : Controller
     {
-        private readonly IQuestionRepository _questionRepository;
-        private readonly ILabelRepository _labelRepository;
-        private readonly IDifficultyRepository _difficultyRepository;
-        private readonly IQuestionGroupRepository _questionGroupRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        public QuestionController(
-            IQuestionRepository questionRepository,
-            ILabelRepository labelRepository,
-            IDifficultyRepository difficultyRepository,
-            IQuestionGroupRepository questionGroupRepository,
-            IHttpContextAccessor httpContextAccessor)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<QRecruitmentRole> _roleManager;
+        private readonly IHttpHelper _helper;
+
+        public QuestionController(UserManager<ApplicationUser> userManager, RoleManager<QRecruitmentRole> roleManager, IHttpHelper helper)
         {
-            _questionRepository = questionRepository;
-            _labelRepository = labelRepository;
-            _difficultyRepository = difficultyRepository;
-            _questionGroupRepository = questionGroupRepository;
-            _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _helper = helper;
         }
 
         [HttpGet]
-        [Route("/get")]
-        public IActionResult Get()
+        public IActionResult TestingQuestions()
         {
-            var questions = _questionRepository.GetAll().ToList();
-
-            var qDtos = Mapper.Map<IList<QuestionDto>>(questions);
-
-            return Ok(qDtos);
-        }
-
-        [HttpGet]
-        [Route("/sample")]
-        public IActionResult getSample()
-        {
-            var questions = _questionRepository.GetAll().ToList();
-
-            var qDtos = Mapper.Map<IList<QuestionDto>>(questions);
-
-            return Ok(qDtos);
-        }
-
-        [HttpGet]
-        [Route("getSingle")]
-        public IActionResult GetSingle(int key)
-        {
-            var question = _questionRepository.GetAll().Single(item => item.Id == key);
-
-            return Ok(Mapper.Map<QuestionDto>(question));
-        }
-
-        private List<QuestionDto> ParseInputQuestionFile()
-        {
-            var httpRequest = _httpContextAccessor.HttpContext.Request;
-
-            List<QuestionDto> questionDtos = new List<QuestionDto>();
-
-            IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(httpRequest.Body);
-            DataSet dataset = reader.AsDataSet();
-            var count = 1;
-            List<string> headers = new List<string>();
-            foreach (DataRow item in dataset.Tables[0].Rows)
-            {
-                if (count == 1)
-                {
-                    item.ItemArray.ForEach(i => headers.Add(i.ToString()));
-                }
-                else
-                {
-                    List<string> questionAndOptions = new List<string>();
-
-                    item.ItemArray.ForEach(i => questionAndOptions.Add(i.ToString()));
-
-                    string[] selectedOptions = questionAndOptions[2].Split(';');
-                    selectedOptions.ForEach(so => so.Trim());
-
-                    if (!validateQuestions(questionAndOptions, headers, selectedOptions))
-                    {
-                        string message = "Id " + questionAndOptions[0] + " has some invalid data";
-
-                        throw new ApplicationException(message);
-                    }
-
-                    QuestionDto newQuestion = new QuestionDto
-                    {
-                        Id = Convert.ToInt64(questionAndOptions[0]),
-                        Text = questionAndOptions[1],
-                        TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
-                        Label = new LabelDto { Name = questionAndOptions[10] },
-                        Difficulty = new DifficultyDto { Name = questionAndOptions[11] },
-                        RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
-                        ImageUrl = questionAndOptions[13],
-                        QuestionGroup = new QuestionGroupDto
-                        {
-                            Description = questionAndOptions[14]
-                        },
-                        Options = new List<OptionDto>
-                            {
-                                new OptionDto
-                                {
-                                    Text = questionAndOptions[4],
-                                    IsAnswer = selectedOptions.Contains(headers[4])
-                                },
-                                new OptionDto
-                                {
-                                    Text = questionAndOptions[5],
-                                    IsAnswer = selectedOptions.Contains(headers[5])
-                                },
-                                new OptionDto
-                                {
-                                    Text = questionAndOptions[6],
-                                    IsAnswer = selectedOptions.Contains(headers[6])
-                                },
-                                new OptionDto
-                                {
-                                    Text = questionAndOptions[7],
-                                    IsAnswer = selectedOptions.Contains(headers[7])
-                                },
-                                new OptionDto
-                                {
-                                    Text = questionAndOptions[8],
-                                    IsAnswer = selectedOptions.Contains(headers[8])
-                                },
-                                new OptionDto
-                                {
-                                    Text = questionAndOptions[9],
-                                    IsAnswer = selectedOptions.Contains(headers[9])
-                                }
-                            }
-                    };
-
-                    var optionsList = new List<OptionDto>();
-
-                    for (int i = 4; i < 10; i++)
-                    {
-                        string questionText = questionAndOptions[i].Trim();
-                        if (!string.IsNullOrEmpty(questionText))
-                        {
-                            optionsList.Add(new OptionDto
-                            {
-                                Text = questionText,
-                                IsAnswer = selectedOptions.Contains(headers[i])
-                            });
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-
-                    if (optionsList.Count == 0)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        newQuestion.Options = optionsList;
-                    }
-
-                    questionDtos.Add(newQuestion);
-                }
-                count++;
-            }
-
-
-            return questionDtos;
+            return Ok("Successful");
         }
 
         [HttpPost]
-        [Route("/previewQuestions")]
-        public IActionResult PreviewQuestions()
-        {
-            var questionDtos = ParseInputQuestionFile();
-            return Ok(questionDtos);
-        }
-
-        [HttpPost]
-        [Route("/addQuestions")]
         public IActionResult AddQuestions()
         {
-            var questionDtos = ParseInputQuestionFile();
+            var file = Request.Form.Files[0];
 
-            try
+            var response = _helper.Post("api/Question/AddQuestions", file.OpenReadStream());
+
+            var responseStream = response.Content.ReadAsStreamAsync().Result;
+            StreamReader reader = new StreamReader(responseStream);
+            var result = reader.ReadToEnd();
+
+            if (response.StatusCode != HttpStatusCode.Created)
             {
-                foreach (var questionDto in questionDtos)
-                {
-                    if (!ModelState.IsValid)
-                    {
-                        return BadRequest(ModelState);
-                    }
-
-                    questionDto.Options = questionDto.Options.Where(item => item.Text.Trim().Length > 0).ToList();
-
-                    var inputQuestion = Mapper.Map<Question>(questionDto);
-
-                    string userEnteredLabel = questionDto.Label.Name.Trim();
-                    string labelName = "Others";
-                    if (!string.IsNullOrEmpty(userEnteredLabel))
-                    {
-                        labelName = userEnteredLabel;
-                    }
-                    var label = _labelRepository.FindByName(labelName);
-                    inputQuestion.Label = label;
-                    if (label == null)
-                    {
-                        var newLabel = _labelRepository.Add(new Label { Name = labelName });
-                        inputQuestion.Label = newLabel;
-                        inputQuestion.LabelId = newLabel.Id;
-                    }
-
-                    string userEnteredDifficulty = questionDto.Difficulty.Name.Trim();
-                    string difficultyName = "Easy";
-                    if (!string.IsNullOrEmpty(userEnteredDifficulty))
-                    {
-                        difficultyName = userEnteredDifficulty;
-                    }
-                    var difficulty = _difficultyRepository.FindByName(difficultyName);
-                    inputQuestion.Difficulty = difficulty;
-                    if (difficulty == null)
-                    {
-                        var newDifficulty = _difficultyRepository.Add(new Difficulty { Name = questionDto.Difficulty.Name });
-                        inputQuestion.Difficulty = newDifficulty;
-                        inputQuestion.DifficultyId = newDifficulty.Id;
-                    }
-
-                    if (!string.IsNullOrEmpty(questionDto.QuestionGroup.Description))
-                    {
-                        var questionGroup = _questionGroupRepository.FindByName(questionDto.QuestionGroup.Description);
-
-                        if (questionGroup != null)
-                            inputQuestion.QuestionGroup = questionGroup;
-                    }
-                    else
-                    {
-                        inputQuestion.QuestionGroup = null;
-                        inputQuestion.QuestionGroupId = null;
-                    }
-
-                    var result = _questionRepository.Add(inputQuestion);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex);
+                return BadRequest(result);
             }
 
-            return Created(string.Empty, "All questions created");
+            return Json(response);
         }
 
-        [HttpPut]
-        public IActionResult Put(int key, QuestionDto questionDto)
+        [HttpPost]
+        public IActionResult PreviewQuestions()
         {
-            if (!ModelState.IsValid)
+            var file = Request.Form.Files[0];
+
+            HttpResponseMessage response = _helper.Post("api/Question/PreviewQuestions", file.OpenReadStream());
+
+            var responseStream = response.Content.ReadAsStreamAsync().Result;
+            StreamReader reader = new StreamReader(responseStream);
+            var result = reader.ReadToEnd();
+
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                return BadRequest(ModelState);
+                return BadRequest(result);
             }
 
-            var dynamicQuestion = _questionRepository.FindById(key);
+            return Ok(result);
+        }
 
-            if (dynamicQuestion == null)
-                return NotFound();
+        private string[] GetContentFromFile(IFormFile file)
+        {
 
-            var updatedQuestion = Mapper.Map(questionDto, dynamicQuestion);
-            for (int i = 0; i < dynamicQuestion.Options.Count(); i++)
+            string fileContent;
+
+            using (var reader = new StreamReader(file.OpenReadStream()))
             {
-                Mapper.Map(questionDto.Options[i], dynamicQuestion.Options[i]);
+                fileContent = reader.ReadToEnd();
             }
 
-            _questionRepository.Update(updatedQuestion);
+            return fileContent.Split(new string[] { "\r\n" }, StringSplitOptions.None).Where(item => item.Trim().Length > 0).ToArray();
+        }
 
-            return StatusCode(StatusCodes.Status204NoContent);
+        private QuestionDto ParseLineToQuestion(string[] headers, string questionLine)
+        {
+            string[] questionAndOptions = questionLine.Split(',');
+            string[] selectedOptions = questionAndOptions[2].Split(';');
+
+            QuestionDto newQuestion = new QuestionDto
+            {
+                Text = questionAndOptions[1],
+                TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
+                Label = new LabelDto { Name = questionAndOptions[10] },
+                Difficulty = new DifficultyDto { Name = questionAndOptions[11] },
+                RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
+                ImageUrl = questionAndOptions[13],
+                QuestionGroup = new QuestionGroupDto
+                {
+                    Description = questionAndOptions[14]
+                },
+                Options = new List<OptionDto>
+                {
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[4],
+                        IsAnswer = selectedOptions.Contains(headers[4])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[5],
+                        IsAnswer = selectedOptions.Contains(headers[5])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[6],
+                        IsAnswer = selectedOptions.Contains(headers[6])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[7],
+                        IsAnswer = selectedOptions.Contains(headers[7])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[8],
+                        IsAnswer = selectedOptions.Contains(headers[8])
+                    },
+                    new OptionDto
+                    {
+                        Text = questionAndOptions[9],
+                        IsAnswer = selectedOptions.Contains(headers[9])
+                    }
+                }
+            };
+
+            return newQuestion;
         }
 
         [HttpGet]
-        [Route("/GetQuestionsByLabelAndDifficulty")]
         public IActionResult GetQuestionsByLabelAndDifficulty()
         {
-            var allQuestions = _questionRepository.GetAll();
+            var response = _helper.GetData("api/Question/GetQuestionsByLabelAndDifficulty");
 
-            var questionDifficultyLabelDto = allQuestions.GroupBy(x => new { x.LabelId, x.DifficultyId }, (key, group) => new Question_Difficulty_LabelDto
-            {
-                LabelId = key.LabelId.Value,
-                DifficultyId = key.DifficultyId.Value,
-                QuestionCount = group.ToList().Count
-            }).ToList();
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new Exception("Question retrival failed");
 
-            if (questionDifficultyLabelDto.Count < 1)
-            {
-                throw new Exception("No questions found");
-            }
-
-            return Ok(questionDifficultyLabelDto);
-        }
-
-        private bool validateQuestions(IList<string> question, IList<string> headers, IList<string> options)
-        {
-            var mandatoryFields = new List<int> { 1, 2, 3, 10, 11 };
-            var dataValid = true;
-
-            foreach (int mandatory in mandatoryFields)
-            {
-                if (question.ElementAt(mandatory) == string.Empty)
-                {
-                    dataValid = false;
-                }
-            }
-
-            var optionFields = new List<int> { 4, 5, 6, 7, 8, 9 };
-
-            foreach (string option in options)
-            {
-                if (!(optionFields.Any(field => headers.ElementAt(field) == option)))
-                {
-                    dataValid = false;
-                }
-            }
-
-            if (optionFields.All(field => question.ElementAt(field) == string.Empty))
-            {
-                dataValid = false;
-            }
-
-            return dataValid;
+            return Ok(response.Content.ReadAsStringAsync().Result);
         }
     }
 }

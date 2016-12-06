@@ -15,7 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    [Route("api/challenge")]
+    //[Route("api/challenge")]
+    [Route("api/[controller]/[action]/{id?}")]
     public class ChallengeController : Controller
     {
         private readonly IChallengeRepository _challengeRepository;

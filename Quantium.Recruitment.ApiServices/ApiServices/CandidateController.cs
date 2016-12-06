@@ -184,25 +184,5 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             return new EmailAddressAttribute().IsValid(input);
         }
-
-        ////http://localhost:60606/odata/Admins
-        //[HttpGet]
-        //[ODataRoute("Admins")]
-        //public IHttpActionResult GetAdmins()
-        //{
-        //    var admins = _adminRepository.GetAll().ToList();
-
-        //    return Ok(Mapper.Map<IList<AdminDto>>(admins));
-        //}
-
-        ////http://localhost:60606/odata/Admins(1)
-        //[HttpGet]
-        //[ODataRoute("Admins({key})")]
-        //public IHttpActionResult GetAdmin([FromODataUri] int key)
-        //{
-        //    var admin = _adminRepository.GetAll().Single(item => item.Id == key);
-
-        //    return Ok(Mapper.Map<AdminDto>(admin));
-        //}
     }
 }
