@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Quantium.Recruitment.Portal.Data;
 using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.Portal.Models;
+using Quantium.Recruitment.Infrastructure;
+using Quantium.Recruitment.Infrastructure.Repositories;
 
 namespace Quantium.Recruitment.Portal
 {
@@ -38,6 +40,24 @@ namespace Quantium.Recruitment.Portal
 
             services.AddTransient<ICandidateHelper, CandidateHelper>();
             services.AddTransient<IHttpHelper, HttpHelper>();
+            services.AddScoped<IRecruitmentContext, RecruitmentContext>();
+            services.AddTransient<IConnectionString, ConnectionString>();
+            services.AddTransient<ICandidateRepository, CandidateRepository>();
+            services.AddTransient<IAdminRepository, AdminRepository>();
+            services.AddTransient<IDepartmentRepository, DepartmentRepository>();
+                     
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<IOptionRepository, OptionRepository>();
+            services.AddTransient<ILabelRepository, LabelRepository>();
+            services.AddTransient<IDifficultyRepository, DifficultyRepository>();
+            services.AddTransient<IJobLabelDifficultyRepository, JobLabelDifficultyRepository>();
+            services.AddTransient<IQuestionGroupRepository, QuestionGroupRepository>();
+                     
+            services.AddTransient<ITestRepository, TestRepository>();
+            services.AddTransient<IJobRepository, JobRepository>();
+            services.AddTransient<ICandidateJobRepository, CandidateJobRepository>();
+            services.AddTransient<IChallengeRepository, ChallengeRepository>();
+            services.AddTransient<ICandidateSelectedOptionRepository, CandidateSelectedOptionRepository>();
 
             services.Configure<ConfigurationOptions>(Configuration.GetSection("ConfigurationOptions"));
             services.AddMvc();
@@ -59,6 +79,8 @@ namespace Quantium.Recruitment.Portal
             });
 
             app.UseStaticFiles();
+
+            
 
             app.UseIdentity();
 
@@ -87,9 +109,14 @@ namespace Quantium.Recruitment.Portal
             
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
+                routes
+                .MapRoute(
                     name: "default",
-                    template: "{controller=Account}/{Action=Login}/{id?}");
+                    template: "{controller=Account}/{Action=Login}/{id?}")
+
+                .MapRoute(
+                    name: "apiRoute",
+                    template: "api/{controller}/{Action}/{id?}");
             });
         }
     }

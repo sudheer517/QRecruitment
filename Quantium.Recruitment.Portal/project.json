@@ -1,9 +1,5 @@
 {
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0",
-      "type": "platform"
-    },
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Google": "1.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
@@ -20,12 +16,17 @@
     "Microsoft.Extensions.Configuration.Json": "1.0.0",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",
-    "System.Linq": "4.1.0",
     "Microsoft.AspNetCore.Authentication.Facebook": "1.0.0",
     "Microsoft.AspNetCore.Authentication.MicrosoftAccount": "1.0.0",
-    "IdentityModel": "1.13.0",
+    "IdentityModel": "2.0.0",
+    "System.Linq": "4.0.0",
     "System.ComponentModel.EventBasedAsync": "4.0.10",
-    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.0"
+    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.0",
+    "Microsoft.AspNet.WebApi.Core": "5.2.3",
+    "AutoMapper": "5.1.1",
+    "ClosedXML": "0.80.1",
+    "ExcelDataReader": "2.1.2.3",
+    "EntityFramework": "6.1.3"
   },
 
   "tools": {
@@ -33,11 +34,14 @@
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
-      "imports": [
-        "dotnet5.6",
-        "portable-net45+win8"
-      ]
+    "net461": {
+      "frameworkAssemblies": {
+      },
+      "dependencies": {
+        "Quantium.Recruitment.Infrastructure": {
+          "target": "project"
+        }
+      }
     }
   },
 

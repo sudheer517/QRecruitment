@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.ApiServiceModels;
-using System.Web.Http;
 using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
@@ -66,7 +65,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [Authorize(Roles = "SuperAdmin")]
-        public IActionResult GetTestById([FromUri]long id)
+        public IActionResult GetTestById(long id)
         {
             var response = _helper.GetData("/api/Test/GetTestById?id=" + id);
             return Ok(response.Content.ReadAsStringAsync().Result);
@@ -74,7 +73,7 @@ namespace Quantium.Recruitment.Portal.Controllers
 
         [HttpGet]
         [Authorize(Roles = "SuperAdmin")]
-        public IActionResult GetFinishedTestById([FromUri]long id)
+        public IActionResult GetFinishedTestById(long id)
         {
             var response = _helper.GetData("/api/Test/GetFinishedTestById?id=" + id);
             return Ok(response.Content.ReadAsStringAsync().Result);
