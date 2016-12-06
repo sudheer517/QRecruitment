@@ -128,7 +128,7 @@ md-list-item{
     display: none;
 }
 .no-pointer{
-    cursor: default;
+    cursor: default !important;
 }
 .text-align-center{
     text-align: center;
@@ -140,6 +140,10 @@ md-list-item{
 
 .instructions{
     font-size: 1.5em !important;
+}
+
+.instructions-list._md-button-wrap>div.md-button:first-child >.md-button:first-child{
+    .no-pointer;
 }
 .red-color{
     color: red;
