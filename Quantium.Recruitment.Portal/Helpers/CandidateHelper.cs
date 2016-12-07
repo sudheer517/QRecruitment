@@ -1,6 +1,6 @@
 ﻿using IdentityModel.Client;
 using Newtonsoft.Json;
-using Quantium.Recruitment.ApiServiceModels;
+using Quantium.Recruitment.ApiServices.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

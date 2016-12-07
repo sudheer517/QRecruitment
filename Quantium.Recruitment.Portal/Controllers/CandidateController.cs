@@ -8,7 +8,7 @@ using IdentityModel.Client;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using Quantium.Recruitment.Portal.Helpers;
-using Quantium.Recruitment.ApiServiceModels;
+using Quantium.Recruitment.ApiServices.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Identity;

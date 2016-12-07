@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Quantium.Recruitment.ApiServiceModels;
+using Quantium.Recruitment.ApiServices.Models;
 using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.Portal.Models;
 using System;

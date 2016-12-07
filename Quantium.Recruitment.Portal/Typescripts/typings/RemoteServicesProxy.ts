@@ -79,6 +79,22 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
+    export class Candidate_JobDto { 
+        public Id: number;
+        public Candidate: CandidateDto;
+        public Job: JobDto;
+        public IsFinished: boolean;
+        constructor();
+        constructor(Id?: number, Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean);
+        constructor(Id?: number, Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean){
+            this.Id = Id;
+            this.Candidate = Candidate;
+            this.Job = Job;
+            this.IsFinished = IsFinished;
+        }
+
+    }
+
     export class ChallengeDto { 
         public Id: number;
         public TestId: number;
@@ -119,18 +135,16 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class Candidate_JobDto { 
+    export class DifficultyDto { 
         public Id: number;
-        public Candidate: CandidateDto;
-        public Job: JobDto;
-        public IsFinished: boolean;
+        public Name: string;
+        public JobDifficultyLabels: Job_Difficulty_LabelDto[];
         constructor();
-        constructor(Id?: number, Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean);
-        constructor(Id?: number, Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean){
+        constructor(Id?: number, Name?: string, JobDifficultyLabels?: Job_Difficulty_LabelDto[]);
+        constructor(Id?: number, Name?: string, JobDifficultyLabels?: Job_Difficulty_LabelDto[]){
             this.Id = Id;
-            this.Candidate = Candidate;
-            this.Job = Job;
-            this.IsFinished = IsFinished;
+            this.Name = Name;
+            this.JobDifficultyLabels = JobDifficultyLabels;
         }
 
     }
@@ -155,16 +169,22 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
-    export class Question_Difficulty_LabelDto { 
-        public DifficultyId: number;
-        public LabelId: number;
-        public QuestionCount: number;
+    export class Job_Difficulty_LabelDto { 
+        public Id: number;
+        public Difficulty: DifficultyDto;
+        public Label: LabelDto;
+        public DisplayQuestionCount: number;
+        public PassingQuestionCount: number;
+        public AnsweredCount: number;
         constructor();
-        constructor(DifficultyId?: number, LabelId?: number, QuestionCount?: number);
-        constructor(DifficultyId?: number, LabelId?: number, QuestionCount?: number){
-            this.DifficultyId = DifficultyId;
-            this.LabelId = LabelId;
-            this.QuestionCount = QuestionCount;
+        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number, AnsweredCount?: number);
+        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number, AnsweredCount?: number){
+            this.Id = Id;
+            this.Difficulty = Difficulty;
+            this.Label = Label;
+            this.DisplayQuestionCount = DisplayQuestionCount;
+            this.PassingQuestionCount = PassingQuestionCount;
+            this.AnsweredCount = AnsweredCount;
         }
 
     }
@@ -177,20 +197,6 @@ module Quantium.Recruitment.ODataEntities {
         constructor(Id?: number, Name?: string){
             this.Id = Id;
             this.Name = Name;
-        }
-
-    }
-
-    export class Test_LabelDto { 
-        public Id: number;
-        public Test: TestDto;
-        public Label: LabelDto;
-        constructor();
-        constructor(Id?: number, Test?: TestDto, Label?: LabelDto);
-        constructor(Id?: number, Test?: TestDto, Label?: LabelDto){
-            this.Id = Id;
-            this.Test = Test;
-            this.Label = Label;
         }
 
     }
@@ -211,40 +217,6 @@ module Quantium.Recruitment.ODataEntities {
             this.ImageUrl = ImageUrl;
             this.IsAnswer = IsAnswer;
             this.IsCandidateSelected = IsCandidateSelected;
-        }
-
-    }
-
-    export class DifficultyDto { 
-        public Id: number;
-        public Name: string;
-        public JobDifficultyLabels: Job_Difficulty_LabelDto[];
-        constructor();
-        constructor(Id?: number, Name?: string, JobDifficultyLabels?: Job_Difficulty_LabelDto[]);
-        constructor(Id?: number, Name?: string, JobDifficultyLabels?: Job_Difficulty_LabelDto[]){
-            this.Id = Id;
-            this.Name = Name;
-            this.JobDifficultyLabels = JobDifficultyLabels;
-        }
-
-    }
-
-    export class Job_Difficulty_LabelDto { 
-        public Id: number;
-        public Difficulty: DifficultyDto;
-        public Label: LabelDto;
-        public DisplayQuestionCount: number;
-        public PassingQuestionCount: number;
-        public AnsweredCount: number;
-        constructor();
-        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number, AnsweredCount?: number);
-        constructor(Id?: number, Difficulty?: DifficultyDto, Label?: LabelDto, DisplayQuestionCount?: number, PassingQuestionCount?: number, AnsweredCount?: number){
-            this.Id = Id;
-            this.Difficulty = Difficulty;
-            this.Label = Label;
-            this.DisplayQuestionCount = DisplayQuestionCount;
-            this.PassingQuestionCount = PassingQuestionCount;
-            this.AnsweredCount = AnsweredCount;
         }
 
     }
@@ -287,6 +259,20 @@ module Quantium.Recruitment.ODataEntities {
 
     }
 
+    export class Question_Difficulty_LabelDto { 
+        public DifficultyId: number;
+        public LabelId: number;
+        public QuestionCount: number;
+        constructor();
+        constructor(DifficultyId?: number, LabelId?: number, QuestionCount?: number);
+        constructor(DifficultyId?: number, LabelId?: number, QuestionCount?: number){
+            this.DifficultyId = DifficultyId;
+            this.LabelId = LabelId;
+            this.QuestionCount = QuestionCount;
+        }
+
+    }
+
     export class TestDto { 
         public Id: number;
         public Name: string;
@@ -317,6 +303,20 @@ module Quantium.Recruitment.ODataEntities {
             this.TotalChallengesAnswered = TotalChallengesAnswered;
             this.IsTestPassed = IsTestPassed;
             this.CreatedByUserId = CreatedByUserId;
+        }
+
+    }
+
+    export class Test_LabelDto { 
+        public Id: number;
+        public Test: TestDto;
+        public Label: LabelDto;
+        constructor();
+        constructor(Id?: number, Test?: TestDto, Label?: LabelDto);
+        constructor(Id?: number, Test?: TestDto, Label?: LabelDto){
+            this.Id = Id;
+            this.Test = Test;
+            this.Label = Label;
         }
 
     }

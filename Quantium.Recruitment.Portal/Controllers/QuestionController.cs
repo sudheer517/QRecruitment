@@ -13,7 +13,7 @@ using System.Net.Http;
 using System.Text;
 using System.Net;
 using Newtonsoft.Json;
-using Quantium.Recruitment.ApiServiceModels;
+using Quantium.Recruitment.ApiServices.Models;
 using Microsoft.AspNetCore.Authorization;
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 

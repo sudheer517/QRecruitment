@@ -42,11 +42,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin.cs" />
+    <Compile Include="AssemblyReferenceType.cs" />
     <Compile Include="Candidate.cs" />
     <Compile Include="CandidateSelectedOption.cs" />
     <Compile Include="Candidate_Job.cs" />
     <Compile Include="Challenge.cs" />
     <Compile Include="Department.cs" />
+    <Compile Include="Dtos\AdminDto.cs" />
+    <Compile Include="Dtos\CandidateDto.cs" />
+    <Compile Include="Dtos\CandidateSelectedOptionDto.cs" />
+    <Compile Include="Dtos\Candidate_JobDto.cs" />
+    <Compile Include="Dtos\ChallengeDto.cs" />
+    <Compile Include="Dtos\DepartmentDto.cs" />
+    <Compile Include="Dtos\DifficultyDto.cs" />
+    <Compile Include="Dtos\JobDto.cs" />
+    <Compile Include="Dtos\Job_Difficulty_LabelDto.cs" />
+    <Compile Include="Dtos\LabelDto.cs" />
+    <Compile Include="Dtos\OptionDto.cs" />
+    <Compile Include="Dtos\QuestionDto.cs" />
+    <Compile Include="Dtos\QuestionGroupDto.cs" />
+    <Compile Include="Dtos\Question_Difficulty_LabelDto.cs" />
+    <Compile Include="Dtos\TestDto.cs" />
+    <Compile Include="Dtos\Test_LabelDto.cs" />
     <Compile Include="Job_Label_Difficulty.cs" />
     <Compile Include="Test_Label.cs" />
     <Compile Include="Identifiable.cs" />
