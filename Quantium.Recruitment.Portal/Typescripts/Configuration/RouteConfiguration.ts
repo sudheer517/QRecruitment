@@ -149,7 +149,7 @@ module Recruitment.Routes {
 
                     .state("candidatesList",
                     {
-                        url: "/candidatesList", controller: Controllers.TestResultsController, templateUrl: "/views/candidatesList.html"
+                        url: "/candidatesList", controller: Controllers.CandidatesListController, templateUrl: "/views/candidatesList.html"
                         , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
             });

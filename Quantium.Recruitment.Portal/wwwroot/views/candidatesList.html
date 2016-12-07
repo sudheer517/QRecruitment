@@ -1,1 +1,21 @@
-﻿<div> This is candidates list page. You can view candidates here</div>
+﻿<div ng-controller="candidatesListController">
+    <div layout="column">
+        <div layout="row" class="margin-top-20">
+            <md-input-container flex-gt-xs="30">
+                <md-icon md-svg-src="../img/search.svg" class="email"></md-icon>
+                <input ng-model="search" placeholder="Search Candidates" class="clearXinIE">
+            </md-input-container>
+        </div>
+        {{search}}
+        <div layout="row" layout-wrap>
+            <div ng-repeat="candidate in candidates | filter: search">
+                <md-card>
+                    <md-card-content>
+                        <h4><b>Name : </b>{{candidate.FirstName}} {{candidate.LastName}}</h4>
+                        <h4><b>Email : </b>{{candidate.Email}}</h4>
+                    </md-card-content>
+                </md-card>
+            </div>
+        </div>
+    </div>
+</div>
