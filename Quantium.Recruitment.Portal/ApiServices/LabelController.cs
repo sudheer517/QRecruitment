@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using AutoMapper;
-using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;

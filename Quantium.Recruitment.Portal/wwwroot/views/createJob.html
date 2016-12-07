@@ -38,7 +38,7 @@
                             </md-input-container>
                         </div>
                     </div>
-                    <div layout="row">
+                    <div layout="row" class="margin-top-20">
                         <md-input-container class="md-block" flex-gt-sm="">
                             <label>Job Profile</label>
                             <textarea ng-model="job.Profile" required md-maxlength="150" rows="2" md-select-on-focus="" minlength="20" max-rows="5" name="profile"></textarea>
@@ -50,18 +50,12 @@
                     </div>
                 </md-card-content>
             </md-card>
-            <!--<md-card>
-                <md-card-content>
-                    <h4>You should add labels, difficulties and the question counts for the kind of questions you want the test to have</h4>
-                    <h4>You cannot select more questions than the number of questions that are available for the given label and difficulty</h4>
-                    <h4>You can remove the label and difficulties you dont want to include for this job</h4>
-                </md-card-content>
-            </md-card>-->
+            
             <md-card>
                 <md-card-content>
                     <md-card-title>
                         <md-card-title-text>
-                            <span class="md-headline">Add Label and Difficulties</span>
+                            <span class="md-headline justify-self-center">Add Label and Difficulties</span>
                         </md-card-title-text>
                     </md-card-title>
                     <div layout="column" flex>
@@ -72,13 +66,12 @@
                                     <md-select required name="label{{jobDifficultyLabel.LabelId}}" 
                                                ng-model="jobDifficultyLabel.LabelId" 
                                                ng-change="showAvailableQuestions(jobDifficultyLabel)">
-                                        <md-option><em>None</em></md-option>
                                         <md-option ng-repeat="label in labels" ng-value="label.Id">
                                             {{label.Name}}
                                         </md-option>
                                     </md-select>
                                     <div ng-messages="difficultyLabelForm['label' + jobDifficultyLabel.LabelId].$error" 
-                                         ng-show="difficultyLabelForm['label' + jobDifficultyLabel.LabelId].$touched" >
+                                         ng-if="difficultyLabelForm['label' + jobDifficultyLabel.LabelId].$touched" >
                                         <div ng-message="required">This is required.</div>
                                     </div>
                                 </md-input-container>
@@ -87,23 +80,26 @@
                                     <md-select required name="difficulty{{jobDifficultyLabel.DifficultyId}}" 
                                                ng-model="jobDifficultyLabel.DifficultyId" 
                                                ng-change="showAvailableQuestions(jobDifficultyLabel)">
-                                        <md-option><em>None</em></md-option>
                                         <md-option ng-repeat="difficulty in difficulties" ng-value="difficulty.Id">
                                             {{difficulty.Name}}
                                         </md-option>
                                     </md-select>
                                     <div ng-messages="difficultyLabelForm['difficulty' + jobDifficultyLabel.DifficultyId].$error" 
-                                         ng-show="difficultyLabelForm['difficulty' + jobDifficultyLabel.DifficultyId].$touched">
+                                         ng-if="difficultyLabelForm['difficulty' + jobDifficultyLabel.DifficultyId].$touched">
                                         <div ng-message="required">This is required.</div>
                                     </div>
                                 </md-input-container>
-
                                 <md-input-container class="" flex-gt-sm="20" flex-lt-sm="100"
-                                                    ng-show="(jobDifficultyLabel.QuestionCount &&  (jobDifficultyLabel.QuestionCount > 0)) === true">
+                                                    ng-if="(jobDifficultyLabel.QuestionCount &&  (jobDifficultyLabel.QuestionCount > 0)) === true">
                                     <label>Questions to display</label>
-                                    <input ng-model="jobDifficultyLabel.UserQuestionCount" name="userQuestionCount{{jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId}}" required type="number" min="1" max={{jobDifficultyLabel.QuestionCount}} ng-pattern="/^\d+$/" placeholder="{{jobDifficultyLabel.QuestionCount}}">
+                                    <md-select required name="userQuestionCount{{jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId}}"
+                                               ng-model="jobDifficultyLabel.UserQuestionCount">
+                                        <md-option ng-repeat="jdl in getArray(jobDifficultyLabel.QuestionCount) track by $index" ng-value="($index + 1)">
+                                            {{$index + 1}}
+                                        </md-option>
+                                    </md-select>
                                     <div ng-messages="difficultyLabelForm['userQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$error" 
-                                          ng-show="difficultyLabelForm['userQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$touched" role="alert">
+                                          ng-if="difficultyLabelForm['userQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$touched" role="alert">
                                         <div ng-message-exp="['required', 'min', 'max', 'pattern']">
                                             This should not be less than 1 and greater than {{jobDifficultyLabel.QuestionCount}}
                                         </div>
@@ -111,11 +107,16 @@
                                 </md-input-container>
 
                                 <md-input-container class="" flex-gt-sm="20" flex-lt-sm="100"
-                                                    ng-show="jobDifficultyLabel.UserQuestionCount">
+                                                    ng-if="jobDifficultyLabel.UserQuestionCount">
                                     <label>Questions to pass</label>
-                                    <input ng-model="jobDifficultyLabel.PassingQuestionCount" name="passingQuestionCount{{jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId}}" required type="number" min="1" max={{jobDifficultyLabel.UserQuestionCount}} ng-pattern="/^\d+$/" placeholder="{{jobDifficultyLabel.UserQuestionCount}}">
-                                    <div ng-messages="difficultyLabelForm['passingQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$error"
-                                         ng-show="difficultyLabelForm['passingQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$touched" role="alert">
+                                    <md-select required name="passingQuestionCount{{jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId}}"
+                                               ng-model="jobDifficultyLabel.PassingQuestionCount">
+                                        <md-option ng-repeat="jdl in getArray(jobDifficultyLabel.UserQuestionCount) track by $index" ng-value="($index + 1)">
+                                            {{$index + 1}}
+                                        </md-option>
+                                    </md-select>
+                                   <div ng-messages="difficultyLabelForm['passingQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$error"
+                                         ng-if="difficultyLabelForm['passingQuestionCount' + jobDifficultyLabel.DifficultyId + jobDifficultyLabel.LabelId].$touched" role="alert">
                                         <div ng-message-exp="['required', 'min', 'max', 'pattern']">
                                             This should not be less than 1 and greater than {{jobDifficultyLabel.UserQuestionCount}}
                                         </div>
@@ -131,8 +132,7 @@
                                 <md-icon md-svg-icon="add"></md-icon>
                             </md-button>
                         </div>
-                        <md-button ng-disabled="!questionDifficultyLabels" type="submit" class="md-raised md-primary createJobButton" ng-click="difficultyLabelForm.$valid && createJob()"
-                                   >Create Job</md-button>
+                        <md-button ng-disabled="!questionDifficultyLabels" type="submit" class="md-raised md-primary createJobButton" ng-click="difficultyLabelForm.$valid && createJob()">Create Job</md-button>
                     </div>
                 </md-card-content>
             </md-card>
@@ -143,23 +143,7 @@
 <div style="visibility: hidden">
     <div class="md-dialog-container" id="uploadStatusModal">
         <md-dialog>
-            <md-toolbar class="md-accent">
-                <div class="md-toolbar-tools">
-                    <h3>
-                        Job creation in progress
-                    </h3>
-                </div>
-            </md-toolbar>
-            <md-content>
-                <md-card>
-                    <md-card-content>
-                        <div layout="row" layout-align="space-around">
-                            <md-progress-circular md-mode="indeterminate" class="md-primary"></md-progress-circular>
-                        </div>
-                    </md-card-content>
-                </md-card>
-                
-            </md-content>
+            <md-progress-circular md-mode="indeterminate" class="md-primary justify-self-center"></md-progress-circular>
         </md-dialog>
     </div>
 </div>

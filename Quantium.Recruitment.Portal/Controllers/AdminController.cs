@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Quantium.Recruitment.Portal.Helpers;
-using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Models;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 

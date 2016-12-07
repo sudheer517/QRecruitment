@@ -43,7 +43,7 @@
                     </h1>
                 </div>
             </md-toolbar>
-            <div>
+            <div class="fill-height">
                 <p ng-hide="previewQuestionModels.length > 0">No questions uploaded yet</p>
                 <div class="previewQuestion" ng-repeat="previewQuestionModel in previewQuestionModels">
                     <md-content>
@@ -55,7 +55,7 @@
                                 <h4>Difficulty : {{previewQuestionModel.Difficulty.Name}}</h4>
                                 <h4>Randomize Options : {{previewQuestionModel.RandomizeOptions}}</h4>
                                 <h4>Question Group : {{previewQuestionModel.QuestionGroup.Description}}</h4>
-                                <div>
+                                <div ng-if="previewQuestionModel.ImageUrl.length > 0">
                                     <img ng-src="{{previewQuestionModel.ImageUrl}}" class="imagePreview"/>
                                 </div>
                                 <div class="previewOptionList">
@@ -74,23 +74,8 @@
 
 <div style="visibility: hidden">
     <div class="md-dialog-container" id="uploadStatusModal">
-        <md-dialog flex-gt-sm="50">
-            <md-toolbar class="md-accent">
-                <div class="md-toolbar-tools">
-                    <h3>
-                        Please wait while your questions are uploaded
-                    </h3>
-                </div>
-            </md-toolbar>
-            <md-content layout="row" class="fill">
-                <md-card flex>
-                    <md-card-content>
-                        <div layout="row" layout-align="space-around">
-                            <md-progress-circular md-mode="indeterminate" class="md-primary"></md-progress-circular>
-                        </div>
-                    </md-card-content>
-                </md-card>
-            </md-content>
+        <md-dialog>
+            <md-progress-circular md-mode="indeterminate" class="md-primary justify-self-center"></md-progress-circular>
         </md-dialog>
     </div>
 </div>

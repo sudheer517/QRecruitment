@@ -22,6 +22,7 @@ module Recruitment.Controllers {
         showAvailableQuestions(jobDifficultyLabel: any): void;
         isQuestionsFound: boolean;
         toggleSidenav(): void;
+        getArray: (arraySize: number) => Array<any>;
     }
     export class SelectedOptions {
         public labelIds: boolean[];
@@ -58,6 +59,7 @@ module Recruitment.Controllers {
                 this.$scope.addJobDifficultyLabel = () => this.addJobDifficultyLabel();
                 this.getQuestionDifficultyLabels();
                 this.$scope.toggleSidenav = () => this.toggleSidenav();
+                this.$scope.getArray = (arraySize) => this.getArray(arraySize);
                 this.$scope.showAvailableQuestions = (jobDifficultyLabel: any) => this.showAvailableQuestions(jobDifficultyLabel);
         }
 
@@ -65,6 +67,9 @@ module Recruitment.Controllers {
             this.$mdSidenav("left").toggle();
         }
 
+        private getArray(arraySize: number): Array<any> {
+            return new Array(arraySize); 
+        }
         private showAvailableQuestions(jobDifficultyLabel: any): void {
             jobDifficultyLabel.UserQuestionCount = null;
             _.each(this.$scope.questionDifficultyLabels, (qdlItem, qdlIndex) => {

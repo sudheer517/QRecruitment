@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using AutoMapper;
-using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Quantium.Recruitment.Infrastructure.Unity;
@@ -77,47 +77,49 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             var httpRequest = _httpContextAccessor.HttpContext.Request;
 
             List<QuestionDto> questionDtos = new List<QuestionDto>();
-
-            IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(httpRequest.Body);
-            DataSet dataset = reader.AsDataSet();
-            var count = 1;
-            List<string> headers = new List<string>();
-            foreach (DataRow item in dataset.Tables[0].Rows)
+            using (var ms = new MemoryStream())
             {
-                if (count == 1)
+                httpRequest.Body.CopyToAsync(ms);
+                IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(ms);
+                DataSet dataset = reader.AsDataSet();
+                var count = 1;
+                List<string> headers = new List<string>();
+                foreach (DataRow item in dataset.Tables[0].Rows)
                 {
-                    item.ItemArray.ForEach(i => headers.Add(i.ToString()));
-                }
-                else
-                {
-                    List<string> questionAndOptions = new List<string>();
-
-                    item.ItemArray.ForEach(i => questionAndOptions.Add(i.ToString()));
-
-                    string[] selectedOptions = questionAndOptions[2].Split(';');
-                    selectedOptions.ForEach(so => so.Trim());
-
-                    if (!validateQuestions(questionAndOptions, headers, selectedOptions))
+                    if (count == 1)
                     {
-                        string message = "Id " + questionAndOptions[0] + " has some invalid data";
-
-                        throw new ApplicationException(message);
+                        item.ItemArray.ForEach(i => headers.Add(i.ToString()));
                     }
-
-                    QuestionDto newQuestion = new QuestionDto
+                    else
                     {
-                        Id = Convert.ToInt64(questionAndOptions[0]),
-                        Text = questionAndOptions[1],
-                        TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
-                        Label = new LabelDto { Name = questionAndOptions[10] },
-                        Difficulty = new DifficultyDto { Name = questionAndOptions[11] },
-                        RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
-                        ImageUrl = questionAndOptions[13],
-                        QuestionGroup = new QuestionGroupDto
+                        List<string> questionAndOptions = new List<string>();
+
+                        item.ItemArray.ForEach(i => questionAndOptions.Add(i.ToString()));
+
+                        string[] selectedOptions = questionAndOptions[2].Split(';');
+                        selectedOptions.ForEach(so => so.Trim());
+
+                        if (!validateQuestions(questionAndOptions, headers, selectedOptions))
                         {
-                            Description = questionAndOptions[14]
-                        },
-                        Options = new List<OptionDto>
+                            string message = "Id " + questionAndOptions[0] + " has some invalid data";
+
+                            throw new ApplicationException(message);
+                        }
+
+                        QuestionDto newQuestion = new QuestionDto
+                        {
+                            Id = Convert.ToInt64(questionAndOptions[0]),
+                            Text = questionAndOptions[1],
+                            TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
+                            Label = new LabelDto { Name = questionAndOptions[10] },
+                            Difficulty = new DifficultyDto { Name = questionAndOptions[11] },
+                            RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
+                            ImageUrl = questionAndOptions[13],
+                            QuestionGroup = new QuestionGroupDto
+                            {
+                                Description = questionAndOptions[14]
+                            },
+                            Options = new List<OptionDto>
                             {
                                 new OptionDto
                                 {
@@ -150,41 +152,41 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                                     IsAnswer = selectedOptions.Contains(headers[9])
                                 }
                             }
-                    };
+                        };
 
-                    var optionsList = new List<OptionDto>();
+                        var optionsList = new List<OptionDto>();
 
-                    for (int i = 4; i < 10; i++)
-                    {
-                        string questionText = questionAndOptions[i].Trim();
-                        if (!string.IsNullOrEmpty(questionText))
+                        for (int i = 4; i < 10; i++)
                         {
-                            optionsList.Add(new OptionDto
+                            string questionText = questionAndOptions[i].Trim();
+                            if (!string.IsNullOrEmpty(questionText))
                             {
-                                Text = questionText,
-                                IsAnswer = selectedOptions.Contains(headers[i])
-                            });
+                                optionsList.Add(new OptionDto
+                                {
+                                    Text = questionText,
+                                    IsAnswer = selectedOptions.Contains(headers[i])
+                                });
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        if (optionsList.Count == 0)
+                        {
+                            continue;
                         }
                         else
                         {
-                            break;
+                            newQuestion.Options = optionsList;
                         }
-                    }
 
-                    if (optionsList.Count == 0)
-                    {
-                        continue;
+                        questionDtos.Add(newQuestion);
                     }
-                    else
-                    {
-                        newQuestion.Options = optionsList;
-                    }
-
-                    questionDtos.Add(newQuestion);
+                    count++;
                 }
-                count++;
             }
-
 
             return questionDtos;
         }

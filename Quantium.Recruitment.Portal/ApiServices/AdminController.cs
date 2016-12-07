@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using AutoMapper;
-using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -44,7 +44,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage AddAdmin(AdminDto adminDto)
+        public HttpResponseMessage AddAdmin([FromBody]AdminDto adminDto)
         {
             var admin = Mapper.Map<Admin>(adminDto);
 

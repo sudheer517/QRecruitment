@@ -4,11 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using AutoMapper;
-using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Quantium.Recruitment.Infrastructure.Unity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -53,7 +54,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage Create(JobDto jobDto)
+        public IActionResult Create([FromBody]JobDto jobDto)
         {
             try
             {
@@ -76,9 +77,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             }
             catch(Exception ex)
             {
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return new HttpResponseMessage(HttpStatusCode.Created);
+            return StatusCode(StatusCodes.Status201Created);
         }
     }
 }

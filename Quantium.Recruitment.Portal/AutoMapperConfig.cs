@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
-using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Models;
 using Quantium.Recruitment.Entities;
 using System;
 using System.Collections.Generic;

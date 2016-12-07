@@ -15,7 +15,7 @@
         <md-card flex-gt-sm="50">
             <md-card-content flex layout="column">
                 <div class="fill">
-                    <form name="adminForm" layout="column" class="fill">
+                    <form name="adminForm" layout="column" class="fill" novalidate>
                         <md-input-container>
                             <label>First Name</label>
                             <input ng-model="admin.FirstName" required md-maxlength="30" name="firstName">
@@ -47,21 +47,21 @@
                         <md-input-container>
                             <label>Mobile</label>
                             <input ng-model="admin.Mobile" name="mobile" required type="number" minlength="10" maxlength="10">
-                            <div ng-messages="adminForm.mobile.$error" role="alert">
-                                <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
-                                    Your mobile number should be 10 digits
-                                </div>
+                            <div ng-messages="adminForm.mobile.$error">
+                                <div ng-message="required">Mobile is required.</div>
+                                <div ng-message="minlength">Mobile number should not contain less than 10 digits</div>
+                                <div ng-message="maxlength">Mobile number should not contain more than 10 digits</div>
                             </div>
                         </md-input-container>
 
                         <md-input-container>
                             <label>Department</label>
-                            <md-select ng-model="admin.DepartmentId" required name="division">
+                            <md-select ng-model="admin.DepartmentId" required name="department">
                                 <md-option ng-repeat="department in departmentList" ng-value="department.Id">
                                     {{department.Name}}
                                 </md-option>
                             </md-select>
-                            <div ng-messages="adminForm.division.$error">
+                            <div ng-messages="adminForm.department.$error">
                                 <div ng-message="required">This is required.</div>
                             </div>
                         </md-input-container>
@@ -80,23 +80,8 @@
 
 <div style="visibility: hidden">
     <div class="md-dialog-container" id="uploadStatusModal">
-        <md-dialog flex-gt-sm="50">
-            <md-toolbar class="md-accent">
-                <div class="md-toolbar-tools">
-                    <h3>
-                        Please wait while admin is being added
-                    </h3>
-                </div>
-            </md-toolbar>
-            <md-content layout="row" class="fill">
-                <md-card flex>
-                    <md-card-content>
-                        <div layout="row" layout-align="space-around">
-                            <md-progress-circular md-mode="indeterminate" class="md-primary"></md-progress-circular>
-                        </div>
-                    </md-card-content>
-                </md-card>
-            </md-content>
+        <md-dialog>
+            <md-progress-circular md-mode="indeterminate" class="md-primary justify-self-center"></md-progress-circular>
         </md-dialog>
     </div>
 </div>

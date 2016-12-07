@@ -147,7 +147,11 @@ module Recruitment.Routes {
                         , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
                     })
 
-                    
+                    .state("candidatesList",
+                    {
+                        url: "/candidatesList", controller: Controllers.TestResultsController, templateUrl: "/views/candidatesList.html"
+                        , data: { role: "SuperAdmin", redirectTo: "candidateDetails" }
+                    })
             });
         }
     }

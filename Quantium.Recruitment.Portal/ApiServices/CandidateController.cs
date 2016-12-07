@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using AutoMapper;
-using Quantium.Recruitment.ApiServices.Models;
+using Quantium.Recruitment.Models;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using System.Web;
@@ -91,43 +91,45 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             var httpRequest = _httpContextAccessor.HttpContext.Request;
 
             List<CandidateDto> candidateDtos = new List<CandidateDto>();
-
-            IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(httpRequest.Body);
-            DataSet dataset = reader.AsDataSet();
-            var count = 1;
-            List<string> headers = new List<string>();
-            foreach (DataRow item in dataset.Tables[0].Rows)
+            using (var ms = new MemoryStream())
             {
-                if (count == 1)
+                httpRequest.Body.CopyToAsync(ms);
+                IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(ms);
+                DataSet dataset = reader.AsDataSet();
+                var count = 1;
+                List<string> headers = new List<string>();
+                foreach (DataRow item in dataset.Tables[0].Rows)
                 {
-                    item.ItemArray.ForEach(i => headers.Add(i.ToString()));
-                }
-                else
-                {
-                    List<string> candidateColumns = new List<string>();
-                    item.ItemArray.ForEach(i => candidateColumns.Add(i.ToString()));
-
-                    var email = candidateColumns[3];
-
-                    if (!IsValidEmail(email))
+                    if (count == 1)
                     {
-                        string message = "Email " + email + " is not in correct format";
-                        throw new ApplicationException(message);
+                        item.ItemArray.ForEach(i => headers.Add(i.ToString()));
                     }
-
-                    CandidateDto newCandidate = new CandidateDto
+                    else
                     {
-                        Id = Convert.ToInt32(candidateColumns[0]),
-                        FirstName = candidateColumns[1],
-                        LastName = candidateColumns[2],
-                        Email = email
-                    };
+                        List<string> candidateColumns = new List<string>();
+                        item.ItemArray.ForEach(i => candidateColumns.Add(i.ToString()));
 
-                    candidateDtos.Add(newCandidate);
+                        var email = candidateColumns[3];
+
+                        if (!IsValidEmail(email))
+                        {
+                            string message = "Email " + email + " is not in correct format";
+                            throw new ApplicationException(message);
+                        }
+
+                        CandidateDto newCandidate = new CandidateDto
+                        {
+                            Id = Convert.ToInt32(candidateColumns[0]),
+                            FirstName = candidateColumns[1],
+                            LastName = candidateColumns[2],
+                            Email = email
+                        };
+
+                        candidateDtos.Add(newCandidate);
+                    }
+                    count++;
                 }
-                count++;
             }
-
 
             return candidateDtos;
         }
@@ -185,25 +187,5 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             return new EmailAddressAttribute().IsValid(input);
         }
-
-        ////http://localhost:60606/odata/Admins
-        //[HttpGet]
-        //[ODataRoute("Admins")]
-        //public IHttpActionResult GetAdmins()
-        //{
-        //    var admins = _adminRepository.GetAll().ToList();
-
-        //    return Ok(Mapper.Map<IList<AdminDto>>(admins));
-        //}
-
-        ////http://localhost:60606/odata/Admins(1)
-        //[HttpGet]
-        //[ODataRoute("Admins({key})")]
-        //public IHttpActionResult GetAdmin([FromODataUri] int key)
-        //{
-        //    var admin = _adminRepository.GetAll().Single(item => item.Id == key);
-
-        //    return Ok(Mapper.Map<AdminDto>(admin));
-        //}
     }
 }
