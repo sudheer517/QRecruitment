@@ -23,6 +23,7 @@ module Recruitment.Controllers {
         isQuestionsFound: boolean;
         toggleSidenav(): void;
         getArray: (arraySize: number) => Array<any>;
+        existingJobs: JobDto[];
     }
     export class SelectedOptions {
         public labelIds: boolean[];
@@ -45,7 +46,8 @@ module Recruitment.Controllers {
             private $mdToast: ng.material.IToastService,
             private $questionService: Services.QuestionService,
             private $timeout: ng.ITimeoutService,
-            private $mdSidenav: ng.material.ISidenavService) {
+            private $mdSidenav: ng.material.ISidenavService,
+            private $jobService: Services.JobService) {
 
                 this.getDepartments();
                 this.getLabels();
@@ -61,6 +63,17 @@ module Recruitment.Controllers {
                 this.$scope.toggleSidenav = () => this.toggleSidenav();
                 this.$scope.getArray = (arraySize) => this.getArray(arraySize);
                 this.$scope.showAvailableQuestions = (jobDifficultyLabel: any) => this.showAvailableQuestions(jobDifficultyLabel);
+                this.getExistingJobs();
+        }
+
+        private getExistingJobs(): void {
+            this.$jobService.getAllJobs().then(
+                response => {
+                    this.$scope.existingJobs = response.data;
+                },
+                error => {
+                    console.log(error);
+                });
         }
 
         private toggleSidenav(): void {
