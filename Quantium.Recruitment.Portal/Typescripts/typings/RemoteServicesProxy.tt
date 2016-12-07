@@ -14,15 +14,15 @@
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 
 <#@ output extension=".ts" #>
-<#@ assembly name="$(SolutionDir)Quantium.Recruitment.ApiServices\$(OutDir)Quantium.Recruitment.ApiServices.dll" #>
+<#@ assembly name="$(SolutionDir)Quantium.Recruitment.Entities\$(OutDir)\Debug\Quantium.Recruitment.Entities.dll" #>
 <#@ template language="C#" #>
 
 module Quantium.Recruitment.ODataEntities {
 
 <# 
 
-	var assemblyInfo = typeof(Quantium.Recruitment.ApiServices.AssemblyReferenceType).Assembly;
-	Type[] typelist = GetTypesInNamespace(assemblyInfo, "Quantium.Recruitment.ApiServices.Models");
+	var assemblyInfo = typeof(Quantium.Recruitment.Entities.AssemblyReferenceType).Assembly;
+	Type[] typelist = GetTypesInNamespace(assemblyInfo, "Quantium.Recruitment.Models");
 	for (int i = 0; i < typelist.Length; i++)
 	{
 		WriteLine("    export class " + typelist[i].Name + " { ");
