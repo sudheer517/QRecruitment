@@ -64,6 +64,15 @@ namespace Quantium.Recruitment.Portal.Controllers
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
 
+        [HttpGet]
+        [Authorize(Roles = "SuperAdmin")]
+        public IActionResult GetAllTests()
+        {
+            var response = _helper.GetData("/api/Test/GetAllTests");
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
         [Authorize(Roles = "SuperAdmin")]
         public IActionResult GetTestById(long id)
         {

@@ -155,5 +155,16 @@ namespace Quantium.Recruitment.Portal.Controllers
 
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
+
+        [HttpGet]
+        public IActionResult GetAllQuestions()
+        {
+            var response = _helper.GetData("api/Question/Get");
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new Exception("Questions retrival failed");
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
     }
 }

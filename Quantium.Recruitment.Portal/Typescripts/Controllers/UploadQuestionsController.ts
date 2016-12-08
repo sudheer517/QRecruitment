@@ -18,6 +18,7 @@ module Recruitment.Controllers {
         files01: any;
         showPrerenderedDialog: (event: any) => void;
         toggleSidenav(): void;
+        allQuestions: Question[];
     }
 
     export class UploadQuestionsController {
@@ -29,12 +30,24 @@ module Recruitment.Controllers {
             private $mdDialog: ng.material.IDialogService,
             private $mdToast: ng.material.IToastService,
             private $state: ng.ui.IStateService,
+            private $questionService: Services.QuestionService,
             private $mdSidenav: ng.material.ISidenavService) {
             this.$scope.saveChanges = () => this.saveChanges();
             this.$scope.previewQuestions = () => this.previewQuestions();
             this.$scope.previewQuestionModels = [];
             this.$scope.showPrerenderedDialog = (event) => this.showPrerenderedDialog();
             this.$scope.toggleSidenav = () => this.toggleSidenav();
+            this.getAllQuestions();
+        }
+
+        private getAllQuestions(): void {
+            this.$questionService.getAllQuestions().then(
+                response => {
+                    this.$scope.allQuestions = response.data;
+                },
+                error => {
+                    console.log(error);
+                });
         }
 
         private toggleSidenav(): void {

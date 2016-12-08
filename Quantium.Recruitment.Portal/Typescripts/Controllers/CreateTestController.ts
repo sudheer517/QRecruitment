@@ -1,6 +1,7 @@
 ﻿
 module Recruitment.Controllers {
     import JobDto = Quantium.Recruitment.ODataEntities.JobDto;
+    import TestDto = Quantium.Recruitment.ODataEntities.TestDto;
     import CandidateDto = Quantium.Recruitment.ODataEntities.CandidateDto;
     import CandidateJobDto = Quantium.Recruitment.ODataEntities.Candidate_JobDto;
 
@@ -21,6 +22,7 @@ module Recruitment.Controllers {
         selectedAll: boolean;
         checkAll: (filteredCandidates: CandidateDto[]) => void;
         selectedOptionsMap: any;
+        allTests: TestDto[];
     }
 
     class SelectedTestOptions {
@@ -41,6 +43,7 @@ module Recruitment.Controllers {
             private $mdToast: ng.material.IToastService,
             private $timeout: ng.ITimeoutService,
             private $state: ng.ui.IStateService,
+            private $testService: Services.TestService,
             private $mdSidenav: ng.material.ISidenavService) {
             this.getJobs();
             this.getCandidates();
@@ -52,6 +55,17 @@ module Recruitment.Controllers {
             this.$scope.$watchCollection(() => this.$scope.selectedtestOptions.candidateIds, () => this.updateSelectedCandidateCount());
             this.$scope.checkAll = (filteredCandidates) => this.checkAll(filteredCandidates);
             this.$scope.selectedOptionsMap = {};
+            this.getAllTests();
+        }
+
+        private getAllTests(): void {
+            this.$testService.getAllTests().then(
+                response => {
+                    this.$scope.allTests = response.data;
+                },
+                error => {
+                    console.log(error);
+                });
         }
 
         private toggleSidenav(): void {

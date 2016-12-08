@@ -6,7 +6,6 @@
                 <input ng-model="search" placeholder="Search Candidates" class="clearXinIE">
             </md-input-container>
         </div>
-        {{search}}
         <div layout="row" layout-wrap>
             <div ng-repeat="candidate in candidates | filter: search">
                 <md-card>

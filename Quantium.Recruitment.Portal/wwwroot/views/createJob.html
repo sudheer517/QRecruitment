@@ -156,13 +156,15 @@
                         <h4><b>Profile :</b> {{existingJob.Profile}}</h4>
                         <h4><b>Department :</b> {{existingJob.Department.Name}}</h4>
                         <b>Labels and difficulties</b>
-                        <div ng-repeat="jdl in existingJob.JobDifficultyLabels track by $index">
-                            <md-divider></md-divider>
-                            <h4><b>Difficulty :</b> {{jdl.Difficulty.Name}}</h4>
-                            <h4><b>Label :</b> {{jdl.Label.Name}}</h4>
-                            <h4><b>Questions to display :</b> {{jdl.DisplayQuestionCount}}</h4>
-                            <h4><b>Questions to pass :</b> {{jdl.PassingQuestionCount}}</h4>
-                            
+                        <div layout="row" layout-wrap>
+                            <md-card ng-repeat="jdl in existingJob.JobDifficultyLabels track by $index">
+                                <md-card-content>
+                                    <h4><b>Difficulty :</b> {{jdl.Difficulty.Name}}</h4>
+                                    <h4><b>Label :</b> {{jdl.Label.Name}}</h4>
+                                    <h4><b>Questions to display :</b> {{jdl.DisplayQuestionCount}}</h4>
+                                    <h4><b>Questions to pass :</b> {{jdl.PassingQuestionCount}}</h4>
+                                </md-card-content>
+                            </md-card>
                         </div>
                     </md-card-content>
                 </md-card>

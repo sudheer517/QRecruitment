@@ -17,6 +17,20 @@ module Recruitment {
                 //"mockingApp" // Can remove this when backend development is finished
             ]);
 
+            //angular material workaround for non floating password labels if it is remembered in chrome
+            this.app.directive('mdInputContainer', function ($timeout) {
+                return function ($scope, element) {
+                    var ua = navigator.userAgent;
+                    if (ua.match(/chrome/i) && !ua.match(/edge/i)) {
+                        $timeout(function () {
+                            if (element[0].querySelector('input[type=password]:-webkit-autofill')) {
+                                element.addClass('md-input-has-value ');
+                            }
+                        }, 100);
+                    }
+                };
+            });
+
             Controllers.ControllersConfiguration.RegisterAll(this.app);
             Services.ServicesConfiguration.RegisterAll(this.app);
             Routes.RouteConfiguration.RegisterAll(this.app);
@@ -41,7 +55,7 @@ module Recruitment {
                 $mdIconProvider.icon("logo", "../img/logo2.svg", 24);
                 $mdIconProvider.icon("account", "../img/account.svg", 24);
                 $mdIconProvider.icon("signoff", "../img/signoff.svg", 36);
-                $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('blue');
+                $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('indigo');
                 $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
                 $mdThemingProvider.theme('grey-variant').primaryPalette('grey').accentPalette('cyan');
                 $mdThemingProvider.theme('deep-orange').primaryPalette('blue-grey').accentPalette('grey');

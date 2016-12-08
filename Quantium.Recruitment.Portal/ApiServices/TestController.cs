@@ -153,6 +153,15 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(finishedTestDtos);
         }
 
+        [HttpGet]
+        public IActionResult GetAllTests()
+        {
+            var allTests = _testRepository.GetAll().OrderByDescending(t => t.FinishedDate).ToList();
+            var allTestDtos = Mapper.Map<List<TestDto>>(allTests);
+
+            return Ok(allTestDtos);
+        }
+
         private TestDto FillTestDto(Test finishedTest, TestDto finishedTestDto)
         {
             finishedTestDto.TotalChallengesDisplayed = finishedTestDto.Challenges.Count;

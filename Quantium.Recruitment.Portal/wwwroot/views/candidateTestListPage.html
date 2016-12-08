@@ -10,6 +10,11 @@
 </md-toolbar>
 <div ng-include="'../views/settingsFab.html'"></div>
 <md-content>
+    <md-tabs>
+        <md-tab label="Marks">
+
+        </md-tab>
+    </md-tabs>
     <div flex>
         <md-card ng-repeat="test in tests" ng-click="getTestDetails(test)" class="testResultCard cursor-pointer"
                  ng-class="{true:'md-whiteframe-4dp' ,false: 'md-whiteframe-1dp'}[hovered]"

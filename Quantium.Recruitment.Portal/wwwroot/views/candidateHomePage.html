@@ -1,5 +1,5 @@
 ﻿<div layout="column" flex>
-    <md-toolbar>
+    <md-toolbar class="md-primary md-hue-2">
         <div class="md-toolbar-tools qlogo" layout-gt-md="row" layout-lt-md="column" layout-align="center center">
                 <md-button class="md-icon-button">
                     <md-icon md-svg-icon="logo" class=""></md-icon>
@@ -8,8 +8,8 @@
     </md-toolbar>
     <div ng-include="'../views/settingsFab.html'"></div>
     <md-content flex layout-align="center start">
-        <div layout="row" flex="100" flex-gt-sm="60">
-            <div layout="column" class="fill">
+        <div layout="column" flex="100" flex-gt-sm="60" layout-align="center center" class="fill-height">
+            <div layout="column">
                 <div>
                     <md-card md-theme="dark-grey" md-theme-watch>
                         <md-card-content  class="justify-self-center">
@@ -26,7 +26,7 @@
                                 <md-list-item>
                                     <div flex>
                                         <h3 class="justify-self-center">
-                                            You don't have any active tests at the moment. Please contact support for assistance
+                                            Your test is finished. Please wait while we evaluate it.
                                         </h3>
                                     </div>
                                 </md-list-item>

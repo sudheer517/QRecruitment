@@ -53,17 +53,6 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        //[Route("/sample")]
-        public IActionResult getSample()
-        {
-            var questions = _questionRepository.GetAll().ToList();
-
-            var qDtos = Mapper.Map<IList<QuestionDto>>(questions);
-
-            return Ok(qDtos);
-        }
-
-        [HttpGet]
         //[Route("/getSingle")]
         public IActionResult GetSingle(int key)
         {

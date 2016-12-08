@@ -10,6 +10,7 @@ module Recruitment.Services {
         postChallenge(challenge: ChallengeDto): ng.IHttpPromise<any>;
         hasActiveTestForCandidate(): void;
         getFinishedTests(): ng.IHttpPromise<TestDto[]>;
+        getAllTests(): ng.IHttpPromise<TestDto[]>;
     }
 
     export class TestService implements ITestService {
@@ -34,6 +35,10 @@ module Recruitment.Services {
 
         public getFinishedTests(): ng.IHttpPromise<TestDto[]> {
             return this.$http.get("/Test/GetAllFinishedTests");
+        }
+
+        public getAllTests(): ng.IHttpPromise<TestDto[]> {
+            return this.$http.get("/Test/GetAllTests");
         }
 
         public getTestById(testId: number): ng.IHttpPromise<TestDto> {
