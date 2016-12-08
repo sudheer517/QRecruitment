@@ -22,63 +22,61 @@
 }
 
 <md-content class="loginBody fill">
-        <div hide-xs>
-            <div class="brand">Quantium Recruitment</div>
-            <div class="address-bar">Mezzanine Level, Waverock, Nanakramguda, Hyderabad, India</div>
-        </div>
-
-        <md-card flex-gt-sm="60" class="justify-self-center overflow-hidden">
-            <md-toolbar md-theme="grey-variant" class="md-hue-2">
-                <div class="md-toolbar-tools">
-                    <div layout="row" flex layout-align="center center" class="">
-                        <img src="~/img/logo2.svg" class="logo-medium" />
+    <div class="fill-height justify-content-center" flex layout="column">
+        <div>
+            <md-card flex-gt-sm="60" class="justify-self-center overflow-hidden">
+                <md-toolbar md-theme="grey-variant" class="md-hue-2">
+                    <div class="md-toolbar-tools">
+                        <div layout="row" flex layout-align="center center" class="">
+                            <img src="~/img/logo2.svg" class="logo-medium" />
+                        </div>
                     </div>
-                </div>
-            </md-toolbar>
-            <md-card-conent>
-                <md-tabs md-dynamic-height="" md-stretch-tabs="always" md-selected="@(string.IsNullOrEmpty(registerActive) == true? 0 : 1)">
-                    <md-tab label="Login" class="@loginActive">
-                        <div class="margin-10">
-                            <div class="tab-pane" id="loginView">
-                                @Html.Partial("_PersonalEmailLoginPartial", new LoginViewModel())
-                            </div>
-                        </div>
-                    </md-tab>
-                    <md-tab label="Register" class="@registerActive">
-                        <div class="margin-10">
-                            <div class="tab-pane" id="registerView">
-                                @Html.Partial("_RegisterPartial", new RegisterViewModel())
-                            </div>
-                        </div>
-                    </md-tab>
-                </md-tabs>
-                <md-card>
-                    <md-card-content>
-                        <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="col-md-6 col-md-offset-3">
-                            <div class="externalLogins">
-                                <div flex  layout-align="space-around">
-                                    @{
-                                        var loginProviders = signInManager.GetExternalAuthenticationSchemes().ToList();
-                                        <div class="buttonWrapper" flex  layout-align="space-around">
-                                            @foreach (var provider in loginProviders)
-                                            {
-                                                <button type="submit" class="externalLoginIcon"
-                                                        name="provider" value="@provider.AuthenticationScheme"
-                                                        title="Log in using your @provider.DisplayName account">
-                                                    <i class="fa fa-@(
-                                                    provider.DisplayName == "Microsoft" ? "windows" : provider.DisplayName.ToLower()) fa-4x"></i>
-                                                </button>
-                                            }
-                                        </div>
-                                    }
+                </md-toolbar>
+                <md-card-conent>
+                    <md-tabs md-dynamic-height="" md-stretch-tabs="always" md-selected="@(string.IsNullOrEmpty(registerActive) == true? 0 : 1)">
+                        <md-tab label="Login" class="@loginActive">
+                            <div class="margin-10">
+                                <div class="tab-pane" id="loginView">
+                                    @Html.Partial("_PersonalEmailLoginPartial", new LoginViewModel())
                                 </div>
                             </div>
-                        </form>
+                        </md-tab>
+                        <md-tab label="Register" class="@registerActive">
+                            <div class="margin-10">
+                                <div class="tab-pane" id="registerView">
+                                    @Html.Partial("_RegisterPartial", new RegisterViewModel())
+                                </div>
+                            </div>
+                        </md-tab>
+                    </md-tabs>
+                    <md-card>
+                        <md-card-content>
+                            <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="col-md-6 col-md-offset-3">
+                                <div class="externalLogins">
+                                    <div flex layout-align="space-around">
+                                        @{
+                                        var loginProviders = signInManager.GetExternalAuthenticationSchemes().ToList();
+                                            <div class="buttonWrapper" flex layout-align="space-around">
+                                                @foreach (var provider in loginProviders)
+                                            {
+                                                    <button type="submit" class="externalLoginIcon"
+                                                            name="provider" value="@provider.AuthenticationScheme"
+                                                            title="Log in using your @provider.DisplayName account">
+                                                        <i class="fa fa-@(
+                                                    provider.DisplayName == "Microsoft" ? "windows" : provider.DisplayName.ToLower()) fa-4x"></i>
+                                                    </button>
+                                            }
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </form>
 
-                    </md-card-content>
-                </md-card>
-            </md-card-conent>
-        </md-card>
-
+                        </md-card-content>
+                    </md-card>
+                </md-card-conent>
+            </md-card>
+        </div>
+    </div>
 </md-content>
 
