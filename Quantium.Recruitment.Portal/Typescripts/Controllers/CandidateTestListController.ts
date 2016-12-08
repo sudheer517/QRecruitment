@@ -16,7 +16,7 @@ module Recruitment.Controllers {
         query: any;
         limitOptions: any;
         options: any;
-        desserts: any;
+        finishedTests: any;
         getTypes: any;
     }
 
@@ -49,7 +49,7 @@ module Recruitment.Controllers {
                 pageSelect: true
             };
 
-            this.$scope.desserts = {
+            this.$scope.finishedTests = {
                 "count": 9,
                 "data": [
                     {
