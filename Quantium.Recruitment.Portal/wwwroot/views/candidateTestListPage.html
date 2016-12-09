@@ -1,4 +1,4 @@
-﻿<md-toolbar>
+﻿<md-toolbar class="md-primary md-hue-2">
     <div class="md-toolbar-tools">
         <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenav()">
             <md-icon md-svg-icon="menu"></md-icon>
@@ -10,34 +10,7 @@
 </md-toolbar>
 <div ng-include="'../views/settingsFab.html'"></div>
 <md-content>
-
-    <!--<md-tabs>
-        <md-tab label="Details">
-
-        </md-tab>
-        <md-tab label>
-
-        </md-tab>
-    </md-tabs>
-    <div flex>
-        <md-card ng-repeat="test in tests" ng-click="getTestDetails(test)" class="testResultCard cursor-pointer"
-                 ng-class="{true:'md-whiteframe-4dp' ,false: 'md-whiteframe-1dp'}[hovered]"
-                 ng-mouseenter="hovered=true"
-                 ng-mouseleave="hovered=false" 
-                 flex-gt-sm="25">
-            <md-card-content>
-                <h4><i class="fa fa-user"></i> {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</h4>
-                <h5><i class="fa fa-envelope"></i> {{test.Candidate.Email}}</h5>
-                <h5><i class="fa fa-mobile fa-2x"></i> {{test.Candidate.Mobile}}</h5>
-                <h5><i class="fa fa-id-card fa"></i> {{test.Job.Title}}</h5>
-                <h5><i class="fa fa-hourglass-end"></i> {{test.FinishedDate | date}}</h5>
-                <h5><i class="fa fa-hourglass-end"></i> Test result : <span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h5>
-            </md-card-content>
-        </md-card>
-    </div>-->
-
     <md-card>
-
         <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
             <div class="md-toolbar-tools">
                 <md-button class="md-icon-button" ng-click="refreshTestData()">

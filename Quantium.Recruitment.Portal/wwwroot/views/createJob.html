@@ -1,4 +1,4 @@
-﻿<md-toolbar>
+﻿<md-toolbar class="md-primary md-hue-2">
     <div class="md-toolbar-tools">
         <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenav()">
             <md-icon md-svg-icon="menu"></md-icon>
@@ -18,8 +18,8 @@
                         <md-card>
                             <md-card-content>
                                 <div layout="row">
-                                    <div layout="column" flex-gt-sm="30">
-                                        <md-input-container>
+                                    <div layout="row" class="fill-width">
+                                        <md-input-container flex="50">
                                             <label>Job Title</label>
                                             <input ng-model="job.Title" required name="jobTitle">
                                             <div ng-messages="difficultyLabelForm.jobTitle.$error">
@@ -27,7 +27,7 @@
                                             </div>
                                         </md-input-container>
 
-                                        <md-input-container>
+                                        <md-input-container flex="50">
                                             <label>Department</label>
                                             <md-select ng-model="job.Department.Id" required name="department">
                                                 <md-option ng-repeat="department in departments" ng-value="department.Id">
@@ -54,12 +54,15 @@
                         </md-card>
 
                         <md-card>
+                            <md-toolbar md-theme="grey-variant" class="md-table-toolbar md-hue-2">
+                                <div class="md-toolbar-tools">
+                                    <h2 class="justify-self-center">
+                                        Add Label and Difficulties
+                                    </h2>
+                                </div>
+                            </md-toolbar>
+                            <br />
                             <md-card-content>
-                                <md-card-title>
-                                    <md-card-title-text>
-                                        <span class="md-headline justify-self-center">Add Label and Difficulties</span>
-                                    </md-card-title-text>
-                                </md-card-title>
                                 <div layout="column" flex>
                                     <div>
                                         <div class="input-append" ng-repeat="jobDifficultyLabel in jobDifficultyLabelArray.jobDifficultyLabels" layout-gt-sm="row" layout-lt-sm="column" layout-align="space-around" flex>
@@ -156,6 +159,7 @@
                         <h4><b>Profile :</b> {{existingJob.Profile}}</h4>
                         <h4><b>Department :</b> {{existingJob.Department.Name}}</h4>
                         <b>Labels and difficulties</b>
+                        <md-divider></md-divider>
                         <div layout="row" layout-wrap>
                             <md-card ng-repeat="jdl in existingJob.JobDifficultyLabels track by $index">
                                 <md-card-content>

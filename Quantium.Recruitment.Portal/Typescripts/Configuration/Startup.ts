@@ -55,12 +55,13 @@ module Recruitment {
                 $mdIconProvider.icon("print", "../img/print.svg", 24);
                 $mdIconProvider.icon("logo", "../img/logo2.svg", 24);
                 $mdIconProvider.icon("account", "../img/account.svg", 24);
+                $mdIconProvider.icon("accountGrey", "../img/accountGrey.svg", 24);
                 $mdIconProvider.icon("refresh", "../img/refresh.svg", 24);
                 $mdIconProvider.icon("archive", "../img/archive.svg", 24);
                 $mdIconProvider.icon("signoff", "../img/signoff.svg", 36);
                 $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('indigo');
                 $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
-                $mdThemingProvider.theme('grey-variant').primaryPalette('grey').accentPalette('cyan');
+                $mdThemingProvider.theme('grey-variant').primaryPalette('grey').accentPalette('grey');
                 $mdThemingProvider.theme('deep-orange').primaryPalette('blue-grey').accentPalette('grey');
             });
             //setting bootstrap theme for editable input directive xeditable

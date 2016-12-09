@@ -1,4 +1,4 @@
-﻿<md-toolbar>
+﻿<md-toolbar class="md-primary md-hue-2">
     <div class="md-toolbar-tools">
         <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenav()">
             <md-icon md-svg-icon="menu"></md-icon>
@@ -17,17 +17,19 @@
                     <md-card>
                         <md-card-content layout="column">
                             <div layout="row">
-                                <md-input-container flex-gt-sm="30">
-                                    <label>Job</label>
-                                    <md-select ng-model="selectedJobId" required name="selectedJobName">
-                                        <md-option ng-repeat="job in jobs" ng-value="job.Id" ng-click="changeSelectedJob(job)">
-                                            {{job.Title}}
-                                        </md-option>
-                                    </md-select>
-                                    <div ng-messages="createTestForm.selectedJobName.$error">
-                                        <div ng-message="required">Job is required.</div>
-                                    </div>
-                                </md-input-container>
+                                <div flex="100" flex-gt-sm="33">
+                                    <md-input-container class="fill-width">
+                                        <label>Job</label>
+                                        <md-select ng-model="selectedJobId" required name="selectedJobName" class="fill-width">
+                                            <md-option ng-repeat="job in jobs" ng-value="job.Id" ng-click="changeSelectedJob(job)">
+                                                {{job.Title}}
+                                            </md-option>
+                                        </md-select>
+                                        <div ng-messages="createTestForm.selectedJobName.$error">
+                                            <div ng-message="required">Job is required.</div>
+                                        </div>
+                                    </md-input-container>
+                                </div>
                             </div>
 
                             <div ng-hide="selectedJobId == 0">
@@ -56,9 +58,9 @@
                     <md-card>
                         <md-toolbar md-theme="grey-variant" class="md-hue-2">
                             <div class="md-toolbar-tools">
-                                <h5 class="justify-self-center">
-                                    Select candidates for this job
-                                </h5>
+                                <h2 class="justify-self-center">
+                                    Select candidates for the job
+                                </h2>
                             </div>
                         </md-toolbar>
                         <md-card-content>
@@ -72,18 +74,20 @@
                                     <md-checkbox ng-model="selectedAll" ng-change="checkAll(filteredCandidates)"> Select All</md-checkbox>
                                 </md-input-container>
                             </div>
-                            <div layout="row" layout-wrap>
-                                <div ng-repeat="candidate in (filteredCandidates = (candidates | filter:search))">
-                                    <md-card>
-                                        <md-card-content>
+                            <div layout="row">
+                                <div class="fill-width">
+                                    <md-content layout="row" layout-wrap layout-align="start center">
+                                        <md-list-item class="md-2-line candidate-list-item" ng-repeat="candidate in (filteredCandidates = (candidates | filter:search))">
                                             <md-input-container>
-                                                <md-checkbox ng-model="selectedtestOptions.candidateIds[candidate.Id]">
-                                                    {{candidate.FirstName}} {{candidate.LastName}}
-                                                </md-checkbox>
-                                                <h4>{{candidate.Email}}</h4>
+                                                <md-checkbox ng-model="selectedtestOptions.candidateIds[candidate.Id]"></md-checkbox>
                                             </md-input-container>
-                                        </md-card-content>
-                                    </md-card>
+                                            <img ng-src="../img/accountGrey.svg" class="md-avatar" alt="{{candidate.FirstName}}" />
+                                            <div class="md-list-item-text" layout="column">
+                                                <h3>{{candidate.FirstName}} {{candidate.LastName}}</h3>
+                                                <h4>{{candidate.Email}}</h4>
+                                            </div>
+                                        </md-list-item>
+                                    </md-content>
                                 </div>
                             </div>
 
@@ -93,11 +97,7 @@
                             <md-button ng-disabled="!hasSelectedAtleastOneCandidate" type="submit" class="md-primary md-raised" ng-click="createTestForm.$valid && generateTest()">
                                 Generate test for selected candidates
                             </md-button>
-                            <!--<div class="_md-right" ng-show="testGenerationResult">
-                    <md-button class="md-primary md-raised" ng-click="sendTest()">
-                        Send test for selected candidates
-                    </md-button>
-                </div>-->
+                            
                         </md-card-content>
                     </md-card>
                 </form>
