@@ -11,6 +11,7 @@ module Recruitment.Services {
         hasActiveTestForCandidate(): void;
         getFinishedTests(): ng.IHttpPromise<TestDto[]>;
         getAllTests(): ng.IHttpPromise<TestDto[]>;
+        archiveTests(selectedTests: number[]): ng.IHttpPromise<any>;
     }
 
     export class TestService implements ITestService {
@@ -55,6 +56,10 @@ module Recruitment.Services {
 
         public logout(): ng.IHttpPromise<any> {
             return this.$http.get("/Candidate/LogOff");
+        }
+
+        public archiveTests(selectedTests: number[]): ng.IHttpPromise<any> {
+            return this.$http.post("/Test/ArchiveTests", selectedTests);
         }
     }
 }

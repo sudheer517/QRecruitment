@@ -139,10 +139,30 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 return Ok(true);
         }
 
+        [HttpPost]
+        public IActionResult ArchiveTests([FromBody]long[] testIds)
+        {
+            try
+            {
+                foreach (var testId in testIds)
+                {
+                    var test = _testRepository.FindById(testId);
+                    test.IsArchived = true;
+                    _testRepository.Update(test);
+                }
+
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return Ok();
+        }
+
         [HttpGet]
         public IActionResult GetFinishedTests()
         {
-            var finishedTests = _testRepository.GetAll().Where(t => t.IsFinished == true).OrderByDescending(t => t.FinishedDate).ToList();
+            var finishedTests = _testRepository.GetAll().Where(t => t.IsFinished == true && t.IsArchived != true).OrderByDescending(t => t.FinishedDate).ToList();
             var finishedTestDtos = Mapper.Map<List<TestDto>>(finishedTests);
             finishedTestDtos.ForEach(finishedTestDto =>
             {

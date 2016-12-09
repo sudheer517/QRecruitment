@@ -56,6 +56,7 @@ module Recruitment {
                 $mdIconProvider.icon("logo", "../img/logo2.svg", 24);
                 $mdIconProvider.icon("account", "../img/account.svg", 24);
                 $mdIconProvider.icon("refresh", "../img/refresh.svg", 24);
+                $mdIconProvider.icon("archive", "../img/archive.svg", 24);
                 $mdIconProvider.icon("signoff", "../img/signoff.svg", 36);
                 $mdThemingProvider.theme('default').primaryPalette('red').accentPalette('indigo');
                 $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();

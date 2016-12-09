@@ -45,6 +45,18 @@ namespace Quantium.Recruitment.Portal.Controllers
             return Ok(response.Content.ReadAsStringAsync().Result);
         }
 
+
+        [HttpPost]
+        public IActionResult ArchiveTests([FromBody]long[] testIds)
+        {
+            var response = _helper.Post("/api/Test/ArchiveTests", testIds);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new Exception("Unable to archive test");
+
+            return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+
         [HttpGet]
         public IActionResult HasActiveTestForCandidate()
         {

@@ -40,59 +40,55 @@
 
         <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
             <div class="md-toolbar-tools">
-                <span>Finished Tests</span>
-                <div flex></div>
-                <md-button class="md-icon-button" ng-click="loadStuff()">
+                <md-button class="md-icon-button" ng-click="refreshTestData()">
+                    <md-tooltip>Refresh tests</md-tooltip>
                     <md-icon md-svg-icon="refresh"></md-icon>
                 </md-button>
+                <div flex></div>
             </div>
         </md-toolbar>
 
-        <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+        <md-toolbar md-theme="grey-variant" class="md-table-toolbar md-hue-2 alternate" ng-show="options.rowSelection && selected.length">
             <div class="md-toolbar-tools">
                 <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                <md-button class="md-icon-button" ng-click="archiveSelectedTests()">
+                    <md-tooltip>Archive tests</md-tooltip>
+                    <md-icon md-svg-icon="archive"></md-icon>
+                </md-button>
             </div>
+            
         </md-toolbar>
 
         <md-table-container>
             <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
                 <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
                     <tr md-row>
-                        <th md-column md-order-by="name"><span>Candidate</span></th>
-                        <!--<th md-column md-order-by="type"><span>Type</span></th>-->
-                        <th md-column md-numeric md-order-by="calories.value" md-desc><span>Calories</span></th>
-                        <th md-column md-numeric md-order-by="fat.value"><span>Fat (g)</span></th>
-                        <th md-column md-numeric md-order-by="carbs.value"><span>Carbs (g)</span></th>
-                        <th md-column md-numeric md-order-by="protein.value"><span>Protein (g)</span></th>
-                        <th md-column md-numeric md-order-by="sodium.value" hide-gt-xs show-gt-md><span>Sodium (mg)</span></th>
-                        <th md-column md-numeric md-order-by="calcium.value" hide-gt-xs show-gt-lg><span>Calcium (%)</span></th>
-                        <th md-column md-numeric md-order-by="iron.value" hide-gt-xs show-gt-lg><span>Iron (%)</span></th>
-                        <!--<th md-column md-order-by="comment">
-                            <md-icon>comments</md-icon>
-                            <span>Comments</span>
-                        </th>-->
+                        <th md-column md-order-by="candidateName"><span>Candidate</span></th>
+                        <th md-column md-order-by="candidateEmail"><span>Email</span></th>
+                        <th md-column md-order-by="jobName" md-desc><span>Job Applied</span></th>
+                        <th md-column md-order-by="finishedDate"><span>Finished Date</span></th>
+                        <th md-column md-order-by="testResult"><span>Test Result</span></th>
+                        <th md-column md-order-by="college"><span>College</span></th>
+                        <th md-column md-numeric md-order-by="correctAnswers.value"><span>Correct Answers</span></th>
+                        
+                        <!--<th md-column md-numeric md-order-by="correctAnswers.value" hide-gt-xs show-gt-md><span>Correct Answers</span></th>
+                        <th md-column md-order-by="college" hide-gt-xs show-gt-lg><span>College</span></th>-->
+                        
                     </tr>
                 </thead>
                 <tbody md-body>
-                    <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" 
-                        ng-disabled="finishedTest.calories.value > 400" 
+                    <tr md-row md-select="finishedTest" md-on-select="logItem" md-auto-select="options.autoSelect" ng-click="gotoTest(finishedTest.testId)" class="cursor-pointer"
                         ng-repeat="finishedTest in finishedTests.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
-                        <td md-cell>{{finishedTest.name}}</td>
-                        <!--<td md-cell>
-                            <md-select ng-model="finishedTest.type" placeholder="Other">
-                                <md-option ng-value="type" ng-repeat="type in getTypes()">{{type}}</md-option>
-                            </md-select>
-                        </td>-->
-                        <td md-cell>{{finishedTest.calories.value}}</td>
-                        <td md-cell>{{finishedTest.fat.value | number: 2}}</td>
-                        <td md-cell>{{finishedTest.carbs.value}}</td>
-                        <td md-cell>{{finishedTest.protein.value | number: 2}}</td>
-                        <td md-cell hide-gt-xs show-gt-md>{{finishedTest.sodium.value}}</td>
-                        <td md-cell hide-gt-xs show-gt-lg>{{finishedTest.calcium.value}}%</td>
-                        <td md-cell hide-gt-xs show-gt-lg>{{finishedTest.iron.value}}%</td>
-                        <!--<td md-cell ng-click="editComment($event, dessert)" ng-class="{'md-placeholder': !dessert.comment}">
-                            {{finishedTest.comment || 'Add a comment'}}
-                        </td>-->
+                        <td md-cell>{{finishedTest.candidateName}}</td>
+                        <td md-cell>{{finishedTest.candidateEmail}}</td>
+                        <td md-cell>{{finishedTest.jobName}}</td>
+                        <td md-cell>{{finishedTest.finishedDate}}</td>
+                        <td md-cell>{{finishedTest.testResult}}</td>
+                        <td md-cell>{{finishedTest.college}}</td>
+                        <td md-cell>{{finishedTest.correctAnswers.value}}</td>
+                        <!--<td md-cell hide-gt-xs show-gt-md>{{finishedTest.correctAnswers.value}}</td>
+                        <td md-cell hide-gt-xs show-gt-lg>{{finishedTest.college}}%</td>-->
+                        
                     </tr>
                 </tbody>
             </table>
@@ -100,4 +96,5 @@
 
         <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{finishedTests.count}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
     </md-card>
+
 </md-content>
