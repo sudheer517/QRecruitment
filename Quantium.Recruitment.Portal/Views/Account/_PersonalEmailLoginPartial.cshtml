@@ -14,8 +14,8 @@
                 </md-input-container>
 
                 <md-input-container md-no-float>
-                    <label>Password</label>
                     <input asp-for="Password" type="password" class="form-control" id="email" required name="password">
+                    <label>Password</label>
                     <div ng-messages="loginForm.password.$error">
                         <div ng-message="required">Password is required.</div>
                     </div>

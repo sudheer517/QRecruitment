@@ -176,7 +176,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         [HttpGet]
         public IActionResult GetAllTests()
         {
-            var allTests = _testRepository.GetAll().OrderByDescending(t => t.FinishedDate).ToList();
+            var allTests = _testRepository.GetAll().Where(t => t.IsArchived != true).OrderByDescending(t => t.FinishedDate).ToList();
             var allTestDtos = Mapper.Map<List<TestDto>>(allTests);
 
             return Ok(allTestDtos);
@@ -236,7 +236,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             foreach (var item in twoKeyJobDiffLabelMap)
             {
-                if (item.PassingQuestionCount != item.AnsweredCount)
+                if (item.PassingQuestionCount > item.AnsweredCount)
                 {
                     finishedTestDto.IsTestPassed = false;
                     break;
@@ -308,7 +308,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage FinishTest([FromBody]long id)
+        public IActionResult FinishTest([FromBody]long id)
         {
             try
             {
@@ -319,10 +319,10 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             }
             catch(Exception ex)
             {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return StatusCode(StatusCodes.Status404NotFound);
             }
 
-            return new HttpResponseMessage(HttpStatusCode.Accepted);
+            return StatusCode(StatusCodes.Status202Accepted);
         }
 
         [HttpPost]

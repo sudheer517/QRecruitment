@@ -12,7 +12,7 @@
 <div layout="column" class="fill-height">
     <md-content>
         <div layout="row" layout-wrap>
-            <md-card flex-gt-sm="25">
+            <md-card flex-gt-sm="30">
                 <md-toolbar md-theme="grey-variant" class="md-hue-2">
                     <div class="md-toolbar-tools">
                         <h5 class="justify-self-center">
@@ -20,13 +20,13 @@
                         </h5>
                     </div>
                 </md-toolbar>
-                <md-card-content>
-                    <h4><i class="fa fa-user"></i> Name : {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</h4>
-                    <h5><i class="fa fa-envelope"></i> Email : {{test.Candidate.Email}}</h5>
-                    <h5><i class="fa fa-mobile fa-2x"></i> Mobile: {{test.Candidate.Mobile}}</h5>
-                    <h5><i class="fa fa-map-signs"></i> City : {{test.Candidate.City}}</h5>
-                    <h5><i class="fa fa-map-pin"></i> State : {{test.Candidate.State}}</h5>
-                    <h5><i class="fa fa-map-marker"></i> Country: {{test.Candidate.Country}}</h5>
+                <md-card-content class="test-result-info">
+                    <h4><i class="fa fa-user fa-lg"></i><span> Name : {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span> Email : {{test.Candidate.Email}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span> Mobile: {{test.Candidate.Mobile}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span> City : {{test.Candidate.City}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span> State : {{test.Candidate.State}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span> Country: {{test.Candidate.Country}}</span></h4>
                 </md-card-content>
             </md-card>
 
@@ -39,15 +39,15 @@
                     </div>
                 </md-toolbar>
                 <md-card-content>
-                    <h5><i class="fa fa-universal-access"></i> Branch : {{test.Candidate.Branch}}</h5>
-                    <h5><i class="fa fa-bank"></i> College : {{test.Candidate.College}}</h5>
-                    <h5><i class="fa fa-star"></i> Passing Year : {{test.Candidate.PassingYear}}</h5>
-                    <h5><i class="fa fa-road"></i> Experience : {{test.Candidate.ExperienceInYears}} years</h5>
-                    <h5><i class="fa fa-industry"></i> Current company : {{test.Candidate.CurrentCompany}}</h5>
+                    <h4><i class="fa fa-bank fa-lg"></i> Branch : {{test.Candidate.Branch}}</h4>
+                    <h4 class="inline-block-display margin-top-bottom-0"><i class="fa fa-bank fa-lg"></i> College : </h4><h4 class="inline-block-display margin-top-bottom-0"> {{test.Candidate.College}}</h4>
+                    <h4><i class="fa fa-bank fa-lg"></i> Passing Year : {{test.Candidate.PassingYear}}</h4>
+                    <h4><i class="fa fa-bank fa-lg"></i> Experience : {{test.Candidate.ExperienceInYears}} years</h4>
+                    <h4><i class="fa fa-bank fa-lg"></i> Current company : {{test.Candidate.CurrentCompany}}</h4>
                 </md-card-content>
             </md-card>
 
-            <md-card flex-gt-sm="25">
+            <md-card flex-gt-sm="30">
                 <md-toolbar md-theme="grey-variant" class="md-hue-2">
                     <div class="md-toolbar-tools">
                         <h5 class="justify-self-center">
@@ -56,12 +56,12 @@
                     </div>
                 </md-toolbar>
                 <md-card-content>
-                    <h5><i class="fa fa-info-circle"></i> Job applied for: {{test.Job.Title}}</h5>
-                    <h5><i class="fa fa-info-circle"></i> Test Finished on : {{test.FinishedDate | date}}</h5>
-                    <h5><i class="fa fa-info-circle"></i> Total Questions displayed : {{test.Challenges.length}} </h5>
-                    <h5><i class="fa fa-info-circle"></i> Total Questions answered : {{test.TotalChallengesAnswered}}</h5>
-                    <h5><i class="fa fa-info-circle"></i> Total right answers : {{test.TotalRightAnswers}}</h5>
-                    <h5><i class="fa fa-info-circle"></i> Test result : <span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h5>
+                    <h4><i class="fa fa-info-circle fa-lg"></i> Job applied for: {{test.Job.Title}}</h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i> Test Finished on : {{test.FinishedDate | date}}</h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i> Total Questions displayed : {{test.Challenges.length}} </h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i> Total Questions answered : {{test.TotalChallengesAnswered}}</h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i> Total right answers : {{test.TotalRightAnswers}}</h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i> Test result : <span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h4>
                 </md-card-content>
             </md-card>
         </div>

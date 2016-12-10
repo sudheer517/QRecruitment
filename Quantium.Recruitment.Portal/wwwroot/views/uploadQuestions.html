@@ -31,10 +31,31 @@
         </md-tab>
         <md-tab label="View Questions">
             <md-card ng-repeat="question in allQuestions">
-                <md-card-content>
-                    <h4>{{question.Text}}</h4>
-                    <div ng-repeat="option in question.Options">
-                        <h4>{{option.Text}}</h4>
+                <md-card-content class="overflow-hidden">
+                    <md-chips>
+                        <md-chip>
+                            Time for Question - {{question.TimeInSeconds}} seconds
+                        </md-chip>
+                        <md-chip>
+                            Label : {{question.Label.Name}}
+                        </md-chip>
+                        <md-chip>
+                            Difficulty : {{question.Difficulty.Name}}
+                        </md-chip>
+                        <md-chip>
+                            Randomize Options : {{question.RandomizeOptions}}
+                        </md-chip>
+                    </md-chips>
+                    <h3 ng-show="question.QuestionGroup.Description.length > 0"><b>Question Group : </b> {{question.QuestionGroup.Description}}</h3>
+                    <h3>{{question.Id}}. {{question.Text}}</h3>
+                    
+                    <div ng-if="question.ImageUrl.length > 0">
+                        <img ng-src="{{question.ImageUrl}}" class="imagePreview" />
+                    </div>
+                    <div class="previewOptionList">
+                        <ul>
+                            <li ng-repeat="option in question.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i><span class="margin-left-10">{{option.Text}}</span></li>
+                        </ul>
                     </div>
                 </md-card-content>
             </md-card>

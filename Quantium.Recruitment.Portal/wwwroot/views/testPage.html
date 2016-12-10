@@ -3,7 +3,7 @@
                 md-component-id="left"
                 md-is-locked-open="$mdMedia('gt-sm')"
                 md-whiteframe="4">
-        <md-toolbar class="md-cyan-theme">
+        <md-toolbar class="md-primary md-hue-2 text-align-center">
             <h1 class="justify-self-center">Questions</h1>
         </md-toolbar>
         <md-content md-theme="dark-grey" md-theme-watch flex>
@@ -36,7 +36,7 @@
             <md-button hide-gt-sm class="md-icon-button">
                 <md-icon md-svg-src="../img/menu.svg"></md-icon>
             </md-button>
-            <div class="justify-self-center">
+            <div class="justify-self-center" flex>
                 <img src="../img/logo2.svg" class="logo-medium justify-self-center" />
             </div>
         </div>
@@ -44,7 +44,7 @@
     <div ng-include="'../views/settingsFab.html'"></div>
     <md-content>
         <md-card>
-            <md-card-content>
+            <md-card-content class="fill-height">
                 <div  layout="column" flex>
                     <div layout="row" class="align-center">
                         <h3>Question - {{currentChallenge}} </h3>
@@ -54,7 +54,7 @@
                         <div class="clock"></div>
                     </div>
                     {{status}}
-                    <div class="test-panel-body">
+                    <div class="test-panel-body fill-height">
                         <h4>{{questionGroupText}}</h4>
                         <h4>{{questionText}}</h4>
                         <div>

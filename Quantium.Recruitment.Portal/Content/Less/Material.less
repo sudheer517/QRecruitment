@@ -232,6 +232,11 @@ md-list-item{
     margin: 10px;
 }
 
+.margin-top-bottom-0{
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
 .margin-left-10{
     margin-left: 10px;
 }
@@ -260,6 +265,15 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
 }
 
+md-input-container {
+    .md-input[type=password]:-webkit-autofill ~ label:not(.md-no-float) {
+        transform: translate3d(0, 6px, 0) scale(0.75);
+        transition: transform cubic-bezier(0.25, 0.8, 0.25, 1) 0.4s, width cubic-bezier(0.25, 0.8, 0.25, 1) 0.4s;
+        width: ~"calc((100% - 18px) / 0.75)";
+        color: rgba(0,0,0,0.54);
+    }
+}
+
 .card-background{
     background-color: lightslategrey;
 }
@@ -269,5 +283,11 @@ input:-webkit-autofill {
 }
 
 md-option:focus{
-    color: #df4343;
+    color: #df4343; // dropdown selected red color
+}
+
+.test-result-info{
+    span{
+        margin-left : 5px;
+    }
 }
