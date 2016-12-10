@@ -107,11 +107,13 @@
             <md-tab-content>
                 <div layout="row">
                     <md-card ng-repeat="test in allTests" layout="row" layout-wrap >
-                        <md-card-title>
-                            <md-card-title-text>
-                                <span class="md-headline">Job : {{test.Job.Title}}</span>
-                            </md-card-title-text>
-                        </md-card-title>
+                        <md-toolbar md-theme="grey-variant" class="md-hue-2">
+                            <div class="md-toolbar-tools">
+                                <h5 class="justify-self-center">
+                                    Job : {{test.Job.Title}}
+                                </h5>
+                            </div>
+                        </md-toolbar>
                         <md-card-content>
                             
                             <div>

@@ -68,11 +68,11 @@
 <div style="visibility: hidden">
     <div class="md-dialog-container" id="myModal">
         <md-dialog flex-gt-sm="50">
-            <md-toolbar class="md-accent">
+            <md-toolbar md-theme="grey-variant" class="md-hue-2">
                 <div class="md-toolbar-tools">
-                    <h1>
+                    <h5 class="justify-self-center">
                         Your uploaded questions
-                    </h1>
+                    </h5>
                 </div>
             </md-toolbar>
             <div class="fill-height">
@@ -81,12 +81,23 @@
                     <md-content>
                         <md-card>
                             <md-card-content class="overflow-hidden">
+                                <h3 ng-show="previewQuestionModel.QuestionGroup.Description.length > 0 "><b>Question Group :</b> {{previewQuestionModel.QuestionGroup.Description}}</h3>
                                 <h3>{{previewQuestionModel.Id}}. {{previewQuestionModel.Text}}</h3>
-                                <h4>Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds</h4>
-                                <h4>Label : {{previewQuestionModel.Label.Name}}</h4>
-                                <h4>Difficulty : {{previewQuestionModel.Difficulty.Name}}</h4>
-                                <h4>Randomize Options : {{previewQuestionModel.RandomizeOptions}}</h4>
-                                <h4>Question Group : {{previewQuestionModel.QuestionGroup.Description}}</h4>
+                                <md-chips>
+                                    <md-chip>
+                                        Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds
+                                    </md-chip>
+                                    <md-chip>
+                                        Label : {{previewQuestionModel.Label.Name}}
+                                    </md-chip>
+                                    <md-chip>
+                                        Difficulty : {{previewQuestionModel.Difficulty.Name}}
+                                    </md-chip>
+                                    <md-chip>
+                                        Randomize Options : {{previewQuestionModel.RandomizeOptions}}
+                                    </md-chip>
+                                </md-chips>
+                                
                                 <div ng-if="previewQuestionModel.ImageUrl.length > 0">
                                     <img ng-src="{{previewQuestionModel.ImageUrl}}" class="imagePreview"/>
                                 </div>
