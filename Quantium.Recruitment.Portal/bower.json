@@ -22,7 +22,8 @@
     "highcharts": "5.0.0",
     "moment": "2.15.2",
     "modernizr": "2.6.2",
-    "angular-material-data-table": "0.10.9"
+    "angular-material-data-table": "0.10.9",
+    "angular-sanitize": "1.5.0"
   },
   "resolutions": {
     "angular": "1.3.0 - 1.5.x"

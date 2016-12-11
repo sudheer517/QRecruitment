@@ -216,6 +216,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                               item.Difficulty.Id == answeredChallenge.Question.DifficultyId &&
                               item.Label.Id == answeredChallenge.Question.LabelId);
 
+                    string labelName = jobDiffLabel.Label.Name;
+
                     jobDiffLabel.AnsweredCount += 1;
 
                     }

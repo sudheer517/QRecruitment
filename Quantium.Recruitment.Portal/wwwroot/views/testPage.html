@@ -55,8 +55,8 @@
                     </div>
                     {{status}}
                     <div class="test-panel-body fill-height">
-                        <h4>{{questionGroupText}}</h4>
-                        <h4>{{questionText}}</h4>
+                        <h4 ng-bind-html="questionGroupText"></h4>
+                        <h4 ng-bind-html="questionText"></h4>
                         <div>
                             <img ng-src="{{imageUrl}}" class="imagePreview"/>
                         </div>
@@ -64,7 +64,7 @@
                             <div class="checkbox" ng-repeat="option in options">
                                 <md-input-container class="createJobCheckbox">
                                     <md-checkbox ng-model="selectedQuestionOptions.optionIds[option.Id]">
-                                        {{option.Text}}
+                                        <span ng-bind-html="option.Text"></span>
                                     </md-checkbox>
                                 </md-input-container>
                             </div>

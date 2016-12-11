@@ -46,15 +46,15 @@
                             Randomize Options : {{question.RandomizeOptions}}
                         </md-chip>
                     </md-chips>
-                    <h3 ng-show="question.QuestionGroup.Description.length > 0"><b>Question Group : </b> {{question.QuestionGroup.Description}}</h3>
-                    <h3>{{question.Id}}. {{question.Text}}</h3>
+                    <h3 ng-show="question.QuestionGroup.Description.length > 0"><b>Question Group : </b><span ng-bind-html="question.QuestionGroup.Description"></span></h3>
+                    <h3>{{question.Id}}. <span ng-bind-html="question.Text"></span></h3>
                     
                     <div ng-if="question.ImageUrl.length > 0">
                         <img ng-src="{{question.ImageUrl}}" class="imagePreview" />
                     </div>
                     <div class="previewOptionList">
                         <ul>
-                            <li ng-repeat="option in question.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i><span class="margin-left-10">{{option.Text}}</span></li>
+                            <li ng-repeat="option in question.Options"><h3><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i><span class="margin-left-10">{{option.Text}}</span></h3></li>
                         </ul>
                     </div>
                 </md-card-content>
@@ -81,8 +81,8 @@
                     <md-content>
                         <md-card>
                             <md-card-content class="overflow-hidden">
-                                <h3 ng-show="previewQuestionModel.QuestionGroup.Description.length > 0 "><b>Question Group :</b> {{previewQuestionModel.QuestionGroup.Description}}</h3>
-                                <h3>{{previewQuestionModel.Id}}. {{previewQuestionModel.Text}}</h3>
+                                <h3 ng-show="previewQuestionModel.QuestionGroup.Description.length > 0 "><b>Question Group :</b><span ng-bind-html="previewQuestionModel.QuestionGroup.Description"></span></h3>
+                                <h3>{{previewQuestionModel.Id}}. <span ng-bind-html="previewQuestionModel.Text"></span></h3>
                                 <md-chips>
                                     <md-chip>
                                         Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="previewOptionList">
                                     <ul>
-                                        <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i>{{option.Text}}</li>
+                                        <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i><span ng-bind-html="option.Text"></span></li>
                                     </ul>
                                 </div>
                             </md-card-content>

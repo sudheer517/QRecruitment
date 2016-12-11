@@ -14,7 +14,8 @@ module Recruitment {
                 "ngMessages",
                 "ngMdIcons",
                 "lfNgMdFileInput",
-                "md.data.table"
+                "md.data.table",
+                "ngSanitize"
                 //"mockingApp" // Can remove this when backend development is finished
             ]);
 

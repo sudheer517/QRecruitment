@@ -21,12 +21,12 @@
                     </div>
                 </md-toolbar>
                 <md-card-content class="test-result-info">
-                    <h4><i class="fa fa-user fa-lg"></i><span> Name : {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</span></h4>
-                    <h4><i class="fa fa-user fa-lg"></i><span> Email : {{test.Candidate.Email}}</span></h4>
-                    <h4><i class="fa fa-user fa-lg"></i><span> Mobile: {{test.Candidate.Mobile}}</span></h4>
-                    <h4><i class="fa fa-user fa-lg"></i><span> City : {{test.Candidate.City}}</span></h4>
-                    <h4><i class="fa fa-user fa-lg"></i><span> State : {{test.Candidate.State}}</span></h4>
-                    <h4><i class="fa fa-user fa-lg"></i><span> Country: {{test.Candidate.Country}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span><b> Name : </b>{{test.Candidate.FirstName}} {{test.Candidate.LastName}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span><b> Email : </b>{{test.Candidate.Email}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span><b> Mobile: </b>{{test.Candidate.Mobile}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span><b> City : </b>{{test.Candidate.City}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span><b> State : </b>{{test.Candidate.State}}</span></h4>
+                    <h4><i class="fa fa-user fa-lg"></i><span><b> Country: </b>{{test.Candidate.Country}}</span></h4>
                 </md-card-content>
             </md-card>
 
@@ -39,11 +39,17 @@
                     </div>
                 </md-toolbar>
                 <md-card-content>
-                    <h4><i class="fa fa-bank fa-lg"></i> Branch : {{test.Candidate.Branch}}</h4>
-                    <h4 class="inline-block-display margin-top-bottom-0"><i class="fa fa-bank fa-lg"></i> College : </h4><h4 class="inline-block-display margin-top-bottom-0"> {{test.Candidate.College}}</h4>
-                    <h4><i class="fa fa-bank fa-lg"></i> Passing Year : {{test.Candidate.PassingYear}}</h4>
-                    <h4><i class="fa fa-bank fa-lg"></i> Experience : {{test.Candidate.ExperienceInYears}} years</h4>
-                    <h4><i class="fa fa-bank fa-lg"></i> Current company : {{test.Candidate.CurrentCompany}}</h4>
+                    <h4><i class="fa fa-bank fa-lg"></i><b> Branch : </b>{{test.Candidate.Branch}}</h4>
+
+                    <h4 class="inline-block-display margin-top-bottom-0"><i class="fa fa-bank fa-lg"></i><b> College : </b></h4>
+                    <h4 class="inline-block-display margin-top-bottom-0"> {{test.Candidate.College}}</h4>
+
+                    <h4><i class="fa fa-bank fa-lg"></i><b> Passing Year : </b>{{test.Candidate.PassingYear}}</h4>
+                    <h4><i class="fa fa-bank fa-lg"></i><b> Experience : </b>{{test.Candidate.ExperienceInYears}} years</h4>
+
+                    <h4 class="inline-block-display margin-top-bottom-0"><i class="fa fa-bank fa-lg"></i><b> Current company : </b></h4>
+                    <h4 class="inline-block-display margin-top-bottom-0"> {{test.Candidate.CurrentCompany}}</h4>
+
                 </md-card-content>
             </md-card>
 
@@ -56,12 +62,12 @@
                     </div>
                 </md-toolbar>
                 <md-card-content>
-                    <h4><i class="fa fa-info-circle fa-lg"></i> Job applied for: {{test.Job.Title}}</h4>
-                    <h4><i class="fa fa-info-circle fa-lg"></i> Test Finished on : {{test.FinishedDate | date}}</h4>
-                    <h4><i class="fa fa-info-circle fa-lg"></i> Total Questions displayed : {{test.Challenges.length}} </h4>
-                    <h4><i class="fa fa-info-circle fa-lg"></i> Total Questions answered : {{test.TotalChallengesAnswered}}</h4>
-                    <h4><i class="fa fa-info-circle fa-lg"></i> Total right answers : {{test.TotalRightAnswers}}</h4>
-                    <h4><i class="fa fa-info-circle fa-lg"></i> Test result : <span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i><b> Job applied for: </b>{{test.Job.Title}}</h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i><b> Test Finished on : </b>{{test.FinishedDate | date}}</h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i><b> Total Questions displayed : </b>{{test.Challenges.length}} </h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i><b> Total Questions answered : </b>{{test.TotalChallengesAnswered}}</h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i><b> Total right answers : </b>{{test.TotalRightAnswers}}</b></h4>
+                    <h4><i class="fa fa-info-circle fa-lg"></i><b> Test result : </b><span ng-class="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></h4>
                 </md-card-content>
             </md-card>
         </div>
@@ -82,8 +88,20 @@
                     <div ng-repeat="challenge in test.Challenges">
                         <md-card>
                             <md-card-content>
-                                <h4 ng-if="challenge.Question.QuestionGroup.Description"><i class="fa fa-star"></i> {{challenge.Question.QuestionGroup.Description}}</h4>
-                                <h4><i class="fa fa-star"></i> {{challenge.Question.Text}}</h4>
+                                <md-chips>
+                                    <md-chip>
+                                        Label : {{challenge.Question.Label.Name}}
+                                    </md-chip>
+                                    <md-chip>
+                                        Difficulty: {{challenge.Question.Difficulty.Name}}
+                                    </md-chip>
+                                </md-chips>
+                                <h4 ng-if="challenge.Question.QuestionGroup.Description"><i class="fa fa-star"></i>&nbsp; <span ng-bind-html="challenge.Question.QuestionGroup.Description"></span></h4>
+                                <h4><i class="fa fa-star"></i>&nbsp; <span ng-bind-html="challenge.Question.Text"></span></h4>
+                                <div ng-if="challenge.Question.ImageUrl.length > 0">
+                                    <img ng-src="{{challenge.Question.ImageUrl}}" class="imagePreview" />
+                                </div>
+                                
                                 <div ng-repeat="option in challenge.Question.Options">
                                     <md-chips>
                                         <md-chip ng-show="option.IsAnswer">Right Answer</md-chip>

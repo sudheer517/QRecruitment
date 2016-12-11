@@ -13,7 +13,7 @@
     <h3 ng-hide="remainingChallenges === 0" class="justify-self-center">You could either logout and resume the test later or move on to next question</h3>
     <h3 ng-show="remainingChallenges === 0" class="justify-self-center">You could either logout or go to home page</h3>
     <div flex>
-        <img src="../img/timer.svg" class="timeUpImage justify-self-center" />
+        <img src="../img/timer.svg" class="timeUpImage justify-self-center fill-height" />
     </div>
     <div layout="row">
         <md-button class="md-primary md-raised createJobButton" ng-click="nextQuestion()" ng-hide="remainingChallenges === 0">Next Question</md-button>
