@@ -24,6 +24,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly ICandidateRepository _candidateRepository;
         private readonly IOptionRepository _optionRepository;
         private readonly ICandidateSelectedOptionRepository _candidateSelectedOptionRepository;
+        private readonly IServiceProvider _serviceProvider;
+
         private CancellationTokenSource source;
 
         public ChallengeController(
@@ -31,13 +33,15 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             ITestRepository testRepository,
             ICandidateSelectedOptionRepository candidateSelectedOptionRepository,
             ICandidateRepository candidateRepository,
-            IOptionRepository optionRepository)
+            IOptionRepository optionRepository,
+            IServiceProvider serviceProvider)
         {
             _challengeRepository = challengeRepository;
             _testRepository = testRepository;
             _candidateSelectedOptionRepository = candidateSelectedOptionRepository;
             _candidateRepository = candidateRepository;
             _optionRepository = optionRepository;
+            _serviceProvider = serviceProvider;
         }
 
         [HttpGet]
@@ -138,8 +142,12 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             if (currentChallenge.IsSent != true)
             {
-                currentChallenge.IsSent = true;
-                _challengeRepository.Update(currentChallenge);
+                using (var context = (IRecruitmentContext)_serviceProvider.GetService(typeof(IRecruitmentContext)))
+                {
+                    currentChallenge.IsSent = true;
+                    _challengeRepository.UpdateWithNewContext(currentChallenge, context);
+                }
+                    
             }
 
             return true;

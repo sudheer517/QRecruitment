@@ -10,6 +10,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         Challenge FindById(long Id);
         void Update(Challenge entity);
         Challenge FindByIdUsingNewContext(long id);
+        void UpdateWithNewContext(Challenge entity, IRecruitmentContext context);
     }
 
     public class ChallengeRepository : GenericRepository<Challenge>, IChallengeRepository
@@ -51,6 +52,19 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
             }
 
             _dbContext.SaveChanges();
+        }
+
+        public void UpdateWithNewContext(Challenge entity, IRecruitmentContext context)
+        {
+            context.Challenges.Attach(entity);
+            context.Entry(entity).State = System.Data.Entity.EntityState.Modified;
+
+            foreach (var candidateSelectedOption in entity.CandidateSelectedOptions)
+            {
+                context.Entry(candidateSelectedOption).State = System.Data.Entity.EntityState.Added;
+            }
+
+            context.SaveChanges();
         }
     }
 }
