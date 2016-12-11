@@ -106,9 +106,11 @@ module Quantium.Recruitment.ODataEntities {
         public Question: QuestionDto;
         public ChallengesAnswered: Boolean[];
         public CandidateSelectedOptions: CandidateSelectedOptionDto[];
+        public TotalTestTimeInMinutes: string;
+        public RemainingTestTimeInMinutes: string;
         constructor();
-        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, RemainingChallenges?: number, currentChallenge?: number, Question?: QuestionDto, ChallengesAnswered?: Boolean[], CandidateSelectedOptions?: CandidateSelectedOptionDto[]);
-        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, RemainingChallenges?: number, currentChallenge?: number, Question?: QuestionDto, ChallengesAnswered?: Boolean[], CandidateSelectedOptions?: CandidateSelectedOptionDto[]){
+        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, RemainingChallenges?: number, currentChallenge?: number, Question?: QuestionDto, ChallengesAnswered?: Boolean[], CandidateSelectedOptions?: CandidateSelectedOptionDto[], TotalTestTimeInMinutes?: string, RemainingTestTimeInMinutes?: string);
+        constructor(Id?: number, TestId?: number, QuestionId?: number, StartTime?: string, AnsweredTime?: string, RemainingChallenges?: number, currentChallenge?: number, Question?: QuestionDto, ChallengesAnswered?: Boolean[], CandidateSelectedOptions?: CandidateSelectedOptionDto[], TotalTestTimeInMinutes?: string, RemainingTestTimeInMinutes?: string){
             this.Id = Id;
             this.TestId = TestId;
             this.QuestionId = QuestionId;
@@ -119,6 +121,8 @@ module Quantium.Recruitment.ODataEntities {
             this.Question = Question;
             this.ChallengesAnswered = ChallengesAnswered;
             this.CandidateSelectedOptions = CandidateSelectedOptions;
+            this.TotalTestTimeInMinutes = TotalTestTimeInMinutes;
+            this.RemainingTestTimeInMinutes = RemainingTestTimeInMinutes;
         }
 
     }

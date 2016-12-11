@@ -25,5 +25,9 @@ namespace Quantium.Recruitment.Models
 
         public List<CandidateSelectedOptionDto> CandidateSelectedOptions { get; set; }
 
+        public string TotalTestTimeInMinutes { get; set; }
+
+        public string RemainingTestTimeInMinutes { get; set; }
+
     }
 }

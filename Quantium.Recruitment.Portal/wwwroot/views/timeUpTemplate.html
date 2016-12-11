@@ -10,8 +10,12 @@
         </div>
     </md-toolbar>
     <br />
-    <h3 ng-hide="remainingChallenges === 0" class="justify-self-center">You could either logout and resume the test later or move on to next question</h3>
-    <h3 ng-show="remainingChallenges === 0" class="justify-self-center">You could either logout or go to home page</h3>
+    <div>
+        <h3 ng-hide="remainingChallenges === 0" class="justify-self-center padding-left-right-10">You could either logout and resume the test later or move on to next question</h3>
+    </div>
+    <div>
+        <h3 ng-show="remainingChallenges === 0" class="justify-self-center padding-left-right-10">Test completed. You could either logout or go to home page</h3>
+    </div>
     <div flex>
         <img src="../img/timer.svg" class="timeUpImage justify-self-center fill-height" />
     </div>

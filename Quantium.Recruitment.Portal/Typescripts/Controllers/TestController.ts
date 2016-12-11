@@ -22,6 +22,8 @@ module Recruitment.Controllers {
         toggleSidenav(): void;
         questionGroupText: string;
         imageUrl: string;
+        totalTestTime: string;
+        remainingTestTime: string;
     }
 
     class SelectedQuestionOptions {
@@ -202,6 +204,8 @@ module Recruitment.Controllers {
                     this.$scope.currentChallenge = result.data.currentChallenge;
                     this.$scope.remainingChallenges = result.data.RemainingChallenges;
                     this.$scope.challengesAnswered = result.data.ChallengesAnswered;
+                    this.$scope.totalTestTime = result.data.TotalTestTimeInMinutes;
+                    this.$scope.remainingTestTime = result.data.RemainingTestTimeInMinutes;
                     this.$log.info("new question retrieved");
                     this.setTimer(result.data.Question.TimeInSeconds);
                 }, reason => {

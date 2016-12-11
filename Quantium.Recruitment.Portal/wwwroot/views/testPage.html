@@ -9,6 +9,11 @@
         <md-content md-theme="dark-grey" md-theme-watch flex>
             <div flex>
                 <div layout="column" class="margin-left-10">
+                    <div>
+                        <h3 class="light-grey-text-color">Total test time : {{totalTestTime}} Minutes</h3>
+                        <h3 class="light-grey-text-color">Remaining test time : {{remainingTestTime}} Minutes</h3>
+                    </div>
+                    <md-divider></md-divider>
                     <div ng-repeat="challengeAnswered in challengesAnswered track by $index">
                         <h3 class="inline-block-display">
                             <md-list>

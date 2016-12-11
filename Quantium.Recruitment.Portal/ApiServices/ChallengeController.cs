@@ -98,6 +98,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             currentChallengeDto.RemainingChallenges = notSentChallenges.Count() - 1;
             currentChallengeDto.currentChallenge = totalCount - notSentChallenges.Count() + 1;
             currentChallengeDto.ChallengesAnswered = totalChallengesAnswered;
+
+            double totalTestTimeInMins = ((challenges.Sum(c => c.Question.TimeInSeconds)) / 60.0);
+            double remainingTestTimeInMins = ((notSentChallenges.Sum(c => c.Question.TimeInSeconds)) / 60.0) - (currentChallengeDto.Question.TimeInSeconds / 60.0);
+            currentChallengeDto.TotalTestTimeInMinutes = totalTestTimeInMins.ToString();
+            currentChallengeDto.RemainingTestTimeInMinutes = remainingTestTimeInMins.ToString();
             currentChallengeDto.Question.Options.ForEach(o => o.IsAnswer = false);
 
             if (currentChallengeDto.RemainingChallenges == 0)
