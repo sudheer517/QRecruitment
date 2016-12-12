@@ -81,8 +81,6 @@
                     <md-content>
                         <md-card>
                             <md-card-content class="overflow-hidden">
-                                <h3 ng-show="previewQuestionModel.QuestionGroup.Description.length > 0 "><b>Question Group :</b><span ng-bind-html="previewQuestionModel.QuestionGroup.Description"></span></h3>
-                                <h3>{{previewQuestionModel.Id}}. <span ng-bind-html="previewQuestionModel.Text"></span></h3>
                                 <md-chips>
                                     <md-chip>
                                         Time for Question - {{previewQuestionModel.TimeInSeconds}} seconds
@@ -97,6 +95,8 @@
                                         Randomize Options : {{previewQuestionModel.RandomizeOptions}}
                                     </md-chip>
                                 </md-chips>
+                                <h3 ng-show="previewQuestionModel.QuestionGroup.Description.length > 0 "><b>Question Group :</b><span ng-bind-html="previewQuestionModel.QuestionGroup.Description"></span></h3>
+                                <h3>{{previewQuestionModel.Id}}. <span ng-bind-html="previewQuestionModel.Text"></span></h3>
                                 
                                 <div ng-if="previewQuestionModel.ImageUrl.length > 0">
                                     <img ng-src="{{previewQuestionModel.ImageUrl}}" class="imagePreview"/>
