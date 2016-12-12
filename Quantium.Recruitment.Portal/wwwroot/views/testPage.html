@@ -68,12 +68,17 @@
                             <img ng-src="{{imageUrl}}" class="imagePreview"/>
                         </div>
                         <div class="text-left">
-                            <div class="checkbox" ng-repeat="option in options">
+                            <div class="checkbox" ng-repeat="option in options" ng-if="!isRadioQuestion">
                                 <md-input-container class="createJobCheckbox">
                                     <md-checkbox ng-model="selectedQuestionOptions.optionIds[option.Id]">
                                         <span ng-bind-html="option.Text"></span>
                                     </md-checkbox>
                                 </md-input-container>
+                            </div>
+                            <div class="checkbox" ng-if="isRadioQuestion">
+                                <md-radio-group ng-model="selectedRadio.option" ng-change="radioOptionToggle()">
+                                    <md-radio-button ng-repeat="option in options" value="{{option.Id}}">{{option.Text}}</md-radio-button>
+                                </md-radio-group>
                             </div>
                         </div>
                     </div>
