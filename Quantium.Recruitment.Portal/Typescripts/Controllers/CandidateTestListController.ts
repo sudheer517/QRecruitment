@@ -102,6 +102,7 @@ module Recruitment.Controllers {
                             "testResult": testItem.IsTestPassed ? "Passed" : "Failed",
                             "correctAnswers": { "value": testItem.TotalRightAnswers },
                             "college": testItem.Candidate.College,
+                            "cgpa": { "value": testItem.Candidate.CGPA },
                             "testId": testItem.Id
                         }
 

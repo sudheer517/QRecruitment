@@ -42,6 +42,7 @@
                         <th md-column md-order-by="finishedDate"><span>Finished Date</span></th>
                         <th md-column md-order-by="testResult"><span>Test Result</span></th>
                         <th md-column md-order-by="college"><span>College</span></th>
+                        <th md-column md-numeric md-order-by="cgpa.value"><span>CGPA</span></th>
                         <th md-column md-numeric md-order-by="correctAnswers.value"><span>Correct Answers</span></th>
                         
                         <!--<th md-column md-numeric md-order-by="correctAnswers.value" hide-gt-xs show-gt-md><span>Correct Answers</span></th>
@@ -58,6 +59,7 @@
                         <td md-cell>{{finishedTest.finishedDate}}</td>
                         <td md-cell>{{finishedTest.testResult}}</td>
                         <td md-cell>{{finishedTest.college}}</td>
+                        <td md-cell>{{finishedTest.cgpa}}</td>
                         <td md-cell>{{finishedTest.correctAnswers.value}}</td>
                         <!--<td md-cell hide-gt-xs show-gt-md>{{finishedTest.correctAnswers.value}}</td>
                         <td md-cell hide-gt-xs show-gt-lg>{{finishedTest.college}}%</td>-->
