@@ -13,7 +13,6 @@ module Recruitment.Controllers {
         currentChallenge: number;
         remainingChallenges: number;
         challengesAnswered: Boolean[];
-        //addSelection: (selectedOption: string) => void;
         selectedQuestionOptions: SelectedQuestionOptions;
         status: string;
         nextQuestion: () => void;
@@ -24,6 +23,9 @@ module Recruitment.Controllers {
         imageUrl: string;
         totalTestTime: string;
         remainingTestTime: string;
+        isRadioQuestion: boolean;
+        radioOptionToggle: () => void;
+        selectedRadio: any;
     }
 
     class SelectedQuestionOptions {
@@ -59,10 +61,18 @@ module Recruitment.Controllers {
             this.$scope.finishTest = () => this.finishTest();
             this.$scope.logout = () => this.settingsBeforeLogout();
             this.$scope.toggleSidenav = () => this.toggleSidenav();
+            this.$scope.radioOptionToggle = () => this.radioOptionToggle();
+            this.$scope.selectedRadio = { };
         }
 
         private toggleSidenav(): void {
             this.$mdSidenav("left").toggle();
+        }
+
+        private radioOptionToggle(): void {
+            var selectedOptionId: number = this.$scope.selectedRadio.option;
+            this.$scope.selectedQuestionOptions.optionIds = [];
+            this.$scope.selectedQuestionOptions.optionIds[selectedOptionId] = true;
         }
 
         private settingsBeforeLogout(): void {
@@ -169,7 +179,7 @@ module Recruitment.Controllers {
 
         private showConfirm(): void {
             this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
-            this.postChallenge(false);
+            //this.postChallenge(false);
             var parentElement = angular.element("#timeUpModal");
             this.$mdDialog.show({
                     templateUrl: '/views/timeUpTemplate.html',
@@ -206,6 +216,7 @@ module Recruitment.Controllers {
                     this.$scope.challengesAnswered = result.data.ChallengesAnswered;
                     this.$scope.totalTestTime = result.data.TotalTestTimeInMinutes;
                     this.$scope.remainingTestTime = result.data.RemainingTestTimeInMinutes;
+                    this.$scope.isRadioQuestion = result.data.Question.IsRadio;
                     this.$log.info("new question retrieved");
                     this.setTimer(result.data.Question.TimeInSeconds);
                 }, reason => {

@@ -52,9 +52,14 @@
                     <div ng-if="question.ImageUrl.length > 0">
                         <img ng-src="{{question.ImageUrl}}" class="imagePreview" />
                     </div>
-                    <div class="previewOptionList">
+                    <div class="previewOptionList" ng-if="!question.IsRadio">
                         <ul>
-                            <li ng-repeat="option in question.Options"><h3><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i><span class="margin-left-10">{{option.Text}}</span></h3></li>
+                            <li ng-repeat="option in question.Options"><h3><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i><span class="margin-left-10" ng-bind-html="option.Text"></span></h3></li>
+                        </ul>
+                    </div>
+                    <div class="previewOptionList" ng-if="question.IsRadio">
+                        <ul>
+                            <li ng-repeat="option in question.Options"><h3><i ng-class="option.IsAnswer ? 'fa fa-check-circle': 'fa fa-circle-o'"></i><span class="margin-left-10" ng-bind-html="option.Text"></span></h3></li>
                         </ul>
                     </div>
                 </md-card-content>
@@ -101,9 +106,15 @@
                                 <div ng-if="previewQuestionModel.ImageUrl.length > 0">
                                     <img ng-src="{{previewQuestionModel.ImageUrl}}" class="imagePreview"/>
                                 </div>
-                                <div class="previewOptionList">
+
+                                <div class="previewOptionList" ng-if="!previewQuestionModel.IsRadio">
                                     <ul>
-                                        <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i><span ng-bind-html="option.Text"></span></li>
+                                        <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-square': 'fa fa-square-o'"></i><span class="margin-left-10" ng-bind-html="option.Text"></span></li>
+                                    </ul>
+                                </div>
+                                <div class="previewOptionList" ng-if="previewQuestionModel.IsRadio">
+                                    <ul>
+                                        <li ng-repeat="option in previewQuestionModel.Options"><i ng-class="option.IsAnswer ? 'fa fa-check-circle': 'fa fa-circle-o'"></i><span class="margin-left-10" ng-bind-html="option.Text"></span></li>
                                     </ul>
                                 </div>
                             </md-card-content>

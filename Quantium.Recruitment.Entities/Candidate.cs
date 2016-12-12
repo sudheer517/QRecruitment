@@ -28,6 +28,8 @@ namespace Quantium.Recruitment.Entities
 
         public virtual string PassingYear { get; set; }
 
+        public virtual double CGPA { get; set; }
+
         public virtual double ExperienceInYears { get; set; }
 
         public virtual string CurrentCompany { get; set; }

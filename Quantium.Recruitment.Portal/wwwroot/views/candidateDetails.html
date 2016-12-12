@@ -83,13 +83,20 @@
                             </md-input-container>
                         </div>
                         <div layout="row">
-                            <md-input-container flex="100">
+                            <md-input-container flex="50">
                                 <label>Gradudation year</label>
                                 <md-select ng-model="candidate.PassingYear" name="passingYear" required>
                                     <md-option ng-value="year" ng-repeat="year in [2017,2016,2015,2014,2013,2012,2011,2010,2009,2008,2007,2006,2005,2004,2003,2002,2001,2000]">{{ year }}</md-option>
                                 </md-select>
                                 <div ng-messages="candidateDetailsForm.passingYear.$error">
                                     <div ng-message="required">Graduation year is required.</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container flex="50">
+                                <label>CGPA</label>
+                                <input ng-model="candidate.CGPA" name="college" required maxlength="4">
+                                <div ng-messages="candidateDetailsForm.CGPA.$error">
+                                    <div ng-message="required">CGPA is required.</div>
                                 </div>
                             </md-input-container>
                         </div>

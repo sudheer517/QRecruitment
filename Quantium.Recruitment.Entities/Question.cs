@@ -34,5 +34,7 @@ namespace Quantium.Recruitment.Entities
         public virtual List<Challenge> Challenges { get; set; }
 
         public virtual long CreatedByUserId { get; set; }
+
+        public virtual bool IsRadio { get; set; }
     }
 }

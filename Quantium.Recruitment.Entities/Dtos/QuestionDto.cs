@@ -25,5 +25,7 @@ namespace Quantium.Recruitment.Models
         public DifficultyDto Difficulty { get; set; }
 
         public LabelDto Label { get; set; }
+
+        public bool IsRadio { get; set; }
     }
 }

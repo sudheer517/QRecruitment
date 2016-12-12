@@ -108,6 +108,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                             {
                                 Description = questionAndOptions[14]
                             },
+                            IsRadio = !string.IsNullOrEmpty(questionAndOptions[15]) ? Convert.ToBoolean(questionAndOptions[15]) : false,
                             Options = new List<OptionDto>
                             {
                                 new OptionDto

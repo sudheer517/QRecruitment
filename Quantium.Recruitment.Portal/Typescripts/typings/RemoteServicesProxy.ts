@@ -40,12 +40,13 @@ module Quantium.Recruitment.ODataEntities {
         public Branch: string;
         public College: string;
         public PassingYear: string;
+        public CGPA: number;
         public ExperienceInYears: number;
         public CurrentCompany: string;
         public IsInformationFilled: boolean;
         constructor();
-        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean);
-        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean){
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, CGPA?: number, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean);
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, CGPA?: number, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean){
             this.Id = Id;
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -58,6 +59,7 @@ module Quantium.Recruitment.ODataEntities {
             this.Branch = Branch;
             this.College = College;
             this.PassingYear = PassingYear;
+            this.CGPA = CGPA;
             this.ExperienceInYears = ExperienceInYears;
             this.CurrentCompany = CurrentCompany;
             this.IsInformationFilled = IsInformationFilled;
@@ -235,9 +237,10 @@ module Quantium.Recruitment.ODataEntities {
         public Options: OptionDto[];
         public Difficulty: DifficultyDto;
         public Label: LabelDto;
+        public IsRadio: boolean;
         constructor();
-        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: DifficultyDto, Label?: LabelDto);
-        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: DifficultyDto, Label?: LabelDto){
+        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: DifficultyDto, Label?: LabelDto, IsRadio?: boolean);
+        constructor(Id?: number, Text?: string, ImageUrl?: string, TimeInSeconds?: number, RandomizeOptions?: boolean, QuestionGroup?: QuestionGroupDto, Options?: OptionDto[], Difficulty?: DifficultyDto, Label?: LabelDto, IsRadio?: boolean){
             this.Id = Id;
             this.Text = Text;
             this.ImageUrl = ImageUrl;
@@ -247,6 +250,7 @@ module Quantium.Recruitment.ODataEntities {
             this.Options = Options;
             this.Difficulty = Difficulty;
             this.Label = Label;
+            this.IsRadio = IsRadio;
         }
 
     }

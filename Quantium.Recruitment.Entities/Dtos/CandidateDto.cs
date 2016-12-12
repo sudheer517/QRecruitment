@@ -28,6 +28,8 @@ namespace Quantium.Recruitment.Models
 
         public string PassingYear { get; set; }
 
+        public double CGPA { get; set; }
+
         public double ExperienceInYears { get; set; }
 
         public string CurrentCompany { get; set; }
