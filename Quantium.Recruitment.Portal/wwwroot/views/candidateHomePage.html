@@ -1,18 +1,18 @@
-﻿<div layout="column" flex>
+﻿<div layout="column" class="fill-height">
     <md-toolbar class="md-primary md-hue-2">
-        <div class="md-toolbar-tools qlogo" layout-gt-md="row" layout-lt-md="column" layout-align="center center">
+        <div class="md-toolbar-tools qlogo" layout-gt-md="row" layout-align="center center">
                 <md-button class="md-icon-button">
                     <md-icon md-svg-icon="logo" class=""></md-icon>
                 </md-button>
         </div>
     </md-toolbar>
     <div ng-include="'../views/settingsFab.html'"></div>
-    <md-content flex layout-align="center start">
-        <div layout="column" flex="100" flex-gt-sm="60" layout-align="center center" class="fill-height">
-            <div layout="column" class="fill-width">
+    <md-content flex layout-align="center center">
+        <div flex-gt-sm="60">
+            <div layout="column">
                 <div>
                     <md-card md-theme="dark-grey" md-theme-watch>
-                        <md-card-content  class="justify-self-center">
+                        <md-card-content class="text-align-center">
                             <h2>
                                 Thank you <b>{{candidateName}}</b>
                             </h2>

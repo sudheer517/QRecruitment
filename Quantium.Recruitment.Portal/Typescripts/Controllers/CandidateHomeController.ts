@@ -13,7 +13,7 @@
         private getCandidateName(): void {
             this.$candidateService.getCandidateName().then(
                 success => {
-                    this.$scope.candidateName = JSON.parse(success.data);
+                    this.$scope.candidateName = success.data;
                 },
                 error => {
                     console.log("candidate name not found");

@@ -1,95 +1,98 @@
-﻿<div layout="vertical">
-    <md-sidenav class="md-sidenav-left"
-                md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-sm')"
-                md-whiteframe="4" flex>
-        <md-toolbar class="md-primary md-hue-2 text-align-center">
-            <h1 class="justify-self-center">Questions</h1>
-        </md-toolbar>
-        <md-content md-theme="dark-grey" md-theme-watch flex>
-            <div flex>
-                <div layout="column" class="margin-left-10">
-                    <div>
-                        <h3 class="light-grey-text-color"><b>Total time : {{totalTestTime | number : 2}} Minutes</b></h3>
-                        <h3 class="light-grey-text-color"><b>Remaining time : {{remainingTestTime | number : 2}} Minutes</b></h3>
-                    </div>
-                    <md-divider></md-divider>
-                    <div ng-repeat="challengeAnswered in challengesAnswered track by $index">
-                        <h3 class="inline-block-display">
-                            <md-list>
-                            <span ng-show="($index+1) < currentChallenge" class="light-grey-text-color">
-                                <b>Question-{{($index +1)}} - <span ng-show="!challengeAnswered">Not Answered</span><span ng-show="challengeAnswered">Answered</span> - <i ng-class="challengeAnswered ? 'fa fa-lg fa-check-square-o' : 'fa fa-lg fa-times-rectangle-o'"></i></b>
-                            </span>
-                            <span ng-show="($index+1) == currentChallenge" class="md-whiteframe-24dp">
-                                Question-{{($index +1)}} - Current Question - <i class="fa fa-hourglass-start"></i>
-                            </span>
-                            <span ng-show="($index+1) > currentChallenge" class="light-grey-text-color">
-                                <b>Question-{{($index +1)}} - Locked - <i class="fa fa-lg fa-lock"></i></b>
-                            </span>
-                        </h3>
-                        <md-divider></md-divider>
-                    </div>
-                    
-                </div>
-            </div>
-        </md-content>
-    </md-sidenav>
-</div>
-<div layout="column" class="fill-width">
-    <md-toolbar class="md-primary md-hue-2">
-        <div class="md-toolbar-tools">
-            <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenav()">
-                <md-icon md-svg-src="../img/menu.svg"></md-icon>
-            </md-button>
-            <div class="justify-self-center" flex>
-                <img src="../img/logo2.svg" class="logo-medium justify-self-center" />
-            </div>
-        </div>
-    </md-toolbar>
-    <div ng-include="'../views/settingsFab.html'"></div>
-    <md-content>
-        <md-card>
-            <md-card-content class="fill-height">
-                <div  layout="column" flex>
-                    <div layout-gt-xs="row" class="align-center">
-                        <div layout="row" class="remaining-questions">
-                            <h3><b>Question - {{currentChallenge}} </b></h3>
-                            <h3><b> : Remaining - {{remainingChallenges}}<b></h3>
-                        </div>
-                        <div class="clockContainer">
-                            <div class="clock"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="test-panel-body fill-height">
-                        <h4><span ng-bind-html="questionGroupText"></span></h4>
-                        <h4><span ng-bind-html="questionText"></span></h4>
+﻿<div flex class="fill-height">
+    <div>
+        <md-sidenav class="md-sidenav-left fill-height"
+                    md-component-id="left"
+                    md-is-locked-open="$mdMedia('gt-sm')"
+                    md-whiteframe="4" flex>
+            <md-toolbar class="md-primary md-hue-2 text-align-center">
+                <h1 class="justify-self-center">Questions</h1>
+            </md-toolbar>
+            <md-content md-theme="dark-grey" md-theme-watch class="fill-height">
+                <div class="fill-height">
+                    <div layout="column" class="margin-left-10">
                         <div>
-                            <img ng-src="{{imageUrl}}" class="imagePreview"/>
+                            <h3 class="light-grey-text-color"><b>Total time : {{totalTestTime | number : 2}} Minutes</b></h3>
+                            <h3 class="light-grey-text-color"><b>Remaining time : {{remainingTestTime | number : 2}} Minutes</b></h3>
                         </div>
-                        <div class="text-left">
-                            <div class="checkbox" ng-repeat="option in options" ng-if="!isRadioQuestion">
-                                <md-input-container class="createJobCheckbox">
-                                    <md-checkbox ng-model="selectedQuestionOptions.optionIds[option.Id]">
-                                        <span ng-bind-html="option.Text"></span>
-                                    </md-checkbox>
-                                </md-input-container>
-                            </div>
-                            <div class="checkbox" ng-if="isRadioQuestion">
-                                <md-radio-group ng-model="selectedRadio.option" ng-change="radioOptionToggle()">
-                                    <md-radio-button ng-repeat="option in options" value="{{option.Id}}">{{option.Text}}</md-radio-button>
-                                </md-radio-group>
-                            </div>
+                        <md-divider></md-divider>
+                        <div ng-repeat="challengeAnswered in challengesAnswered track by $index">
+                            <h3 class="inline-block-display">
+                                <md-list>
+                                    <span ng-show="($index+1) < currentChallenge" class="light-grey-text-color">
+                                        <b>Question-{{($index +1)}} - <span ng-show="!challengeAnswered">Not Answered</span><span ng-show="challengeAnswered">Answered</span> - <i ng-class="challengeAnswered ? 'fa fa-lg fa-check-square-o' : 'fa fa-lg fa-times-rectangle-o'"></i></b>
+                                    </span>
+                                    <span ng-show="($index+1) == currentChallenge" class="md-whiteframe-24dp">
+                                        Question-{{($index +1)}} - Current Question - <i class="fa fa-hourglass-start"></i>
+                                    </span>
+                                    <span ng-show="($index+1) > currentChallenge" class="light-grey-text-color">
+                                        <b>Question-{{($index +1)}} - Locked - <i class="fa fa-lg fa-lock"></i></b>
+                                    </span>
+                            </h3>
+                            <md-divider></md-divider>
                         </div>
-                    </div>
 
-                    <div layout-xs="column" layout="row">
-                        <md-button class="md-raised md-primary md-hue-2" ng-click="fillAndPostChallenge()" ng-hide="remainingChallenges === 0">Submit & go to next question</md-button>
-                        <md-button class="md-raised md-accent justify-right finishTestButton" ng-click="finishTest()">Finish Test</md-button>
                     </div>
                 </div>
-            </md-card-content>
-        </md-card>
-    </md-content>
+            </md-content>
+        </md-sidenav>
+    </div>
+    <div flex>
+        <div layout="column" class="fill-width">
+            <md-toolbar class="md-primary md-hue-2">
+                <div class="md-toolbar-tools">
+                    <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenav()">
+                        <md-icon md-svg-src="../img/menu.svg"></md-icon>
+                    </md-button>
+                    <div class="justify-self-center" flex>
+                        <img src="../img/logo2.svg" class="logo-medium justify-self-center" />
+                    </div>
+                </div>
+            </md-toolbar>
+            <div ng-include="'../views/settingsFab.html'"></div>
+            <md-content class="fill-height">
+                <md-card>
+                    <md-card-content class="fill-height">
+                        <div layout="column" flex>
+                            <div layout-gt-xs="row" layout-xs="column" class="align-center">
+                                <div layout="row" class="remaining-questions">
+                                    <h3><b>Question - {{currentChallenge}} </b></h3>
+                                    <h3><b> : Remaining - {{remainingChallenges}}</b></h3>
+                                </div>
+                                <div class="clockContainer">
+                                    <div class="clock"></div>
+                                </div>
+                            </div>
+                            <div class="test-panel-body fill-height">
+                                <h4><span ng-bind-html="questionGroupText"></span></h4>
+                                <h4><span ng-bind-html="questionText"></span></h4>
+                                <div>
+                                    <img ng-src="{{imageUrl}}" class="imagePreview" />
+                                </div>
+                                <div class="text-left">
+                                    <div class="checkbox" ng-repeat="option in options" ng-if="!isRadioQuestion">
+                                        <md-input-container class="createJobCheckbox">
+                                            <md-checkbox ng-model="selectedQuestionOptions.optionIds[option.Id]">
+                                                {{option.Text}}
+                                            </md-checkbox>
+                                        </md-input-container>
+                                    </div>
+                                    <div class="checkbox" ng-if="isRadioQuestion">
+                                        <md-radio-group ng-model="selectedRadio.option" ng-change="radioOptionToggle()">
+                                            <md-radio-button ng-repeat="option in options" value="{{option.Id}}">{{option.Text}}</md-radio-button>
+                                        </md-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div layout-xs="column" layout="row">
+                                <md-button class="md-raised md-primary md-hue-2" ng-click="fillAndPostChallenge()" ng-hide="remainingChallenges === 0">Submit & go to next question</md-button>
+                                <md-button class="md-raised md-accent justify-right finishTestButton" ng-click="finishTest()">Finish Test</md-button>
+                            </div>
+                        </div>
+                    </md-card-content>
+                </md-card>
+            </md-content>
+        </div>
+    </div>
 </div>
 <div id="timeUpModal"></div>
