@@ -15,7 +15,7 @@
             <md-tab-content>
                 <md-card flex>
                     <md-card-content>
-                        <md-button class="md-primary md-raised" href="/QuestionsTemplate.xlsx">Download Bulk Upload Template</md-button>
+                        <md-button class="md-primary md-hue-2 md-raised" href="/QuestionsTemplate.xlsx">Download Bulk Upload Template</md-button>
                         <br /><br /><br /><br />
                         <h2 class="fileUpload">Upload questions .xlsx file:</h2>
                         <lf-ng-md-file-input accept=".xlsx" lf-files="files01" lf-api="api01" class="fileUpload" flex-gt-sm="50"></lf-ng-md-file-input>
@@ -24,7 +24,7 @@
                             Preview Questions
                         </md-button>
 
-                        <md-button ng-disabled="files01.length > 0 ? false : true" class="md-primary md-raised" ng-click="saveChanges()">Save Changes</md-button>
+                        <md-button ng-disabled="files01.length > 0 ? false : true" class="md-primary md-hue-2 md-raised" ng-click="saveChanges()">Save Changes</md-button>
                     </md-card-content>
                 </md-card>
             </md-tab-content>
