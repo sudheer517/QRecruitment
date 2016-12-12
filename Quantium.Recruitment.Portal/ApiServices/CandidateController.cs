@@ -141,8 +141,12 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             foreach (var candidate in candidates)
             {
-                candidate.IsActive = true;
-                _candidateRepository.Add(candidate);
+                bool isCandidateAlreadyAdded = _candidateRepository.FindByEmail(candidate.Email) == null ? false : true;
+                if (!isCandidateAlreadyAdded)
+                {
+                    candidate.IsActive = true;
+                    _candidateRepository.Add(candidate);
+                }
             }
 
             return Created(string.Empty, "Candidates Created");
@@ -157,8 +161,12 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             foreach (var candidate in candidates)
             {
-                candidate.IsActive = true;
-                _candidateRepository.Add(candidate);
+                bool isCandidateAlreadyAdded = _candidateRepository.FindByEmail(candidate.Email) == null ? false : true;
+                if (!isCandidateAlreadyAdded)
+                {
+                    candidate.IsActive = true;
+                    _candidateRepository.Add(candidate);
+                }
             }
 
             return Created(string.Empty, "Candidates Created");
