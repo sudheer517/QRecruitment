@@ -1,6 +1,5 @@
 ﻿
 .clockContainer{
-    margin-top: 10px;
     display: flex;
     align-items:center;
     justify-content:center;
@@ -8,6 +7,8 @@
 
 .clock{
     width: 300px;
+    transform-origin: center center;
+    transform: scale(0.6);
 }
 
 @media all and (max-width: 376px) {
@@ -15,7 +16,34 @@
     .clock {
         min-width:300px;
         transform-origin: center center;
-        transform: scale(0.7);
+        transform: scale(0.6);
+    }
+
+}
+.flip-clock-divider.minutes .flip-clock-label {
+    font-size: 16px;
+}
+
+.flip-clock-divider.seconds .flip-clock-label {
+    font-size: 16px;
+}
+.remaining-questions{
+    padding-top: 20px;
+}
+
+@media all and (min-width: 600px) {
+
+    .remaining-questions{
+        padding-top: 35px;
+    }
+
+}
+
+@media all and (min-width: 300px) and (max-width: 599px) {
+
+    .remaining-questions{
+        padding-top: 35px;
+        justify-content: center;
     }
 
 }

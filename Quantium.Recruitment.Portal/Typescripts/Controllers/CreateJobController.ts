@@ -24,6 +24,8 @@ module Recruitment.Controllers {
         toggleSidenav(): void;
         getArray: (arraySize: number) => Array<any>;
         existingJobs: JobDto[];
+        getDisplayQuestionCount: (currentJob: JobDto) => number;
+        getPassingQuestionCount: (currentJob: JobDto) => number;
     }
     export class SelectedOptions {
         public labelIds: boolean[];
@@ -64,6 +66,24 @@ module Recruitment.Controllers {
                 this.$scope.getArray = (arraySize) => this.getArray(arraySize);
                 this.$scope.showAvailableQuestions = (jobDifficultyLabel: any) => this.showAvailableQuestions(jobDifficultyLabel);
                 this.getExistingJobs();
+                this.$scope.getDisplayQuestionCount = (currentJob) => this.getDisplayQuestionCount(currentJob);
+                this.$scope.getPassingQuestionCount = (currentJob) => this.getPassingQuestionCount(currentJob);
+        }
+
+        private getDisplayQuestionCount(currentJob: JobDto) {
+            var total = 0;
+            for (var i = 0; i < currentJob.JobDifficultyLabels.length; i++) {
+                total += currentJob.JobDifficultyLabels[i].DisplayQuestionCount;
+            }
+            return total;
+        }
+
+        private getPassingQuestionCount(currentJob: JobDto) {
+            var total = 0;
+            for (var i = 0; i < currentJob.JobDifficultyLabels.length; i++) {
+                total += currentJob.JobDifficultyLabels[i].PassingQuestionCount;
+            }
+            return total;
         }
 
         private getExistingJobs(): void {

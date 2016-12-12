@@ -158,10 +158,12 @@
                     <md-card-content>
                         <h4><b>Profile :</b> {{existingJob.Profile}}</h4>
                         <h4><b>Department :</b> {{existingJob.Department.Name}}</h4>
+                        <h4><b>Total questions : </b>{{getDisplayQuestionCount(existingJob)}}</h4>
+                        <h4><b>Total questions to pass : </b>{{getPassingQuestionCount(existingJob)}}</h4>
                         <h4 class="text-align-center"><b>Labels and difficulties</b></h4>
                         <md-divider></md-divider>
                         <div layout="row" layout-wrap>
-                            <md-card ng-repeat="jdl in existingJob.JobDifficultyLabels track by $index">
+                            <md-card ng-repeat="jdl in existingJob.JobDifficultyLabels track by $index" class="light-grey-bg-color">
                                 <md-card-content>
                                     <h4><b>Difficulty :</b> {{jdl.Difficulty.Name}}</h4>
                                     <h4><b>Label :</b> {{jdl.Label.Name}}</h4>

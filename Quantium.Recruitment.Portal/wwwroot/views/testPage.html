@@ -10,8 +10,8 @@
             <div flex>
                 <div layout="column" class="margin-left-10">
                     <div>
-                        <h3 class="light-grey-text-color">Total test time : {{totalTestTime}} Minutes</h3>
-                        <h3 class="light-grey-text-color">Remaining test time : {{remainingTestTime}} Minutes</h3>
+                        <h3 class="light-grey-text-color"><b>Total time : {{totalTestTime | number : 2}} Minutes</b></h3>
+                        <h3 class="light-grey-text-color"><b>Remaining time : {{remainingTestTime | number : 2}} Minutes</b></h3>
                     </div>
                     <md-divider></md-divider>
                     <div ng-repeat="challengeAnswered in challengesAnswered track by $index">
@@ -38,7 +38,7 @@
 <div layout="column" flex>
     <md-toolbar class="md-primary md-hue-2">
         <div class="md-toolbar-tools">
-            <md-button hide-gt-sm class="md-icon-button">
+            <md-button hide-gt-sm class="md-icon-button" ng-click="toggleSidenav()">
                 <md-icon md-svg-src="../img/menu.svg"></md-icon>
             </md-button>
             <div class="justify-self-center" flex>
@@ -51,13 +51,16 @@
         <md-card>
             <md-card-content class="fill-height">
                 <div  layout="column" flex>
-                    <div layout="row" class="align-center">
-                        <h3>Question - {{currentChallenge}} </h3>
-                        <h3> : Remaining - {{remainingChallenges}}</h3>
+                    <div layout-gt-xs="row" class="align-center">
+                        <div layout="row" class="remaining-questions">
+                            <h3><b>Question - {{currentChallenge}} </b></h3>
+                            <h3><b> : Remaining - {{remainingChallenges}}<b></h3>
+                        </div>
+                        <div class="clockContainer">
+                            <div class="clock"></div>
+                        </div>
                     </div>
-                    <div class="clockContainer">
-                        <div class="clock"></div>
-                    </div>
+                    
                     <div class="test-panel-body fill-height">
                         <h4><span ng-bind-html="questionGroupText"></span></h4>
                         <h4><span ng-bind-html="questionText"></span></h4>
