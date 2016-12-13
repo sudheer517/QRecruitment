@@ -36,10 +36,10 @@
                                             </div>
                                         </md-input-container>
 
-                                        <md-button class="md-primary md-raised" ng-click="remove($index)">Remove Candidate</md-button>
+                                        <md-button class="md-primary md-hue-2 md-raised" ng-click="remove($index)">Remove Candidate</md-button>
                                     </div>
-                                    <md-button class="md-primary md-raised" ng-click="add()">Add Candidate</md-button>
-                                    <md-button ng-disabled="candidatesArray.candidates.length > 0 ? false : true" type="submit" class="md-primary md-raised" ng-click="candidateDetailsForm.$valid && saveCandidate()">Save Candidate(s)</md-button>
+                                    <md-button class="md-accent md-raised" ng-click="add()">Add Candidate</md-button>
+                                    <md-button ng-disabled="candidatesArray.candidates.length > 0 ? false : true" type="submit" class="md-primary md-hue-2 md-raised" ng-click="candidateDetailsForm.$valid && saveCandidate()">Save Candidate(s)</md-button>
                                 </div>
                             </form>
                         </md-tab>
@@ -75,23 +75,22 @@
 <div style="visibility: hidden">
     <div class="md-dialog-container" id="myModal">
         <md-dialog>
-            <md-toolbar class="md-accent">
+            <md-toolbar md-theme="grey-variant" class="md-hue-2">
                 <div class="md-toolbar-tools">
-                    <h1>
+                    <h5 class="justify-self-center">
                         Your uploaded candidates
-                    </h1>
+                    </h5>
                 </div>
             </md-toolbar>
-            <div>
+            <div class="fill-height">
                 <p ng-hide="previewCandidatesModel.length > 0">Please upload candidate excel file !!!</p>
-                <div class="previewCandidates" ng-repeat="candidatesModel in previewCandidatesModel">
+                <div class="previewCandidates inline-block-display" ng-repeat="candidatesModel in previewCandidatesModel">
                     <h3 ng-if="!validateEmail(candidatesModel.Email)">*Below email is not in correct format</h3>
-                    <md-card>
+                    <md-card class="inline-block-display">
                         <md-card-content>
-                            <h3>{{candidatesModel.FirstName}}</h3>
-                            <h3>{{candidatesModel.LastName}}</h3>
+                            <h3><b>Candidate name : </b>{{candidatesModel.FirstName}} {{candidatesModel.LastName}}</h3>
                             <h3 ng-class="{'emailClass': !validateEmail(candidatesModel.Email)}">
-                                {{candidatesModel.Email}}
+                               <b>Email : </b>{{candidatesModel.Email}}
                             </h3>
                         </md-card-content>
                     </md-card>

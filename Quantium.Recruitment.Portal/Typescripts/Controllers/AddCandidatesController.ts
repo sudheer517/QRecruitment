@@ -77,8 +77,10 @@ module Recruitment.Controllers {
         }
 
        private saveCandidate(): void {
+           this.showUploadStatusDialog();
            this.$candidateService.saveCandidate(this.$scope.candidatesArray.candidates).then(
                response => {
+                   this.$mdDialog.hide();
                    this.showToast("Candidate(s) added successfully");
                    this.$timeout(() => {
                        this.$state.go("dashboard");
@@ -86,6 +88,7 @@ module Recruitment.Controllers {
                    console.log(response);
                },
                error => {
+                   this.$mdDialog.hide();
                    this.showToast(error);
                    console.log(error);
                });
@@ -96,6 +99,7 @@ module Recruitment.Controllers {
         }
 
         public uploadFile(file: any): void {
+            this.showUploadStatusDialog();
             if (file) {
                 file.upload = this.Upload.upload({
                     url: '/Candidate/Add',
@@ -106,12 +110,14 @@ module Recruitment.Controllers {
                 });
 
                 file.upload.then(response => {
+                    this.$mdDialog.hide();
                     file.result = response.data;
                     this.showToast("Candidate(s) added successfully");
                     this.$timeout(() => {
                         this.$state.go("dashboard");
                     }, 500);
                 }, error => {
+                    this.$mdDialog.hide();
                     if (error.status > 0)
                         this.showToast("Error: " + error.data.Message);
                 }, evt => {
@@ -121,6 +127,7 @@ module Recruitment.Controllers {
         }
 
         public uploadCandidatesFileAndPreview(file: any): void {
+            this.showUploadStatusDialog();
             if (file) {
                 file.upload = this.Upload.upload({
                     url: '/Candidate/PreviewCandidates',
@@ -151,7 +158,6 @@ module Recruitment.Controllers {
         }
 
         public previewCandidates(): void {
-            this.showUploadStatusDialog();
             var file: any = this.$scope.files01[0].lfFile;
             this.uploadCandidatesFileAndPreview(file);
             //this.$scope.previewCandidatesModel = [];

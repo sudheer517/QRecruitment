@@ -179,7 +179,7 @@ module Recruitment.Controllers {
 
         private showConfirm(): void {
             this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
-            //this.postChallenge(false);
+            this.postChallenge(false);
             var parentElement = angular.element("#timeUpModal");
             this.$mdDialog.show({
                     templateUrl: '/views/timeUpTemplate.html',
