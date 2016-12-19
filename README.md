@@ -8,5 +8,3 @@
 
 <li>Run this without quotes in powershell(admin mode) "powershell -ExecutionPolicy ByPass -File CreateIISSites.ps1" to create websites in IIS</li>
 </ol> 
-
-
