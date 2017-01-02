@@ -15,6 +15,7 @@ namespace Quantium.Recruitment.Portal.Helpers
         bool CheckIfCandidateExistsAndActive(string email);
         string GetRoleForEmail(string email);
         bool IsAdminActive(string email);
+        string GeneratePassword();
     }
 
     public class CandidateHelper : ICandidateHelper
@@ -65,6 +66,22 @@ namespace Quantium.Recruitment.Portal.Helpers
                 return true;
             else
                 return false;
+        }
+        public string GeneratePassword()
+        {
+            Random randomizer = new Random();
+            List<char> pwd = new List<char>();
+            for (int i = 0; i < 3; i++)
+            {
+                pwd.Add((char)randomizer.Next(97, 122));
+            }
+            pwd.Add((char)randomizer.Next(65, 90));
+            pwd.Add((char)randomizer.Next(35, 46));
+            for (int i = 0; i < 3; i++)
+            {
+                pwd.Add((char)randomizer.Next(48, 57));
+            }
+            return new string(pwd.ToArray());
         }
     }
 }

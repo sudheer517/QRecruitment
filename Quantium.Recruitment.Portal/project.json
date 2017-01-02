@@ -26,7 +26,8 @@
     "AutoMapper": "5.1.1",
     "ClosedXML": "0.80.1",
     "ExcelDataReader": "2.1.2.3",
-    "EntityFramework": "6.1.3"
+    "EntityFramework": "6.1.3",
+    "Sendgrid": "8.0.5"
   },
 
   "tools": {

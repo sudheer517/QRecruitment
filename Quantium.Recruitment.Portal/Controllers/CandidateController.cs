@@ -14,6 +14,12 @@ using System.IO;
 using Microsoft.AspNetCore.Identity;
 using Quantium.Recruitment.Portal.Models;
 using System.Net;
+using AutoMapper;
+using Quantium.Recruitment.Entities;
+using Excel;
+using System.Data;
+using ClosedXML.Excel;
+using System.ComponentModel.DataAnnotations;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,16 +30,25 @@ namespace Quantium.Recruitment.Portal.Controllers
     {
         private readonly IHttpHelper _helper;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<QRecruitmentRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ICandidateHelper _candidateHelper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public CandidateController(
             IHttpHelper helper,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            RoleManager<QRecruitmentRole> roleManager,
+            SignInManager<ApplicationUser> signInManager,
+            ICandidateHelper candidateHelper,
+            IHttpContextAccessor httpContextAccessor)
         {
             _helper = helper;
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
+            _candidateHelper = candidateHelper;
+            _httpContextAccessor = httpContextAccessor;
         }
         // GET: /<controller>/
         public IActionResult Test()
@@ -42,11 +57,17 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             var file = Request.Form.Files[0];
-
+            //_httpContextAccessor.HttpContext.Request
+            MemoryStream m = new MemoryStream();
+            Stream strm=file.OpenReadStream();
+            await strm.CopyToAsync(m);
+            var candidateDtos = ParseInputCandidateFile(m);           
             var response = _helper.Post("api/Candidate/AddCandidates", file.OpenReadStream());
+           
+            var candidates = Mapper.Map<List<Candidate>>(candidateDtos);
 
             var responseStream = response.Content.ReadAsStreamAsync().Result;
             StreamReader reader = new StreamReader(responseStream);
@@ -56,6 +77,7 @@ namespace Quantium.Recruitment.Portal.Controllers
             {
                 return BadRequest(result);
             }
+            await RegisterCandidate(candidates);
 
             return Created(string.Empty, string.Empty);
         }
@@ -128,7 +150,7 @@ namespace Quantium.Recruitment.Portal.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveCandidate([FromBody]List<CandidateDto> candidateDtos)
+        public async Task<IActionResult> SaveCandidate([FromBody]List<CandidateDto> candidateDtos)
         {
             var response = _helper.Post("/api/Candidate/Add", candidateDtos);
 
@@ -136,8 +158,90 @@ namespace Quantium.Recruitment.Portal.Controllers
             {
                 throw new Exception("Candidate creation failed");
             }
+            var candidates = Mapper.Map<List<Candidate>>(candidateDtos);
+            await RegisterCandidate(candidates);
 
             return Ok(response.Content.ReadAsStringAsync().Result);
+        }
+        private async Task RegisterCandidate(List<Candidate> candidates)
+        {
+            foreach (var candidate in candidates)
+            {
+                var userRole = _candidateHelper.GetRoleForEmail(candidate.Email);
+                var user = new ApplicationUser { UserName = candidate.Email, Email = candidate.Email };
+                
+                string password=_candidateHelper.GeneratePassword();
+                var result = await _userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                {
+                    var _emailSender = new MessageSender();
+                    await _emailSender.SendEmailAsync(candidate.Email, "Credentials for Login", string.Format("Please use below credentials for Login \\n {0} \\n {1}",
+                        candidate.Email, password));
+                    IdentityResult roleCreationResult = null;
+
+                    if (!_roleManager.RoleExistsAsync(userRole).Result)
+                    {
+                        roleCreationResult = _roleManager.CreateAsync(new QRecruitmentRole(userRole)).Result;
+                    }
+
+                    var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, userRole).Result;
+                }
+            }
+            return ;
+
+        }
+        private List<CandidateDto> ParseInputCandidateFile(MemoryStream ms)
+        {
+            //var httpRequest = _httpContextAccessor.HttpContext.Request;
+
+            List<CandidateDto> candidateDtos = new List<CandidateDto>();
+            using (ms)
+            {
+                //httpRequest.Body.CopyToAsync(ms);
+                
+                IExcelDataReader reader = ExcelReaderFactory.CreateOpenXmlReader(ms);
+                DataSet dataset = reader.AsDataSet();
+                var count = 1;
+                List<string> headers = new List<string>();
+                foreach (DataRow item in dataset.Tables[0].Rows)
+                {
+                    if (count == 1)
+                    {
+                        item.ItemArray.ForEach(i => headers.Add(i.ToString()));
+                    }
+                    else
+                    {
+                        List<string> candidateColumns = new List<string>();
+                        item.ItemArray.ForEach(i => candidateColumns.Add(i.ToString()));
+
+                        var email = candidateColumns[3];
+
+                        if (!IsValidEmail(email))
+                        {
+                            string message = "Email " + email + " is not in correct format";
+                            throw new ApplicationException(message);
+                        }
+
+                        CandidateDto newCandidate = new CandidateDto
+                        {
+                            Id = Convert.ToInt32(candidateColumns[0]),
+                            FirstName = candidateColumns[1],
+                            LastName = candidateColumns[2],
+                            Email = email
+                        };
+
+                        candidateDtos.Add(newCandidate);
+                    }
+                    count++;
+                }
+            }
+
+            return candidateDtos;
+        }
+
+        private bool IsValidEmail(string input)
+        {
+            return new EmailAddressAttribute().IsValid(input);
         }
 
         [HttpGet]
