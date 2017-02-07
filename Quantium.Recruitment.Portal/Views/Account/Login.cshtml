@@ -9,16 +9,7 @@
 
 @{
 
-    Layout = "~/Views/Shared/_MaterialLayout.cshtml"; ;
-    string loginActive =
-        ViewData["activeAnchor"] == null ?
-        "md-active" :
-        ViewData["activeAnchor"].ToString() == "registerView" ? string.Empty : "md-active";
-
-    string registerActive =
-        ViewData["activeAnchor"] == null ?
-        string.Empty :
-        ViewData["activeAnchor"].ToString() == "registerView" ? "md-active" : string.Empty;
+    Layout = "~/Views/Shared/_MaterialLayout.cshtml";    
 }
 
 <md-content class="loginBody fill" flex layout="column">
@@ -33,21 +24,14 @@
                     </div>
                 </md-toolbar>
                 <md-card-conent>
-                    <md-tabs md-dynamic-height="" md-stretch-tabs="always" md-selected="@(string.IsNullOrEmpty(registerActive) == true? 0 : 1)">
-                        <md-tab label="Login" class="@loginActive">
+                    <md-tabs md-dynamic-height="" md-stretch-tabs="always">
+                        <md-tab label="Login" class="md-active">
                             <div class="margin-10">
                                 <div class="tab-pane" id="loginView">
                                     @Html.Partial("_PersonalEmailLoginPartial", new LoginViewModel())
                                 </div>
                             </div>
-                        </md-tab>
-                        <md-tab label="Register" class="@registerActive">
-                            <div class="margin-10">
-                                <div class="tab-pane" id="registerView">
-                                    @Html.Partial("_RegisterPartial", new RegisterViewModel())
-                                </div>
-                            </div>
-                        </md-tab>
+                        </md-tab>                        
                     </md-tabs>
                     <md-card>
                         <md-card-content>
