@@ -38,6 +38,8 @@ namespace Quantium.Recruitment.Entities
 
         public virtual List<Candidate_Job> CandidateJobs { get; set; }
 
+        public virtual List<Survey> Surveys { get; set; }
+
         public virtual List<Test> Tests { get; set; }
     }
 }

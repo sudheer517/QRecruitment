@@ -37,6 +37,12 @@ namespace Quantium.Recruitment.Infrastructure
 
         DbSet<Job_Difficulty_Label> JobDifficultyLabels { get; set; }
 
+        DbSet<Survey> Surveys { get; set; }
+
+        DbSet<SurveyChallenge> SurveyChallenges { get; set; }
+
+        DbSet<SurveryQuestion> SurveyQuestions { get; set; }
+
         int SaveChanges();
 
         Database GetDatabase();
@@ -81,6 +87,11 @@ namespace Quantium.Recruitment.Infrastructure
         public DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
 
         public DbSet<Job_Difficulty_Label> JobDifficultyLabels { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
+
+        public DbSet<SurveyChallenge> SurveyChallenges { get; set; }
+
+        public DbSet<SurveryQuestion> SurveyQuestions { get; set; }
 
         public Database GetDatabase()
         {

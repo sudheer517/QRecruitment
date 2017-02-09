@@ -62,9 +62,15 @@
     <Compile Include="Dtos\QuestionDto.cs" />
     <Compile Include="Dtos\QuestionGroupDto.cs" />
     <Compile Include="Dtos\Question_Difficulty_LabelDto.cs" />
+    <Compile Include="Dtos\Survey.cs" />
+    <Compile Include="Dtos\SurveyChallengeDto.cs" />
+    <Compile Include="Dtos\SurveyQuestionDto.cs" />
     <Compile Include="Dtos\TestDto.cs" />
     <Compile Include="Dtos\Test_LabelDto.cs" />
     <Compile Include="Job_Label_Difficulty.cs" />
+    <Compile Include="SurveryQuestion.cs" />
+    <Compile Include="Survey.cs" />
+    <Compile Include="SurveyChallenge.cs" />
     <Compile Include="Test_Label.cs" />
     <Compile Include="Identifiable.cs" />
     <Compile Include="Job.cs" />
