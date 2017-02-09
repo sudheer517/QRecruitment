@@ -1,0 +1,41 @@
+﻿<div layout="column" class="fill-height">
+    <md-toolbar class="md-primary md-hue-2">
+        <div class="md-toolbar-tools qlogo" layout-gt-md="row" layout-align="center center">
+                <md-button class="md-icon-button">
+                    <md-icon md-svg-icon="logo" class=""></md-icon>
+                </md-button>
+        </div>
+    </md-toolbar>
+    <div ng-include="'../views/settingsFab.html'"></div>
+    <md-content flex layout-align="center center">
+        <div flex-gt-sm="60">
+            <div layout="column">
+                <div>
+                    <md-card md-theme="dark-grey" md-theme-watch>
+                        <md-card-content class="text-align-center">
+                            <h2>
+                                Sorry <b>{{candidateName}}</b>
+                            </h2>
+                        </md-card-content>
+                    </md-card>
+                </div>
+                <div>
+                    <md-card>
+                        <md-card-content>
+                            <md-list>
+                                <md-list-item>
+                                    <div flex>
+                                        <h3 class="justify-self-center">
+                                           Currently you don't have any active test.
+                                        </h3>
+                                    </div>
+                                </md-list-item>
+                            </md-list>
+                        </md-card-content>
+                    </md-card>
+                </div>
+            </div>
+        </div>
+    </md-content>
+</div>
+

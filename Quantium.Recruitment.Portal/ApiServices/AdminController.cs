@@ -43,14 +43,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(Mapper.Map<AdminDto>(admin));
         }
 
-        [HttpPost]
-        public HttpResponseMessage AddAdmin([FromBody]AdminDto adminDto)
+        [HttpPost]        
+        public IActionResult AddAdmin([FromBody]AdminDto adminDto)
         {
             var admin = Mapper.Map<Admin>(adminDto);
 
             var result = _adminRepository.Add(admin);
 
-            return new HttpResponseMessage(HttpStatusCode.Created);
+            return Created("/api/Admin/AddAdmin", result);
         }
     }
 }

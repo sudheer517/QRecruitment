@@ -10,6 +10,9 @@ using System.Net.Http;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using AutoMapper;
+using Newtonsoft.Json;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
@@ -18,22 +21,30 @@ namespace Quantium.Recruitment.Portal.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<QRecruitmentRole> _roleManager;
-        private readonly IHttpHelper _helper;
+        private readonly IHttpHelper _helper;      
 
         public CreateTestController(UserManager<ApplicationUser> userManager, RoleManager<QRecruitmentRole> roleManager, IHttpHelper helper)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _helper = helper;
+         
         }
 
         [HttpPost]
-        public HttpResponseMessage GenerateTests([FromBody] List<Candidate_JobDto> candidateJobDtos)
+        public async Task<HttpResponseMessage> GenerateTests([FromBody] List<Candidate_JobDto> candidateJobDtos)
         {
             var response = _helper.Post("/api/Test/GenerateTests", candidateJobDtos);
             if (response.StatusCode != HttpStatusCode.Created)
                 throw new Exception("Test creation failed");
-
+            var _emailSender = new MessageSender();
+            var candidateReponse = _helper.Post("/api/Candidate/GetCandidatesForTest",candidateJobDtos);
+            List<CandidateDto> candidatesForTest = JsonConvert.DeserializeObject<List<CandidateDto>>(candidateReponse.Content.ReadAsStringAsync().Result);
+            foreach (CandidateDto candidate in candidatesForTest)
+            {               
+                await _emailSender.SendEmailAsync(candidate.Email, "Test Created", string.Format("Hi {0}, \\n \\n A test was generated for you.Please login to our portal and complete the Test.",
+                    candidate.FirstName));
+            }
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
 

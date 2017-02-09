@@ -48,6 +48,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
         }
 
+        [HttpPost]
+        public IActionResult GetCandidatesForTest([FromBody]List<Candidate_JobDto> candidateJob)
+        {
+            var candidateList = candidateJob.Select(x => x.Candidate.Id).ToList();
+            var candidates = _candidateRepository.GetAll().Where(c => candidateList.Contains(c.Id));
+            return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
+        }
+
         [HttpGet]
         public IActionResult GetCandidateByEmail(string email)
         {

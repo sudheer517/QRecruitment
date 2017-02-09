@@ -13,6 +13,7 @@ using IdentityModel.Client;
 using System.Net.Http.Headers;
 using Quantium.Recruitment.Portal.Helpers;
 using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 
 namespace Quantium.Recruitment.Portal.Controllers
 {
@@ -66,7 +67,7 @@ namespace Quantium.Recruitment.Portal.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);              
                 if (result.Succeeded)
                 {
                     var userRole = _candidateHelper.GetRoleForEmail(model.Email);
@@ -91,7 +92,7 @@ namespace Quantium.Recruitment.Portal.Controllers
                 //if (result.RequiresTwoFactor)
                 //{
                 //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                //}
+                //}                
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning(2, "User account locked out.");
@@ -138,6 +139,13 @@ namespace Quantium.Recruitment.Portal.Controllers
 
                 if (result.Succeeded)
                 {
+                    var _emailSender = new MessageSender();
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                    await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                        $"Please confirm your account by clicking this link: <a href=\""+callbackUrl+"\">link</a>");                   
+                    _logger.LogInformation(3, "User created a new account with password.");
+
                     IdentityResult roleCreationResult = null;
 
                     if (!_roleManager.RoleExistsAsync(userRole).Result)
@@ -149,17 +157,18 @@ namespace Quantium.Recruitment.Portal.Controllers
 
                     var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, userRole).Result;
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                   //await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    if (userRole == "SuperAdmin")
-                    {
-                        return RedirectToLocal("/Home/Index#/dashboard");
-                    }
-                    if (userRole == "Candidate")
-                    {
-                        return RedirectToLocal("/Candidate/Test#/candidateDetails");
-                    }
+                   // if (userRole == "SuperAdmin")
+                   // {
+                   //     return RedirectToLocal("/Home/Index#/dashboard");
+                   // }
+                   // if (userRole == "Candidate")
+                   // {
+                   //     return RedirectToLocal("/Candidate/Test#/candidateDetails");
+                   // }
                 }
+                ModelState.AddModelError(string.Empty, "Please validate your account by clicking on the link sent to your Registered Email");
                 AddErrors(result);
             }
 
@@ -334,6 +343,30 @@ namespace Quantium.Recruitment.Portal.Controllers
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+        }
+        [AllowAnonymous]
+        public ActionResult ConfirmEmail(string userId,string code)
+        {
+
+            ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
+             _userManager.ConfirmEmailAsync(user,code);
+                _signInManager.SignInAsync(user, isPersistent: false);
+                var userRole = _candidateHelper.GetRoleForEmail(user.Email);
+
+                if (user.EmailConfirmed)
+                {
+                    if (userRole == "SuperAdmin")
+                    {
+                        return (ActionResult)RedirectToLocal("/Home/Index#/dashboard");
+                    }
+                    if (userRole == "Candidate")
+                    {
+                        return (ActionResult)RedirectToLocal("/Candidate/Test#/candidateDetails");
+                    }
+                }
+            
+            return RedirectToAction("UserCreationError", "Unauthorized");
+
         }
     }
 }

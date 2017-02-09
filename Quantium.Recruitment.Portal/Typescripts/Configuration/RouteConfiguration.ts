@@ -112,12 +112,18 @@ module Recruitment.Routes {
                             isInformationFilled: ($candidateService: Recruitment.Services.CandidateService, $state: ng.ui.IStateService) => {
                                 return $candidateService.isInformationFilled()
                                     .then(success => {
-                                        if (String(success.data) === "true"){
+                                        if (String(success.data) === "true") {
                                             $state.go("instructions");
                                         }
+                                        else
+                                            $state.go("candidateNoTest");
                                     }, error => { console.log(error); return false });
                             }
                         }
+                    })
+                    .state("candidateNoTest",
+                    {
+                        url: "/candidateNoTest", controller: Controllers.CandidateHomeController, templateUrl:"/views/candidateNoTest.html"
                     })
 
                     .state("candidateHome",
@@ -130,6 +136,8 @@ module Recruitment.Routes {
                                         if (String(success.data) === "true") {
                                             $state.go("instructions");
                                         }
+                                        else
+                                            $state.go("candidateNoTest");
                                     }, error => { console.log(error); return false; });
                             }
                         }
