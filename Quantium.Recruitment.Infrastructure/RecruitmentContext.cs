@@ -41,7 +41,7 @@ namespace Quantium.Recruitment.Infrastructure
 
         DbSet<SurveyChallenge> SurveyChallenges { get; set; }
 
-        DbSet<SurveryQuestion> SurveyQuestions { get; set; }
+        DbSet<SurveyQuestion> SurveyQuestions { get; set; }
 
         int SaveChanges();
 
@@ -91,7 +91,7 @@ namespace Quantium.Recruitment.Infrastructure
 
         public DbSet<SurveyChallenge> SurveyChallenges { get; set; }
 
-        public DbSet<SurveryQuestion> SurveyQuestions { get; set; }
+        public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
 
         public Database GetDatabase()
         {

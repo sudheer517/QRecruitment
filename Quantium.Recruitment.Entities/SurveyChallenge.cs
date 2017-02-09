@@ -21,6 +21,6 @@ namespace Quantium.Recruitment.Entities
         public virtual string CandidateAnswer { get; set; }
 
         [ForeignKey("SurveyQuestionId")]
-        public virtual SurveryQuestion SurveyQuestion { get; set; }
+        public virtual SurveyQuestion SurveyQuestion { get; set; }
     }
 }
