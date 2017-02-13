@@ -19,7 +19,7 @@ namespace Quantium.Recruitment.Portal.Helpers
         public Task SendEmailAsync(string email, string subject, string message)
         {
            
-            string apiKey = MessageSender.Decrypt("rsNyGTfOZohgNFxrmBIs0ebJKwhnOkCdXLh/6ODVd8sZNNtbE3jRH856JiPb/EyWMsfOmrIJGQOO8KYhTIm2ZrKEuQZV6+Vaj8t9Ef1rm6ZY50acX+akhc4uLs9gwquEutemXfvxc/DHI5wrEDgPeiL70tkvH2Dt9dL2vVcvmkzCI7+rubNVSsrYxAOGX7Lz");
+            string apiKey = MessageSender.Decrypt("cMQ38XsoFwojn+dxM/IAJkboQR6MaFIE4DY+foFkO/osGWdGLuZzCaxyKIx03TOHWDgflQ6IFUzK3d0zxBBOyw/TsN3XNZESwU8N+8zu6xlx2nzcnp6QW0AGwJ+H9zleNCS0m2AJSbkiTnWNyAkiAevNGP6uvVOC9SeFnCI0kAFru+4JkbdZr7g0KdpN9bib");
             dynamic sg = new SendGridAPIClient(apiKey);
 
             string data = @"{
