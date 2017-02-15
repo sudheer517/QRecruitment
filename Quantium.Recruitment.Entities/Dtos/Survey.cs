@@ -1,5 +1,4 @@
-﻿using Quantium.Recruitment.Entities.Dtos;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 
 namespace Quantium.Recruitment.Models

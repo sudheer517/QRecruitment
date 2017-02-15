@@ -73,6 +73,9 @@
     <Compile Include="Repositories\QuestionLabelDifficultyRepository.cs" />
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\DifficultyRepository.cs" />
+    <Compile Include="Repositories\SurveyChallengeRepository.cs" />
+    <Compile Include="Repositories\SurveyQuestionRepository.cs" />
+    <Compile Include="Repositories\SurveyRepository.cs" />
     <Compile Include="Repositories\TestRepository.cs" />
     <Compile Include="Repositories\OptionRepository.cs" />
     <Compile Include="Repositories\LabelRepository.cs" />
