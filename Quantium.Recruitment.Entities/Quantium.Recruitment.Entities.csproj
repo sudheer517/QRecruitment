@@ -46,12 +46,14 @@
     <Compile Include="Candidate.cs" />
     <Compile Include="CandidateSelectedOption.cs" />
     <Compile Include="Candidate_Job.cs" />
+    <Compile Include="Candidate_Survey.cs" />
     <Compile Include="Challenge.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="Dtos\AdminDto.cs" />
     <Compile Include="Dtos\CandidateDto.cs" />
     <Compile Include="Dtos\CandidateSelectedOptionDto.cs" />
     <Compile Include="Dtos\Candidate_JobDto.cs" />
+    <Compile Include="Dtos\Candidate_SurveyDto.cs" />
     <Compile Include="Dtos\ChallengeDto.cs" />
     <Compile Include="Dtos\DepartmentDto.cs" />
     <Compile Include="Dtos\DifficultyDto.cs" />
@@ -62,7 +64,7 @@
     <Compile Include="Dtos\QuestionDto.cs" />
     <Compile Include="Dtos\QuestionGroupDto.cs" />
     <Compile Include="Dtos\Question_Difficulty_LabelDto.cs" />
-    <Compile Include="Dtos\Survey.cs" />
+    <Compile Include="Dtos\SurveyDto.cs" />
     <Compile Include="Dtos\SurveyChallengeDto.cs" />
     <Compile Include="Dtos\SurveyQuestionDto.cs" />
     <Compile Include="Dtos\TestDto.cs" />

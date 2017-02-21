@@ -12,7 +12,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         Survey FindById(long id);
         Survey FindByCandidateId(long candidateId);
         Survey FindByCandidateEmail(string candidateEmail);
-        Survey FindActiveSurveryByCandidateEmail(string candidateEmail);
+        Survey FindActiveSurveyByCandidateEmail(string candidateEmail);
         void Update(Survey entity);
 
     }
@@ -39,7 +39,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
             return _dbContext.Surveys.FirstOrDefault(entity => entity.Candidate.Email == candidateEmail);
         }
 
-        public Survey FindActiveSurveryByCandidateEmail(string candidateEmail)
+        public Survey FindActiveSurveyByCandidateEmail(string candidateEmail)
         {
             return _dbContext.Surveys.FirstOrDefault(entity => entity.Candidate.Email == candidateEmail && entity.IsFinished != true);
         }
