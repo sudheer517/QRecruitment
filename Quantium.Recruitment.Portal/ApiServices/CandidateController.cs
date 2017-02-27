@@ -49,11 +49,24 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetCandidatesForTest([FromBody]List<Candidate_JobDto> candidateJob)
+        public IActionResult UpdateCandidatesForTest([FromBody]List<Candidate_JobDto> candidateJob)
         {
             var candidateList = candidateJob.Select(x => x.Candidate.Id).ToList();
             var candidates = _candidateRepository.GetAll().Where(c => candidateList.Contains(c.Id));
-            return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
+            foreach (var candidate in candidates.ToList())
+            {
+                //TestMailSent Stages
+                //Default =0
+                //TestCreated=2
+                //TestMailSent=3
+                if (!(candidate.TestMailSent==2))
+                {
+                    candidate.TestMailSent = 2;
+                    var updatedCandidate = (Candidate)Mapper.Map(candidate, candidate, typeof(Candidate), typeof(Candidate));
+                    _candidateRepository.Update(updatedCandidate);
+                }
+            }
+            return Ok();
         }
 
         [HttpGet]

@@ -168,15 +168,10 @@ namespace Quantium.Recruitment.Portal.Controllers
             foreach (var candidate in candidates)
             {
                 var userRole = _candidateHelper.GetRoleForEmail(candidate.Email);
-                var user = new ApplicationUser { UserName = candidate.Email, Email = candidate.Email };
-                
-                string password=_candidateHelper.GeneratePassword();
-                var result = await _userManager.CreateAsync(user, password);
+                var user = new ApplicationUser { UserName = candidate.Email, Email = candidate.Email };                              
+                var result = await _userManager.CreateAsync(user);              
                 if (result.Succeeded)
-                {
-                    var _emailSender = new MessageSender();
-                    await _emailSender.SendEmailAsync(candidate.Email, "Credentials for Login", string.Format("Please use below credentials for Login \\n {0} \\n {1}",
-                        candidate.Email, password));
+                {                 
                     IdentityResult roleCreationResult = null;
 
                     if (!_roleManager.RoleExistsAsync(userRole).Result)

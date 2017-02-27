@@ -18,5 +18,7 @@ namespace Quantium.Recruitment.Models
         public long DepartmentId { get; set; }
 
         public DepartmentDto Department { get; set; }
+
+        public bool PasswordSent { get; set; }
     }
 }

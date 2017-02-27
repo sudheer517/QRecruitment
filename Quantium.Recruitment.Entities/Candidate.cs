@@ -36,6 +36,10 @@ namespace Quantium.Recruitment.Entities
 
         public virtual bool IsInformationFilled { get; set; }
 
+        public virtual bool PasswordSent { get; set; }
+       
+        public virtual int TestMailSent { get; set; }
+
         public virtual List<Candidate_Job> CandidateJobs { get; set; }
 
         public virtual List<Survey> Surveys { get; set; }

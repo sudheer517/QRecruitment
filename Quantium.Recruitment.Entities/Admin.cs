@@ -17,6 +17,7 @@ namespace Quantium.Recruitment.Entities
 
         public virtual long DepartmentId { get; set; }
 
+        public virtual bool PasswordSent { get; set; }
         [ForeignKey("DepartmentId")]
         public virtual Department Department { get; set; }
     }

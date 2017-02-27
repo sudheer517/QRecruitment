@@ -86,14 +86,9 @@ namespace Quantium.Recruitment.Portal.Controllers
         {
               var userRole = _candidateHelper.GetRoleForEmail(admin.Email);
                 var user = new ApplicationUser { UserName = admin.Email, Email = admin.Email };
-
-                string password = _candidateHelper.GeneratePassword();
-                var result = await _userManager.CreateAsync(user, password);
+                var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
-                {
-                    var _emailSender = new MessageSender();
-                    await _emailSender.SendEmailAsync(admin.Email, "Credentials for Login", string.Format("Please use below credentials for Login \\n {0} \\n {1}",
-                        admin.Email, password));
+                {                   
                     IdentityResult roleCreationResult = null;
 
                     if (!_roleManager.RoleExistsAsync(userRole).Result)

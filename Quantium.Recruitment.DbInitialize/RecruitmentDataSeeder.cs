@@ -45,7 +45,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "kannan.perumal@quantium.co.in",
                 IsActive = true,
                 Mobile = 8886008855,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin2 = new Admin()
@@ -55,7 +56,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Rakesh.Aitipamula@quantium.co.in",
                 IsActive = true,
                 Mobile = 9052791243,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin3 = new Admin()
@@ -65,7 +67,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Ravi.Bhaskar@quantium.co.in",
                 IsActive = true,
                 Mobile = 7799814877,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin4 = new Admin()
@@ -75,7 +78,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Mit.Suthar@quantium.co.in",
                 IsActive = true,
                 Mobile = 8886008855,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin5 = new Admin()
@@ -85,7 +89,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Babul.Yasa@quantium.co.in",
                 IsActive = true,
                 Mobile = 9618415060,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin6 = new Admin()
@@ -95,7 +100,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Jayaram.Putineedi@quantium.co.in",
                 IsActive = true,
                 Mobile = 9542749797,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin7 = new Admin()
@@ -105,7 +111,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Samyuktha.Kodali@quantium.co.in",
                 IsActive = true,
                 Mobile = 9651525567,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin8 = new Admin()
@@ -115,7 +122,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "rkshrohan@gmail.com",
                 IsActive = true,
                 Mobile = 9052791243,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin9 = new Admin()
@@ -125,7 +133,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "ashwini.maddala@gmail.com",
                 IsActive = true,
                 Mobile = 9966654926,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             Admin admin10 = new Admin()
@@ -135,7 +144,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "bhanu499@gmail.com",
                 IsActive = true,
                 Mobile = 9642013699,
-                Department = softwareDepartment
+                Department = softwareDepartment,
+                PasswordSent = true
             };
 
             _dbContext.Admins.Add(admin1);
@@ -181,6 +191,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "aman.agarwal@gmail.com",
                 Mobile = 9595959595,
                 IsActive = true,
+                PasswordSent = true,
+                TestMailSent = 1,
             };
 
             Candidate candidate2 = new Candidate
@@ -190,6 +202,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Raj.Kundal@gmail.com",
                 Mobile = 9595958885,
                 IsActive = true,
+                PasswordSent = true,
+                TestMailSent = 1,
             };
 
             Candidate candidate3 = new Candidate
@@ -199,6 +213,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "Pooja.Sharma41@gmail.com",
                 Mobile = 96759987453,
                 IsActive = true,
+                PasswordSent = true,
+                TestMailSent = 1,
             };
 
             Candidate candidate4 = new Candidate
@@ -208,6 +224,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "rakeshrohan@outlook.com",
                 Mobile = 9242526667,
                 IsActive = true,
+                PasswordSent = true,
+                TestMailSent = 1,
             };
 
             Candidate candidate5 = new Candidate
@@ -217,6 +235,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "rakesh.rohan@outlook.com",
                 Mobile = 9010456746,
                 IsActive = true,
+                PasswordSent = true,
+                TestMailSent = 1,
             };
 
             Candidate candidate6 = new Candidate
@@ -226,6 +246,8 @@ namespace Quantium.Recruitment.DbInitialize
                 Email = "0firefist0@gmail.com",
                 Mobile = 9052791243,
                 IsActive = true,
+                PasswordSent = true,
+                TestMailSent = 1,
             };
 
             _dbContext.Candidates.Add(candidate1);
