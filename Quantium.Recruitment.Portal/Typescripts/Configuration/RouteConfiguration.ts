@@ -114,9 +114,7 @@ module Recruitment.Routes {
                                     .then(success => {
                                         if (String(success.data) === "true") {
                                             $state.go("instructions");
-                                        }
-                                        else
-                                            $state.go("candidateNoTest");
+                                        }                                        
                                     }, error => { console.log(error); return false });
                             }
                         }
