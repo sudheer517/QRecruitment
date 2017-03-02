@@ -233,7 +233,7 @@ module Recruitment.Controllers {
                 console.log(response);
                 this.$mdDialog.hide();
                 this.$timeout(() => {
-                    this.$state.go("dashboard");
+                    this.$state.reload();
                 }, 1000);
                 this.showToast("Job created");
             }, error => {

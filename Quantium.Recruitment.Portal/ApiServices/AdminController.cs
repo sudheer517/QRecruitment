@@ -48,9 +48,16 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             var admin = Mapper.Map<Admin>(adminDto);
 
-            var result = _adminRepository.Add(admin);
+            var existingAdmin = _adminRepository.GetAll().SingleOrDefault(a => a.Email == admin.Email);
 
-            return Created("/api/Admin/AddAdmin", result);
+            if (existingAdmin == null)
+            {
+                var result = _adminRepository.Add(admin);
+
+                return Created("/api/Admin/AddAdmin", result);
+            }
+
+            return StatusCode(409);
         }
     }
 }

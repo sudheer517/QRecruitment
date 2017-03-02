@@ -168,7 +168,7 @@ module Recruitment.Controllers {
                 this.$mdDialog.hide();
                 this.showToast("Tests generated successfully");
                 this.$timeout(() => {
-                    this.$state.go("dashboard");
+                    this.$state.reload();
                 }, 1000);
                 this.$scope.testGenerationResult = true;
             }, error => {
