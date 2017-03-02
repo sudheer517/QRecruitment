@@ -35,5 +35,9 @@ namespace Quantium.Recruitment.Models
         public string CurrentCompany { get; set; }
 
         public bool IsInformationFilled { get; set; }
+
+        public bool PasswordSent { get; set; }
+
+        public int TestMailSent { get; set; }
     }
 }

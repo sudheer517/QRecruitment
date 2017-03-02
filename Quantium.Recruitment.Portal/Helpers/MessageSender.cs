@@ -19,7 +19,7 @@ namespace Quantium.Recruitment.Portal.Helpers
         public Task SendEmailAsync(string email, string subject, string message)
         {
            
-            string apiKey = MessageSender.Decrypt("cMQ38XsoFwojn+dxM/IAJkboQR6MaFIE4DY+foFkO/osGWdGLuZzCaxyKIx03TOHWDgflQ6IFUzK3d0zxBBOyw/TsN3XNZESwU8N+8zu6xlx2nzcnp6QW0AGwJ+H9zleNCS0m2AJSbkiTnWNyAkiAevNGP6uvVOC9SeFnCI0kAFru+4JkbdZr7g0KdpN9bib");
+            string apiKey = Decrypt("cMQ38XsoFwojn+dxM/IAJkboQR6MaFIE4DY+foFkO/osGWdGLuZzCaxyKIx03TOHWDgflQ6IFUzK3d0zxBBOyw/TsN3XNZESwU8N+8zu6xlx2nzcnp6QW0AGwJ+H9zleNCS0m2AJSbkiTnWNyAkiAevNGP6uvVOC9SeFnCI0kAFru+4JkbdZr7g0KdpN9bib");
             dynamic sg = new SendGridAPIClient(apiKey);
 
             string data = @"{
@@ -42,12 +42,7 @@ namespace Quantium.Recruitment.Portal.Helpers
                   'value': '"+message+@"'
                 }
               ]
-            }";
-            //Email to = new Email("Banu.Saladi@quantium.com.au");
-            //string subject = "Hello World from the SendGrid CSharp Library!";
-            //Email from = new Email("bhanu499@gmail.com");
-            //Content content = new Content("text/plain", "Hello, Email!");
-            //Mail mail = new Mail(from, subject, to, content);
+            }";           
             Object json = JsonConvert.DeserializeObject<Object>(data);
 
             dynamic response =  sg.client.mail.send.post(requestBody: json.ToString());

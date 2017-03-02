@@ -36,16 +36,12 @@ namespace Quantium.Recruitment.Portal.Controllers
         {
             var response = _helper.Post("/api/Test/GenerateTests", candidateJobDtos);
             if (response.StatusCode != HttpStatusCode.Created)
+                throw new Exception("Test creation failed");          
+            var candidateReponse = _helper.Post("/api/Candidate/UpdateCandidatesForTest", candidateJobDtos);
+            if (candidateReponse.IsSuccessStatusCode)
+                return new HttpResponseMessage(HttpStatusCode.Created);
+            else
                 throw new Exception("Test creation failed");
-            var _emailSender = new MessageSender();
-            var candidateReponse = _helper.Post("/api/Candidate/GetCandidatesForTest",candidateJobDtos);
-            List<CandidateDto> candidatesForTest = JsonConvert.DeserializeObject<List<CandidateDto>>(candidateReponse.Content.ReadAsStringAsync().Result);
-            foreach (CandidateDto candidate in candidatesForTest)
-            {               
-                await _emailSender.SendEmailAsync(candidate.Email, "Test Created", string.Format("Hi {0}, \\n \\n A test was generated for you.Please login to our portal and complete the Test.",
-                    candidate.FirstName));
-            }
-            return new HttpResponseMessage(HttpStatusCode.Created);
         }
 
         [HttpPost]
