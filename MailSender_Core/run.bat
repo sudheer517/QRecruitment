@@ -1,0 +1,1 @@
+dotnet MailSender_Core.dll
