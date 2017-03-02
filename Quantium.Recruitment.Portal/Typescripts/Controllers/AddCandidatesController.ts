@@ -83,7 +83,7 @@ module Recruitment.Controllers {
                    this.$mdDialog.hide();
                    this.showToast("Candidate(s) added successfully");
                    this.$timeout(() => {
-                       this.$state.go("dashboard");
+                       this.$state.reload();
                    }, 500);                 
                    console.log(response);
                },
@@ -114,7 +114,7 @@ module Recruitment.Controllers {
                     file.result = response.data;
                     this.showToast("Candidate(s) added successfully");
                     this.$timeout(() => {
-                        this.$state.go("dashboard");
+                        this.$state.reload();
                     }, 500);
                 }, error => {
                     this.$mdDialog.hide();

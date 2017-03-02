@@ -53,7 +53,8 @@ namespace Quantium.Recruitment.Portal.Controllers
             var response = _httpHelper.Post("/api/Admin/AddAdmin", adminDto);
 
             if (response.StatusCode != HttpStatusCode.Created)
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return new HttpResponseMessage(response.StatusCode);
+
             var admin = Mapper.Map<Admin>(adminDto);
             await RegisterAdmin(admin);
             return response;

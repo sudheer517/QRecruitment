@@ -71,14 +71,21 @@ module Recruitment.Controllers {
                 .then(response => {
                     this.$mdDialog.cancel();
                     this.$timeout(() => {
-                        this.$state.go("dashboard");
+                        this.$state.reload();
                     }, 500)
-
-                    this.$timeout(() => {
-                        this.showToast("Admin added successfully");
-                    }, 1000);
+                    if (response.data.StatusCode == 409) {
+                        this.showToast("Duplicate Email");
+                    }
+                    else {
+                        this.$timeout(() => {
+                            this.showToast("Admin added successfully");
+                        }, 1000);
+                    }
                 }, error => {
                     this.showToast("Admin creation failed");
+                    this.$timeout(() => {
+                        this.$state.reload();
+                    }, 1000)
                 });
         }
 
