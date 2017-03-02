@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace Quantium.Recruitment.Portal.Controllers
 {
     [Authorize]
-    public class SurveryController : Controller
+    public class SurveyController : Controller
     {
         private readonly IHttpHelper _helper;
 
-        public SurveryController(IHttpHelper helper)
+        public SurveyController(IHttpHelper helper)
         {
             _helper = helper;
         }

@@ -64,7 +64,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     if (candidateJob == null)
                         _candidateJobRepository.Add(newCandidateJob);
 
-                    Entities.Survey newSurvey = new Entities.Survey
+                    Survey newSurvey = new Survey
                     {
                         Name = job.Title + candidate.FirstName,
                         Candidate = candidate,
