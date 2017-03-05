@@ -1,0 +1,48 @@
+nav{
+    height: 75px;
+    flex: 0 0 auto;
+}
+
+.q-logo{
+    width: 180px;
+    margin-top: 5px;
+}
+
+.navbar-brand{
+    width: 180px;
+}
+
+
+.q-user-icon{
+    height: 20px;
+}
+
+.nav-item {
+    .dropdown{
+        cursor: pointer;
+    }
+}
+.nav-item .active{
+    border-bottom: 2px solid grey;
+}
+
+.admin-outlet{
+    margin: 30px 50px 40px 50px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+.admin-container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.highcharts-credits{
+    display: none !important;
+}
+.highcharts-background{
+    background-color: gray !important;
+}
+
+

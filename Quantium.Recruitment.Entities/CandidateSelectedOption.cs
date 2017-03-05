@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using AspNetCoreSpa.Server.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
     [Table(name: "CandidateSelectedOption")]
-    public class CandidateSelectedOption : Identifiable
+    public class CandidateSelectedOption : IEntityBase
     {
+        public virtual long Id { get; set; }
+
         public virtual long ChallengeId { get; set; }
 
         public virtual long OptionId { get; set; }

@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using AspNetCoreSpa.Server.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
     [Table(name: "Candidate")]
-    public class Candidate: Identifiable
+    public class Candidate: IEntityBase
     {
+        public virtual long Id { get; set; }
         public virtual string FirstName { get; set; }
 
         public virtual string LastName { get; set; }
@@ -40,10 +42,10 @@ namespace Quantium.Recruitment.Entities
        
         public virtual int TestMailSent { get; set; }
 
-        public virtual List<Candidate_Job> CandidateJobs { get; set; }
+        public virtual ICollection<Candidate_Job> CandidateJobs { get; set; }
 
-        public virtual List<Survey> Surveys { get; set; }
+        public virtual ICollection<Survey> Surveys { get; set; }
 
-        public virtual List<Test> Tests { get; set; }
+        public virtual ICollection<Test> Tests { get; set; }
     }
 }

@@ -1,0 +1,36 @@
+<div style="padding: 20px;">
+    <div *ngFor="let question of questions; let index=index">
+            <div class="question-attributes d-flex">
+                    <span><b>Time for question :</b> {{question.TimeInSeconds}} seconds</span>
+                    <span><b>Label : </b>{{question.Label.Name}}</span>
+                    <span><b> Difficulty : </b>{{question.Difficulty.Name}}</span>
+                    <span> <b>Randomize Options :</b> {{question.RandomizeOptions}}</span>
+            </div>
+            <p *ngIf="question.QuestionGroup?.Description.length > 0"><b>Question Group : </b><span [innerHTML]="question.QuestionGroup.Description"></span></p>
+            <b><p> {{index + 1}} <span [innerHTML]="question.Text"></span></p></b>
+            <div *ngIf="question.ImageUrl.length > 0">
+                    <img [src]="question.ImageUrl" class="imagePreview" />
+            </div>
+            <div class="previewOptionList" *ngIf="!question.IsRadio">
+                    <ul style="list-style: none">
+                    <li *ngFor="let option of question.Options">
+                            <p>
+                                    <i [ngClass]="option.IsAnswer ? 'fa fa-square': 'fa fa-square-o'"></i>
+                                    <span class="margin-left-10" [innerHTML]="option.Text"></span>
+                            </p>
+                    </li>
+                    </ul>
+            </div>
+            <div class="previewOptionList" *ngIf="question.IsRadio">
+                    <ul style="list-style: none">
+                    <li *ngFor="let option of question.Options">
+                            <p>
+                                    <i [ngClass]="option.IsAnswer ? 'fa fa-circle': 'fa fa-circle-o'"></i>
+                                    <span class="margin-left-10" [innerHTML]="option.Text"></span>
+                            </p>
+                    </li>
+                    </ul>
+            </div>
+            <hr>
+    </div>
+</div>

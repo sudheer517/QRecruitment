@@ -1,12 +1,15 @@
-﻿using System;
+﻿using AspNetCoreSpa.Server.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
     [Table (name: "SurveyChallenge")]
-    public class SurveyChallenge : Identifiable
+    public class SurveyChallenge : IEntityBase
     {
+        public virtual long Id { get; set; }
+
         public virtual long SurveyId { get; set; }
 
         public virtual long SurveyQuestionId { get; set; }

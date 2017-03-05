@@ -1,10 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using AspNetCoreSpa.Server.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
 namespace Quantium.Recruitment.Entities
 {
     [Table(name: "Admin")]
-    public class Admin: Identifiable
+    public class Admin: IEntityBase
     {
+        public virtual long Id { get; set; }
+
         public virtual string FirstName { get; set; }
 
         public virtual string LastName { get; set; }

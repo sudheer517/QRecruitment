@@ -1,0 +1,208 @@
+body,html{
+    height: 100%;
+    overflow: hidden;
+}
+
+body{
+    background-size:cover;
+}
+
+router-outlet + div {
+    display: flex;
+    flex: 1 1 auto;
+}
+
+.nav-item{
+    margin-right: 30px;
+}
+
+.tab.nav-item{
+    margin-right: 60px;
+}
+
+.nav-link.active{
+    border-bottom: 2px solid grey;
+}
+
+input{
+    line-height: 30px !important;
+}
+select {
+    height: 48px !important;
+}
+.btn{
+    background-color: #353B47;
+    border-color: #353B47;
+    border-radius: 26px;
+    color: whitesmoke;
+    cursor: pointer;
+    min-width: 120px;
+}
+@media (min-width: 576px){
+    
+    .modal-dialog {
+        min-width: 20%;
+     }
+} 
+
+.modal-window{
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+}
+
+.modal-open .modal{
+    overflow: hidden;
+}
+
+.large-modal-window .modal-dialog{
+    max-width: 100%;
+    margin: 0;
+}
+.modal-body{
+    height: 92vh;
+    overflow: auto;
+}
+
+
+.modal-header{
+    background-color: #f7f7f7;
+}
+
+.modal-footer, .modal-header{
+    display: flex;
+    justify-content: center;
+}
+
+.btn:hover{
+    background-color: #646e82;
+    border-color: #646e82;
+    color: whitesmoke;
+}
+
+.btn.disabled {
+    cursor: not-allowed;
+    background-color: #646e82;
+    border-color: #646e82;
+}
+
+.btn.disabled:hover {
+    background-color: #646e82;
+    border-color: #646e82;
+}
+
+.btn.light-gray{
+    background-color: #D9D7D7;
+    border-color: #D9D7D7;
+    color: #2b2a2a;
+}
+
+.btn.light-gray:hover{
+    background-color: #8c8989;
+    border-color: #8c8989;
+    color: whitesmoke;
+}
+
+.router-outlet-container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+.admin-data-container{
+    overflow: auto;
+    flex: 1 1 auto;
+    background-color: white;
+    padding: 35px;
+    margin-top: 10px;
+}
+
+.admin-outlet-heading{
+    font-size: 1.4em;
+    color: whitesmoke;
+}
+
+.dashboard-background{
+    background-image: url('~/dist/assets/img/dashboard.png');
+}
+
+.questions-tests-background{
+    background-image: url('~/dist/assets/img/questions-tests.png');
+}
+
+.jobs-addAdmin-background{
+    background-image: url('~/dist/assets/img/jobs-addAdmin.png');
+}
+
+.candidates-background{
+    background-image: url('~/dist/assets/img/candidates.png');
+}
+
+.highcharts-credits{
+    display: none !important;
+}
+
+.flex-100{
+    flex: 1 1 100%;
+}
+
+.flex-auto{
+    flex: 1 1 auto;
+}
+
+.flex-50{
+    flex: 1 1 50%;
+}
+
+.ng2-file-input{
+    display: flex;
+}
+.ng2-file-input .ng2-file-input-files{
+    margin-top: 0px;
+    padding: 7px;
+}
+.ng2-file-input .ng2-file-input-drop-container {
+    border: none;
+    padding-left: 0px;
+    min-width: 100px;
+}
+
+.ng2-file-input .ng2-file-input-drop-container span{
+    display: none;
+}
+.ng2-file-input .ng2-file-input-drop-container button{
+    margin-left: 0px;
+}
+
+.ng2-file-input .ng2-file-input-files .ng2-file-input-file .ng2-file-input-file-text{
+    max-width: 100%;
+    font-size: 1.0em;
+    font-weight: 500;
+    border: 1px solid lightgray;
+    height: 100%;
+    min-width: 300px;
+    text-align: left;
+    padding: 8px;
+}
+
+.ng2-file-input .ng2-file-input-files .ng2-file-input-file{
+    height: 100%;
+    margin-bottom: 0px;
+    margin-right: 0px;
+}
+.ng2-file-input .ng2-file-input-files .ng2-file-input-file-text.remove:hover{
+    background: rgba(218, 212, 212, 0.85)
+}
+.ng2-file-input .ng2-file-input-files .ng2-file-input-file-text.remove p{
+    color: #504d4d;
+    margin-bottom: 0px;
+    bottom: 0px;
+    width: 90px;
+    top: 8px;
+    right: 3px;
+    text-align: right;
+}
+.ng2-file-input-files .ng2-file-input-file-text.remove p{
+    bottom: 0px;
+    height: 100%;
+}
+

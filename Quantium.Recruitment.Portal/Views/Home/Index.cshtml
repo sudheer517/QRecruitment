@@ -1,75 +1,24 @@
-﻿@{
-    Layout = "~/Views/Shared/_MaterialLayout.cshtml";
-}
+<style>
+    div.app-spinner {
+        position: fixed;
+        top: 46%;
+        left: 47%;
+    }
+</style>
 
-<div layout="vertical">
-    <md-sidenav class="md-sidenav-left"
-                md-component-id="left"
-                md-is-locked-open="$mdMedia('gt-sm')"
-                md-whiteframe="4" layout="column">
-        <md-toolbar layout="column" class="md-primary md-hue-2">
-            <div layout="row" flex layout-align="center center">
-                <img src="~/img/logo2.svg" class="logo-style-small" />
-            </div>
-        </md-toolbar>
-        <md-content md-theme="dark-grey" md-theme-watch flex>
-            <md-list class="sideNavList fill-width" flex layout="column">
-                <md-list-item>
-                    <md-button ui-sref="dashboard" layout-align="start center" class="fill">
-                        <md-icon md-svg-icon="dashboard" class="s42"></md-icon>
-                        <span>Dashboard</span>
-                    </md-button>
-                </md-list-item>
-                <md-list-item layout-align="start center">
-                    <md-button ui-sref="uploadQuestions" class="fill">
-                        <md-icon md-svg-icon="upload" class="s42"></md-icon>
-                        <span>Questions</span>
-                    </md-button>
-                </md-list-item>
-                <md-list-item layout-align="start center">
-                    <md-button ui-sref="createJob" class="fill">
-                        <md-icon md-svg-icon="createJob" class="s42"></md-icon>
-                        <span>Jobs</span>
-                    </md-button>
-                </md-list-item>
-                <md-list-item layout-align="start center">
-                    <md-button ui-sref="addCandidates" class="fill">
-                        <md-icon md-svg-icon="addCandidates" class="s42"></md-icon>
-                        Candidates
-                    </md-button>
-                </md-list-item>
-                <md-list-item>
-                    <md-button ui-sref="createTest" class="fill">
-                        <md-icon md-svg-icon="createTest" class="s42"></md-icon>
-                        Tests
-                    </md-button>
-                </md-list-item>
-                <MD-LIST-ITEM>
-                    <MD-BUTTON ui-sref="createSurvey" class="fill">
-                        <MD-ICON MD-SVG-ICON="createSurvey" CLASS="S42"></MD-ICON>
-                       Survey
-                    </MD-BUTTON>
-                </MD-LIST-ITEM>
-                <md-list-item>
-                    <md-button ui-sref="addTeamAdmin" class="fill">
-                        <md-icon md-svg-icon="addAdmin" class="s42"></md-icon>
-                        Add Admin
-                    </md-button>
-                </md-list-item>
-                <md-list-item>
-                    <md-button ui-sref="candidateTestList" class="fill">
-                        <md-icon md-svg-icon="takeTest" class="s42"></md-icon>
-                        Test results
-                    </md-button>
-                </md-list-item>
-            </md-list>
-        </md-content>
-    </md-sidenav>
-</div>
+    <appc-root>
+        <div class="app-spinner">
+            <i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true"></i>
+        </div>
+    </appc-root>
 
+<script>
+    window.user = '@ViewBag.user';
+</script>
 
-<div layout="column" flex>
-    <div ui-view md-scroll-y layout="column" class="fill-height fill-width"></div>
-</div>
+<environment names="Development">
+    <script src="~/dist/polyfills.dll.js" asp-append-version="true"></script>
+    <script src="~/dist/vendor.dll.js" asp-append-version="true"></script>
+</environment>
 
-<script src="~/bootstrapper.js"></script>
+<script src="~/dist/@ViewBag.MainDotJs" asp-append-version="true"></script>

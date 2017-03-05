@@ -1,122 +1,125 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-using Quantium.Recruitment.Portal.Data;
-using Quantium.Recruitment.Portal.Helpers;
-using Quantium.Recruitment.Portal.Models;
-using Quantium.Recruitment.Infrastructure;
-using Quantium.Recruitment.Infrastructure.Repositories;
-using Newtonsoft.Json.Serialization;
+using AspNetCoreSpa.Server;
+using AspNetCoreSpa.Server.Extensions;
+using Quantium.Recruitment.Portal;
 
-namespace Quantium.Recruitment.Portal
+namespace AspNetCoreSpa
 {
     public class Startup
     {
-        public IConfigurationRoot Configuration { get; }
+        // Order or run
+        //1) Constructor
+        //2) Configure services
+        //3) Configure
 
+        private IHostingEnvironment _hostingEnv;
         public Startup(IHostingEnvironment env)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            _hostingEnv = env;
 
-            builder.AddEnvironmentVariables();
+            Helpers.SetupSerilog();
+
+            var builder = new ConfigurationBuilder()
+                           .SetBasePath(env.ContentRootPath)
+                           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                           .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                           .AddEnvironmentVariables();
+            if (env.IsDevelopment())
+            {
+                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+                builder.AddUserSecrets();
+            }
+
             Configuration = builder.Build();
         }
 
+        public static IConfigurationRoot Configuration { get; set; }
+        // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOptions();
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddIdentity<ApplicationUser, QRecruitmentRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
-
-            AutoMapperConfig.RegisterMappings();
-            services.AddTransient<ICandidateHelper, CandidateHelper>();
-            services.AddTransient<IHttpHelper, HttpHelper>();
-            services.AddScoped<IRecruitmentContext, RecruitmentContext>();
-            services.AddTransient<IConnectionString, ConnectionString>();
-            services.AddTransient<ICandidateRepository, CandidateRepository>();
-            services.AddTransient<IAdminRepository, AdminRepository>();
-            services.AddTransient<IDepartmentRepository, DepartmentRepository>();
-                     
-            services.AddTransient<IQuestionRepository, QuestionRepository>();
-            services.AddTransient<IOptionRepository, OptionRepository>();
-            services.AddTransient<ILabelRepository, LabelRepository>();
-            services.AddTransient<IDifficultyRepository, DifficultyRepository>();
-            services.AddTransient<IJobLabelDifficultyRepository, JobLabelDifficultyRepository>();
-            services.AddTransient<IQuestionGroupRepository, QuestionGroupRepository>();
-                     
-            services.AddTransient<ITestRepository, TestRepository>();
-            services.AddTransient<IJobRepository, JobRepository>();
-            services.AddTransient<ICandidateJobRepository, CandidateJobRepository>();
-            services.AddTransient<IChallengeRepository, ChallengeRepository>();
-            services.AddTransient<ICandidateSelectedOptionRepository, CandidateSelectedOptionRepository>();
-
-            services.Configure<ConfigurationOptions>(Configuration.GetSection("ConfigurationOptions"));
-            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        {
-            app.UseDeveloperExceptionPage();
-            app.UseDatabaseErrorPage();
-            app.UseBrowserLink();
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            if (_hostingEnv.IsDevelopment())
             {
-                LoginPath = "/Account/Login",
-                AuthenticationScheme = "Cookies",
-                AutomaticAuthenticate = true,
-                AutomaticChallenge = true
+                services.AddSslCertificate(_hostingEnv);
+            }
+            services.AddOptions();
+
+            services.AddResponseCompression(options =>
+            {
+                options.MimeTypes = Helpers.DefaultMimeTypes;
             });
+
+            services.AddCustomDbContext();
+
+            services.AddCustomIdentity();
+
+            services.AddCustomOpenIddict();
+
+            services.AddMemoryCache();
+
+            services.RegisterCustomServices();
+
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+
+            services.AddCustomizedMvc();
+
+            services.AddSignalR(options => options.Hubs.EnableDetailedErrors = true);
+
+            // Node services are to execute any arbitrary nodejs code from .net
+            services.AddNodeServices();
+
+            services.AddSwaggerGen();
+        }
+        public void Configure(IApplicationBuilder app)
+        {
+            AutoMapperConfig.RegisterMappings();
+            app.AddDevMiddlewares();
+
+            if (_hostingEnv.IsProduction())
+            {
+                app.UseResponseCompression();
+            }
+
+            app.SetupMigrations();
+
+            app.UseXsrf();
 
             app.UseStaticFiles();
 
             app.UseIdentity();
 
-            GoogleOptions googleOptions = new GoogleOptions()
-            {
-                ClientId = "413971816292-1fneropitgu7o9tota8e3rk4a7e1jt46.apps.googleusercontent.com",
-                ClientSecret = "45kIiYPalGmJBZna0XMLp90x"
-            };
+            app.UseOpenIddict();
 
-            MicrosoftAccountOptions microsoftOptions = new MicrosoftAccountOptions()
-            {
-                ClientId = "0d3fc5fa-3c69-4457-858d-8646a18d39c2",
-                ClientSecret = "goiWPhP8rxggoq1Mggn0VFh"
-            };
+            // Add a middleware used to validate access
+            // tokens and protect the API endpoints.
+            app.UseOAuthValidation();
 
-            FacebookOptions facebookOptions = new FacebookOptions()
-            {
-                
-                AppId = "332930870375090",
-                AppSecret = "d8647a5e288a3689424c28d6d4c8a510"
-            };
+            // Alternatively, you can also use the introspection middleware.
+            // Using it is recommended if your resource server is in a
+            // different application/separated from the authorization server.
+            //
+            // app.UseOAuthIntrospection(options => {
+            //     options.AutomaticAuthenticate = true;
+            //     options.AutomaticChallenge = true;
+            //     options.Authority = "http://localhost:54895/";
+            //     options.Audiences.Add("resource_server");
+            //     options.ClientId = "resource_server";
+            //     options.ClientSecret = "875sqd4s5d748z78z7ds1ff8zz8814ff88ed8ea4z4zzd";
+            // });
 
-            app.UseGoogleAuthentication(googleOptions);
-            app.UseMicrosoftAccountAuthentication(microsoftOptions);
-            app.UseFacebookAuthentication(facebookOptions);
-            
+            app.UseOAuthProviders();
+
             app.UseMvc(routes =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Account}/{Action=Login}/{id?}");
-
-                routes.MapRoute(
-                    name: "apiRoute",
-                    template: "api/{controller}/{Action}/{id?}");
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
             });
+
+            app.UseSignalR();
         }
     }
 }

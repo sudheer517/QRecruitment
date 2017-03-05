@@ -1,0 +1,25 @@
+
+    <div class="router-outlet-container">
+        <span class="admin-outlet-heading">DASHBOARD</span>
+        <div class="admin-data-container">
+            <div>
+                <div class="d-flex">
+                    <div class="chart-container flex-50">
+                        <span class="chart-title">Candidates by Branch</span>
+                        <chart [options]="locationChartOptions"></chart>
+                    </div>
+                    <div class="chart-container flex-50">
+                        <span class="chart-title">Candidates by location</span>
+                        <chart [options]="branchChartOptions"></chart>
+                    </div>
+                </div>
+
+                <div class="d-flex">
+                    <div class="chart-container flex-100">
+                        <span class="chart-title">Tests taken for each team</span>
+                        <chart [options]="teamChartOptions" ></chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

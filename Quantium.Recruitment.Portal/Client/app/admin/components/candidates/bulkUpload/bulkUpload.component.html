@@ -1,0 +1,63 @@
+
+<div style="padding: 20px;">
+        <div style="padding-top: 20px;">
+                Download bulk upload template
+        </div>
+        <button type="button" class="btn btn-primary download-template" style="margin-bottom: 20px;">
+                <a href="/CandidatesTemplate.xlsx" download="Candidates Template">Download</a>
+        </button>
+        <div>
+                Upload .xlsx file
+        </div>
+        <!--<label class="custom-file">
+        <input type="file" id="Image" class="custom-file-input"name="questionFile" (change)="changeInputValue($event)">
+        <span class="custom-file-control"></span>
+        </label>-->
+        <ng2-file-input (onChange)="onFileChange($event)" style="margin-bottom: 20px;margin-top: 20px"></ng2-file-input> 
+
+        <div style="margin-bottom: 20px;margin-top: 20px">
+        
+        <button type="button" class="btn btn-primary light-gray" data-toggle="button" autocomplete="off" (click)="previewCandidates(content)" >
+                Preview
+        </button>
+        <button type="button" class="btn btn-primary light-grey" data-toggle="button" autocomplete="off" (click)="addCandidates(progress)">
+                Save
+        </button>
+
+        </div>
+</div>
+
+<template ngbModalContainer></template>
+<template #content let-c="close" let-d="dismiss">
+
+
+        <div class="modal-header">
+                <div class="d-flex" style="flex: 1 1 auto; justify-content: center">
+                        <h4 class="modal-title">Your candidates</h4>
+                </div>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                        <span><i class="fa fa-times fa-3x"></i></span>
+                </button>
+        </div>
+        <div class="modal-body">
+                <div *ngFor="let candidate of candidates; let index=index">
+                        {{candidate.FirstName}}
+                        {{candidate.Last}}
+                        {{candidate.Email}}
+                </div>
+        </div>
+</template>
+
+<template #progress let-c="close" let-d="dismiss">
+        <div class="modal-header">
+                <h5 class="modal-title" *ngIf="!smallModalStatus">Adding candidates</h5>
+                <h5 class="modal-title" *ngIf="smallModalStatus">Oops !!  Unable to add candidates</h5>
+        </div>
+        <div class="modal-footer">
+                <span class="fa fa-spinner fa-spin fa-3x"  *ngIf="!smallModalStatus"></span>
+                
+                <button type="button" class="close"   *ngIf="smallModalStatus" (click)="d('Cross click')">
+                       <span class="fa fa-times fa-3x"></span>
+                </button>
+        </div>
+</template>

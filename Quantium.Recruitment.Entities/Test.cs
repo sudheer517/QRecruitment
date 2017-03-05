@@ -1,12 +1,15 @@
-﻿using System;
+﻿using AspNetCoreSpa.Server.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quantium.Recruitment.Entities
 {
     [Table(name: "Test")]
-    public class Test : Identifiable
+    public class Test : IEntityBase
     {
+        public virtual long Id { get; set; }
+
         public virtual string Name { get; set; }
 
         public virtual long JobId { get; set; }
@@ -15,9 +18,9 @@ namespace Quantium.Recruitment.Entities
 
         public virtual long CreatedByUserId { get; set; }
 
-        public virtual List<Challenge> Challenges { get; set; }
+        public virtual ICollection<Challenge> Challenges { get; set; }
 
-        public virtual List<Test_Label> TestLabels { get; set; }
+        public virtual ICollection<Test_Label> TestLabels { get; set; }
 
         [ForeignKey("CandidateId")]
         public virtual Candidate Candidate { get; set; }

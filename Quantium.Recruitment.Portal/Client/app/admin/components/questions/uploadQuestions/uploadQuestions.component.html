@@ -1,0 +1,92 @@
+
+<div style="padding: 20px;">
+        <div style="padding-top: 20px;">
+                Download bulk upload template
+        </div>
+        <button type="button" class="btn btn-primary download-template" style="margin-bottom: 20px;">
+                <a href="/QuestionsTemplate.xlsx" download="Questions Template">Download</a>
+        </button>
+        <div>
+                Upload .xlsx file
+        </div>
+        <!--<label class="custom-file">
+        <input type="file" id="Image" class="custom-file-input"name="questionFile" (change)="changeInputValue($event)">
+        <span class="custom-file-control"></span>
+        </label>-->
+        <ng2-file-input (onChange)="onFileChange($event)" style="margin-bottom: 20px;margin-top: 20px"></ng2-file-input> 
+
+        <div style="margin-bottom: 20px;margin-top: 20px">
+        
+        <button type="button" class="btn btn-primary light-gray" data-toggle="button" autocomplete="off" (click)="previewQuestions(content)" >
+                Preview
+        </button>
+        <button type="button" class="btn btn-primary light-grey" data-toggle="button" autocomplete="off" (click)="addQuestions(progress)">
+                Save
+        </button>
+
+        </div>
+</div>
+
+<template ngbModalContainer></template>
+<template #content let-c="close" let-d="dismiss">
+
+
+        <div class="modal-header">
+                <div class="d-flex" style="flex: 1 1 auto; justify-content: center">
+                        <h4 class="modal-title">Your questions</h4>
+                </div>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                        <span><i class="fa fa-times fa-3x"></i></span>
+                </button>
+        </div>
+        <div class="modal-body">
+                <div *ngFor="let question of questions; let index=index">
+                        <div class="question-attributes d-flex">
+                                <span><b>Time for question :</b> {{question.TimeInSeconds}} seconds</span>
+                                <span><b>Label : </b>{{question.Label.Name}}</span>
+                               <span><b> Difficulty : </b>{{question.Difficulty.Name}}</span>
+                               <span> <b>Randomize Options :</b> {{question.RandomizeOptions}}</span>
+                        </div>
+                        <p *ngIf="question.QuestionGroup.Description.length > 0"><b>Question Group : </b><span [innerHTML]="question.QuestionGroup.Description"></span></p>
+                        <b><p> {{index + 1}} <span [innerHTML]="question.Text"></span></p></b>
+                        <div *ngIf="question.ImageUrl.length > 0">
+                                <img [src]="question.ImageUrl" class="imagePreview" />
+                        </div>
+                        <div class="previewOptionList" *ngIf="!question.IsRadio">
+                                <ul style="list-style: none">
+                                <li *ngFor="let option of question.Options">
+                                        <p>
+                                                <i [ngClass]="option.IsAnswer ? 'fa fa-square': 'fa fa-square-o'"></i>
+                                                <span class="margin-left-10" [innerHTML]="option.Text"></span>
+                                        </p>
+                                </li>
+                                </ul>
+                        </div>
+                        <div class="previewOptionList" *ngIf="question.IsRadio">
+                                <ul style="list-style: none">
+                                <li *ngFor="let option of question.Options">
+                                        <p>
+                                                <i [ngClass]="option.IsAnswer ? 'fa fa-circle': 'fa fa-circle-o'"></i>
+                                                <span class="margin-left-10" [innerHTML]="option.Text"></span>
+                                        </p>
+                                </li>
+                                </ul>
+                        </div>
+                        <hr>
+                </div>
+        </div>
+</template>
+
+<template #progress let-c="close" let-d="dismiss">
+        <div class="modal-header">
+                <h5 class="modal-title" *ngIf="!smallModalStatus">Adding Questions</h5>
+                <h5 class="modal-title" *ngIf="smallModalStatus">Oops !!  Unable to add questions</h5>
+        </div>
+        <div class="modal-footer">
+                <span class="fa fa-spinner fa-spin fa-3x"  *ngIf="!smallModalStatus"></span>
+                
+                <button type="button" class="close"   *ngIf="smallModalStatus" (click)="d('Cross click')">
+                       <span class="fa fa-times fa-3x"></span>
+                </button>
+        </div>
+</template>

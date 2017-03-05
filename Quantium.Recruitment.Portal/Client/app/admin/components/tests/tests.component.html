@@ -1,0 +1,21 @@
+<div class="router-outlet-container">
+        <span class="admin-outlet-heading">TESTS</span>
+        <div class="admin-data-container">
+            <div>
+                <nav class="navbar navbar-light navbar-toggleable-xs bg-faded">
+                    <ul class="navbar-nav mr-auto flex-row">
+                        <li class="tab nav-item">
+                            <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['./']">Create test</a>
+                        </li>
+                        <li class="tab nav-item" >
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['viewTests']">View tests</a>
+                        </li>
+                        <li class="tab nav-item" >
+                            <a class="nav-link" routerLinkActive="active" [routerLink]="['testResults']">Test results</a>
+                        </li>
+                    </ul>
+                </nav>
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
