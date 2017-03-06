@@ -18,7 +18,8 @@ import { JobDto, DepartmentDto, LabelDto, DifficultyDto, Question_Difficulty_Lab
 export class CreateJobComponent implements OnInit {
     jobForm: FormGroup;
     job: JobDto = new JobDto();
-    availableQuestionsMap: AvailableQuestionsMap = new AvailableQuestionsMap();
+    availableQuestionsMap: QuestionsInJobMap = new QuestionsInJobMap();
+    questionsToPassMap: QuestionsInJobMap = new QuestionsInJobMap();
 
     get labelsAndDifficulties(): FormArray { 
         return this.jobForm.get('labelsAndDifficulties') as FormArray; 
@@ -44,7 +45,7 @@ export class CreateJobComponent implements OnInit {
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
             profile: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(300)]],
             department : ['', Validators.required],
-            labelsAndDifficulties: this.formBuilder.array([])
+            labelsAndDifficulties: this.formBuilder.array([this.getNewLabelDifficultyGroup()])
         });
 
         this.getDepartments();
@@ -54,7 +55,7 @@ export class CreateJobComponent implements OnInit {
     }
 
     save(): void{
-        JSON.stringify(this.jobForm.value);
+        //console.log(JSON.stringify(this.jobForm.value));
     }
 
     removeLabelAndDifficulty(labelAndDifficultyIndex: number): void{
@@ -65,19 +66,6 @@ export class CreateJobComponent implements OnInit {
         this.labelsAndDifficulties.push(this.getNewLabelDifficultyGroup())
     }
     
-    valueChanged(changedFormArrayIndex: number){
-        // console.log(changedFormGroup);
-
-        // console.log(changedFormGroup.value);
-        // let fc = changedFormGroup.controls["label"] as FormControl;
-
-        // fc.valueChanges.subscribe(value => { console.log('fc value'); console.log(value); })
-        // console.log(changedFormGroup.get('availableQuestions').value);
-        // console.log(changedFormGroup.get('questionsToPass').value);
-        // console.log(changedFormGroup.get('difficulty').value);
-        
-    }
-
     private getNewLabelDifficultyGroup(): FormGroup {
         let dynamicFormGroup = this.formBuilder.group({
                 label: ['', Validators.required],
@@ -86,7 +74,12 @@ export class CreateJobComponent implements OnInit {
                 questionsToPass: ['', Validators.required]
             });
 
-        let availableQuestionControlIndex = this.labelsAndDifficulties.length;
+        let availableQuestionControlIndex = 0;
+
+        if(this.jobForm){
+            availableQuestionControlIndex = this.labelsAndDifficulties.length;
+        }
+        
         
         this.subscribeToValueChanges(dynamicFormGroup, availableQuestionControlIndex);
 
@@ -98,9 +91,7 @@ export class CreateJobComponent implements OnInit {
             let difficultyValue = dynamicFormGroup.controls['difficulty'].value;
             
             if(difficultyValue){
-                let questionCount = this.questionDifficultyLabels.find(item => item.DifficultyId == difficultyValue && item.LabelId == labelValue).QuestionCount
-                
-                this.availableQuestionsMap[formGroupIndex] = new Array(questionCount);
+                this.setQuestionCounts(dynamicFormGroup, formGroupIndex, difficultyValue, labelValue);
             }
         });
 
@@ -108,13 +99,50 @@ export class CreateJobComponent implements OnInit {
             let labelValue = dynamicFormGroup.controls['label'].value;
             
             if(labelValue){
-                let questionCount = this.questionDifficultyLabels.find(item => item.DifficultyId == difficultyValue && item.LabelId == labelValue).QuestionCount
-                
-                this.availableQuestionsMap[formGroupIndex] = new Array(questionCount);
+                this.setQuestionCounts(dynamicFormGroup, formGroupIndex, difficultyValue, labelValue);
             }
+        });
+
+        dynamicFormGroup.controls['availableQuestions'].valueChanges.subscribe(availableQuestionsValue => {
+            let questionToPassCount: number = Number(availableQuestionsValue);
+            this.questionsToPassMap[formGroupIndex] = this.getArray(availableQuestionsValue);
         });
     }
 
+    private getArray(size: number){
+        let arr = [];
+        for(let i = 1 ;i <= size; i++){
+            arr.push(i);
+        }
+
+        return arr;
+    }
+
+    private setQuestionCounts(dynamicFormGroup: FormGroup, formGroupIndex: number, difficultyValue: any, labelValue: any ){
+        let matchingCombinationOfLabelAndDiff = this.questionDifficultyLabels.find(item => item.DifficultyId == difficultyValue && item.LabelId == labelValue);
+        let questionCount = matchingCombinationOfLabelAndDiff ? matchingCombinationOfLabelAndDiff.QuestionCount : 0;
+
+        let availableQuestionsControl = dynamicFormGroup.controls['availableQuestions'];
+        let questionsToPassControl = dynamicFormGroup.controls['questionsToPass'];
+
+        if(!matchingCombinationOfLabelAndDiff){
+            availableQuestionsControl.reset();
+            this.availableQuestionsMap[formGroupIndex] = ["No questions found"];
+            availableQuestionsControl.setValue("No questions found");
+            availableQuestionsControl.disable({onlySelf: true});
+
+            questionsToPassControl.reset();
+            this.questionsToPassMap[formGroupIndex] = ["No questions found"];
+            questionsToPassControl.setValue("No questions found");
+            questionsToPassControl.disable({onlySelf: true});
+            
+        }
+        else{
+            availableQuestionsControl.enable({onlySelf: true});
+            questionsToPassControl.enable({onlySelf: true});
+            this.availableQuestionsMap[formGroupIndex] = this.getArray(questionCount);
+        }
+    }
     private getDepartments(){
         this.departmentService.GetAll().subscribe(
             departments => this.departments = departments,
@@ -145,6 +173,6 @@ export class CreateJobComponent implements OnInit {
 
 }
 
-export class AvailableQuestionsMap{
-    [key: number]: number[];
+export class QuestionsInJobMap{
+    [key: number]: any[];
 }
