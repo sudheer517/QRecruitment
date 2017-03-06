@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 
 import { JobService } from '../../../services/job.service';
@@ -7,7 +7,7 @@ import { LabelService } from '../../../services/label.service';
 import { DifficultyService } from '../../../services/difficulty.service';
 import { QuestionService } from '../../../services/question.service';
 
-import { JobDto, DepartmentDto, LabelDto, DifficultyDto, Question_Difficulty_LabelDto } from '../../../../RemoteServicesProxy';
+import { JobDto, DepartmentDto, LabelDto, DifficultyDto, Question_Difficulty_LabelDto, Job_Difficulty_LabelDto } from '../../../../RemoteServicesProxy';
 
 
 @Component({
@@ -37,7 +37,8 @@ export class CreateJobComponent implements OnInit {
         private labelService: LabelService,
         private difficultyService: DifficultyService,
         private questionService: QuestionService,
-        private formBuilder: FormBuilder){
+        private formBuilder: FormBuilder,
+        private changeDetectionRef: ChangeDetectorRef){
     }
 
     ngOnInit(){
@@ -55,15 +56,54 @@ export class CreateJobComponent implements OnInit {
     }
 
     save(): void{
-        //console.log(JSON.stringify(this.jobForm.value));
+        console.log(JSON.stringify(this.jobForm.value));
+        this.job.Title = this.jobForm.get('title').value;
+        this.job.Profile = this.jobForm.get('profile').value;
+        this.job.Department = new DepartmentDto(this.jobForm.get('department').value);
+        this.job.JobDifficultyLabels = [];
+        let labelsAndDifficulties: Array<any> = this.jobForm.get('labelsAndDifficulties').value;
+
+        labelsAndDifficulties.forEach(item => {
+            let jobDifficultyLabel = new Job_Difficulty_LabelDto();
+            jobDifficultyLabel.Difficulty = new DifficultyDto(item.difficulty);
+            jobDifficultyLabel.Label = new LabelDto(item.label);
+            jobDifficultyLabel.DisplayQuestionCount = item.availableQuestions;
+            jobDifficultyLabel.PassingQuestionCount = item.questionsToPass;
+            this.job.JobDifficultyLabels.push(jobDifficultyLabel);
+        });
+
+        
+        //this.job.JobDifficultyLabels = new Job_Difficulty_LabelDto(null, new DifficultyDto(this.jobForm.get('labelsAndDifficulties.'))
+        console.log(this.job);
+
+        this.jobService.Create(this.job).subscribe(
+            result => console.log("job created"), error => console.log(error)
+        );
     }
 
     removeLabelAndDifficulty(labelAndDifficultyIndex: number): void{
         this.labelsAndDifficulties.removeAt(labelAndDifficultyIndex);
+
+        this.availableQuestionsMap = this.rearrangeQuestionMaps(labelAndDifficultyIndex, this.availableQuestionsMap);
+        this.questionsToPassMap = this.rearrangeQuestionMaps(labelAndDifficultyIndex, this.questionsToPassMap);
     }
 
     addLabelAndDifficulty(): void{
         this.labelsAndDifficulties.push(this.getNewLabelDifficultyGroup())
+    }
+
+    private rearrangeQuestionMaps(indexToBeRemoved: number, arrayToBeReArranged: QuestionsInJobMap): QuestionsInJobMap {
+        let rearrangedMap = new QuestionsInJobMap();
+
+        for(let i = 0 ; i < indexToBeRemoved; i++){
+            rearrangedMap[i] = arrayToBeReArranged[i];
+        }
+
+        for(let i = indexToBeRemoved ; i < (Object.keys(arrayToBeReArranged).length - 1); i++){
+            rearrangedMap[i] = arrayToBeReArranged[i + 1];
+        }
+
+        return rearrangedMap;
     }
     
     private getNewLabelDifficultyGroup(): FormGroup {
@@ -80,12 +120,11 @@ export class CreateJobComponent implements OnInit {
             availableQuestionControlIndex = this.labelsAndDifficulties.length;
         }
         
-        
         this.subscribeToValueChanges(dynamicFormGroup, availableQuestionControlIndex);
 
         return dynamicFormGroup;
     }
-
+    
     private subscribeToValueChanges(dynamicFormGroup: FormGroup, formGroupIndex: number){
         dynamicFormGroup.controls['label'].valueChanges.subscribe(labelValue => {
             let difficultyValue = dynamicFormGroup.controls['difficulty'].value;
@@ -126,20 +165,22 @@ export class CreateJobComponent implements OnInit {
         let questionsToPassControl = dynamicFormGroup.controls['questionsToPass'];
 
         if(!matchingCombinationOfLabelAndDiff){
+            let questionNotFoundText = "No questions found";
+
             availableQuestionsControl.reset();
-            this.availableQuestionsMap[formGroupIndex] = ["No questions found"];
-            availableQuestionsControl.setValue("No questions found");
-            availableQuestionsControl.disable({onlySelf: true});
+            this.availableQuestionsMap[formGroupIndex] = [questionNotFoundText];
+            availableQuestionsControl.setValue(questionNotFoundText);
+            availableQuestionsControl.disable();
 
             questionsToPassControl.reset();
-            this.questionsToPassMap[formGroupIndex] = ["No questions found"];
-            questionsToPassControl.setValue("No questions found");
-            questionsToPassControl.disable({onlySelf: true});
+            this.questionsToPassMap[formGroupIndex] = [questionNotFoundText];
+            questionsToPassControl.setValue(questionNotFoundText);
+            questionsToPassControl.disable();
             
         }
         else{
-            availableQuestionsControl.enable({onlySelf: true});
-            questionsToPassControl.enable({onlySelf: true});
+            availableQuestionsControl.enable();
+            questionsToPassControl.enable();
             this.availableQuestionsMap[formGroupIndex] = this.getArray(questionCount);
         }
     }

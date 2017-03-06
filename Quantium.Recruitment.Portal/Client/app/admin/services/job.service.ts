@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class JobService{
-    private questionApiUrl: string = 'Job/';
+    private jobApiUrl: string = 'Job/';
 
     constructor(private http: Http) { }
 
@@ -23,10 +23,10 @@ export class JobService{
     //         });
     // }
 
-    // public GetAllQuestions(): Observable<QuestionDto[]> {
-    //     return this.http.get(`${this.questionApiUrl}GetAll`).map(
-    //         (response: Response) => {
-    //             return response.json();
-    //         });
-    // }
+    public Create(job: JobDto): Observable<any> {
+        return this.http.post(`${this.jobApiUrl}Create`, job).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
 }

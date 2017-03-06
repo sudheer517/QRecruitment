@@ -12,10 +12,10 @@ namespace AspNetCoreSpa.Server.Repositories.Abstract
         Task<IEnumerable<T>> AllIncludingAsync(params Expression<Func<T, object>>[] includeProperties);
         IEnumerable<T> GetAll();
         Task<IEnumerable<T>> GetAllAsync();
-        T GetSingle(int id);
+        T GetSingle(long id);
         T GetSingle(Expression<Func<T, bool>> predicate);
         T GetSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
-        Task<T> GetSingleAsync(int id);
+        Task<T> GetSingleAsync(long id);
         IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> FindByAsync(Expression<Func<T, bool>> predicate);
         T Add(T entity);

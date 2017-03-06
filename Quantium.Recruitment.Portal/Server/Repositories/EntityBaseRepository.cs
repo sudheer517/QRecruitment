@@ -50,7 +50,7 @@ namespace AspNetCoreSpa.Server.Repositories
             }
             return await query.ToListAsync();
         }
-        public T GetSingle(int id)
+        public T GetSingle(long id)
         {
             return _context.Set<T>().FirstOrDefault(x => x.Id == id);
         }
@@ -71,7 +71,7 @@ namespace AspNetCoreSpa.Server.Repositories
             return query.Where(predicate).FirstOrDefault();
         }
 
-        public async Task<T> GetSingleAsync(int id)
+        public async Task<T> GetSingleAsync(long id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
         }
