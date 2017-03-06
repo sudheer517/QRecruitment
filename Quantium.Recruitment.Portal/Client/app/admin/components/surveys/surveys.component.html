@@ -1,0 +1,21 @@
+﻿<div class="router-outlet-container">
+    <span class="admin-outlet-heading">SURVEYS</span>
+    <div class="admin-data-container">
+        <div>
+            <nav class="navbar navbar-light navbar-toggleable-xs bg-faded">
+                <ul class="navbar-nav mr-auto flex-row">
+                    <li class="tab nav-item">
+                        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['./']">Create survey</a>
+                    </li>
+                    <li class="tab nav-item">
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['viewSurveys']">View surveys</a>
+                    </li>
+                    <li class="tab nav-item">
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['surveyResults']">Survey results</a>
+                    </li>
+                </ul>
+            </nav>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

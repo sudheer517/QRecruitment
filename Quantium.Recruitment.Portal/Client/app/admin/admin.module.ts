@@ -22,6 +22,11 @@ import { CreateTestComponent } from './components/tests/createTest/createTest.co
 import { ViewTestsComponent } from './components/tests/viewTests/viewTests.component';
 import { TestResultsComponent } from './components/tests/testResults/testResults.component';
 
+import { SurveysComponent } from './components/surveys/surveys.component';
+import { CreateSurveyComponent } from './components/surveys/createSurvey/createSurvey.component';
+import { ViewSurveysComponent } from './components/surveys/viewSurveys/viewSurveys.component';
+import { SurveyResultsComponent } from './components/surveys/surveyResults/surveyResults.component';
+
 import { routing } from './admin.routes';
 import { SharedModule } from '../shared/shared.module';
 import { ChartModule } from 'angular2-highcharts';
@@ -56,7 +61,11 @@ import { ReactiveFormsModule } from '@angular/forms';
         TestsComponent,
         CreateTestComponent,
         ViewTestsComponent,
-        TestResultsComponent
+        TestResultsComponent,
+        SurveysComponent,
+        CreateSurveyComponent,
+        ViewSurveysComponent,
+        SurveyResultsComponent
     ],
     providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService ]
 })

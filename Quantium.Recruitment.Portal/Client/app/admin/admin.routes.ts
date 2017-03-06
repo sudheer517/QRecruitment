@@ -22,6 +22,11 @@ import { CreateTestComponent } from './components/tests/createTest/createTest.co
 import { ViewTestsComponent } from './components/tests/viewTests/viewTests.component';
 import { TestResultsComponent } from './components/tests/testResults/testResults.component';
 
+import { SurveysComponent } from './components/surveys/surveys.component';
+import { CreateSurveyComponent } from './components/surveys/createSurvey/createSurvey.component';
+import { ViewSurveysComponent } from './components/surveys/viewSurveys/viewSurveys.component';
+import { SurveyResultsComponent } from './components/surveys/surveyResults/surveyResults.component';
+
 const routes: Routes = [
   {
     path: '', component: AdminComponent, children: [
@@ -63,6 +68,16 @@ const routes: Routes = [
           { path: 'createTest', component:  CreateTestComponent },
           { path: 'viewTests', component:  ViewTestsComponent },
           { path: 'testResults', component:  TestResultsComponent }
+        ] 
+      },
+      { 
+        path: 'surveys', 
+        component: SurveysComponent, 
+        children: [ 
+          { path: '', component:  CreateSurveyComponent },
+          { path: 'createSurvey', component:  CreateSurveyComponent },
+          { path: 'viewSurveys', component:  ViewSurveysComponent },
+          { path: 'surveyResults', component:  SurveyResultsComponent }
         ] 
       }
     ]
