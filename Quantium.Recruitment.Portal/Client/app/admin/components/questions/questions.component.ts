@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewEncapsulation, OnChanges, ElementRef, Renderer, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, ViewEncapsulation, ElementRef, Renderer } from '@angular/core';
 
 @Component({
     selector: "[appc-questions]",
@@ -6,7 +6,7 @@ import { Component, AfterViewInit, ViewEncapsulation, OnChanges, ElementRef, Ren
     styleUrls: ["./questions.component.scss"],
     // encapsulation: ViewEncapsulation.None
 })
-export class QuestionsComponent implements AfterViewInit, OnChanges, OnDestroy{
+export class QuestionsComponent implements AfterViewInit{
     locationChartOptions: Object;
     branchChartOptions: Object;
     teamChartOptions: Object;
@@ -23,14 +23,6 @@ export class QuestionsComponent implements AfterViewInit, OnChanges, OnDestroy{
         body.classList.add("questions-tests-background");
     }
 
-    ngOnDestroy(){
-        console.log("destroyed");
-    }
-    
-    ngOnChanges(){
-        console.log("changes");
-        
-    }
     ngAfterViewInit(){
         
         this.setHighchartsColors();

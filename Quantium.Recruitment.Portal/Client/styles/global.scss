@@ -122,19 +122,22 @@ select {
 }
 
 .dashboard-background{
-    background-image: url('~/dist/assets/img/dashboard.png');
+    background-image: url('~/dist/assets/img/dashboard.jpg');
 }
 
 .questions-tests-background{
-    background-image: url('~/dist/assets/img/questions-tests.png');
+     background-image: url('~/dist/assets/img/dashboard.jpg');
+    // background-image: url('~/dist/assets/img/questions-tests.jpg');
 }
 
 .jobs-addAdmin-background{
-    background-image: url('~/dist/assets/img/jobs-addAdmin.png');
+     background-image: url('~/dist/assets/img/dashboard.jpg');
+    // background-image: url('~/dist/assets/img/jobs-addAdmin.jpg');
 }
 
 .candidates-background{
-    background-image: url('~/dist/assets/img/candidates.png');
+     background-image: url('~/dist/assets/img/dashboard.jpg');
+    // background-image: url('~/dist/assets/img/candidates.jpg');
 }
 
 .highcharts-credits{
