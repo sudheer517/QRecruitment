@@ -41,9 +41,10 @@ import { DifficultyService } from './services/difficulty.service';
 
 import { Ng2FileInputModule } from 'ng2-file-input'; 
 import { ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from 'ng2-bootstrap';
 
 @NgModule({
-    imports: [routing, SharedModule, ChartModule.forRoot(require('highcharts')), Ng2FileInputModule.forRoot(), ReactiveFormsModule],
+    imports: [routing, SharedModule, ChartModule.forRoot(require('highcharts')), Ng2FileInputModule.forRoot(), ReactiveFormsModule, ModalModule.forRoot()],
     declarations: [
         AdminComponent, 
         DashboardComponent, 

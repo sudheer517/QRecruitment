@@ -36,7 +36,7 @@ module.exports = webpackMerge(commonConfig, {
                     'rxjs',
                     'bootstrap',
                     'ng2-translate',
-                    '@ng-bootstrap/ng-bootstrap'
+                    'ng2-bootstrap'
                 ]
             },
             dllDir: './wwwroot/dist',

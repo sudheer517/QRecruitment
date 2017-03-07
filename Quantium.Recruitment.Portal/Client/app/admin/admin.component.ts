@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 // import { routerTransition, hostStyle } from '../router.animations';
-import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
+//import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'appc-admin',
@@ -13,7 +13,6 @@ import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AdminComponent {
   public isNavbarCollapsed = true;
-  constructor(config: NgbDropdownConfig) {
-    config.autoClose = true;
+  constructor() {
   }
  }

@@ -2,7 +2,7 @@ import { Component, Renderer, ViewEncapsulation, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CandidateService } from '../../../services/candidate.service';
 import { CandidateDto } from '../../../../RemoteServicesProxy';
-import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+//import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -13,17 +13,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class BulkUploadComponent implements OnInit {
 
-    modalRef: NgbModalRef;
-    smallModalRef: NgbModalRef;
+    // modalRef: NgbModalRef;
+    // smallModalRef: NgbModalRef;
     smallModalStatus = false;
     candidates: CandidateDto[];
     fileData: any;
-    constructor(private renderer: Renderer, private candidateService: CandidateService, private modalService: NgbModal, private router: Router,
+    constructor(private renderer: Renderer, private candidateService: CandidateService, private router: Router,
     private activatedRoute:ActivatedRoute){
         
     }
     open(content) {
-        this.modalRef = this.modalService.open(content, { windowClass: "large-modal-window" });
+        //this.modalRef = this.modalService.open(content, { windowClass: "large-modal-window" });
 
     }
     ngOnInit(){
@@ -43,12 +43,12 @@ export class BulkUploadComponent implements OnInit {
     }
 
     addCandidates(modalContent: FormControl){
-        this.smallModalRef = this.modalService.open(modalContent, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
+        //this.smallModalRef = this.modalService.open(modalContent, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
         let formData = this.getFileFormData(this.fileData); 
         this.candidateService.AddCandidates(formData).subscribe(
             status => {
                 console.log(status);
-                this.smallModalRef.close();
+                //this.smallModalRef.close();
                 this.router.navigate(['../viewCandidates'], { relativeTo: this.activatedRoute});
             }, 
             error => {

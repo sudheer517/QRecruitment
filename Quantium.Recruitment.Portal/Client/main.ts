@@ -1,5 +1,6 @@
 import './polyfills';
 import './styles/vendor.css';
+import './styles/_variables.scss';
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';

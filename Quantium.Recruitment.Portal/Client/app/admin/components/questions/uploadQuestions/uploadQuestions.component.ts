@@ -2,7 +2,6 @@ import { Component, Renderer, ViewEncapsulation, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { QuestionService } from '../../../services/question.service';
 import { QuestionDto } from '../../../../RemoteServicesProxy';
-import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,17 +11,15 @@ import { Router, ActivatedRoute } from '@angular/router';
     encapsulation: ViewEncapsulation.None
 })
 export class UploadQuestionsComponent implements OnInit{
-    modalRef: NgbModalRef;
-    smallModalRef: NgbModalRef;
     smallModalStatus = false;
     questions: QuestionDto[];
     fileData: any;
-    constructor(private renderer: Renderer, private questionService: QuestionService, private modalService: NgbModal, private router: Router,
+    constructor(private renderer: Renderer, private questionService: QuestionService,  private router: Router,
     private activatedRoute:ActivatedRoute){
         
     }
     open(content) {
-        this.modalRef = this.modalService.open(content, { windowClass: "large-modal-window" });
+        //this.modalRef = this.modalService.open(content, { windowClass: "large-modal-window" });
 
     }
     ngOnInit(){
@@ -42,12 +39,12 @@ export class UploadQuestionsComponent implements OnInit{
     }
 
     addQuestions(modalContent: FormControl){
-        this.smallModalRef = this.modalService.open(modalContent, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
+        //this.smallModalRef = this.modalService.open(modalContent, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
         let formData = this.getFileFormData(this.fileData); 
         this.questionService.AddQuestions(formData).subscribe(
             status => {
                 console.log(status);
-                this.smallModalRef.close();
+                //this.smallModalRef.close();
                 this.router.navigate(['viewQuestions'], { relativeTo: this.activatedRoute});
             }, 
             error => {

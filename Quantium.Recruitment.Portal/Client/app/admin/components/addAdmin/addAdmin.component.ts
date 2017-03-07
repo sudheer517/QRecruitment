@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { DepartmentService } from '../../services/department.service';
 import { AdminDto, DepartmentDto } from '../../../RemoteServicesProxy';
-import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+//import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: "[appc-add-admin]",
@@ -15,18 +15,18 @@ export class AddAdminComponent implements OnInit{
 
     departments: DepartmentDto[];
 
-    modalRef: NgbModalRef;
+    //modalRef: NgbModalRef;
     newAdmin: AdminDto;
     hasValidDept = false;
     isEnteredEmailExists= false;
     validationInProgress = false;
     closeResult: string;
-    constructor(private renderer: Renderer, private adminService: AdminService, private departmentService: DepartmentService, private modalService: NgbModal) {
+    constructor(private renderer: Renderer, private adminService: AdminService, private departmentService: DepartmentService) {
         
     }
     
     open(content) {
-        this.modalRef = this.modalService.open(content, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
+        //this.modalRef = this.modalService.open(content, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
         
         // this.modalRef.result.then((result) => {
         // this.closeResult = `Closed with: ${result}`;
@@ -76,7 +76,7 @@ export class AddAdminComponent implements OnInit{
         this.open(modalContent);
         this.adminService.AddAdmin(this.newAdmin).subscribe(
             result => {
-                this.modalRef.close();
+                //this.modalRef.close();
             },
             error => {
                 this.closeResult = "Add Admin failed";

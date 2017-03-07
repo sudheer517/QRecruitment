@@ -12,6 +12,12 @@ router-outlet + div {
     flex: 1 1 auto;
 }
 
+.flex-row{
+    display: flex;
+}
+ul{
+    list-style: none;
+}
 .nav-item{
     margin-right: 30px;
 }
@@ -38,41 +44,13 @@ select {
     cursor: pointer;
     min-width: 120px;
 }
-@media (min-width: 576px){
-    
-    .modal-dialog {
-        min-width: 20%;
-     }
-} 
-
-.modal-window{
-        display: flex !important;
-        flex-direction: column;
-        justify-content: center;
-}
-
-.modal-open .modal{
-    overflow: hidden;
-}
-
-.large-modal-window .modal-dialog{
-    max-width: 100%;
-    margin: 0;
-}
-.modal-body{
-    height: 92vh;
-    overflow: auto;
-}
 
 
-.modal-header{
-    background-color: #f7f7f7;
-}
 
-.modal-footer, .modal-header{
-    display: flex;
-    justify-content: center;
-}
+
+
+
+
 
 .btn:hover{
     background-color: #646e82;
