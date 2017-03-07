@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateLoader } from 'ng2-translate/ng2-translate';
 import { HttpModule, JsonpModule } from '@angular/http';
-import { ModalModule } from 'ng2-bootstrap';
 
 import { PageHeadingComponent } from './directives/page-heading.directive';
 import { DynamicFormComponent } from './forms/dynamic-form.component';
@@ -31,7 +30,6 @@ import { UtilityService } from './services/utility.service';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    ModalModule.forRoot(),
     TranslateModule.forRoot({ provide: TranslateLoader, useClass: ApiTranslationLoader }),
     // No need to export as these modules don't expose any components/directive etc'
     HttpModule,
@@ -53,7 +51,6 @@ import { UtilityService } from './services/utility.service';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    ModalModule,
     // Providers, Components, directive, pipes
     DynamicFormComponent,
     DynamicFormControlComponent,

@@ -12,7 +12,6 @@ import { routing } from './app.routes';
 import { AppService } from './app.service';
 import { appReducer } from './app-store';
 import { AppComponent } from './app.component';
-import { ModalModule } from 'ng2-bootstrap';
 
 @NgModule({
     declarations: [AppComponent],
@@ -25,7 +24,6 @@ import { ModalModule } from 'ng2-bootstrap';
         CoreModule.forRoot(),
         SharedModule.forRoot(),
         AdminModule,
-        ModalModule.forRoot(),
         StoreModule.provideStore(appReducer),
         StoreDevtoolsModule.instrumentOnlyWithExtension()
     ],
