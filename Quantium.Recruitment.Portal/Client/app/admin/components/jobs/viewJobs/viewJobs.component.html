@@ -1,1 +1,62 @@
-view jobs1
+<div class="view-job-container">
+    <div *ngFor="let job of jobs; let i = index">
+        <div  class="job-container d-flex">
+        <div style="flex: 1 1 90%">
+            <div class="d-flex">
+                <span style="flex: 0 1 15%"><b>Job title:</b></span>
+                <p style="flex: 0 1 60%">{{job.Title}}</p>
+            </div>
+
+            <div class="d-flex">
+                <span style="flex: 0 1 15%"><b>Department:</b></span>
+                <p style="flex: 0 1 60%">{{job.Department?.Name}}</p>
+            </div>
+
+            <div class="d-flex">
+                <span style="flex: 0 1 15%"><b>Job profile:</b></span>
+                <p style="flex: 0 1 60%">{{job.Profile}}</p>
+            </div>
+
+            <div class="d-flex">
+                <span style="flex: 0 1 15%"><b>Total questions:</b></span>
+                <p style="flex: 0 1 60%">{{getDisplayQuestionCount(job)}}</p>
+            </div>
+
+            <div class="d-flex">
+                <span style="flex: 0 1 15%"><b>Total questions to pass:</b></span>
+                <p style="flex: 0 1 60%">{{getPassingQuestionCount(job)}}</p>
+            </div>
+
+            <div class="d-flex" style="flex-wrap: wrap">
+                <span style="flex: 0 1 15%"><b>Labels and difficulties</b></span>
+                
+                <div *ngFor="let jdl of job.JobDifficultyLabels" class="label-container">
+                    <div class="d-flex" style="justify-content: space-between">
+                        <span><b>Difficulty:</b></span>
+                        <p>{{jdl.Difficulty?.Name}}</p>
+                    </div>
+                    <div class="d-flex" style="justify-content: space-between">
+                        <span><b>Label:</b></span>
+                        <p>{{jdl.Label?.Name}}</p>
+                    </div>
+                    <div class="d-flex" style="justify-content: space-between">
+                        <span><b>Questions to display:</b></span>
+                        <p>{{jdl.DisplayQuestionCount}}</p>
+                    </div>
+                    <div class="d-flex" style="justify-content: space-between">
+                        <span><b>Questions to pass:</b></span>
+                        <p>{{jdl.PassingQuestionCount}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+       
+        <div>
+                <button type="button" class="btn small-icon-btn" (click)="deleteJob(job, i)"><i class="fa fa-2x fa-trash"></i></button>
+        </div>
+    </div>
+
+    <hr style="margin-top: 30px">
+    <div>
+</div>

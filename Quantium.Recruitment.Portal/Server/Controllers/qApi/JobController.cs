@@ -10,6 +10,7 @@ using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using AspNetCoreSpa.Server.Repositories.Abstract;
+using Newtonsoft.Json;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -60,6 +61,31 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 return BadRequest();
             }
             return Created(string.Empty, jobDto);
+        }
+
+        [HttpPost]
+        public IActionResult Delete([FromBody]JobDto jobDto)
+        {
+            try
+            {
+                var job = Mapper.Map<Job>(jobDto);
+                _jobRepository.Delete(job);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+            return Ok(JsonConvert.SerializeObject("deleted"));
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var jobs = _jobRepository.GetAll().ToList();
+
+            var jDtos = Mapper.Map<List<JobDto>>(jobs);
+
+            return Ok(jDtos);
         }
     }
 }

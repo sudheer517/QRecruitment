@@ -98,10 +98,12 @@ namespace AspNetCoreSpa.Server.Repositories
             EntityEntry dbEntityEntry = _context.Entry<T>(entity);
             dbEntityEntry.State = EntityState.Modified;
         }
+
         public virtual void Delete(T entity)
         {
             EntityEntry dbEntityEntry = _context.Entry<T>(entity);
             dbEntityEntry.State = EntityState.Deleted;
+            _context.SaveChanges();
         }
 
         public virtual void Commit()

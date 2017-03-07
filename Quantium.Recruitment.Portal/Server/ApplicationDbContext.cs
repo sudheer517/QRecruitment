@@ -56,22 +56,24 @@ namespace AspNetCoreSpa.Server
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Content
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+            //foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            //{
+            //    relationship.DeleteBehavior = DeleteBehavior.Cascade;
+            //}
 
-            modelBuilder.Entity<ContentText>()
-                .HasOne(p => p.Content)
-                .WithMany(b => b.ContentTexts)
-                .HasForeignKey(p => p.ContentId)
-                .HasConstraintName("ForeignKey_ContentText_Content");
 
-            modelBuilder.Entity<ContentText>()
-                .HasOne(p => p.Language)
-                .WithMany(b => b.ContentTexts)
-                .HasForeignKey(p => p.LanguageId)
-                .HasConstraintName("ForeignKey_ContentText_Language");
+
+            //modelBuilder.Entity<ContentText>()
+            //    .HasOne(p => p.Content)
+            //    .WithMany(b => b.ContentTexts)
+            //    .HasForeignKey(p => p.ContentId)
+            //    .HasConstraintName("ForeignKey_ContentText_Content");
+
+            //modelBuilder.Entity<ContentText>()
+            //    .HasOne(p => p.Language)
+            //    .WithMany(b => b.ContentTexts)
+            //    .HasForeignKey(p => p.LanguageId)
+            //    .HasConstraintName("ForeignKey_ContentText_Language");
 
             base.OnModelCreating(modelBuilder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
