@@ -1,21 +1,28 @@
-<div>
-    <input type="text" value="" placeholder="job title" />
-    
+ <div class="" style="padding: 20px">
+        <form  novalidate #form="ngForm" (submit)="generateTests()">
+                <div class="d-flex">
+                        <div style="flex: 0 1 50%">
+                                <div class="form-group" [class.has-danger]="job.touched && job.value == 0">
+                                <label class="form-control-label" for="job">Select job</label>
+                                <select class="form-control" #job="ngModel" id="job" name="job" required [(ngModel)]="selectedJobId" (ngModelChange)="selectJob($event)">
+                                        <option *ngFor="let job of jobs" [value]="job.Id">{{job.Title}}</option>
+                                </select>
+                                <small *ngIf="job.touched && job.value == 0" class="form-text muted-text">Job is required</small>
+                                </div>
+                        </div>
+                        <div *ngIf="selectedJob" style="flex: 0 1 50%">
+                                <div *ngFor="let jobDifficultyLabel of selectedJob.JobDifficultyLabels">
+                                        <div>
+                                                <span>{{jobDifficultyLabel.Label.Name}}</span>
+                                                <span>Difficulty - {{jobDifficultyLabel.Difficulty.Name}}</span>
+                                                <span>Questions - {{jobDifficultyLabel.DisplayQuestionCount}}</span>
+                                                <span>Passing criteria - {{jobDifficultyLabel.PassingQuestionCount}}</span>
+                                        </div>
+                                </div>
+                        </div>
+                </div>
+                <button type="submit" class="btn" [disabled]="form.invalid || job.value == 0">Generate tests for selected candidates</button>
+        </form>
+        
 </div>
-<button type="button" class="btn btn-primary" data-toggle="button" autocomplete="off">
-        createTest
-</button>
-<div>
-    Upload .xlsx file
-</div>
-<div>
-    <button type="button" class="btn btn-primary" data-toggle="button" autocomplete="off">
-        Browse
-</button>
-<button type="button" class="btn btn-primary light-gray" data-toggle="button" autocomplete="off">
-        Preview
-</button>
-<button type="button" class="btn btn-primary light-grey" data-toggle="button" autocomplete="off">
-        Save
-</button>
-</div>
+
