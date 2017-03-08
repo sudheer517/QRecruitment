@@ -37,4 +37,10 @@ export class CandidateService{
             });
     }
 
+    public GetCandidateWithoutActiveTests(): Observable<CandidateDto[]>{
+        return this.http.get(`${this.candidateApiUrl}GetCandidatesWithoutActiveTests`).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
 }

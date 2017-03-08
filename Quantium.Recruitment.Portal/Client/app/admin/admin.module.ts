@@ -27,6 +27,8 @@ import { CreateSurveyComponent } from './components/surveys/createSurvey/createS
 import { ViewSurveysComponent } from './components/surveys/viewSurveys/viewSurveys.component';
 import { SurveyResultsComponent } from './components/surveys/surveyResults/surveyResults.component';
 
+import { FilterCandidatesPipe } from './pipes/filterCandidates.pipe';
+
 import { routing } from './admin.routes';
 import { SharedModule } from '../shared/shared.module';
 import { ChartModule } from 'angular2-highcharts';
@@ -69,7 +71,8 @@ import { SelectModule } from 'ng2-select';
         SurveysComponent,
         CreateSurveyComponent,
         ViewSurveysComponent,
-        SurveyResultsComponent
+        SurveyResultsComponent,
+        FilterCandidatesPipe
     ],
     providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService ]
 })

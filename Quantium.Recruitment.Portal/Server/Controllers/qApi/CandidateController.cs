@@ -66,11 +66,19 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         [HttpGet]
         public IActionResult GetAll()
         {
-            var questions = _candidateRepository.GetAll();
+            var candidates = _candidateRepository.GetAll();
 
-            var cDtos = Mapper.Map<IList<CandidateDto>>(questions);
+            var cDtos = Mapper.Map<IList<CandidateDto>>(candidates);
 
             return Ok(cDtos);
+        }
+
+        [HttpGet]
+        public IActionResult GetCandidatesWithoutActiveTests()
+        {
+            var candidates = _candidateRepository.AllIncluding(c => c.Tests).Where(c => c.IsActive && c.Tests.Count() == 0).ToList();
+
+            return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
         }
 
         [HttpPost]
