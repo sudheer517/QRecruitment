@@ -40,6 +40,7 @@ import { CandidateService } from './services/candidate.service';
 import { JobService } from './services/job.service';
 import { LabelService } from './services/label.service';
 import { DifficultyService } from './services/difficulty.service';
+import { TestService } from './services/test.service';
 
 import { Ng2FileInputModule } from 'ng2-file-input'; 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -74,6 +75,6 @@ import { SelectModule } from 'ng2-select';
         SurveyResultsComponent,
         FilterCandidatesPipe
     ],
-    providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService ]
+    providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService ]
 })
 export class AdminModule { }

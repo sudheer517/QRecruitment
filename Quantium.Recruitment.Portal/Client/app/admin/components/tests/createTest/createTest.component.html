@@ -1,47 +1,63 @@
  <div class="" style="padding: 20px">
         <form  novalidate #form="ngForm" (submit)="generateTests()">
-                <div class="d-flex">
-                        <div style="flex: 0 1 50%">
-                                <div class="form-group" [class.has-danger]="job.touched && job.value == 0">
-                                <label class="form-control-label" for="job">Select job</label>
-                                <select class="form-control" #job="ngModel" id="job" name="job" required [(ngModel)]="selectedJobId" (ngModelChange)="selectJob($event)">
-                                        <option *ngFor="let job of jobs" [value]="job.Id">{{job.Title}}</option>
-                                </select>
-                                <small *ngIf="job.touched && job.value == 0" class="form-text muted-text">Job is required</small>
-                                </div>
-                        </div>
-                        <div *ngIf="selectedJob" style="flex: 0 1 50%">
-                                <div *ngFor="let jobDifficultyLabel of selectedJob.JobDifficultyLabels">
-                                        <div>
-                                                <span>{{jobDifficultyLabel.Label.Name}}</span>
-                                                <span>Difficulty - {{jobDifficultyLabel.Difficulty.Name}}</span>
-                                                <span>Questions - {{jobDifficultyLabel.DisplayQuestionCount}}</span>
-                                                <span>Passing criteria - {{jobDifficultyLabel.PassingQuestionCount}}</span>
+                <div style="display: flex">
+                        <div class="" style="flex: 0 1 50%;display: flex;flex-direction: column" >
+                                <div style="width: 50%">
+                                        <div class="form-group" [class.has-danger]="job.touched && job.invalid">
+                                        <label class="form-control-label" for="job">Select job</label>
+                                        <select class="form-control" #job="ngModel" id="job" name="job" required [(ngModel)]="selectedJobId" (ngModelChange)="selectJob($event)">
+                                                <option *ngFor="let job of jobs" [value]="job.Id">{{job.Title}}</option>
+                                        </select>
+                                        <small *ngIf="job.touched && job.invalid" class="form-text muted-text">Job is required</small>
                                         </div>
                                 </div>
+                                <div *ngIf="selectedJob" style="">
+                                        <div *ngFor="let jobDifficultyLabel of selectedJob.JobDifficultyLabels">
+                                                <div>
+                                                        <span>{{jobDifficultyLabel.Label.Name}}</span>
+                                                        <span>Difficulty - {{jobDifficultyLabel.Difficulty.Name}}</span>
+                                                        <span>Questions - {{jobDifficultyLabel.DisplayQuestionCount}}</span>
+                                                        <span>Passing criteria - {{jobDifficultyLabel.PassingQuestionCount}}</span>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div style="margin-top: auto">
+                                <button type="submit" class="btn" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate)">Generate tests for selected candidates</button>
+                                </div>
                         </div>
-                </div>
-                <button type="submit" class="btn" [disabled]="form.invalid || job.value == 0">Generate tests for selected candidates</button>
-                <div class="flex-row">
-                        <div class="form-group" [class.has-danger]="" style="flex: 0 1 30%">
-                                <label class="form-control-label" for="search">Search candidates</label>
-                                <input class="form-control" #searchTemplate="ngModel" id="search" name="search" required [(ngModel)]="search"  type="text" placeholder="Search Candidates">
-                                <small *ngIf="false" class="form-text muted-text">Search is required</small>
-                        </div>
-
-                        <div class="flex-row" style="flex: 0 1 40%; margin-top: 5px">        
-                                <input style="flex: 0 1 5%;margin-top: 5px;" #selectedAllTemplate="ngModel" id="job" name="job" required [(ngModel)]="selectedAll" type="checkbox"/>
-                                Select all
-                        </div>
-                </div>
                         
-                <div>
-                        <div class="" *ngFor="let candidate of candidates |  filterCandidates: searchTemplate.value ; let i = index">
-                                <div class="flex-row" layout="">
-                                        <input style="flex: 0 1 5%;margin-top: 5px;" id="search{{i}}" name="search{{i}}" [(ngModel)]="selectedtestOptions.candidateIds[candidate.Id]"
-                                         required type="checkbox"/>
-                                        <p style="flex: 0 1 13%;">{{candidate.FirstName}} {{candidate.LastName}}</p>
-                                        <p style="flex: 0 1 20%;">{{candidate.Email}}</p>
+                        <div style="flex: 0 1 50%">
+                                <div class="flex-row">
+                                        <div class="form-group" [class.has-danger]="" style="flex: 0 1 30%">
+                                                <label class="form-control-label" for="search">Search candidates</label>
+                                                <input class="form-control" id="search" name="search" [(ngModel)]="search"  type="text"
+                                                 placeholder="Search Candidates" (ngModelChange)="filterCandidates(search)">
+                                        </div>
+
+                                        <div class="flex-row" style="flex: 0 1 40%; margin-top: 5px">        
+                                                <input style="flex: 0 1 5%;margin-top: 5px;" #selectedAllTemplate="ngModel" id="job" name="job" [(ngModel)]="selectedAll"
+                                                type="checkbox" (ngModelChange)="checkAll(filteredCandidates)"/>
+                                                Select all
+                                        </div>
+                                        
+                                </div>
+                                
+                                <div>
+                                        <div>
+                                                
+
+                                                <div *ngFor="let candidate of filteredCandidates;let i=index">
+                                                        <div class="flex-row" layout="">
+                                                                <input style="flex: 0 1 5%;margin-top: 5px;" id="search{{i}}" name="search{{i}}" 
+                                                                [(ngModel)]="selectedtestOptions.candidateIds[candidate.Id]" (ngModelChange)="updateSelectedCandidateCount()"
+                                                                type="checkbox"/>
+                                                                <p style="flex: 0 1 20%;">{{candidate.FirstName}} {{candidate.LastName}}</p>
+                                                                <p style="flex: 0 1 20%;">{{candidate.Email}}</p>
+                                                        </div>
+                                                </div>
+
+                                                
+                                        </div>
                                 </div>
                         </div>
                 </div>
@@ -49,8 +65,6 @@
         
 </div>
 
-<button type="button" class="btn btn-primary" (click)="staticModal.show()">Static modal</button>
- 
 <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
