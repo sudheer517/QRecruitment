@@ -12,6 +12,14 @@ router-outlet + div {
     flex: 1 1 auto;
 }
 
+button:focus{
+    outline: none;
+}
+
+input[type=checkbox] {
+    height: 18px;
+}
+
 .flex-row{
     display: flex;
 }
