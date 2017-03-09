@@ -32,7 +32,7 @@ export class CreateTestComponent implements OnInit{
 
     selectJob(jobId: number): void { 
         this.selectedJob = this.jobs.find(j => j.Id == jobId);
-        console.log(this.hasSelectedAtleastOneCandidate);
+        //console.log(this.hasSelectedAtleastOneCandidate);
     }
 
     constructor(private jobService: JobService, private candidateService: CandidateService, private testService: TestService){
@@ -73,10 +73,9 @@ export class CreateTestComponent implements OnInit{
     }
 
     updateSelectedCandidateCount(): void {
-            console.log("changed bro2");
             var isSelected = false;
             var selectedOptions = this.selectedOptionsMap;
-            console.log(this.selectedtestOptions);
+            //console.log(this.selectedtestOptions);
             if(this.selectedtestOptions.candidateIds){
                 this.selectedtestOptions.candidateIds.forEach((item, index) => {
                     if (item === true) {
@@ -94,7 +93,7 @@ export class CreateTestComponent implements OnInit{
     
     generateTests(){
         console.log("test created");
-        console.log(this.selectedtestOptions.candidateIds);
+        //console.log(this.selectedtestOptions.candidateIds);
 
         let candidateIds = this.selectedtestOptions.candidateIds;
             let candidatesJobs: Candidate_JobDto[] = [];

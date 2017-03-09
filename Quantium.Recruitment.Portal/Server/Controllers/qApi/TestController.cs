@@ -130,7 +130,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return StatusCode(StatusCodes.Status201Created);
+            return Created(string.Empty, JsonConvert.SerializeObject("test created"));
         }
     }
 }
