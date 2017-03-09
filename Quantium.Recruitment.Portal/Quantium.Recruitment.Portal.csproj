@@ -91,4 +91,8 @@
     <ProjectReference Include="..\Quantium.Recruitment.Entities\Quantium.Recruitment.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Account\" />
+  </ItemGroup>
+
 </Project>

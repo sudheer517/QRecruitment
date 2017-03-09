@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace AspNetCoreSpa.Server.Controllers.api
 {
     [Authorize]
-    [Route("api/[controller]")]
+    //[Route("[controller]")]
     public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -37,10 +37,18 @@ namespace AspNetCoreSpa.Server.Controllers.api
         }
 
 
-        [HttpPost("login")]
+        [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
+        public IActionResult Login()
         {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        {
+            return RedirectToAction("Index", "Home");
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -185,6 +193,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
             }
             return BadRequest(new[] { "Email already exists" });
         }
+
         [HttpGet("ConfirmEmail")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)

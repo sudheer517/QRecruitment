@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreSpa.Server.Controllers
 {
+    //[Route("[controller]/[action]/{id?}")]
     public class HomeController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -20,6 +21,7 @@ namespace AspNetCoreSpa.Server.Controllers
             _env = env;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             ViewBag.MainDotJs = await GetMainDotJs();

@@ -112,12 +112,38 @@ namespace AspNetCoreSpa
 
             app.UseOAuthProviders();
 
+            
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapSpaFallbackRoute(
+            //        name: "spa-fallback",
+            //        defaults: new { controller = "Account", action = "Login" });
+            //});
+
             app.UseMvc(routes =>
             {
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Account}/{action=Login}/{id?}");
+
+                routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
             });
+
+            //app.MapWhen(context => context.Request.Path.Value.StartsWith("/Home/Index"), builder =>
+            //{
+            //    builder.UseMvc(routes =>
+            //    {
+            //        routes.MapSpaFallbackRoute("spa-fallback", new { controller = "Home", action = "Index" });
+            //    });
+            //});
 
             app.UseSignalR();
         }
