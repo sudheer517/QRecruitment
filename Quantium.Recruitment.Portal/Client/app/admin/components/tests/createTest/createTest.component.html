@@ -34,10 +34,10 @@
                                                  placeholder="Search Candidates" (ngModelChange)="filterCandidates(search)">
                                         </div>
 
-                                        <div class="flex-row" style="flex: 0 1 40%; margin-top: 5px">        
+                                        <div class="flex-row" style="flex: 0 1 40%; margin-top: 42px; margin-left: 30px">        
                                                 <input style="flex: 0 1 5%;margin-top: 5px;" #selectedAllTemplate="ngModel" id="job" name="job" [(ngModel)]="selectedAll"
                                                 type="checkbox" (ngModelChange)="checkAll(filteredCandidates)"/>
-                                                Select all
+                                                <span style="margin-left: 5px;">Select all</span>
                                         </div>
                                         
                                 </div>

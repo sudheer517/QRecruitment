@@ -19,7 +19,9 @@ button:focus{
 input[type=checkbox] {
     height: 18px;
 }
-
+input[type="checkbox"]:focus{
+    outline: none;
+}
 .flex-row{
     display: flex;
 }
