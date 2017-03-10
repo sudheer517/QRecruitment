@@ -13,10 +13,10 @@ namespace AspNetCoreSpa.Server.Controllers.api
     [Route("api/[controller]")]
     public class ProfileController : BaseController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<QRecruitmentUser> _userManager;
         private readonly ILogger _logger;
 
-        public ProfileController(ILoggerFactory loggerFactory, UserManager<ApplicationUser> userManager)
+        public ProfileController(ILoggerFactory loggerFactory, UserManager<QRecruitmentUser> userManager)
         {
             _logger = loggerFactory.CreateLogger<ProfileController>();
             _userManager = userManager;

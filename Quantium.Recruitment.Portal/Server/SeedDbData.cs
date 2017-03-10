@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Quantium.Recruitment.Entities;
+using Quantium.Recruitment.Portal.Server.Entities;
 
 namespace AspNetCoreSpa.Server
 {
@@ -13,16 +14,16 @@ namespace AspNetCoreSpa.Server
     {
         readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostingEnv;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly UserManager<QRecruitmentUser> _userManager;
+        private readonly RoleManager<QRecruitmentRole> _roleManager;
 
         public SeedDbData(IWebHost host, ApplicationDbContext context)
         {
             var services = (IServiceScopeFactory)host.Services.GetService(typeof(IServiceScopeFactory));
             var serviceScope = services.CreateScope();
             _hostingEnv = serviceScope.ServiceProvider.GetService<IHostingEnvironment>();
-            _roleManager = serviceScope.ServiceProvider.GetService<RoleManager<ApplicationRole>>();
-            _userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+            _roleManager = serviceScope.ServiceProvider.GetService<RoleManager<QRecruitmentRole>>();
+            _userManager = serviceScope.ServiceProvider.GetService<UserManager<QRecruitmentUser>>();
             _context = context;
             CreateRoles(); // Add roles
             CreateUsers(); // Add users
@@ -32,9 +33,9 @@ namespace AspNetCoreSpa.Server
 
         private void CreateRoles()
         {
-            var rolesToAdd = new List<ApplicationRole>(){
-                new ApplicationRole { Name= "Admin", Description = "Full rights role"},
-                new ApplicationRole { Name= "User", Description = "Limited rights role"}
+            var rolesToAdd = new List<QRecruitmentRole>(){
+                new QRecruitmentRole { Name= "Admin" },
+                new QRecruitmentRole { Name= "Candidate"}
             };
             foreach (var role in rolesToAdd)
             {
@@ -50,60 +51,60 @@ namespace AspNetCoreSpa.Server
             if (!_context.ApplicationUsers.Any())
             {
 
-                _userManager.CreateAsync(new ApplicationUser { UserName = "admin@admin.com", FirstName = "Admin first", LastName = "Admin last", Email = "admin@admin.com", EmailConfirmed = true, CreatedDate = DateTime.Now, IsEnabled = true }, "P@ssw0rd!").Result.ToString();
+                _userManager.CreateAsync(new QRecruitmentUser { UserName = "admin@admin.com", FirstName = "Admin first", LastName = "Admin last", Email = "admin@admin.com", EmailConfirmed = true, CreatedDate = DateTime.Now, IsEnabled = true }, "P@ssw0rd!").Result.ToString();
                 _userManager.AddToRoleAsync(_userManager.FindByNameAsync("admin@admin.com").GetAwaiter().GetResult(), "Admin").Result.ToString();
 
-                _userManager.CreateAsync(new ApplicationUser { UserName = "user@user.com", FirstName = "First", LastName = "Last", Email = "user@user.com", EmailConfirmed = true, CreatedDate = DateTime.Now, IsEnabled = true }, "P@ssw0rd!").Result.ToString();
-                _userManager.AddToRoleAsync(_userManager.FindByNameAsync("user@user.com").GetAwaiter().GetResult(), "User").Result.ToString();
+                //_userManager.CreateAsync(new QRecruitmentUser { UserName = "user@user.com", FirstName = "First", LastName = "Last", Email = "user@user.com", EmailConfirmed = true, CreatedDate = DateTime.Now, IsEnabled = true }, "P@ssw0rd!").Result.ToString();
+                //_userManager.AddToRoleAsync(_userManager.FindByNameAsync("user@user.com").GetAwaiter().GetResult(), "User").Result.ToString();
             }
         }
 
         private void AddLanguagesAndContent()
         {
-            if (!_context.Languageses.Any())
-            {
-                _context.Languageses.Add(new Language { Id = 1, Locale = "en", Description = "English" });
-                _context.Languageses.Add(new Language { Id = 2, Locale = "fr", Description = "Frensh" });
-                _context.SaveChanges();
-            }
+            //if (!_context.Languageses.Any())
+            //{
+            //    _context.Languageses.Add(new Language { Id = 1, Locale = "en", Description = "English" });
+            //    _context.Languageses.Add(new Language { Id = 2, Locale = "fr", Description = "Frensh" });
+            //    _context.SaveChanges();
+            //}
 
-            if (!_context.Content.Any())
-            {
-                _context.Content.Add(new Content { Id = 1, Key = "TITLE" });
-                _context.Content.Add(new Content { Id = 2, Key = "APP_NAV_HOME" });
-                _context.Content.Add(new Content { Id = 3, Key = "APP_NAV_EXAMPLES" });
-                _context.Content.Add(new Content { Id = 4, Key = "APP_NAV_LOGIN" });
-                _context.Content.Add(new Content { Id = 5, Key = "APP_NAV_LOGOUT" });
-                _context.Content.Add(new Content { Id = 6, Key = "APP_NAV_REGISTER" });
-                _context.Content.Add(new Content { Id = 7, Key = "APP_NAV_ADMIN" });
-                _context.SaveChanges();
-            }
+            //if (!_context.Content.Any())
+            //{
+            //    _context.Content.Add(new Content { Id = 1, Key = "TITLE" });
+            //    _context.Content.Add(new Content { Id = 2, Key = "APP_NAV_HOME" });
+            //    _context.Content.Add(new Content { Id = 3, Key = "APP_NAV_EXAMPLES" });
+            //    _context.Content.Add(new Content { Id = 4, Key = "APP_NAV_LOGIN" });
+            //    _context.Content.Add(new Content { Id = 5, Key = "APP_NAV_LOGOUT" });
+            //    _context.Content.Add(new Content { Id = 6, Key = "APP_NAV_REGISTER" });
+            //    _context.Content.Add(new Content { Id = 7, Key = "APP_NAV_ADMIN" });
+            //    _context.SaveChanges();
+            //}
 
-            if (!_context.ContentText.Any())
-            {
-                _context.ContentText.Add(new ContentText { Text = "Site title", LanguageId = 1, ContentId = 1 });
-                _context.ContentText.Add(new ContentText { Text = "Titre du site", LanguageId = 2, ContentId = 1 });
+            //if (!_context.ContentText.Any())
+            //{
+            //    _context.ContentText.Add(new ContentText { Text = "Site title", LanguageId = 1, ContentId = 1 });
+            //    _context.ContentText.Add(new ContentText { Text = "Titre du site", LanguageId = 2, ContentId = 1 });
 
-                _context.ContentText.Add(new ContentText { Text = "Home", LanguageId = 1, ContentId = 2 });
-                _context.ContentText.Add(new ContentText { Text = "Accueil", LanguageId = 2, ContentId = 2 });
+            //    _context.ContentText.Add(new ContentText { Text = "Home", LanguageId = 1, ContentId = 2 });
+            //    _context.ContentText.Add(new ContentText { Text = "Accueil", LanguageId = 2, ContentId = 2 });
 
-                _context.ContentText.Add(new ContentText { Text = "Examples", LanguageId = 1, ContentId = 3 });
-                _context.ContentText.Add(new ContentText { Text = "Exemples", LanguageId = 2, ContentId = 3 });
+            //    _context.ContentText.Add(new ContentText { Text = "Examples", LanguageId = 1, ContentId = 3 });
+            //    _context.ContentText.Add(new ContentText { Text = "Exemples", LanguageId = 2, ContentId = 3 });
 
-                _context.ContentText.Add(new ContentText { Text = "Login", LanguageId = 1, ContentId = 4 });
-                _context.ContentText.Add(new ContentText { Text = "S'identifier", LanguageId = 2, ContentId = 4 });
+            //    _context.ContentText.Add(new ContentText { Text = "Login", LanguageId = 1, ContentId = 4 });
+            //    _context.ContentText.Add(new ContentText { Text = "S'identifier", LanguageId = 2, ContentId = 4 });
 
-                _context.ContentText.Add(new ContentText { Text = "Logout", LanguageId = 1, ContentId = 5 });
-                _context.ContentText.Add(new ContentText { Text = "Connectez - Out", LanguageId = 2, ContentId = 5 });
+            //    _context.ContentText.Add(new ContentText { Text = "Logout", LanguageId = 1, ContentId = 5 });
+            //    _context.ContentText.Add(new ContentText { Text = "Connectez - Out", LanguageId = 2, ContentId = 5 });
 
-                _context.ContentText.Add(new ContentText { Text = "Register", LanguageId = 1, ContentId = 6 });
-                _context.ContentText.Add(new ContentText { Text = "registre", LanguageId = 2, ContentId = 6 });
+            //    _context.ContentText.Add(new ContentText { Text = "Register", LanguageId = 1, ContentId = 6 });
+            //    _context.ContentText.Add(new ContentText { Text = "registre", LanguageId = 2, ContentId = 6 });
 
-                _context.ContentText.Add(new ContentText { Text = "Admin", LanguageId = 1, ContentId = 7});
-                _context.ContentText.Add(new ContentText { Text = "Admin", LanguageId = 2, ContentId = 7 });
+            //    _context.ContentText.Add(new ContentText { Text = "Admin", LanguageId = 1, ContentId = 7 });
+            //    _context.ContentText.Add(new ContentText { Text = "Admin", LanguageId = 2, ContentId = 7 });
 
-                _context.SaveChanges();
-            }
+            //    _context.SaveChanges();
+            //}
         }
 
         private void AddRecruitmentSeedData()

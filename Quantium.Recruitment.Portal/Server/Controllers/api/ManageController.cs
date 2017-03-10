@@ -13,15 +13,15 @@ namespace AspNetCoreSpa.Server.Controllers.api
     [Authorize]
     public class ManageController : BaseController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<QRecruitmentUser> _userManager;
+        private readonly SignInManager<QRecruitmentUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
         public ManageController(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
+        UserManager<QRecruitmentUser> userManager,
+        SignInManager<QRecruitmentUser> signInManager,
         IEmailSender emailSender,
         ISmsSender smsSender,
         ILoggerFactory loggerFactory)
@@ -319,7 +319,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
             Error
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync()
+        private Task<QRecruitmentUser> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(HttpContext.User);
         }

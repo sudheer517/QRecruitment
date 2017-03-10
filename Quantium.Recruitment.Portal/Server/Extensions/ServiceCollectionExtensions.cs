@@ -54,7 +54,7 @@ namespace AspNetCoreSpa.Server.Extensions
         public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
         {
             // For api unauthorised calls return 401 with no body
-            services.AddIdentity<ApplicationUser, QRecruitmentRole>(options =>
+            services.AddIdentity<QRecruitmentUser, QRecruitmentRole>(options =>
             {
                 options.Password.RequiredLength = 4;
                 options.Password.RequireNonAlphanumeric = false;

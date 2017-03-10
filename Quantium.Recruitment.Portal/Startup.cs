@@ -98,8 +98,15 @@ namespace AspNetCoreSpa
             app.UseOAuthValidation();
 
             app.UseGoogleAuthentication(new GoogleOptions() {
-                ClientId = Startup.Configuration["Authentication:Google:ClientId"],
-                ClientSecret = Startup.Configuration["Authentication:Google:ClientSecret"]
+                ClientId = Configuration["Authentication:Google:ClientId"],
+                ClientSecret = Configuration["Authentication:Google:ClientSecret"]
+            });
+
+            app.UseFacebookAuthentication(new FacebookOptions()
+            {
+
+                AppId = Configuration["Authentication:Facebook:AppId"],
+                AppSecret = Configuration["Authentication:Facebook:AppSecret"]
             });
 
             // Alternatively, you can also use the introspection middleware.

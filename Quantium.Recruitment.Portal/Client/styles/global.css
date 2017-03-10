@@ -55,13 +55,6 @@ select {
     min-width: 120px;
 }
 
-
-
-
-
-
-
-
 .btn:hover{
     background-color: #646e82;
     border-color: #646e82;
@@ -115,17 +108,14 @@ select {
 
 .questions-tests-background{
      background-image: url('~/dist/assets/img/dashboard.jpg');
-    // background-image: url('~/dist/assets/img/questions-tests.jpg');
 }
 
 .jobs-addAdmin-background{
      background-image: url('~/dist/assets/img/dashboard.jpg');
-    // background-image: url('~/dist/assets/img/jobs-addAdmin.jpg');
 }
 
 .candidates-background{
      background-image: url('~/dist/assets/img/dashboard.jpg');
-    // background-image: url('~/dist/assets/img/candidates.jpg');
 }
 
 .highcharts-credits{

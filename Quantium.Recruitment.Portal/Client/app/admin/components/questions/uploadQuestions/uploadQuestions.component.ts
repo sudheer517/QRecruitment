@@ -1,8 +1,9 @@
-import { Component, Renderer, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, Renderer, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { QuestionService } from '../../../services/question.service';
 import { QuestionDto } from '../../../../RemoteServicesProxy';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalDirective } from 'ng2-bootstrap/modal';
 
 @Component({
     selector: 'appc-upload-questions',
@@ -14,11 +15,15 @@ export class UploadQuestionsComponent implements OnInit{
     smallModalStatus = false;
     questions: QuestionDto[];
     fileData: any;
+    @ViewChild('questionsPreview') questionsPreviewModal:ModalDirective;
+    @ViewChild('progress') progressModal:ModalDirective;
+
     constructor(private renderer: Renderer, private questionService: QuestionService,  private router: Router,
     private activatedRoute:ActivatedRoute){
         
     }
     open(content) {
+        this.questionsPreviewModal.show();
         //this.modalRef = this.modalService.open(content, { windowClass: "large-modal-window" });
 
     }
@@ -30,6 +35,7 @@ export class UploadQuestionsComponent implements OnInit{
     previewQuestions(modalContent: FormControl){
         this.open(modalContent);
     }
+
     onFileChange(eventData: any){
         this.fileData = eventData;
         let formData = this.getFileFormData(this.fileData); 
@@ -39,6 +45,7 @@ export class UploadQuestionsComponent implements OnInit{
     }
 
     addQuestions(modalContent: FormControl){
+        this.progressModal.show();
         //this.smallModalRef = this.modalService.open(modalContent, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
         let formData = this.getFileFormData(this.fileData); 
         this.questionService.AddQuestions(formData).subscribe(

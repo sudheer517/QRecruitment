@@ -3,14 +3,15 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Quantium.Recruitment.Entities;
+using Quantium.Recruitment.Portal.Server.Entities;
 using System.Linq;
 
 namespace AspNetCoreSpa.Server
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int>
+    public class ApplicationDbContext : IdentityDbContext<QRecruitmentUser, QRecruitmentRole, int>
     {
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
+        public DbSet<QRecruitmentUser> ApplicationUsers { get; set; }
+        public DbSet<QRecruitmentRole> ApplicationRoles { get; set; }
         public DbSet<Language> Languageses { get; set; }
         public DbSet<Content> Content { get; set; }
         public DbSet<ContentText> ContentText { get; set; }

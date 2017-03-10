@@ -28,6 +28,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         public IActionResult AddCandidate([FromBody]CandidateDto candidateDto)
         {
             var candidate = Mapper.Map<Candidate>(candidateDto);
+            candidate.IsActive = true;
 
             try
             {

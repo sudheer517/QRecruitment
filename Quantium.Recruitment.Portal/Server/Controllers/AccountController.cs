@@ -13,6 +13,7 @@ using Quantium.Recruitment.Portal.Server.Entities;
 using System.Security.Claims;
 using System.Collections.Generic;
 using Quantium.Recruitment.Portal.Server.Helpers;
+using System;
 
 namespace AspNetCoreSpa.Server.Controllers.api
 {
@@ -20,8 +21,8 @@ namespace AspNetCoreSpa.Server.Controllers.api
     //[Route("[controller]")]
     public class AccountController : BaseController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<QRecruitmentUser> _userManager;
+        private readonly SignInManager<QRecruitmentUser> _signInManager;
         private readonly RoleManager<QRecruitmentRole> _roleManager;
 
         private readonly IEmailSender _emailSender;
@@ -30,8 +31,8 @@ namespace AspNetCoreSpa.Server.Controllers.api
         private readonly IAccountHelper _accountHelper;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<QRecruitmentUser> userManager,
+            SignInManager<QRecruitmentUser> signInManager,
             RoleManager<QRecruitmentRole> roleManager,
             IAccountHelper accountHelper,
             IEmailSender emailSender,
@@ -200,7 +201,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
                     return RedirectToAction("NotRegistered");
                 }
 
-                var user = new ApplicationUser { UserName = email, Email = email };
+                var user = new QRecruitmentUser { UserName = email, Email = email, CreatedDate = DateTime.Now };
                 var createUserTaskResult = _userManager.CreateAsync(user).Result;
 
 
@@ -255,7 +256,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
         public IActionResult UserCreationError()
         {
             //ViewBag.UserMessage = "Error occurred during user creation";
-            return View("Error occurred during user creation");
+            return Ok("Error occurred during user creation");
         }
 
         [HttpGet]
@@ -263,7 +264,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
         public IActionResult DuplicateUserError()
         {
             //ViewBag.UserMessage = "A user with the given email from another social login provider already exits in our system";
-            return View("A user with the given email from another social login provider already exits in our system");
+            return Ok("A user with the given email from another social login provider already exits in our system. Please use that social login to continue");
 
         }
         [HttpPost("ExternalLoginCreateAccount")]
@@ -277,7 +278,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
             {
                 return BadRequest("External login information cannot be accessed, try again.");
             }
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var user = new QRecruitmentUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
             {
@@ -450,7 +451,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
             }
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync()
+        private Task<QRecruitmentUser> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(HttpContext.User);
         }

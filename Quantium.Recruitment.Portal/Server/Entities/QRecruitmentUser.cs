@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace AspNetCoreSpa.Server.Entities
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentityUser<int>
+    public class QRecruitmentUser : IdentityUser<int>
     {
         public bool IsEnabled { get; set; }
         [DataType(DataType.DateTime)]

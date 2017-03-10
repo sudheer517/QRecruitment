@@ -12,10 +12,10 @@ namespace AspNetCoreSpa.Server.Controllers
     //[Route("[controller]/[action]/{id?}")]
     public class HomeController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<QRecruitmentUser> _userManager;
         private readonly IHostingEnvironment _env;
 
-        public HomeController(UserManager<ApplicationUser> userManager, IHostingEnvironment env)
+        public HomeController(UserManager<QRecruitmentUser> userManager, IHostingEnvironment env)
         {
             _userManager = userManager;
             _env = env;

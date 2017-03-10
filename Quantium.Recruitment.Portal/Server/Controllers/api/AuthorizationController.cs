@@ -20,13 +20,13 @@ namespace AspNetCoreSpa.Server.Controllers.api
     public class AuthorizationController : BaseController
     {
         private readonly OpenIddictApplicationManager<OpenIddictApplication> _applicationManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<QRecruitmentUser> _signInManager;
+        private readonly UserManager<QRecruitmentUser> _userManager;
 
         public AuthorizationController(
             OpenIddictApplicationManager<OpenIddictApplication> applicationManager,
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+            SignInManager<QRecruitmentUser> signInManager,
+            UserManager<QRecruitmentUser> userManager)
         {
             _applicationManager = applicationManager;
             _signInManager = signInManager;
@@ -151,7 +151,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
         }
 
         private async Task<AuthenticationTicket> CreateTicketAsync(
-            OpenIdConnectRequest request, ApplicationUser user,
+            OpenIdConnectRequest request, QRecruitmentUser user,
             AuthenticationProperties properties = null)
         {
             // Create a new ClaimsPrincipal containing the claims that
