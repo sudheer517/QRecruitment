@@ -20,25 +20,19 @@ namespace Quantium.Recruitment.ApiServices.Controllers
      {
         private readonly IEntityBaseRepository<Survey> _surveyRepository;
         private readonly IEntityBaseRepository<Candidate> _candidateRepository;
-        private readonly IEntityBaseRepository<Job> _jobRepository;
         private readonly IEntityBaseRepository<SurveyChallenge> _surveyChallengeRepository;
-        private readonly IEntityBaseRepository<Candidate_Job> _candidateJobRepository;
         private readonly IEntityBaseRepository<SurveyQuestion> _surveyQuestionRepository;
  
          public SurveyController(
             IEntityBaseRepository<Candidate> candidateRepository,
             IEntityBaseRepository<Survey> surveyRepository,
             IEntityBaseRepository<SurveyChallenge> surveyChallengeRepository,
-            IEntityBaseRepository<Candidate_Job> candidateJobRepository,
-            IEntityBaseRepository<Job> jobRepository,
              IEntityBaseRepository<SurveyQuestion> surveyQuestionRepository)
          {
             _candidateRepository = candidateRepository;
-             _surveyRepository = surveyRepository;
-             _surveyChallengeRepository = surveyChallengeRepository;
-            _candidateJobRepository = candidateJobRepository;
-            jobRepository = _jobRepository;
-             _surveyQuestionRepository = surveyQuestionRepository;
+            _surveyRepository = surveyRepository;
+            _surveyChallengeRepository = surveyChallengeRepository;
+            _surveyQuestionRepository = surveyQuestionRepository;
          }
  
          [HttpPost]
@@ -47,32 +41,18 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             try
             {
                 var candidatesSurveys = Mapper.Map<List<Candidate_Survey>>(candidateSurveysDto);
-                var job = _jobRepository.GetSingle(candidateSurveysDto.First().Job.Id);
-
+               
                 foreach (var candidateSurveyDto in candidateSurveysDto)
                 {
                     var candidate = _candidateRepository.GetSingle(candidateSurveyDto.Candidate.Id);
 
-                    var newCandidateJob = new Candidate_Job
-                    {
-                        Job = job,
-                        Candidate = candidate
-                    };
-
-                    var candidateJob = candidate.CandidateJobs.FirstOrDefault(cj => cj.CandidateId == candidate.Id && cj.JobId == job.Id);
-
-                    if (candidateJob == null)
-                        _candidateJobRepository.Add(newCandidateJob);
-
                     Survey newSurvey = new Survey
                     {
-                        Name = job.Title + candidate.FirstName,
                         Candidate = candidate,
-                        Job = job,
                         CreatedUtc = DateTime.UtcNow
                     };
 
-                    var activeSurvey = candidate.Surveys.FirstOrDefault(s => s.IsFinished != true && s.Job.Id == job.Id);
+                    var activeSurvey = candidate.Surveys.FirstOrDefault(s => s.IsFinished != true);
 
                     if (activeSurvey == null)
                     {
