@@ -18,5 +18,7 @@ namespace Quantium.Recruitment.Entities
 
         [ForeignKey("QuestionId")]
         public virtual Question Question { get; set; }
+
+        public virtual CandidateSelectedOption CandidateSelectedOption { get; set; }
     }
 }

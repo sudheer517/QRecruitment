@@ -63,11 +63,10 @@ namespace AspNetCoreSpa.Server
 
 
 
-            //modelBuilder.Entity<ContentText>()
-            //    .HasOne(p => p.Content)
-            //    .WithMany(b => b.ContentTexts)
-            //    .HasForeignKey(p => p.ContentId)
-            //    .HasConstraintName("ForeignKey_ContentText_Content");
+            modelBuilder.Entity<Option>()
+                .HasOne(p => p.CandidateSelectedOption)
+                .WithOne(b => b.Option)
+                .OnDelete(DeleteBehavior.Restrict);
 
             //modelBuilder.Entity<ContentText>()
             //    .HasOne(p => p.Language)

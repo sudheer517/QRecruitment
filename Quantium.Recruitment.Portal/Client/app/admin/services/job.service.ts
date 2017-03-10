@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class JobService{
-    private jobApiUrl: string = 'Job/';
+    private jobApiUrl: string = '/Job/';
 
     constructor(private http: Http) { }
 

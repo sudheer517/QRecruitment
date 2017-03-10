@@ -97,6 +97,11 @@ namespace AspNetCoreSpa
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
 
+            app.UseGoogleAuthentication(new GoogleOptions() {
+                ClientId = Startup.Configuration["Authentication:Google:ClientId"],
+                ClientSecret = Startup.Configuration["Authentication:Google:ClientSecret"]
+            });
+
             // Alternatively, you can also use the introspection middleware.
             // Using it is recommended if your resource server is in a
             // different application/separated from the authorization server.

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class LabelService{
-    private labelApiUrl: string = 'Label/';
+    private labelApiUrl: string = '/Label/';
 
     constructor(private http: Http) { }
 

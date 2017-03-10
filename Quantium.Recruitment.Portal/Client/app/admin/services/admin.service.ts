@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class AdminService {
 
-    public adminApiUrl: string = 'Admin/';
+    public adminApiUrl: string = '/Admin/';
 
     constructor(private http: Http) { }
 

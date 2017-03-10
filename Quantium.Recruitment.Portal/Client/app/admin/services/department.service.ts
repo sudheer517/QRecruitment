@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class DepartmentService{
-    public departmentApiUrl: string = 'Department/';
+    public departmentApiUrl: string = '/Department/';
 
     constructor(private http: Http) { }
 

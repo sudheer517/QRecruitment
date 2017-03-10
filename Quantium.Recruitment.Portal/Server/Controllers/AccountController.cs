@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using Quantium.Recruitment.Portal.Server.Entities;
+using System.Security.Claims;
+using System.Collections.Generic;
+using Quantium.Recruitment.Portal.Server.Helpers;
 
 namespace AspNetCoreSpa.Server.Controllers.api
 {
@@ -18,46 +22,79 @@ namespace AspNetCoreSpa.Server.Controllers.api
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<QRecruitmentRole> _roleManager;
+
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IAccountHelper _accountHelper;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<QRecruitmentRole> roleManager,
+            IAccountHelper accountHelper,
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _accountHelper = accountHelper;
             _emailSender = emailSender;
             _smsSender = smsSender;
+            _roleManager = roleManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Unathorized()
+        {
+            return View("You are not authorized to access this page");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult GoAway()
+        {
+            return View("Go away mate");
         }
 
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
-            return RedirectToAction("Index", "Home");
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+            //return RedirectToAction("Index", "Home");
+            ViewData["ReturnUrl"] = returnUrl;
+
+            if (ModelState.IsValid)
+            {
+                var a = "xyz";
+            }
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                var roles = await _userManager.GetRolesAsync(user);
-                _logger.LogInformation(1, "User logged in.");
-                return AppUtils.SignIn(user, roles);
+                if (_accountHelper.IsAccountActive(model.Email))
+                {
+                    _logger.LogInformation(1, "User logged in.");
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                    return RedirectToAction("Unauthorized", "Account");
+
+                //return AppUtils.SignIn(user, roles);
             }
             if (result.RequiresTwoFactor)
             {
@@ -76,59 +113,45 @@ namespace AspNetCoreSpa.Server.Controllers.api
 
         }
 
-        [HttpPost("register")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel model, string returnUrl = null)
-        {
-            var currentUser = new ApplicationUser
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                FirstName = model.Firstname,
-                LastName = model.Lastname
-            };
-            
-            var result = await _userManager.CreateAsync(currentUser, model.Password);
-            if (result.Succeeded)
-            {
-                // Add to roles
-                var roleAddResult = await _userManager.AddToRoleAsync(currentUser, "User");
-                if (roleAddResult.Succeeded)
-                {
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(currentUser);
-
-                    var host = Request.Scheme + "://" + Request.Host;
-                    var callbackUrl = host + "?userId=" + currentUser.Id + "&emailConfirmCode=" + code;
-                    var confirmationLink = "<a class='btn-primary' href=\"" + callbackUrl + "\">Confirm email address</a>";
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    //await _emailSender.SendEmailAsync(MailType.Register, new EmailModel { To = model.Email }, confirmationLink);
-                    return Json(new { });
-                }
-            }
-            AddErrors(result);
-            // If we got this far, something failed, redisplay form
-            return BadRequest(ModelState.GetModelErrors());
-        }
 
         [HttpPost("logout")]
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation(4, "User logged out.");
-            return Ok();
+            //_logger.LogInformation(4, "User logged out.");
+            //return Ok();
+            _logger.LogInformation(4, $"User with name:{User.Identity.Name} logged out");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 
-        [HttpGet("ExternalLogin")]
+        [HttpPost]
         [AllowAnonymous]
-        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
+            //var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            //var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            //return Challenge(properties, provider);
+
+            var externaluser = await HttpContext.Authentication.AuthenticateAsync("Identity.External");
+            if (externaluser != null)
+            {
+                await HttpContext.Authentication.SignOutAsync("Identity.External");
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info != null)
+            {
+                return RedirectToAction("ExternalLoginCallback");
+            }
+
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return Challenge(properties, provider);
         }
 
-        [HttpGet("ExternalLoginCallback")]
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
@@ -144,10 +167,17 @@ namespace AspNetCoreSpa.Server.Controllers.api
 
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
             if (result.Succeeded)
             {
-                _logger.LogInformation(5, "User logged in with {Name} provider.", info.LoginProvider);
-                return Render(ExternalLoginStatus.Ok); // Everything Ok, login user
+                var user = _userManager.FindByEmailAsync(email).Result;
+                IList<string> roles = _userManager.GetRolesAsync(user).Result;
+
+                if (_accountHelper.IsAccountActive(email))
+                    return RedirectToAction("Index", "Home");
+                else
+                    return RedirectToAction("Unauthorized", "Account");
+                
             }
             if (result.RequiresTwoFactor)
             {
@@ -159,15 +189,83 @@ namespace AspNetCoreSpa.Server.Controllers.api
             }
             else
             {
-                // If the user does not have an account, then ask the user to create an account.
-                // ViewData["ReturnUrl"] = returnUrl;
-                // ViewData["LoginProvider"] = info.LoginProvider;
-                // var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                // return RedirectToAction("Index", "Home", new ExternalLoginCreateAccountViewModel { Email = email });
-                return Render(ExternalLoginStatus.CreateAccount);
+                ViewData["ReturnUrl"] = returnUrl;
+                ViewData["LoginProvider"] = info.LoginProvider;
+                info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                string roleName = _accountHelper.GetRoleForEmail(email);
+
+                if (string.IsNullOrEmpty(roleName))
+                {
+                    return RedirectToAction("NotRegistered");
+                }
+
+                var user = new ApplicationUser { UserName = email, Email = email };
+                var createUserTaskResult = _userManager.CreateAsync(user).Result;
+
+
+                IdentityResult roleCreationResult = null;
+
+                if (!_roleManager.RoleExistsAsync(roleName).Result)
+                {
+                    roleCreationResult = _roleManager.CreateAsync(new QRecruitmentRole(roleName)).Result;
+                }
+
+                if (createUserTaskResult.Succeeded)
+                {
+                    var createLoginTaskResult = _userManager.AddLoginAsync(user, info).Result;
+                    var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, roleName).Result;
+                    if (createLoginTaskResult.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+                if (createUserTaskResult.Errors.First().Code == "DuplicateUserName")
+                {
+                    return RedirectToAction("DuplicateUserError", "Account");
+                }
+
+
+                return RedirectToAction("UserCreationError", "Account");
             }
+            //else
+            //{
+            //    // If the user does not have an account, then ask the user to create an account.
+            //    // ViewData["ReturnUrl"] = returnUrl;
+            //    // ViewData["LoginProvider"] = info.LoginProvider;
+            //    // var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            //    // return RedirectToAction("Index", "Home", new ExternalLoginCreateAccountViewModel { Email = email });
+            //    return Render(ExternalLoginStatus.CreateAccount);
+            //}
+
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult NotRegistered()
+        {
+            //ViewBag.UserMessage = "You are not registered in our system";
+            return  Ok("You are not registered in our system");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult UserCreationError()
+        {
+            //ViewBag.UserMessage = "Error occurred during user creation";
+            return View("Error occurred during user creation");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult DuplicateUserError()
+        {
+            //ViewBag.UserMessage = "A user with the given email from another social login provider already exits in our system";
+            return View("A user with the given email from another social login provider already exits in our system");
+
+        }
         [HttpPost("ExternalLoginCreateAccount")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

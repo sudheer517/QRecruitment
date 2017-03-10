@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class DifficultyService{
-    private difficultyApiUrl: string = 'Difficulty/';
+    private difficultyApiUrl: string = '/Difficulty/';
 
     constructor(private http: Http) { }
 

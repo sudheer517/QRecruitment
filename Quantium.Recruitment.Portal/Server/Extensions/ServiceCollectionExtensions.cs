@@ -18,6 +18,8 @@ using AspNetCoreSpa.Server.Repositories.Abstract;
 using Quantium.Recruitment.Entities;
 using Newtonsoft.Json.Serialization;
 using Quantium.Recruitment.Portal.Helpers;
+using Quantium.Recruitment.Portal.Server.Helpers;
+using Quantium.Recruitment.Portal.Server.Entities;
 
 namespace AspNetCoreSpa.Server.Extensions
 {
@@ -52,17 +54,17 @@ namespace AspNetCoreSpa.Server.Extensions
         public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
         {
             // For api unauthorised calls return 401 with no body
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            services.AddIdentity<ApplicationUser, QRecruitmentRole>(options =>
             {
                 options.Password.RequiredLength = 4;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.Cookies.ApplicationCookie.LoginPath = "/login";
+                options.Cookies.ApplicationCookie.LoginPath = "/";
                 options.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
                 {
                     OnRedirectToLogin = ctx =>
                     {
-                        if (ctx.Request.Path.StartsWithSegments("/api") &&
+                        if (ctx.Request.Path.StartsWithSegments("/Home") &&
                             ctx.Response.StatusCode == (int)HttpStatusCode.OK)
                         {
                             ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
@@ -170,6 +172,7 @@ namespace AspNetCoreSpa.Server.Extensions
             services.AddTransient<IEntityBaseRepository<Job_Difficulty_Label>, JobLabelDifficultyRepository>();
 
             services.AddTransient<IHttpHelper, HttpHelper>();
+            services.AddTransient<IAccountHelper, AccountHelper>();
 
             return services;
         }

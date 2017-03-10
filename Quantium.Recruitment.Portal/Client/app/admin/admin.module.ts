@@ -48,9 +48,15 @@ import { ModalModule, ButtonsModule } from 'ng2-bootstrap';
 import { SelectModule } from 'ng2-select';
 
 @NgModule({
-    imports: [routing, SharedModule, ChartModule.forRoot(require('highcharts')), Ng2FileInputModule.forRoot(), ReactiveFormsModule, ModalModule.forRoot(),
-    ButtonsModule.forRoot(),
-    SelectModule],
+    imports: [
+        routing, 
+        SharedModule, 
+        ChartModule.forRoot(require('highcharts')),
+        Ng2FileInputModule.forRoot(),
+        ReactiveFormsModule,
+        ModalModule.forRoot(),
+        ButtonsModule.forRoot(),
+        SelectModule],
     declarations: [
         AdminComponent, 
         DashboardComponent, 
