@@ -18,10 +18,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
     }
 
     .login-container {
-        flex: 0 1 80%;
+        flex: 0 1 auto;
         max-height: 700px;
         background: rgba(248, 240, 240, 0.91);
         min-height: 500px;
@@ -60,9 +61,20 @@
         padding-top: 30px;
     }
 
+   @@media only screen and (min-height: 768px) {
+    .quantium-white-logo {
+        margin-bottom: 100px;
+    }
+}
+
 </style>
 
 <div class="login-page-container">
+    <div class="row justify-content-center align-items-center"  style="margin-top: 10px; margin-bottom: 10px">
+        <div class="quantium-white-logo">
+            <img src="~/dist/assets/img/quantium-white.svg" alt="Microsoft" style="height: 100px"/>
+        </div>
+    </div>
     <div class="login-container col-lg-8 col-md-10">
         <div class="col-md-12" style="flex: 1 1 auto;">
             @*<h2>@ViewData["Title"].</h2>*@
@@ -160,6 +172,13 @@
                 }
                 }
             </section>
+        </div>
+    </div>
+
+    <div class="row justify-content-center align-items-center hidden-sm-down" style="margin-top: 50px; color: whitesmoke">
+        <div>
+            <h6 style="text-align:center"><i class="fa fa-copyright"></i>2017 Quantium</h6>
+            <h6>wwww.quantium.com</h6>
         </div>
     </div>
 </div>
