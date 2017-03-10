@@ -102,6 +102,12 @@ namespace AspNetCoreSpa
                 ClientSecret = Configuration["Authentication:Google:ClientSecret"]
             });
 
+            app.UseMicrosoftAccountAuthentication(new MicrosoftAccountOptions()
+            {
+                ClientId = Configuration["Authentication:Microsoft:ClientId"],
+                ClientSecret = Configuration["Authentication:Microsoft:ClientSecret"]
+            });
+
             app.UseFacebookAuthentication(new FacebookOptions()
             {
 

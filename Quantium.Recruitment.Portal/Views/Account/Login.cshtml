@@ -11,83 +11,153 @@
 @{
     ViewData["Title"] = "Log in";
 }
+<style>
+    .login-page-container {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-<h2>@ViewData["Title"].</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section>
-            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Email" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            <label asp-for="RememberMe">
-                                <input asp-for="RememberMe" />
-                                @Html.DisplayNameFor(m => m.RememberMe)
-                            </label>
+    .login-container {
+        flex: 0 1 80%;
+        max-height: 700px;
+        background: rgba(248, 240, 240, 0.91);
+    }
+    .login-form{
+        display: flex;
+        justify-content:center;
+        align-items: center;
+    }
+
+    .externalLoginIcon {
+        display: inline-block;
+        background-color: transparent;
+        border: none;
+        font-size: 0.9em;
+    }
+
+    .externalLoginIcon:active,
+    .externalLoginIcon:focus,
+    .externalLoginIcon:visited,
+    .externalLoginIcon:hover {
+        border: none;
+        outline: none !important;
+    }
+
+    .externalLoginIcon:hover {
+        transform: scale(1.20);
+        transition: background-color 0.2s, transform 0.2s ease-in-out;
+    }
+
+    .externalLogins {
+        margin-top: 20px;
+        border-top: 1px solid #c2c7cf;
+        padding-top: 30px;
+    }
+
+</style>
+
+<div class="login-page-container">
+    <div class="login-container col-lg-8 col-md-10">
+        <div class="col-md-12">
+            @*<h2>@ViewData["Title"].</h2>*@
+
+            <section>
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal login-form">
+                    <div style="flex: 1 1 100%">
+                        <h4 style="text-align:center; margin-top: 30px; margin-bottom: 30px;">Login</h4>
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="form-group col-md-6 col-lg-3">
+                                <label asp-for="Email" class="control-label"></label>
+                                <div class="">
+                                    <input asp-for="Email" class="form-control" />
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-3" >
+                                <label asp-for="Password" class=" control-label"></label>
+                                <div class="">
+                                    <input asp-for="Password" class="form-control" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
+                        @*<div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="checkbox">
+                                    <label asp-for="RememberMe">
+                                        <input asp-for="RememberMe" />
+                                        @Html.DisplayNameFor(m => m.RememberMe)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>*@
+
+                        <div class="row justify-content-center align-items-center" style="margin-top: 60px;">
+                            <div class="">
+                                <button type="submit" class="btn btn-default">Log in</button>
+                            </div>
+                        </div>
+                        @*<p>
+                            <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
+                        </p>
+                        <p>
+                            <a asp-action="ForgotPassword">Forgot your password?</a>
+                        </p>*@
                     </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-default">Log in</button>
-                    </div>
-                </div>
-                <p>
-                    <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
-                </p>
-                <p>
-                    <a asp-action="ForgotPassword">Forgot your password?</a>
-                </p>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            @{
+                </form>
+            </section>
+        </div>
+
+        <div class="row justify-content-center align-items-center" style="margin-top: 50px; margin-bottom: 20px;">
+            <section class="col-md-12">
+                @*<h4>Use another service to log in.</h4>
+                <hr />*@
+                @{
                 var loginProviders = SignInManager.GetExternalAuthenticationSchemes().ToList();
                 if (loginProviders.Count == 0)
                 {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
+                        <div>
+                            <p>
+                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                for details on setting up this ASP.NET application to support logging in via external services.
+                            </p>
+                        </div>
                 }
                 else
                 {
-                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in loginProviders)
-                                {
-                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">@provider.AuthenticationScheme</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
+
+                        <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                            <div>
+                                <div style="display: flex; justify-content: center">
+                                    @foreach (var provider in loginProviders)
+                                    {
+                                        <div style="margin: 10px;">
+                                            <button type="submit" class="externalLoginIcon" name="provider" value="@provider.AuthenticationScheme" style="cursor: pointer"
+                                                    title="Log in using your @provider.DisplayName account">
+                                                @if (provider.DisplayName == "Microsoft")
+                                                {
+                                                    <img src="~/dist/assets/img/microsoft.svg" alt="Microsoft" style="height: 45px; width: 49px"/>
+
+                                                }
+                                                else
+                                                {
+                                                    <i class="fa fa-@(provider.DisplayName.ToLower()) fa-3x" style="color: #353B47"></i>
+                                                }
+                                            </button>
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                        </form>
                 }
-            }
-        </section>
+                }
+            </section>
+        </div>
     </div>
 </div>
 

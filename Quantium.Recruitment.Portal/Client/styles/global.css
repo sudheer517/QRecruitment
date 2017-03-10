@@ -102,6 +102,9 @@ select {
     color: whitesmoke;
 }
 
+.login-background {
+    background-image: url('~/dist/assets/img/login.jpg');
+}
 .dashboard-background{
     background-image: url('~/dist/assets/img/dashboard.jpg');
 }
