@@ -326,5 +326,27 @@
         }
 
     }
+    
+    export class SurveyQuestionDto {
+        public Id: number;
+        public Text: string;
+    }
 
+    export class SurveyChallengeDto{
+        public Id: number;
+        public ChallengeId: number;
+        public SurveyQuestionId: number;
+        public SurveyQuestion: SurveyQuestionDto;
+        public CandidateAnswer: string;
+        public TotalTestTimeInMinutes: string;
+    }
+
+    export class SurveyDto{
+        public Id: number;
+        public Name: string;
+        public SurveyChallenges: SurveyChallengeDto[];
+        public Candidate: CandidateDto;
+    }
+
+   
 

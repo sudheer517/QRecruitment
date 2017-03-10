@@ -8,7 +8,7 @@
 
         public long SurveyQuestionId { get; set; }
 
-        public SurveyQuestionDto SurverQuestion { get; set; }
+        public SurveyQuestionDto SurveyQuestion { get; set; }
 
         public string CandidateAnswer { get; set; }
 
