@@ -2,7 +2,6 @@
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { TranslateService } from 'ng2-translate/ng2-translate';
 
 import { AppState } from './../../app-store';
 import { AccountService } from './../../core/account/account.service';
@@ -29,7 +28,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         public tokens: AuthTokenService,
         public store: Store<AppState>,
         public accountService: AccountService,
-        public translation: TranslateService
     ) { }
 
 
@@ -43,7 +41,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public setLang(lang) {
         this.currentLanguage = lang;
-        this.translation.use(lang.locale);
     }
 
     public ngOnDestroy(): void {

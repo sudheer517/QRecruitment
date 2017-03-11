@@ -61,14 +61,14 @@ namespace AspNetCoreSpa.Server.Controllers.api
         [AllowAnonymous]
         public IActionResult Unathorized()
         {
-            return View("You are not authorized to access this page");
+            return Ok("You are not authorized to access this page");
         }
 
         [HttpGet]
         [AllowAnonymous]
         public IActionResult GoAway()
         {
-            return View("Go away mate");
+            return Ok("Go away mate");
         }
 
         [HttpPost]
@@ -93,7 +93,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                    return RedirectToAction("Unauthorized", "Account");
+                    return RedirectToAction("Unauthorized");
 
                 //return AppUtils.SignIn(user, roles);
             }
@@ -104,12 +104,15 @@ namespace AspNetCoreSpa.Server.Controllers.api
             if (result.IsLockedOut)
             {
                 _logger.LogWarning(2, "User account locked out.");
-                return BadRequest("Lockout");
+                //return BadRequest("Lockout");
+                ModelState.AddModelError(string.Empty, "User is locked out");
+                return View(model);
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return BadRequest(ModelState.GetModelErrors());
+                ModelState.AddModelError(string.Empty, "Username or password is incorrect");
+                //return BadRequest(ModelState.GetModelErrors());
+                return View(model);
             }
 
         }
@@ -177,7 +180,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
                 if (_accountHelper.IsAccountActive(email))
                     return RedirectToAction("Index", "Home");
                 else
-                    return RedirectToAction("Unauthorized", "Account");
+                    return RedirectToAction("Unauthorized");
                 
             }
             if (result.RequiresTwoFactor)
@@ -225,11 +228,11 @@ namespace AspNetCoreSpa.Server.Controllers.api
 
                 if (createUserTaskResult.Errors.First().Code == "DuplicateUserName")
                 {
-                    return RedirectToAction("DuplicateUserError", "Account");
+                    return RedirectToAction("DuplicateUserError");
                 }
 
 
-                return RedirectToAction("UserCreationError", "Account");
+                return RedirectToAction("UserCreationError");
             }
             //else
             //{

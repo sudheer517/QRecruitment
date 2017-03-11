@@ -61,11 +61,15 @@
         padding-top: 30px;
     }
 
-   @@media only screen and (min-height: 768px) {
-    .quantium-white-logo {
-        margin-bottom: 100px;
+    @@media only screen and (min-height: 768px) {
+        .quantium-white-logo {
+            margin-bottom: 100px;
+        }
     }
-}
+
+    .validation-summary-errors ul li {
+        text-align: center;
+    }
 
 </style>
 
@@ -84,19 +88,19 @@
                     <div style="flex: 1 1 100%">
                         <h4 style="text-align:center; margin-top: 30px; margin-bottom: 30px;">Login</h4>
                         <div asp-validation-summary="All" class="text-danger"></div>
-                        <div class="row justify-content-center align-items-center">
+                        <div class="row justify-content-center">
                             <div class="form-group col-md-6 col-lg-3">
                                 <label asp-for="Email" class="control-label"></label>
                                 <div class="">
                                     <input asp-for="Email" class="form-control" />
-                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                    @*<span asp-validation-for="Email" class="text-danger"></span>*@
                                 </div>
                             </div>
                             <div class="form-group col-md-6 col-lg-3" >
                                 <label asp-for="Password" class=" control-label"></label>
                                 <div class="">
                                     <input asp-for="Password" class="form-control" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                    @*<span asp-validation-for="Password" class="text-danger"></span>*@
                                 </div>
                             </div>
                         </div>
@@ -183,3 +187,6 @@
     </div>
 </div>
 
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

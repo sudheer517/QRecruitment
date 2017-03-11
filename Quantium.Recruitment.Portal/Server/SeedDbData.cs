@@ -50,12 +50,8 @@ namespace AspNetCoreSpa.Server
         {
             if (!_context.ApplicationUsers.Any())
             {
-
-                _userManager.CreateAsync(new QRecruitmentUser { UserName = "admin@admin.com", FirstName = "Admin first", LastName = "Admin last", Email = "admin@admin.com", EmailConfirmed = true, CreatedDate = DateTime.Now, IsEnabled = true }, "P@ssw0rd!").Result.ToString();
-                _userManager.AddToRoleAsync(_userManager.FindByNameAsync("admin@admin.com").GetAwaiter().GetResult(), "Admin").Result.ToString();
-
-                //_userManager.CreateAsync(new QRecruitmentUser { UserName = "user@user.com", FirstName = "First", LastName = "Last", Email = "user@user.com", EmailConfirmed = true, CreatedDate = DateTime.Now, IsEnabled = true }, "P@ssw0rd!").Result.ToString();
-                //_userManager.AddToRoleAsync(_userManager.FindByNameAsync("user@user.com").GetAwaiter().GetResult(), "User").Result.ToString();
+                _userManager.CreateAsync(new QRecruitmentUser { UserName = "admin@admin.com", Email = "admin@admin.com", CreatedDate = DateTime.Now, IsEnabled = true }, "batman@123");
+                _userManager.AddToRoleAsync(_userManager.FindByEmailAsync("admin@admin.com").GetAwaiter().GetResult(), "Admin");
             }
         }
 
@@ -230,6 +226,17 @@ namespace AspNetCoreSpa.Server
                 PasswordSent = true
             };
 
+            Admin admin11 = new Admin()
+            {
+                FirstName = "Bruce",
+                LastName = "Wayne",
+                Email = "admin@admin.com",
+                IsActive = true,
+                Mobile = 9642013699,
+                Department = softwareDepartment,
+                PasswordSent = true
+            };
+
             _context.Admins.Add(admin1);
             _context.Admins.Add(admin2);
             _context.Admins.Add(admin3);
@@ -240,6 +247,7 @@ namespace AspNetCoreSpa.Server
             _context.Admins.Add(admin8);
             _context.Admins.Add(admin9);
             _context.Admins.Add(admin10);
+            _context.Admins.Add(admin11);
 
             #endregion Admin
 

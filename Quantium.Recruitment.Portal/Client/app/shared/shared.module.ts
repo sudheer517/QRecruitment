@@ -2,7 +2,6 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TranslateModule, TranslateLoader } from 'ng2-translate/ng2-translate';
 import { HttpModule, JsonpModule } from '@angular/http';
 
 import { PageHeadingComponent } from './directives/page-heading.directive';
@@ -11,7 +10,6 @@ import { DynamicFormControlComponent } from './forms/dynamic-form-control.compon
 import { ErrorMessageComponent } from './forms/error-message.component';
 import { ErrorSummaryComponent } from './forms/error-summary.component';
 import { FormControlService } from './forms/form-control.service';
-import { ApiTranslationLoader } from './services/api-translation-loader.service';
 
 import { HeaderComponent } from './layout/header.component';
 import { FooterComponent } from './layout/footer.component';
@@ -30,7 +28,6 @@ import { UtilityService } from './services/utility.service';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    TranslateModule.forRoot({ provide: TranslateLoader, useClass: ApiTranslationLoader }),
     // No need to export as these modules don't expose any components/directive etc'
     HttpModule,
     JsonpModule

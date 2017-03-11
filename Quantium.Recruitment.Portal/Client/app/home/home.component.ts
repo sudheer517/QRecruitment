@@ -11,7 +11,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
   // host: hostStyle()
 })
 export class HomeComponent {
-  public isNavbarCollapsed = true;
   constructor() {
   }
  }

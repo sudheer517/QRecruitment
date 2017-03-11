@@ -5,7 +5,7 @@ namespace AspNetCoreSpa.Server.ViewModels.AccountViewModels
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage ="Email address invalid")]
         public string Email { get; set; }
 
         [Required]

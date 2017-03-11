@@ -2,7 +2,6 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { TranslateService } from 'ng2-translate/ng2-translate';
 import { RouterModule } from '@angular/router';
 
 import { AppState } from './app-store';
@@ -24,15 +23,12 @@ export class AppComponent implements OnInit {
   private authState$: Observable<AuthState>;
 
   constructor(
-    public translate: TranslateService,
     public titleService: Title,
     private tokens: AuthTokenService,
     private store: Store<AppState>) {
     // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang('en');
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use('en');
   }
 
   public ngOnInit() {
