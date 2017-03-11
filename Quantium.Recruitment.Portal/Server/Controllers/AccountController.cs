@@ -58,6 +58,14 @@ namespace AspNetCoreSpa.Server.Controllers.api
         }
 
         [HttpGet]
+        public IActionResult GetUserRole()
+        {
+            var result = _userManager.GetRolesAsync(this.GetCurrentUserAsync().Result).Result;
+            return Ok(result);
+            //var roleResult = _roleManager.GetRoleNameAsync(userResult);
+        }
+
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult Unathorized()
         {

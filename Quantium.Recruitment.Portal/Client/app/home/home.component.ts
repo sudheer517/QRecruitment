@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 // import { routerTransition, hostStyle } from '../router.animations';
 
 @Component({
@@ -11,6 +12,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
   // host: hostStyle()
 })
 export class HomeComponent {
-  constructor() {
+  constructor(private router: Router) {
+  }
+
+  ngOnInit(){
+    this.router.navigate(['admin']);
   }
  }

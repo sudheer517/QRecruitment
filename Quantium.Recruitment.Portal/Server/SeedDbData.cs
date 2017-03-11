@@ -50,8 +50,9 @@ namespace AspNetCoreSpa.Server
         {
             if (!_context.ApplicationUsers.Any())
             {
-                _userManager.CreateAsync(new QRecruitmentUser { UserName = "admin@admin.com", Email = "admin@admin.com", CreatedDate = DateTime.Now, IsEnabled = true }, "batman@123");
-                _userManager.AddToRoleAsync(_userManager.FindByEmailAsync("admin@admin.com").GetAwaiter().GetResult(), "Admin");
+                var qUser = new QRecruitmentUser { UserName = "admin@admin.com", Email = "admin@admin.com", CreatedDate = DateTime.Now, IsEnabled = true };
+                _userManager.CreateAsync(qUser, "batman@123");
+                _userManager.AddToRoleAsync(qUser, "Admin");
             }
         }
 
