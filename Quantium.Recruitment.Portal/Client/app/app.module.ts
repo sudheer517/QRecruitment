@@ -6,12 +6,15 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/Router';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
-import { AdminModule } from './admin/admin.module';
+import { HomeModule } from './home/home.module';
 
 import { routing } from './app.routes';
 import { AppService } from './app.service';
 import { appReducer } from './app-store';
 import { AppComponent } from './app.component';
+
+import { QAuthGuard } from './qauth.guard';
+import { QAuthService } from './qauth.service';
 
 @NgModule({
     declarations: [AppComponent],
@@ -23,12 +26,12 @@ import { AppComponent } from './app.component';
         // Only module that app module loads
         CoreModule.forRoot(),
         SharedModule.forRoot(),
-        AdminModule,
+        HomeModule,
         StoreModule.provideStore(appReducer),
         StoreDevtoolsModule.instrumentOnlyWithExtension()
     ],
     providers: [
-        AppService
+        AppService, QAuthGuard, QAuthService
     ],
     bootstrap: [AppComponent]
 })

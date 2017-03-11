@@ -22,6 +22,12 @@ import { DataService } from './services/data.service';
 import { ContentService } from './services/content.service';
 import { UtilityService } from './services/utility.service';
 
+import { ChartModule } from 'angular2-highcharts';
+
+// //import { ReactiveFormsModule } from '@angular/forms';
+import { ModalModule, ButtonsModule } from 'ng2-bootstrap';
+import { SelectModule } from 'ng2-select';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,7 +36,13 @@ import { UtilityService } from './services/utility.service';
     RouterModule,
     // No need to export as these modules don't expose any components/directive etc'
     HttpModule,
-    JsonpModule
+    JsonpModule,
+    ChartModule.forRoot(require('highcharts')),
+    //Ng2FileInputModule.forRoot(),
+    ReactiveFormsModule,
+    ModalModule.forRoot(),
+    ButtonsModule.forRoot(),
+    SelectModule,    
   ],
   declarations: [
     DynamicFormComponent,
@@ -48,6 +60,12 @@ import { UtilityService } from './services/utility.service';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    
+    ChartModule,
+    //Ng2FileInputModule,
+    ModalModule,
+    ButtonsModule,
+    SelectModule,
     // Providers, Components, directive, pipes
     DynamicFormComponent,
     DynamicFormControlComponent,

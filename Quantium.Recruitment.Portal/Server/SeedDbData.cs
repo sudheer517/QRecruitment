@@ -50,9 +50,13 @@ namespace AspNetCoreSpa.Server
         {
             if (!_context.ApplicationUsers.Any())
             {
-                var qUser = new QRecruitmentUser { UserName = "admin@admin.com", Email = "admin@admin.com", CreatedDate = DateTime.Now, IsEnabled = true };
-                _userManager.CreateAsync(qUser, "batman@123");
-                _userManager.AddToRoleAsync(qUser, "Admin");
+                var qAdminUser = new QRecruitmentUser { UserName = "admin@admin.com", Email = "admin@admin.com", CreatedDate = DateTime.Now, IsEnabled = true };
+                var adminUserResult = _userManager.CreateAsync(qAdminUser, "batman@123").Result;
+                var adminRoleResult = _userManager.AddToRoleAsync(qAdminUser, "Admin").Result;
+
+                var qUser = new QRecruitmentUser { UserName = "user@user.com", Email = "user@user.com", CreatedDate = DateTime.Now, IsEnabled = true };
+                var userResult =  _userManager.CreateAsync(qUser, "batman@123").Result;
+                var userRoleResult = _userManager.AddToRoleAsync(qUser, "Candidate").Result;
             }
         }
 
@@ -341,12 +345,24 @@ namespace AspNetCoreSpa.Server
                 TestMailSent = 1,
             };
 
+            Candidate candidate7 = new Candidate
+            {
+                FirstName = "Po",
+                LastName = "Chungwa",
+                Email = "user@user.com",
+                Mobile = 9052791243,
+                IsActive = true,
+                PasswordSent = true,
+                TestMailSent = 1,
+            };
+
             _context.Candidates.Add(candidate1);
             _context.Candidates.Add(candidate2);
             _context.Candidates.Add(candidate3);
             _context.Candidates.Add(candidate4);
             _context.Candidates.Add(candidate5);
             _context.Candidates.Add(candidate6);
+            _context.Candidates.Add(candidate7);
 
             #endregion Candidate
 

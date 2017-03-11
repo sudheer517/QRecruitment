@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
+import { QAuthService } from '../qauth.service'; 
 // import { routerTransition, hostStyle } from '../router.animations';
 
 @Component({
@@ -12,10 +13,17 @@ import { Router } from '@angular/router';
   // host: hostStyle()
 })
 export class HomeComponent {
-  constructor(private router: Router) {
+  constructor(private router: Router, private qauthService: QAuthService) {
   }
 
   ngOnInit(){
     this.router.navigate(['admin']);
+
+    this.qauthService.isAdmin().subscribe(
+        result =>{ 
+          if(!result){
+            this.router.navigate(['candidate']);
+          }
+      });
   }
  }

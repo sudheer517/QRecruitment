@@ -1,10 +1,11 @@
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { QAuthGuard } from './qauth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   // Lazy async modules
   {
-    path: 'login', loadChildren: './+login/login.module#LoginModule'
+    path: 'candidate', loadChildren: './candidate/candidate.module#CandidateModule'
   },
   {
     path: 'register', loadChildren: './+register/register.module#RegisterModule'
@@ -13,7 +14,7 @@ const routes: Routes = [
     path: 'profile', loadChildren: './+profile/profile.module#ProfileModule'
   },
   {
-    path: 'home', loadChildren: './home/home.module#HomeModule'
+    path: 'admin', loadChildren: './admin/admin.module#AdminModule', canLoad: [QAuthGuard]
   },
   {
     path: 'examples', loadChildren: './+examples/examples.module#ExamplesModule'

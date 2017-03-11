@@ -30,14 +30,15 @@ import { SurveyResultsComponent } from './components/surveys/surveyResults/surve
 const routes: Routes = [
   {
     path: '', component: AdminComponent, children: [
-      { path: '', component: DashboardComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'addAdmin', component: AddAdminComponent },
       { 
         path: 'questions', 
         component: QuestionsComponent, 
         children: [ 
-          { path: '', component:  UploadQuestionsComponent },
-          { path: 'uploadQuestions', component:  UploadQuestionsComponent },
+          //{ path: '', component:  UploadQuestionsComponent },
+          //{ path: 'uploadQuestions', component:  UploadQuestionsComponent },
           { path: 'viewQuestions', component:  ViewQuestionsComponent }
         ] 
       },
@@ -56,7 +57,7 @@ const routes: Routes = [
         children: [ 
           { path: '', component:  AddCandidatesComponent },
           { path: 'addCandidates', component:  AddCandidatesComponent },
-          { path: 'bulkUpload', component:  BulkUploadComponent },
+          //{ path: 'bulkUpload', component:  BulkUploadComponent },
           { path: 'viewCandidates', component:  ViewCandidatesComponent }
         ] 
       },
