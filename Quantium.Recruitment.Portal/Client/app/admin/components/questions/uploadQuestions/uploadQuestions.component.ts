@@ -9,12 +9,13 @@ import { ModalDirective } from 'ng2-bootstrap/modal';
     selector: 'appc-upload-questions',
     templateUrl: './uploadQuestions.component.html',
     styleUrls: ['./uploadQuestions.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    //encapsulation: ViewEncapsulation.None
 })
 export class UploadQuestionsComponent implements OnInit{
     smallModalStatus = false;
     questions: QuestionDto[];
     fileData: any;
+    fileText = "Choose file";
     @ViewChild('questionsPreview') questionsPreviewModal:ModalDirective;
     @ViewChild('progress') progressModal:ModalDirective;
 
@@ -29,14 +30,23 @@ export class UploadQuestionsComponent implements OnInit{
     }
     ngOnInit(){
         let body = document.getElementsByTagName('input')[0];
-        this.renderer.setElementAttribute(body, "accept", ".xlsx");
+        //this.renderer.setElementAttribute(body, "accept", ".xlsx");
     }
+
 
     previewQuestions(modalContent: FormControl){
         this.open(modalContent);
     }
 
+    fileChanged(event: any){
+        
+
+    }
     onFileChange(eventData: any){
+        console.log("file change");
+        console.log(event);
+        this.fileText = eventData.target.value.split("\\").pop();
+
         this.fileData = eventData;
         let formData = this.getFileFormData(this.fileData); 
         this.questionService.PreviewQuestions(formData).subscribe(
@@ -63,7 +73,8 @@ export class UploadQuestionsComponent implements OnInit{
 
     private getFileFormData(eventData: any){
         let formData: FormData = new FormData();
-        formData.append('uploadFile', eventData.file, eventData.file.name);
+
+        formData.append('uploadFile', eventData.target.files[0], eventData.target.files[0].name);
         return formData;
     }
 }

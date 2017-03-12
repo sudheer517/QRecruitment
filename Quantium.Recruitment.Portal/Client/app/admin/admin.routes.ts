@@ -37,8 +37,8 @@ const routes: Routes = [
         path: 'questions', 
         component: QuestionsComponent, 
         children: [ 
-          //{ path: '', component:  UploadQuestionsComponent },
-          //{ path: 'uploadQuestions', component:  UploadQuestionsComponent },
+          { path: '', component:  UploadQuestionsComponent },
+          { path: 'uploadQuestions', component:  UploadQuestionsComponent },
           { path: 'viewQuestions', component:  ViewQuestionsComponent }
         ] 
       },

@@ -5,7 +5,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AddAdminComponent } from './components/addAdmin/addAdmin.component';
 
 import { QuestionsComponent } from './components/questions/questions.component';
-//import { UploadQuestionsComponent } from './components/questions/uploadQuestions/uploadQuestions.component';
+import { UploadQuestionsComponent } from './components/questions/uploadQuestions/uploadQuestions.component';
 import { ViewQuestionsComponent } from './components/questions/viewQuestions/viewQuestions.component';
 
 import { JobsComponent } from './components/jobs/jobs.component';
@@ -55,7 +55,7 @@ import { TestService } from './services/test.service';
         DashboardComponent,
         AddAdminComponent,
         QuestionsComponent, 
-        //UploadQuestionsComponent,
+        UploadQuestionsComponent,
         ViewQuestionsComponent,
         JobsComponent,
         CreateJobComponent,
