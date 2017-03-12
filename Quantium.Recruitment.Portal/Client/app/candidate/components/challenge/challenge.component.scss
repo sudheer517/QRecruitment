@@ -1,3 +1,16 @@
 .blah-blah{
     color: hotpink;
 }
+
+input[type=checkbox], input[type=radio] {
+    height: 20px;
+    width: 30px;
+}
+
+.modal-footer{
+    justify-content: space-around !important;
+}
+.modal-title{
+    width: 100%;
+    text-align: center;
+}

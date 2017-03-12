@@ -7,6 +7,8 @@ import { CandidateComponent } from './candidate.component';
 import { InstructionsComponent } from './components/instructions/instructions.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { ChallengeService } from './services/challenge.service';
+import { TestFinishedComponent } from './components/testFinished/testFinished.component';
+
 
 @NgModule({
     imports: [
@@ -16,7 +18,8 @@ import { ChallengeService } from './services/challenge.service';
     declarations: [
        CandidateComponent,
        InstructionsComponent,
-       ChallengeComponent
+       ChallengeComponent,
+       TestFinishedComponent
     ],
     providers: [ ChallengeService ]
 })

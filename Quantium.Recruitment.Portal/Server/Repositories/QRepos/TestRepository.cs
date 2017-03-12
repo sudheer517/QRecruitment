@@ -50,7 +50,8 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
                 query.
                 Include(t => t.Candidate).
                 Include(t => t.Challenges).
-                    ThenInclude(c => c.Question);
+                    ThenInclude(c => c.Question).
+                        ThenInclude(q => q.Options);
 
             return query.AsEnumerable();
         }

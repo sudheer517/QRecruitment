@@ -11,6 +11,6 @@ export class InstructionsComponent {
   }
 
   takeTest(){
-    this.router.navigate(["test"], { relativeTo : this.activatedRoute});
+    this.router.navigate(["challenge"], { relativeTo : this.activatedRoute});
   }
  }

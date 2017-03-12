@@ -28,6 +28,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly IEntityBaseRepository<Job_Difficulty_Label> _jobDifficultyLabelRepository;
         private readonly IEntityBaseRepository<Question> _questionRepository;
         private readonly IEntityBaseRepository<Challenge> _challengeRepository;
+        private readonly IEntityBaseRepository<Option> _optionRepository;
         private readonly IServiceProvider _serviceProvider;
 
         private CancellationTokenSource source;
@@ -40,6 +41,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             IEntityBaseRepository<Job_Difficulty_Label> jobDifficultyLabelRepository,
             IEntityBaseRepository<Question> questionRepository,
             IEntityBaseRepository<Challenge> challengeRepository,
+            IEntityBaseRepository<Option> optionRepository,
             IServiceProvider serviceProvider)
         {
             _jobRepository = jobRepository;
@@ -49,12 +51,12 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             _jobDifficultyLabelRepository = jobDifficultyLabelRepository;
             _questionRepository = questionRepository;
             _challengeRepository = challengeRepository;
+            _optionRepository = optionRepository;
             _serviceProvider = serviceProvider;
-
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetNext()
+        public async Task<IActionResult> Get()
         {
             var email = this.User.Identities.First().Name;
 
@@ -62,7 +64,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             if (test.IsFinished == true)
             {
-                return Ok("Finished");
+                return Ok(JsonConvert.SerializeObject("Finished"));
             }
 
             if (test.Challenges == null)
@@ -70,7 +72,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 test.IsFinished = true;
                 _testRepository.Edit(test);
                 _testRepository.Commit();
-                return Ok("Finished");
+                return Ok(JsonConvert.SerializeObject("Finished"));
             }
 
             var challenges = test.Challenges.Where(c => c.TestId == test.Id).OrderBy(c => c.Id).ToList();
@@ -93,7 +95,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 test.FinishedDate = DateTime.Today.Date;
                 _testRepository.Edit(test);
                 _testRepository.Commit();
-                return Ok("Finished");
+                return Ok(JsonConvert.SerializeObject("Finished"));
             }
 
             var currentChallengeDto = Mapper.Map<ChallengeDto>(currentChallenge);
@@ -157,6 +159,49 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             }
 
             return true;
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody]ChallengeDto challengeDto)
+        {
+            var challenge = _challengeRepository.GetAll().SingleOrDefault(c => c.IsSent != true && c.Id == challengeDto.Id);
+            if (challenge == null)
+                return Ok(JsonConvert.SerializeObject("Answer received too late"));
+
+            challenge.IsSent = true;
+            challenge.IsAnswered = challengeDto.CandidateSelectedOptions.Count > 0 ? true : false;
+            challenge.StartTime = challengeDto.StartTime;
+            challenge.AnsweredTime = challengeDto.AnsweredTime;
+            challenge.CandidateSelectedOptions = Mapper.Map<List<CandidateSelectedOption>>(challengeDto.CandidateSelectedOptions);
+
+            foreach (var item in challenge.CandidateSelectedOptions)
+            {
+                item.Challenge = challenge;
+                item.Option = _optionRepository.GetSingle(item.OptionId);
+            }
+
+            _challengeRepository.Edit(challenge);
+            _challengeRepository.Commit();
+            return Ok(JsonConvert.SerializeObject("Success"));
+        }
+
+        [HttpPost]
+        public IActionResult FinishAllChallenges([FromBody]long testId)
+        {
+            try
+            {
+                var test = _testRepository.GetSingle(testId);
+                test.IsFinished = true;
+                test.FinishedDate = DateTime.UtcNow;
+                _testRepository.Edit(test);
+                _testRepository.Commit();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+
+            return Ok(JsonConvert.SerializeObject("Finished"));
         }
     }
 }

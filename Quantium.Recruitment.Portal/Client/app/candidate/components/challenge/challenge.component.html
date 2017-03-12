@@ -1,28 +1,115 @@
  <div class="router-outlet-container">
         <span class="admin-outlet-heading">Test</span>
         <div class="admin-data-container">
-            <div>
-            
-            <div class="d-flex flex-column">
-                <h5>Welcome to Quantium !! Please read the instructions before proceeding to take the test</h5>
-                <div>
-                     <ul>
-                        <li>You can view the number of questions on the left side of the page</li>
-                        <li>Each question will have a different timer</li>
-                        <li>You have to answer the question before the timer runs out</li>
-                        <li><b>Do not click 'FINISH TEST' unless you want complete the test</b></li>
-                        <li><b>You can LOGOUT and resume the test from the next question if you want to take a break</b></li>
-                        <li><b>If you LOGOUT, the current question will be marked as Answered along with the options you selected</b></li>
-                        <li><b>If you LOGOUT, the current question will not be visible the next time you login</b></li>
-                        <li>Questions can be from various domains</li>
-                        <li>You cannot view the previous questions once you go to the next question</li>
-                        <li>There could be multiple answers for each question</li>
-                        <li>Use of calculators or mobile phones is not permitted</li>
-                    </ul>
-                </div>
-            </div>
+            <div class="d-flex">
+                <div style="border-right: 1px solid lightgray; padding-right: 10px">
+                    <div>
+                        <p class=""><b>Total time : {{totalTestTime | number : '1.2-2'}} Minutes</b></p>
+                        <p class=""><b>Remaining time : {{remainingTestTime | number : '1.2-2'}} Minutes</b></p>
+                    </div>
+                    <hr>
+                    <div>
+                        <div layout="row" class="remaining-questions">
+                                <p><b>Question - {{currentChallengeNumber}} : Remaining - {{remainingChallenges}} </b></p>
+                            </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div *ngFor="let challengeAnswered of challengesAnswered; let i = index">
+                            <div class="">
+                                <div>
+                                    <span *ngIf="(i+1) < currentChallengeNumber" class="" style="display: flex;">
+                                        Question-{{i +1}} - 
+                                        <span *ngIf="!challengeAnswered">Not Answered</span>
+                                        <span *ngIf="challengeAnswered">Answered</span>  
+                                        <i [ngClass]="challengeAnswered ? 'fa fa-lg fa-check-square-o' : 'fa fa-lg fa-times-rectangle-o'" style="margin-left: auto"></i>
 
-            <button type="button" class="btn" (click)="takeTest()">Take test</button>
+                                    </span>
+                                    <span *ngIf="(i+1) == currentChallengeNumber" class=""  style="display: flex;">
+                                        <b>Question-{{i +1}} - Current Question  <i class="fa fa-spinner fa-pulse" style="margin-left: auto"></i></b>
+                                    </span>
+                                    <span *ngIf="(i+1) > currentChallengeNumber" class="" style="display: flex;">
+                                        Question-{{i +1}} - Locked  <i class="fa fa-lg fa-lock" style="margin-left: auto"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex" style="flex: 1 1 auto; padding-left: 20px">
+                    <div style="flex: 1 1 auto">
+                        <div class="">
+                            <p><span [innerHTML]="question?.QuestionGroup?.Description"></span></p>
+                            <p><b><span [innerHTML]="question?.Text"></span></b></p>
+                            <div *ngIf="question?.ImageUrl.length > 0">
+                                <img [src]="question.ImageUrl" class="" />
+                            </div>
+                            <div class="" style="margin-top: 20px">
+                                <div *ngIf="!question?.IsRadio" >
+                                    <div *ngFor="let option of question?.Options; let i = index">
+                                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                            <input type="checkbox" [(ngModel)]="selectedCheckboxOptions[i]"/>
+                                                <span style="margin-left: 5px;">{{option.Text}}</span>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="" *ngIf="question?.IsRadio">
+                                        <div *ngFor="let option of question?.Options" style="display: flex; align-items: center; margin-bottom: 5px;">
+                                            <input type="radio" [value]="option.Id" name="option.QuestionId"
+                                            [(ngModel)]="selectedRadioOption" (ngModelChange)="radioOptionToggle()"/>
+                                            <span style="margin-left: 5px;">{{option.Text}}</span>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 50px; display: flex; justify-content: space-between">
+                            <button type="button" class="btn" (click)="fillAndPostChallenge()" *ngIf="remainingChallenges !== 0">Submit & go to next question</button>
+                            <button type="button" class="btn" (click)="showFinishTestConfirm()">Finish Test</button>
+                        </div>
+                    </div>
+                    
+                </div>
+           
             </div>
     </div>
     </div>
+
+
+   <div id="finishConfirmation" bsModal #confirmation="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+                <h5 class="modal-title">Are you sure ?</h5>
+      </div>
+      <div class="modal-body">
+            This action cannot be reversed. Your test will end.
+      </div>
+      <div class="modal-footer">
+            <button type="button" class="close" (click)="finishAllChallenges()">
+                    YES
+            </button>
+            <button type="button" class="close" (click)="confirmation.hide()">
+                    NO
+            </button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+                <h5 class="modal-title">Loading next question</h5>
+      </div>
+      
+      <div class="modal-footer" style="justify-content: center">
+            <button type="button" class="close">
+                       <span class="fa fa-times fa-3x"></span>
+            </button>
+     </div>
+    </div>
+  </div>
+</div>
