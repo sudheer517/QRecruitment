@@ -3,7 +3,8 @@ import { ChallengeService } from '../../services/challenge.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { QuestionDto, ChallengeDto, CandidateSelectedOptionDto } from '../../../RemoteServicesProxy';
 import { ModalDirective } from 'ng2-bootstrap/modal';
-
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: '[appc-challenge]',
@@ -29,16 +30,30 @@ export class ChallengeComponent implements OnInit{
   selectedCheckboxOptions: boolean[]; 
   selectedRadioOption: number;
 
+  timeInSeconds: number;
+
   private currentChallenge: ChallengeDto;
   private endDateTime: string;
   private startDateTime: string;
   private currentTestId: number;
 
+    ticks = 0;
+    private timer;
+    // Subscription object
+    private sub: Subscription;
+
   ngOnInit(){
     this.getNextChallenge();
+     this.timer = Observable.timer(1000,1000);
+     
   }
 
-  //private currentTestId: number;
+    tickerFunc(tick){
+        this.ticks = this.ticks - 1
+        if(this.ticks === 0){
+            this.fillAndPostChallenge();
+        }
+    }
 
   private getNextChallenge(): void {
         this.challengeService.GetNextChallenge().subscribe(
@@ -48,6 +63,10 @@ export class ChallengeComponent implements OnInit{
                      this.router.navigate(["../testFinished"], { relativeTo: this.activatedRoute});
                 }
                 else{
+                    this.ticks = challenge.Question.TimeInSeconds;
+                    console.log("Yo");
+                    this.sub = this.timer.subscribe(t => this.tickerFunc(t));
+                    //console.log(this.ticks);
                     this.selectedCheckboxOptions = new Array<boolean>(challenge.Question.Options.length);
                     this.currentTestId = challenge.TestId;
                     // this.$timeout.cancel(this.myTimer);
@@ -55,7 +74,6 @@ export class ChallengeComponent implements OnInit{
                     // this.startDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
                     this.startDateTime = new Date().toUTCString();
                     this.currentChallenge = challenge;
-                    
                     this.question = challenge.Question;
                     this.currentChallengeNumber = challenge.currentChallenge;
                     this.remainingChallenges = challenge.RemainingChallenges;
@@ -65,6 +83,7 @@ export class ChallengeComponent implements OnInit{
                     // this.$scope.isRadioQuestion = result.data.Question.IsRadio;
                     // this.$log.info("new question retrieved");
                     // this.setTimer(result.data.Question.TimeInSeconds);
+                    
                 }
                 this.progressModal.hide();
             }, 
@@ -76,7 +95,7 @@ export class ChallengeComponent implements OnInit{
   private fillAndPostChallenge() {
     //this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
     this.progressModal.show();
-
+    this.sub.unsubscribe();
     console.log(this.selectedRadioOption);
     console.log(this.selectedCheckboxOptions);
 
