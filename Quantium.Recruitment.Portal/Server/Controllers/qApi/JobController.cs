@@ -81,7 +81,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var jobs = _jobRepository.GetAll().ToList();
+            var jobs = _jobRepository.GetAll().OrderByDescending(j => j.CreatedUtc).ToList();
 
             var jDtos = Mapper.Map<List<JobDto>>(jobs);
 

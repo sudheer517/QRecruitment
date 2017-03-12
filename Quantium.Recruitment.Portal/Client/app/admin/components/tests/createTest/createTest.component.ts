@@ -6,6 +6,7 @@ import { JobDto, CandidateDto, Candidate_JobDto } from '../../../../RemoteServic
 import { ModalDirective } from 'ng2-bootstrap/modal';
 import { FilterCandidatesPipe } from '../../../pipes/filterCandidates.pipe';
 import { Observable } from 'rxjs/Observable';
+import { Router, ActivatedRoute } from '@angular/router';
 
 class SelectedTestOptions {
     public candidateIds: boolean[];
@@ -17,6 +18,7 @@ class SelectedTestOptions {
     templateUrl: './createTest.component.html',
 })
 export class CreateTestComponent implements OnInit{
+    @ViewChild('progress') progressModal: ModalDirective;
     jobs: JobDto[];
     selectedJobId: number;
     selectedJob: JobDto;
@@ -35,7 +37,8 @@ export class CreateTestComponent implements OnInit{
         //console.log(this.hasSelectedAtleastOneCandidate);
     }
 
-    constructor(private jobService: JobService, private candidateService: CandidateService, private testService: TestService){
+    constructor(private jobService: JobService, private candidateService: CandidateService,
+    private testService: TestService, private router: Router, private activatedRoute:ActivatedRoute){
     }
 
     ngOnInit(){
@@ -94,7 +97,7 @@ export class CreateTestComponent implements OnInit{
     generateTests(){
         console.log("test created");
         //console.log(this.selectedtestOptions.candidateIds);
-
+        this.progressModal.show();
         let candidateIds = this.selectedtestOptions.candidateIds;
             let candidatesJobs: Candidate_JobDto[] = [];
 
@@ -108,10 +111,13 @@ export class CreateTestComponent implements OnInit{
             });
 
             this.testService.Generate(candidatesJobs).subscribe(
-                result => console.log(result)
+                result => {
+                    console.log(result);
+                    this.router.navigate(['viewTests'], { relativeTo: this.activatedRoute});
+                },
+                error => console.log(error)
             );
             
-        this.bgModel.show();
 
     }
 

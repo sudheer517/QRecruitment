@@ -123,7 +123,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     }
 
                 }
-                _challengeRepository.Commit();
+                _challengeRepository.CommitAsync();
             }
             catch (Exception ex)
             {

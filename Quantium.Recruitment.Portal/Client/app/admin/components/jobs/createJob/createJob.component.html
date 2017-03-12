@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="form-group" [class.has-danger]="jobForm.get('profile').invalid && jobForm.get('profile').touched" style="flex: 0 1 55%">
-                        <label class="form-control-label" for="profile">Job title</label>
+                        <label class="form-control-label" for="profile">Job profile</label>
                         <input type="text" class="form-control" id="profile" placeholder="Job profile" formControlName="profile">
                         <span *ngIf="jobForm.get('profile').touched && jobForm.get('title').invalid">
                                 <small *ngIf="jobForm.get('profile').errors?.required" class="form-text muted-text">Job profile is required</small>
@@ -92,3 +92,23 @@
  </form>
 
  </div>
+
+ 
+    <div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+                <h5 class="modal-title" *ngIf="!smallModalStatus">Adding job</h5>
+                <h5 class="modal-title" *ngIf="smallModalStatus">Oops !!  Unable to add questions</h5>
+        </div>
+      
+      <div class="modal-footer" style="justify-content: center">
+                <span class="fa fa-spinner fa-spin fa-3x"  *ngIf="!smallModalStatus"></span>
+                
+                <button type="button" class="close"   *ngIf="smallModalStatus" (click)="d('Cross click')">
+                       <span class="fa fa-times fa-3x"></span>
+                </button>
+        </div>
+    </div>
+  </div>
+</div>

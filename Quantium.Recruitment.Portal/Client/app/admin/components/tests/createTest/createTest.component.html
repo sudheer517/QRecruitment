@@ -65,20 +65,23 @@
         
 </div>
 
-<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static'}"
-     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+
+
+<div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title pull-left">Static modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        This is static modal, backdrop click will not close it.
-        Click <b>&times;</b> to close modal.
-      </div>
+                <h5 class="modal-title" *ngIf="!smallModalStatus">Creating test</h5>
+                <h5 class="modal-title" *ngIf="smallModalStatus">Oops !!  Unable to add questions</h5>
+        </div>
+      
+      <div class="modal-footer" style="justify-content: center">
+                <span class="fa fa-spinner fa-spin fa-3x"  *ngIf="!smallModalStatus"></span>
+                
+                <button type="button" class="close"   *ngIf="smallModalStatus" (click)="d('Cross click')">
+                       <span class="fa fa-times fa-3x"></span>
+                </button>
+        </div>
     </div>
   </div>
 </div>

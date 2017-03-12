@@ -21,6 +21,7 @@ namespace AspNetCoreSpa.Server.Repositories.Abstract
         T Add(T entity);
         void Delete(T entity);
         void Edit(T entity);
+        void CommitAsync();
         void Commit();
     }
 }

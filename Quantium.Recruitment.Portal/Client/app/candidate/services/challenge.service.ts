@@ -5,13 +5,13 @@ import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
-export class TestService{
-    private testApiUrl: string = '/Test/';
+export class ChallengeService{
+    private testApiUrl: string = '/Challenge/';
 
     constructor(private http: Http) { }
 
-    public Generate(candidateJobs: Candidate_JobDto[]): Observable<any> {
-        return this.http.post(`${this.testApiUrl}Generate`, candidateJobs).map(
+    public GetNextChallenge(): Observable<any> {
+        return this.http.get(`${this.testApiUrl}Generate`).map(
             (response: Response) => {
                 return response.json();
             });

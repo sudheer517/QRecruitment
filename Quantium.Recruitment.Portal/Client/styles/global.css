@@ -137,58 +137,5 @@ select {
     flex: 1 1 50%;
 }
 
-
-
-.ng2-file-input{
-    display: flex;
-}
-.ng2-file-input .ng2-file-input-files{
-    margin-top: 0px;
-    padding: 7px;
-}
-.ng2-file-input .ng2-file-input-drop-container {
-    border: none;
-    padding-left: 0px;
-    min-width: 100px;
-}
-
-.ng2-file-input .ng2-file-input-drop-container span{
-    display: none;
-}
-.ng2-file-input .ng2-file-input-drop-container button{
-    margin-left: 0px;
-}
-
-.ng2-file-input .ng2-file-input-files .ng2-file-input-file .ng2-file-input-file-text{
-    max-width: 100%;
-    font-size: 1.0em;
-    font-weight: 500;
-    border: 1px solid lightgray;
-    height: 100%;
-    min-width: 300px;
-    text-align: left;
-    padding: 8px;
-}
-
-.ng2-file-input .ng2-file-input-files .ng2-file-input-file{
-    height: 100%;
-    margin-bottom: 0px;
-    margin-right: 0px;
-}
-.ng2-file-input .ng2-file-input-files .ng2-file-input-file-text.remove:hover{
-    background: rgba(218, 212, 212, 0.85)
-}
-.ng2-file-input .ng2-file-input-files .ng2-file-input-file-text.remove p{
-    color: #504d4d;
-    margin-bottom: 0px;
-    bottom: 0px;
-    width: 90px;
-    top: 8px;
-    right: 3px;
-    text-align: right;
-}
-.ng2-file-input-files .ng2-file-input-file-text.remove p{
-    bottom: 0px;
-    height: 100%;
 }
 

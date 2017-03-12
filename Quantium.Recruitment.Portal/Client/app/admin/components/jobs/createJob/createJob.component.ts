@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ViewChild  } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 
 import { JobService } from '../../../services/job.service';
@@ -8,7 +8,8 @@ import { DifficultyService } from '../../../services/difficulty.service';
 import { QuestionService } from '../../../services/question.service';
 
 import { JobDto, DepartmentDto, LabelDto, DifficultyDto, Question_Difficulty_LabelDto, Job_Difficulty_LabelDto } from '../../../../RemoteServicesProxy';
-
+import { ModalDirective } from 'ng2-bootstrap/modal';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'appc-create-job',
@@ -20,6 +21,7 @@ export class CreateJobComponent implements OnInit {
     job: JobDto = new JobDto();
     availableQuestionsMap: QuestionsInJobMap = new QuestionsInJobMap();
     questionsToPassMap: QuestionsInJobMap = new QuestionsInJobMap();
+    @ViewChild('progress') progressModal:ModalDirective;
 
     get labelsAndDifficulties(): FormArray { 
         return this.jobForm.get('labelsAndDifficulties') as FormArray; 
@@ -38,7 +40,9 @@ export class CreateJobComponent implements OnInit {
         private difficultyService: DifficultyService,
         private questionService: QuestionService,
         private formBuilder: FormBuilder,
-        private changeDetectionRef: ChangeDetectorRef){
+        private changeDetectionRef: ChangeDetectorRef,
+        private router: Router,
+        private activatedRoute:ActivatedRoute){
     }
 
     ngOnInit(){
@@ -56,6 +60,8 @@ export class CreateJobComponent implements OnInit {
     }
 
     save(): void{
+
+        this.progressModal.show();
         console.log(JSON.stringify(this.jobForm.value));
         this.job.Title = this.jobForm.get('title').value;
         this.job.Profile = this.jobForm.get('profile').value;
@@ -77,7 +83,11 @@ export class CreateJobComponent implements OnInit {
         console.log(this.job);
 
         this.jobService.Create(this.job).subscribe(
-            result => console.log("job created"), error => console.log(error)
+            result => {
+                console.log("job created"); 
+                 this.router.navigate(['viewJobs'], { relativeTo: this.activatedRoute});
+            }, 
+            error => console.log(error)
         );
     }
 

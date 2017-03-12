@@ -2,6 +2,10 @@
 using Quantium.Recruitment.Entities;
 using AspNetCoreSpa.Server.Repositories;
 using AspNetCoreSpa.Server;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
@@ -16,8 +20,10 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
     public class TestRepository : EntityBaseRepository<Test>
     {
+        private readonly ApplicationDbContext _context; 
         public TestRepository(ApplicationDbContext context) : base(context)
         {
+            _context = context;
         }
 
         //private readonly IRecruitmentContext _dbContext;
@@ -36,10 +42,18 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         //    return _dbContext.Tests.SingleOrDefault(entity => entity.Candidate.Id == candidateId);
         //}
 
-        //public Test FindByCandidateEmail(string candidateEmail)
-        //{
-        //    return _dbContext.Tests.FirstOrDefault(entity => entity.Candidate.Email == candidateEmail);
-        //}
+        public override IEnumerable<Test> FindBy(Expression<Func<Test, bool>> predicate)
+        {
+            IQueryable<Test> query = _context.Set<Test>().Where(predicate);
+
+            query =
+                query.
+                Include(t => t.Candidate).
+                Include(t => t.Challenges);
+
+            return query.AsEnumerable();
+        }
+        
 
         //public Test FindActiveTestByCandidateEmail(string candidateEmail)
         //{

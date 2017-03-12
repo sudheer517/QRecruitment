@@ -169,7 +169,7 @@ namespace AspNetCoreSpa.Server.Extensions
             services.AddTransient<IEntityBaseRepository<Test>, TestRepository>();
             services.AddTransient<IEntityBaseRepository<Candidate_Job>, CandidateJobRepository>();
             services.AddTransient<IEntityBaseRepository<Challenge>, ChallengeRepository>();
-            services.AddTransient<IEntityBaseRepository<Job_Difficulty_Label>, JobLabelDifficultyRepository>();
+            services.AddTransient<IEntityBaseRepository<Job_Difficulty_Label>, JobDifficultyLabelRepository>();
 
             services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddTransient<IAccountHelper, AccountHelper>();

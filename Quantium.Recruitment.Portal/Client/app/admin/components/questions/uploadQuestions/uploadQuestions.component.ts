@@ -19,8 +19,7 @@ export class UploadQuestionsComponent implements OnInit{
     @ViewChild('questionsPreview') questionsPreviewModal:ModalDirective;
     @ViewChild('progress') progressModal:ModalDirective;
 
-    constructor(private renderer: Renderer, private questionService: QuestionService,  private router: Router,
-    private activatedRoute:ActivatedRoute){
+    constructor(private renderer: Renderer, private questionService: QuestionService,  private router: Router, private activatedRoute:ActivatedRoute){
         
     }
     open(content) {
