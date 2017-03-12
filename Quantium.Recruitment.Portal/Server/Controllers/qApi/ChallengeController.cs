@@ -58,7 +58,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             var email = this.User.Identities.First().Name;
 
-            var test = _testRepository.GetSingle(t => t.Candidate.Email == email, t => t.Candidate, t => t.Challenges);
+            var test = _testRepository.FindBy(t => t.Candidate.Email == email).FirstOrDefault();
 
             if (test.IsFinished == true)
             {
@@ -148,13 +148,12 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         private bool UpdateQuestionAfterTimer(ChallengeDto currentChallengeDto, CancellationToken cancellationToken)
         {
-            var currentChallenge = _challengeRepository.GetSingle(currentChallengeDto.Id);
+            var currentChallenge = _challengeRepository.GetSingleUsingNewContext(currentChallengeDto.Id);
 
             if (currentChallenge.IsSent != true)
             {
                 currentChallenge.IsSent = true;
-                _challengeRepository.Edit(currentChallenge);
-                _challengeRepository.Commit();
+                _challengeRepository.UpdateWithNewContext(currentChallenge);
             }
 
             return true;

@@ -49,11 +49,11 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
             query =
                 query.
                 Include(t => t.Candidate).
-                Include(t => t.Challenges);
+                Include(t => t.Challenges).
+                    ThenInclude(c => c.Question);
 
             return query.AsEnumerable();
         }
-        
 
         //public Test FindActiveTestByCandidateEmail(string candidateEmail)
         //{

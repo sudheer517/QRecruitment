@@ -2,6 +2,9 @@
 using Quantium.Recruitment.Entities;
 using AspNetCoreSpa.Server;
 using AspNetCoreSpa.Server.Repositories;
+using System;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
@@ -15,8 +18,12 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
 
     public class ChallengeRepository : EntityBaseRepository<Challenge>
     {
-        public ChallengeRepository(ApplicationDbContext context) : base(context)
+        private readonly IServiceProvider _serviceProvider;
+        private readonly ApplicationDbContext _context;
+        public ChallengeRepository(ApplicationDbContext context, IServiceProvider serviceProvider) : base(context)
         {
+            _context = context;
+            _serviceProvider = serviceProvider;
         }
 
         //private readonly IRecruitmentContext _dbContext;
@@ -28,6 +35,20 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
         //    _connString = connString;
         //    //_resolver = resolver;
         //}
+        public override Challenge GetSingleUsingNewContext(long id)
+        {
+            var newContext = (ApplicationDbContext)_serviceProvider.GetService(typeof(ApplicationDbContext));
+            return newContext.Challenges.Single(c => c.Id == id);
+        }
+
+        public override Challenge UpdateWithNewContext(Challenge entity)
+        {
+            var newContext = (ApplicationDbContext)_serviceProvider.GetService(typeof(ApplicationDbContext));
+            EntityEntry dbEntityEntry = newContext.Entry<Challenge>(entity);
+            dbEntityEntry.State = EntityState.Modified;
+            newContext.SaveChanges();
+            return entity;
+        }
 
         //public Challenge FindById(long Id)
         //{

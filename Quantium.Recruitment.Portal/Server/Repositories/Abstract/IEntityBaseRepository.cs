@@ -23,5 +23,7 @@ namespace AspNetCoreSpa.Server.Repositories.Abstract
         void Edit(T entity);
         void CommitAsync();
         void Commit();
+        T GetSingleUsingNewContext(long id);
+        T UpdateWithNewContext(T entity);
     }
 }

@@ -6,13 +6,14 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ChallengeService{
-    private testApiUrl: string = '/Challenge/';
+    private challengeApiUrl: string = '/Challenge/';
 
     constructor(private http: Http) { }
 
     public GetNextChallenge(): Observable<any> {
-        return this.http.get(`${this.testApiUrl}Generate`).map(
+        return this.http.get(`${this.challengeApiUrl}GetNext`).map(
             (response: Response) => {
+                console.log(response.json());
                 return response.json();
             });
     }

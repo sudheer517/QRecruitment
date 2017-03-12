@@ -115,5 +115,15 @@ namespace AspNetCoreSpa.Server.Repositories
         {
             _context.SaveChanges();
         }
+
+        public virtual T GetSingleUsingNewContext(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T UpdateWithNewContext(T entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

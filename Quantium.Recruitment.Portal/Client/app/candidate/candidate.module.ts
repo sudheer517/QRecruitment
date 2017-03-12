@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CandidateComponent } from './candidate.component';
 import { InstructionsComponent } from './components/instructions/instructions.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
+import { ChallengeService } from './services/challenge.service';
 
 @NgModule({
     imports: [
@@ -17,6 +18,6 @@ import { ChallengeComponent } from './components/challenge/challenge.component';
        InstructionsComponent,
        ChallengeComponent
     ],
-    providers: [  ]
+    providers: [ ChallengeService ]
 })
 export class CandidateModule { }
