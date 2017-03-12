@@ -57,7 +57,7 @@ const routes: Routes = [
         children: [ 
           { path: '', component:  AddCandidatesComponent },
           { path: 'addCandidates', component:  AddCandidatesComponent },
-          //{ path: 'bulkUpload', component:  BulkUploadComponent },
+          { path: 'bulkUpload', component:  BulkUploadComponent },
           { path: 'viewCandidates', component:  ViewCandidatesComponent }
         ] 
       },

@@ -38,10 +38,6 @@ export class UploadQuestionsComponent implements OnInit{
         this.open(modalContent);
     }
 
-    fileChanged(event: any){
-        
-
-    }
     onFileChange(eventData: any){
         console.log("file change");
         console.log(event);

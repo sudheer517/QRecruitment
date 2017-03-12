@@ -14,7 +14,7 @@ import { ViewJobsComponent } from './components/jobs/viewJobs/viewJobs.component
 
 import { CandidatesComponent } from './components/candidates/candidates.component';
 import { AddCandidatesComponent } from './components/candidates/addCandidates/addCandidates.component';
-//import { BulkUploadComponent } from './components/candidates/bulkUpload/bulkUpload.component';
+import { BulkUploadComponent } from './components/candidates/bulkUpload/bulkUpload.component';
 import { ViewCandidatesComponent } from './components/candidates/viewCandidates/viewCandidates.component';
 
 import { TestsComponent } from './components/tests/tests.component';
@@ -40,7 +40,6 @@ import { JobService } from './services/job.service';
 import { LabelService } from './services/label.service';
 import { DifficultyService } from './services/difficulty.service';
 import { TestService } from './services/test.service';
-//import { Ng2FileInputModule } from 'ng2-file-input'; 
 
 
 
@@ -48,7 +47,6 @@ import { TestService } from './services/test.service';
     imports: [
         routing, 
         SharedModule,
-            //Ng2FileInputModule.forRoot(),
 ],
     declarations: [
         AdminComponent, 
@@ -62,7 +60,7 @@ import { TestService } from './services/test.service';
         ViewJobsComponent,
         CandidatesComponent,
         AddCandidatesComponent,
-        //BulkUploadComponent,
+        BulkUploadComponent,
         ViewCandidatesComponent,
         TestsComponent,
         CreateTestComponent,

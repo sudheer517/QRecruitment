@@ -1,3 +1,45 @@
-.some{
-    color:hotpink;
+$input-borderColor: #ccc;
+$color-primary: green;
+/**
+ * Custom file input
+ */
+.form-input--file {
+	position: relative;
+	overflow: hidden;
+    height: 40px;
+    margin-bottom: 0px;
+	padding-right: 120px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+    width: 300px;
+    border: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.form-input-file {
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.form-input--file-text{
+    margin-left: 5px;
+}
+.form-input--file-button {
+	cursor: pointer;
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: -1px;
+	bottom: 0;
+	padding: .44em 1em 0;
+	background-color: lighten($input-borderColor, 5%);
+	
+	&:hover {
+		background-color: $input-borderColor;
+	}
 }

@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
     selector: 'appc-bulk-upload',
     templateUrl: './bulkUpload.component.html',
     styleUrls: ['./bulkUpload.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    //encapsulation: ViewEncapsulation.None
 })
 export class BulkUploadComponent implements OnInit {
 
@@ -18,6 +18,7 @@ export class BulkUploadComponent implements OnInit {
     smallModalStatus = false;
     candidates: CandidateDto[];
     fileData: any;
+    fileText = "Choose file";
     constructor(private renderer: Renderer, private candidateService: CandidateService, private router: Router,
     private activatedRoute:ActivatedRoute){
         
@@ -35,6 +36,9 @@ export class BulkUploadComponent implements OnInit {
         this.open(modalContent);
     }
     onFileChange(eventData: any){
+        console.log("file change");
+        console.log(event);
+        this.fileText = eventData.target.value.split("\\").pop();
         this.fileData = eventData;
         let formData = this.getFileFormData(this.fileData); 
         this.candidateService.PreviewCandidates(formData).subscribe(
@@ -60,7 +64,7 @@ export class BulkUploadComponent implements OnInit {
 
     private getFileFormData(eventData: any){
         let formData: FormData = new FormData();
-        formData.append('uploadFile', eventData.file, eventData.file.name);
+        formData.append('uploadFile', eventData.target.files[0], eventData.target.files[0].name);
         return formData;
     }
 }
