@@ -4,10 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { QuestionDto, ChallengeDto, CandidateSelectedOptionDto } from '../../../RemoteServicesProxy';
 import { ModalDirective } from 'ng2-bootstrap/modal';
 
-class SelectedQuestionOptions {
-    public optionIds: boolean[];
-    constructor() { }
-}
 
 @Component({
   selector: '[appc-challenge]',
@@ -16,7 +12,7 @@ class SelectedQuestionOptions {
 })
 export class ChallengeComponent implements OnInit{
   @ViewChild('confirmation') confirmationModal: ModalDirective;
-  //@ViewChild('progress') progressModal: ModalDirective;
+  @ViewChild('progress') progressModal: ModalDirective;
 
   constructor(private challengeService: ChallengeService, private router: Router, private activatedRoute: ActivatedRoute) {
   }
@@ -28,8 +24,6 @@ export class ChallengeComponent implements OnInit{
   currentChallengeNumber: number;
 
   question: QuestionDto;
-  selectedQuestionOptions: SelectedQuestionOptions;
-  selectedRadio: any;
   remainingChallenges : number;
 
   selectedCheckboxOptions: boolean[]; 
@@ -42,14 +36,11 @@ export class ChallengeComponent implements OnInit{
 
   ngOnInit(){
     this.getNextChallenge();
-    this.selectedQuestionOptions = new SelectedQuestionOptions();
-    this.selectedRadio = { };
   }
 
   //private currentTestId: number;
 
   private getNextChallenge(): void {
-        //this.progressModal.show();
         this.challengeService.GetNextChallenge().subscribe(
             challenge => {
                 let isFinished: any = challenge;
@@ -57,26 +48,15 @@ export class ChallengeComponent implements OnInit{
                      this.router.navigate(["../testFinished"], { relativeTo: this.activatedRoute});
                 }
                 else{
-                    // if (result.data.Question === undefined && JSON.parse(_.toString(result.data)) === "Finished") {
-                    //     this.router.navigate(["candidateHome"]);
-                    //     return;
-                    // }
                     this.selectedCheckboxOptions = new Array<boolean>(challenge.Question.Options.length);
-
                     this.currentTestId = challenge.TestId;
                     // this.$timeout.cancel(this.myTimer);
                     // this.myTimer = this.$timeout(() => { this.showConfirm() }, (result.data.Question.TimeInSeconds * 1000));
                     // this.startDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
                     this.startDateTime = new Date().toUTCString();
-                    this.selectedQuestionOptions = new SelectedQuestionOptions();
                     this.currentChallenge = challenge;
-                    // this.$scope.imageUrl = result.data.Question.ImageUrl;
-                    // var questionGroup = result.data.Question.QuestionGroup;
-                    // this.$scope.questionGroupText = questionGroup ? questionGroup.Description : "";
-                    // this.$scope.challengeId = result.data.Question.Id;
-                    // this.$scope.questionText = result.data.Question.Text;
+                    
                     this.question = challenge.Question;
-                    // this.$scope.options = result.data.Question.Options;
                     this.currentChallengeNumber = challenge.currentChallenge;
                     this.remainingChallenges = challenge.RemainingChallenges;
                     this.challengesAnswered = challenge.ChallengesAnswered;
@@ -86,7 +66,7 @@ export class ChallengeComponent implements OnInit{
                     // this.$log.info("new question retrieved");
                     // this.setTimer(result.data.Question.TimeInSeconds);
                 }
-                //this.progressModal.hide();
+                this.progressModal.hide();
             }, 
             error => {
                 console.log("new question retrieval failed");
@@ -95,6 +75,7 @@ export class ChallengeComponent implements OnInit{
 
   private fillAndPostChallenge() {
     //this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
+    this.progressModal.show();
 
     console.log(this.selectedRadioOption);
     console.log(this.selectedCheckboxOptions);
@@ -104,7 +85,6 @@ export class ChallengeComponent implements OnInit{
   }
 
   private nextQuestion(): void {
-    //this.$mdDialog.hide();
     this.getNextChallenge();
   }
 
@@ -116,23 +96,8 @@ export class ChallengeComponent implements OnInit{
     //this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
     this.endDateTime = new Date().toUTCString();
     this.postChallenge(false);
-    //var parentElement = angular.element("#timeUpModal");
-    // this.$mdDialog.show({
-    //     templateUrl: '/views/timeUpTemplate.html',
-    //     disableParentScroll: true,
-    //     escapeToClose: false,
-    //     clickOutsideToClose: false,
-    //     scope: this.$scope,
-    //     preserveScope: true,
-    //     parent: parentElement
-    // });
   }
 
-//   private radioOptionToggle(): void {
-//     let selectedOptionId: number = this.selectedRadio.option;
-//     this.selectedQuestionOptions.optionIds = [];
-//     this.selectedQuestionOptions.optionIds[selectedOptionId] = true;
-//  }
 
   private postChallenge(shouldGetNextQuestion: boolean = true): void {
 
