@@ -19,11 +19,10 @@ export class CandidateDetailsComponent implements OnInit{
   }
 
   saveCandidateDetails(form: any){
-      console.log(this.candidate);
       this.cadidateService.SaveDetails(this.candidate).subscribe(
         result => {
-            console.log(result);
-            this.router.navigate(["instructions"], { relativeTo : this.activatedRoute});
+            console.log("saveCandidate response :" + result);
+            this.router.navigate(["../instructions"], { relativeTo : this.activatedRoute});
         },
         error => console.log(error)
       );

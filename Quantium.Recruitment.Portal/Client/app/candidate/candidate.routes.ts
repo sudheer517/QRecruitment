@@ -4,15 +4,16 @@ import { InstructionsComponent } from './components/instructions/instructions.co
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { TestFinishedComponent } from './components/testFinished/testFinished.component';
 import { CandidateDetailsComponent } from './components/candidateDetails/candidateDetails.component';
-import { CandidateDetailsGuard } from './services/candidateDetailsGuard.services';
+import { InstructionsGuard } from './services/instructions.guard';
+
 const routes: Routes = [
   {
     path: '', component: CandidateComponent , children : [
-      { path: '', component: CandidateDetailsComponent },
-      { path: 'instructions', component: InstructionsComponent, canActivate: [CandidateDetailsGuard] },
-      { path: 'challenge', component: ChallengeComponent, canActivate: [CandidateDetailsGuard] },
+      { path: '', component: InstructionsComponent, canActivate: [InstructionsGuard] },
+      { path: 'instructions', component: InstructionsComponent, canActivate: [InstructionsGuard] },
+      { path: 'challenge', component: ChallengeComponent },
       { path: 'testFinished', component: TestFinishedComponent },
-      { path: 'candidateDetails', component: CandidateDetailsComponent }
+      { path: 'candidateDetails', component: CandidateDetailsComponent}
     ]
   }
 ];

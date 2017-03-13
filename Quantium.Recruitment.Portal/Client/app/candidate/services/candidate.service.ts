@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class CandidateService{
     private candidateApiUrl: string = '/Candidate/';
-
+    public isInformationFilled: boolean;
     constructor(private http: Http) { }
 
     public Get(): Observable<CandidateDto> {
@@ -21,6 +21,7 @@ export class CandidateService{
     public IsInformationFilled(): Observable<boolean> {
         return this.http.get(`${this.candidateApiUrl}IsInformationFilled`).map(
             (response: Response) => {
+                console.log("is info filled called");
                 console.log(response.json());
                 return response.json();
             });

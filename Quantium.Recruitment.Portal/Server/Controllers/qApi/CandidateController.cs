@@ -183,7 +183,21 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         {
             var email = this.User.Identities.First().Name;
             var candidate = _candidateRepository.GetSingle(c => c.Email == email);
+
             candidate.IsInformationFilled = true;
+            candidate.FirstName = candidateDto.FirstName;
+            candidate.LastName = candidateDto.LastName;
+            candidate.Mobile = candidateDto.Mobile;
+            candidate.City = candidateDto.City;
+            candidate.Country = candidateDto.Country;
+            candidate.College = candidateDto.College;
+            candidate.Branch = candidateDto.Branch;
+            candidate.CGPA = candidateDto.CGPA;
+            candidate.CurrentCompany = candidateDto.CurrentCompany;
+            candidate.ExperienceInYears = candidateDto.ExperienceInYears;
+            candidate.PassingYear = candidateDto.PassingYear;
+            candidate.State = candidateDto.State;
+
             _candidateRepository.Edit(candidate);
             _candidateRepository.Commit();
             return Ok(JsonConvert.SerializeObject("Saved"));
