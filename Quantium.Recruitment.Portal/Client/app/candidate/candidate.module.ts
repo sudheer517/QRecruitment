@@ -9,6 +9,7 @@ import { ChallengeComponent } from './components/challenge/challenge.component';
 import { ChallengeService } from './services/challenge.service';
 import { CandidateService } from './services/candidate.service';
 import { InstructionsGuard } from './services/instructions.guard';
+import { TestGuard } from './services/test.guard';
 import { TestFinishedComponent } from './components/testFinished/testFinished.component';
 import { CandidateDetailsComponent } from './components/candidateDetails/candidateDetails.component';
 
@@ -25,6 +26,6 @@ import { CandidateDetailsComponent } from './components/candidateDetails/candida
        TestFinishedComponent,
        CandidateDetailsComponent
     ],
-    providers: [ ChallengeService, CandidateService, InstructionsGuard ]
+    providers: [ ChallengeService, CandidateService, InstructionsGuard, TestGuard ]
 })
 export class CandidateModule { }

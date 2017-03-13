@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class CandidateService{
     private candidateApiUrl: string = '/Candidate/';
-    public isInformationFilled: boolean;
     constructor(private http: Http) { }
 
     public Get(): Observable<CandidateDto> {

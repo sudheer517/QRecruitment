@@ -48,8 +48,8 @@
             <div class="d-flex">
 
                 <div class="d-flex" style="flex: 1 1 auto; padding-left: 20px">
-                    <div style="flex: 1 1 auto">
-                        <div class="">
+                    <div style="flex: 1 1 auto" [ngClass]="{'blur-question': isTimeUp}">
+                        <div>
                             <p><span [innerHTML]="question?.QuestionGroup?.Description"></span></p>
                             <p><b><span [innerHTML]="question?.Text"></span></b></p>
                             <div *ngIf="question?.ImageUrl.length > 0">
@@ -62,7 +62,7 @@
                                             <input type="checkbox" [(ngModel)]="selectedCheckboxOptions[i]"/>
                                                 <span style="margin-left: 5px;">{{option.Text}}</span>
                                         </div> 
-                                    </div>
+                                    </div> 
                                 </div>
                                 <div class="" *ngIf="question?.IsRadio">
                                         <div *ngFor="let option of question?.Options" style="display: flex; align-items: center; margin-bottom: 5px;">
@@ -86,7 +86,7 @@
     </div>
 
 
-   <div id="finishConfirmation" bsModal #confirmation="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+   <div bsModal #confirmation="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -116,6 +116,30 @@
       
       <div class="modal-footer" style="justify-content: center">
                 <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+  </div>
+</div>
+
+ <div bsModal #timeUp="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+                <h5 class="modal-title">Time Up !!</h5>
+      </div>
+      <div class="modal-body">
+          <div style="display: flex; flex-direction: column">
+            Proceed to next question or logout and resume test from next question later.
+            <i class="fa fa-clock-o fa-5x" style="text-align: center"></i>
+          </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" *ngIf="remainingChallenges !== 0" class="close" (click)="nextQuestion()">
+                    NEXT
+            </button>
+            <button type="button" class="close" (click)="logout()">
+                    LOGOUT
+            </button>
         </div>
     </div>
   </div>

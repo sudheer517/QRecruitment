@@ -18,6 +18,14 @@ export class ChallengeService{
             });
     }
 
+    public IsTestFinished(): Observable<boolean> {
+        return this.http.get(`${this.challengeApiUrl}IsTestFinished`).map(
+            (response: Response) => {
+                console.log(response.json());
+                return response.json();
+            });
+    }
+    
     public PostChallenge(challenge: ChallengeDto): Observable<any> {
         return this.http.post(`${this.challengeApiUrl}Post`, challenge).map(
             (response: Response) => {

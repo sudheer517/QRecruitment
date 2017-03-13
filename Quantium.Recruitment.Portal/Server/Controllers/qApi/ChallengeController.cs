@@ -203,5 +203,16 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             return Ok(JsonConvert.SerializeObject("Finished"));
         }
+
+        [HttpGet]
+        public IActionResult IsTestFinished()
+        {
+            var email = this.User.Identities.First().Name;
+
+            var isFinished = _testRepository.FindBy(t => t.Candidate.Email == email).FirstOrDefault().IsFinished;
+            
+
+            return Ok(JsonConvert.SerializeObject(isFinished));
+        }
     }
 }
