@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using OfficeOpenXml;
 using Quantium.Recruitment.Portal.Server.Helpers;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 {
@@ -159,6 +160,33 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         private bool IsValidEmail(string input)
         {
             return new EmailAddressAttribute().IsValid(input);
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var email = this.User.Identities.First().Name;
+            var candidateDto = Mapper.Map<CandidateDto>(_candidateRepository.GetSingle(c => c.Email == email));
+            return Ok(candidateDto);
+        }
+
+        [HttpGet]
+        public IActionResult IsInformationFilled()
+        {
+            var email = this.User.Identities.First().Name;
+            var candidateDto = Mapper.Map<CandidateDto>(_candidateRepository.GetSingle(c => c.Email == email));
+            return Ok(JsonConvert.SerializeObject(candidateDto.IsInformationFilled));
+        }
+
+        [HttpPost]
+        public IActionResult SaveDetails([FromBody]CandidateDto candidateDto)
+        {
+            var email = this.User.Identities.First().Name;
+            var candidate = _candidateRepository.GetSingle(c => c.Email == email);
+            candidate.IsInformationFilled = true;
+            _candidateRepository.Edit(candidate);
+            _candidateRepository.Commit();
+            return Ok(JsonConvert.SerializeObject("Saved"));
         }
     }
 }

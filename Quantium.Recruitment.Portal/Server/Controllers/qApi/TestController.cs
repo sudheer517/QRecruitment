@@ -132,5 +132,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             return Created(string.Empty, JsonConvert.SerializeObject("test created"));
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var allTests = _testRepository.AllIncluding(t => t.Candidate, t => t.Job).Where(t => t.IsArchived != true).OrderByDescending(t => t.FinishedDate).ToList();
+            var allTestDtos = Mapper.Map<List<TestDto>>(allTests);
+
+            return Ok(allTestDtos);
+        }
     }
 }

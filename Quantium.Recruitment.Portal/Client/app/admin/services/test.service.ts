@@ -16,4 +16,11 @@ export class TestService{
                 return response.json();
             });
     }
+
+    public GetAll(): Observable<any> {
+        return this.http.get(`${this.testApiUrl}GetAll`).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
 }

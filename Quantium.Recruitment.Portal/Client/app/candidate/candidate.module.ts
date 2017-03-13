@@ -7,7 +7,10 @@ import { CandidateComponent } from './candidate.component';
 import { InstructionsComponent } from './components/instructions/instructions.component';
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { ChallengeService } from './services/challenge.service';
+import { CandidateService } from './services/candidate.service';
+import { CandidateDetailsGuard } from './services/candidateDetailsGuard.services';
 import { TestFinishedComponent } from './components/testFinished/testFinished.component';
+import { CandidateDetailsComponent } from './components/candidateDetails/candidateDetails.component';
 
 
 @NgModule({
@@ -19,8 +22,9 @@ import { TestFinishedComponent } from './components/testFinished/testFinished.co
        CandidateComponent,
        InstructionsComponent,
        ChallengeComponent,
-       TestFinishedComponent
+       TestFinishedComponent,
+       CandidateDetailsComponent
     ],
-    providers: [ ChallengeService ]
+    providers: [ ChallengeService, CandidateService, CandidateDetailsGuard ]
 })
 export class CandidateModule { }

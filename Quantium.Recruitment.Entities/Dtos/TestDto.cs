@@ -30,5 +30,7 @@ namespace Quantium.Recruitment.Models
         public bool IsTestPassed { get; set; }
 
         public long CreatedByUserId { get; set; }
+
+        public DateTime CreatedUtc { get; set; }
     }
 }

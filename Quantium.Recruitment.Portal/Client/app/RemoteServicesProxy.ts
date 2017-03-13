@@ -293,9 +293,10 @@
         public TotalChallengesAnswered: number;
         public IsTestPassed: boolean;
         public CreatedByUserId: number;
+        public CreatedUtc: string;
         constructor();
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean, CreatedByUserId?: number);
-        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean, CreatedByUserId?: number){
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean, CreatedByUserId?: number, CreatedUtc?: string);
+        constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean, CreatedByUserId?: number, CreatedUtc?: string){
             this.Id = Id;
             this.Name = Name;
             this.Challenges = Challenges;
@@ -309,6 +310,7 @@
             this.TotalChallengesAnswered = TotalChallengesAnswered;
             this.IsTestPassed = IsTestPassed;
             this.CreatedByUserId = CreatedByUserId;
+            this.CreatedUtc = CreatedUtc;
         }
 
     }

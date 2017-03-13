@@ -1,0 +1,98 @@
+
+    <div class="router-outlet-container">
+        <span class="admin-outlet-heading">ADD ADMIN</span>
+        <div class="admin-data-container">
+
+            <div class="d-flex">
+                <form style="flex: 0 1 50%" novalidate #form="ngForm" (submit)="saveCandidateDetails(form)">
+                    <div class="form-group" [class.has-danger]="firstName.invalid && firstName.touched">
+                        <label class="form-control-label" for="firstName">First name</label>
+                        <input type="text" #firstName="ngModel" class="form-control" id="firstName" required name="firstName" placeholder="First name" [(ngModel)]="candidate.FirstName">
+                        <small *ngIf="firstName.invalid && firstName.touched" class="form-text muted-text">First name is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="lastName.invalid && lastName.touched">
+                        <label class="form-control-label" for="lastName">Last name</label>
+                        <input type="text" #lastName="ngModel" class="form-control" id="lastName" required name="lastName" placeholder="Last name"  [(ngModel)]="candidate.LastName">
+                        <small *ngIf="lastName.invalid && lastName.touched" class="form-text muted-text">Last name is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="email.invalid && email.touched">
+                        <label class="form-control-label" for="email">Email</label>
+                        <div class="input-group">
+                        <input type="email" #email="ngModel" class="form-control" id="email" required name="email"placeholder="Email" [(ngModel)]="candidate.Email"
+                            pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
+                        </div>
+                        <small *ngIf="email.invalid && email.touched && !email.hasError('pattern')" class="form-text muted-text">Email is required</small>
+                        <small *ngIf="email.hasError('pattern')" class="form-text muted-text">Email is not valid</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="mobileNumber.invalid && mobileNumber.touched">
+                        <label class="form-control-label" for="mobileNumber">Mobile Number</label>
+                        <input type="number" #mobileNumber="ngModel" class="form-control" id="mobileNumber" required name="mobileNumber" placeholder="Mobile number" [(ngModel)]="candidate.Mobile"
+                        minlength="10" maxlength="10">
+                        <small *ngIf="mobileNumber.invalid && mobileNumber.touched" class="form-text muted-text">Mobile is required</small>
+                    </div>
+
+                    <!--<div class="form-group" [class.has-danger]="department.touched && department.value == 0">
+                        <label class="form-control-label" for="department">Department</label>
+                        <select class="form-control" #department="ngModel" id="department" name="department" required [(ngModel)]="newAdmin.DepartmentId">
+                            <option value="0">Select a department..</option>
+                            <option *ngFor="let dept of departments" [value]="dept.Id">{{dept.Name}}</option>
+                        </select>
+                        <small *ngIf="department.touched && department.value == 0" class="form-text muted-text">Department is required</small>
+                    </div>-->
+
+                    <div class="form-group" [class.has-danger]="branch.invalid && branch.touched">
+                        <label class="form-control-label" for="branch">Branch</label>
+                        <input type="text" #branch="ngModel" class="form-control" id="branch" required name="branch" placeholder="Branch" [(ngModel)]="candidate.Branch">
+                        <small *ngIf="branch.invalid && branch.touched" class="form-text muted-text">Branch is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="cgpa.invalid && cgpa.touched">
+                        <label class="form-control-label" for="cgpa">CGPA</label>
+                        <input type="text" #cgpa="ngModel" class="form-control" id="cgpa" required name="branch" placeholder="CGPA" [(ngModel)]="candidate.CGPA">
+                        <small *ngIf="cgpa.invalid && cgpa.touched" class="form-text muted-text">CGPA is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="college.invalid && college.touched">
+                        <label class="form-control-label" for="college">College</label>
+                        <input type="text" #college="ngModel" class="form-control" id="college" required name="college" placeholder="College" [(ngModel)]="candidate.College">
+                        <small *ngIf="college.invalid && college.touched" class="form-text muted-text">College is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="graduation.invalid && graduation.touched">
+                        <label class="form-control-label" for="country">Graduation Year</label>
+                        <input type="text" #graduation="ngModel" class="form-control" id="graduation" required name="graduation" placeholder="N/A" [(ngModel)]="candidate.PassingYear">
+                        <small *ngIf="graduation.invalid && graduation.touched" class="form-text muted-text">Graduation year is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="city.invalid && city.touched">
+                        <label class="form-control-label" for="city">City</label>
+                        <input type="text" #city="ngModel" class="form-control" id="city" required name="city" placeholder="City" [(ngModel)]="candidate.City">
+                        <small *ngIf="city.invalid && city.touched" class="form-text muted-text">City is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="country.invalid && country.touched">
+                        <label class="form-control-label" for="country">Country</label>
+                        <input type="text" #country="ngModel" class="form-control" id="country" required name="country" placeholder="Country" [(ngModel)]="candidate.Country">
+                        <small *ngIf="country.invalid && country.touched" class="form-text muted-text">Country is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="currentCompany.invalid && currentCompany.touched">
+                        <label class="form-control-label" for="country">Current Company</label>
+                        <input type="text" #currentCompany="ngModel" class="form-control" id="currentCompany" required name="currentCompany" placeholder="N/A" [(ngModel)]="candidate.CurrentCompany">
+                        <small *ngIf="currentCompany.invalid && currentCompany.touched" class="form-text muted-text">Company is required</small>
+                    </div>
+
+                    <div class="form-group" [class.has-danger]="experience.invalid && experience.touched">
+                        <label class="form-control-label" for="experience">Experience in years</label>
+                        <input type="text" #experience="ngModel" class="form-control" id="experience" required name="experience" placeholder="N/A" [(ngModel)]="candidate.ExperienceInYears">
+                        <small *ngIf="experience.invalid && experience.touched" class="form-text muted-text">Experience is required</small>
+                    </div>
+
+                    <button type="submit" class="btn" [disabled]="form.invalid">Save details</button>
+                </form>
+            </div>
+        </div>
+    </div>
