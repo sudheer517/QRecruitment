@@ -28,6 +28,9 @@ import { ChartModule } from 'angular2-highcharts';
 import { ModalModule, ButtonsModule } from 'ng2-bootstrap';
 import { SelectModule } from 'ng2-select';
 
+import { PaginationModule } from 'ng2-bootstrap/pagination';
+import { Ng2TableModule } from 'ng2-table/ng2-table';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -42,7 +45,9 @@ import { SelectModule } from 'ng2-select';
     ReactiveFormsModule,
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),
-    SelectModule,    
+    SelectModule, 
+    PaginationModule.forRoot(),   
+    Ng2TableModule,
   ],
   declarations: [
     DynamicFormComponent,
@@ -66,6 +71,8 @@ import { SelectModule } from 'ng2-select';
     ModalModule,
     ButtonsModule,
     SelectModule,
+    PaginationModule,
+    Ng2TableModule,
     // Providers, Components, directive, pipes
     DynamicFormComponent,
     DynamicFormControlComponent,
