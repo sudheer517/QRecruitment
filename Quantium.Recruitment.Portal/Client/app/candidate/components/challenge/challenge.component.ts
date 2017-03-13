@@ -49,10 +49,6 @@ export class ChallengeComponent implements OnInit{
         this.timer = Observable.timer(1000,1000);
     }
 
-    logout(){
-
-    }
-
     tickerFunc(tick){
         this.ticks = this.ticks - 1
         if(this.ticks === 0){

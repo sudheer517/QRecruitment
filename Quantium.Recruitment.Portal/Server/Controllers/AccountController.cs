@@ -137,6 +137,16 @@ namespace AspNetCoreSpa.Server.Controllers.api
             return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            _signInManager.SignOutAsync();
+            //_logger.LogInformation(4, "User logged out.");
+            //return Ok();
+            _logger.LogInformation(4, $"User with name:{User.Identity.Name} logged out");
+            return RedirectToLocal("/");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

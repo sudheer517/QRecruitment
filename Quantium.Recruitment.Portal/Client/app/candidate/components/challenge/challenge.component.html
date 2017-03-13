@@ -134,12 +134,12 @@
           </div>
       </div>
       <div class="modal-footer">
-            <button type="button" *ngIf="remainingChallenges !== 0" class="close" (click)="nextQuestion()">
+            <button type="button" *ngIf="remainingChallenges !== 0"  class="close" (click)="nextQuestion()">
                     NEXT
             </button>
-            <button type="button" class="close" (click)="logout()">
+            <a href="/Account/Logout" class="close">
                     LOGOUT
-            </button>
+            </a>
         </div>
     </div>
   </div>
