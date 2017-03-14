@@ -14,9 +14,11 @@ using AspNetCoreSpa.Server.Repositories.Abstract;
 using Quantium.Recruitment.Entities;
 using AutoMapper;
 using Quantium.Recruitment.Portal.Server.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 {
+    [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]/{id?}")]
     public class QuestionController : Controller
     {

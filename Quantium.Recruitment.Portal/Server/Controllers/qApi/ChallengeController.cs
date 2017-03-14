@@ -15,9 +15,11 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using System.Threading;
 using AspNetCoreSpa.Server;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
+    [Authorize(Roles = "Admin, Candidate")]
     [Route("[controller]/[action]/{id?}")]
     public class ChallengeController : Controller
     {
@@ -140,27 +142,6 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         }
 
-        private async void RunTimer(ChallengeDto currentChallengeDto)
-        {
-            this.source = new CancellationTokenSource();
-            //source.CancelAfter(TimeSpan.FromSeconds(currentChallengeDto.Question.TimeInSeconds));
-            await Task.Delay((currentChallengeDto.Question.TimeInSeconds * 1000) + 8000); //8 buffer seconds for latency
-            Task<bool> task = Task.Run(() => UpdateQuestionAfterTimer(currentChallengeDto, source.Token), source.Token);
-        }
-
-        private bool UpdateQuestionAfterTimer(ChallengeDto currentChallengeDto, CancellationToken cancellationToken)
-        {
-            var currentChallenge = _challengeRepository.GetSingleUsingNewContext(currentChallengeDto.Id);
-
-            if (currentChallenge.IsSent != true)
-            {
-                currentChallenge.IsSent = true;
-                _challengeRepository.UpdateWithNewContext(currentChallenge);
-            }
-
-            return true;
-        }
-
         [HttpPost]
         public IActionResult Post([FromBody]ChallengeDto challengeDto)
         {
@@ -213,6 +194,27 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             
 
             return Ok(JsonConvert.SerializeObject(isFinished));
+        }
+
+        private async void RunTimer(ChallengeDto currentChallengeDto)
+        {
+            this.source = new CancellationTokenSource();
+            //source.CancelAfter(TimeSpan.FromSeconds(currentChallengeDto.Question.TimeInSeconds));
+            await Task.Delay((currentChallengeDto.Question.TimeInSeconds * 1000) + 8000); //8 buffer seconds for latency
+            Task<bool> task = Task.Run(() => UpdateQuestionAfterTimer(currentChallengeDto, source.Token), source.Token);
+        }
+
+        private bool UpdateQuestionAfterTimer(ChallengeDto currentChallengeDto, CancellationToken cancellationToken)
+        {
+            var currentChallenge = _challengeRepository.GetSingleUsingNewContext(currentChallengeDto.Id);
+
+            if (currentChallenge.IsSent != true)
+            {
+                currentChallenge.IsSent = true;
+                _challengeRepository.UpdateWithNewContext(currentChallenge);
+            }
+
+            return true;
         }
     }
 }

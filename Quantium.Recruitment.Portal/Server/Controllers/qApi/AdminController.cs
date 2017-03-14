@@ -11,12 +11,11 @@ using Quantium.Recruitment.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using AspNetCoreSpa.Server.Repositories.Abstract;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
-    //[Authorize]
-    //[Route("api/admin")]
-    //[Route("api/[controller]/[action]/{id?}")]
+    [Authorize(Roles = "Admin")]
     [Route("[controller]/[action]/{id?}")]
     public class AdminController : Controller
     {

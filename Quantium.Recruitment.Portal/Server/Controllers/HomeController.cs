@@ -6,10 +6,11 @@ using AspNetCoreSpa.Server.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspNetCoreSpa.Server.Controllers
 {
-    //[Route("[controller]/[action]/{id?}")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly UserManager<QRecruitmentUser> _userManager;

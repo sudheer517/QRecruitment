@@ -12,9 +12,11 @@ using OfficeOpenXml;
 using Quantium.Recruitment.Portal.Server.Helpers;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 {
+    [Authorize(Roles = "Admin, Candidate")]
     [Route("[controller]/[action]/{id?}")]
     public class CandidateController : Controller
     {
@@ -25,7 +27,10 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             _candidateRepository = candidateRepository;
         }
 
+        //Accessible only by admin
+
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddCandidate([FromBody]CandidateDto candidateDto)
         {
             var candidate = Mapper.Map<Candidate>(candidateDto);
@@ -43,6 +48,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult PreviewCandidates(ICollection<IFormFile> files)
         {
             var file = Request.Form.Files[0];
@@ -66,6 +72,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAll()
         {
             var candidates = _candidateRepository.GetAll();
@@ -76,6 +83,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetCandidatesWithoutActiveTests()
         {
             var candidates = _candidateRepository.AllIncluding(c => c.Tests).Where(c => c.IsActive && c.Tests.Count() == 0).ToList();
@@ -84,6 +92,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddCandidates(ICollection<IFormFile> files)
         {
             var file = Request.Form.Files[0];
@@ -161,6 +170,8 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         {
             return new EmailAddressAttribute().IsValid(input);
         }
+
+        //Accessible by both candidate and admin
 
         [HttpGet]
         public IActionResult Get()
