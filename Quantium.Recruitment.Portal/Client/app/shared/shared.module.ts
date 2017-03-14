@@ -25,10 +25,9 @@ import { UtilityService } from './services/utility.service';
 import { ChartModule } from 'angular2-highcharts';
 
 // //import { ReactiveFormsModule } from '@angular/forms';
-import { ModalModule, ButtonsModule } from 'ng2-bootstrap';
+import { ModalModule, ButtonsModule, DropdownModule, PaginationModule } from 'ng2-bootstrap';
 import { SelectModule } from 'ng2-select';
 
-import { PaginationModule } from 'ng2-bootstrap/pagination';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 
 @NgModule({
@@ -47,6 +46,7 @@ import { Ng2TableModule } from 'ng2-table/ng2-table';
     ButtonsModule.forRoot(),
     SelectModule, 
     PaginationModule.forRoot(),   
+    DropdownModule.forRoot(),
     Ng2TableModule,
   ],
   declarations: [
@@ -73,6 +73,7 @@ import { Ng2TableModule } from 'ng2-table/ng2-table';
     SelectModule,
     PaginationModule,
     Ng2TableModule,
+    DropdownModule,
     // Providers, Components, directive, pipes
     DynamicFormComponent,
     DynamicFormControlComponent,

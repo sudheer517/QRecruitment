@@ -18,14 +18,18 @@
           <a class="nav-link" routerLinkActive="active" [routerLink]="['jobs']">JOBS</a>
         </li>-->
         <li class="nav-item dropdown">
-          <div ngbDropdown class="d-inline-block">
-            <a class="nav-link dropdown-toggle" id="dropdownMenu1" ngbDropdownToggle>
+          <div dropdown class="d-inline-block">
+            <a class="nav-link dropdown-toggle" id="dropdownMenu1" dropdownToggle>
               <img src="/dist/assets/img/user-icon.svg" class="d-inline-block align-top q-user-icon" alt="">
+              <span class="caret"></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <button class="dropdown-item">Profile</button>
-              <button class="dropdown-item">Logout</button>
-            </div>
+            <ul dropdownMenu role="menu" class="dropdown-menu-right">
+              <li role="menuitem"><a class="dropdown-item" href="/Account/Logout">Logout<i class="fa fa-sign-out" style="margin-left: 20px"></i></a></li>
+              <!--<li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
+              <li role="menuitem"><a class="dropdown-item" href="#">Something else here</a></li>
+              <li class="divider dropdown-divider"></li>
+              <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>-->
+            </ul>
           </div>
         </li>
       </ul>
