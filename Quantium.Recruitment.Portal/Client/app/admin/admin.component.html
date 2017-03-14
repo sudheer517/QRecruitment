@@ -2,13 +2,14 @@
 
     
   <nav class="navbar navbar-light navbar-toggleable-md bg-faded">
-    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed">
+    <button class="navbar-toggler navbar-toggler-right" type="button" style="cursor: pointer"
+      data-toggle="collapse" data-target="#navbarContent" (click)="isNavbarCollapsed = !isNavbarCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <a class="navbar-brand" target="_blank" [routerLink]="['/']"> <img src="/dist/assets/img/quantium-logo.svg" class="d-inline-block align-top q-logo" alt=""></a>
 
-    <div class="navbar-collapse pull-right" id="navbarContent">
+    <div class="navbar-collapse pull-right" id="navbarContent" [ngClass]="{'collapse': !isNavbarCollapsed }">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"  [routerLink]="['dashboard']">DASHBOARD</a>
