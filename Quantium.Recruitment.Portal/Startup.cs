@@ -97,6 +97,12 @@ namespace AspNetCoreSpa
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
 
+            app.UseFacebookAuthentication(new FacebookOptions()
+            {
+                AppId = Configuration["Authentication:Facebook:AppId"],
+                AppSecret = Configuration["Authentication:Facebook:AppSecret"]
+            });
+
             app.UseGoogleAuthentication(new GoogleOptions() {
                 ClientId = Configuration["Authentication:Google:ClientId"],
                 ClientSecret = Configuration["Authentication:Google:ClientSecret"]
@@ -108,12 +114,6 @@ namespace AspNetCoreSpa
                 ClientSecret = Configuration["Authentication:Microsoft:ClientSecret"]
             });
 
-            app.UseFacebookAuthentication(new FacebookOptions()
-            {
-
-                AppId = Configuration["Authentication:Facebook:AppId"],
-                AppSecret = Configuration["Authentication:Facebook:AppSecret"]
-            });
 
             // Alternatively, you can also use the introspection middleware.
             // Using it is recommended if your resource server is in a
