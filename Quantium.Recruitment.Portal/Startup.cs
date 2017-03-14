@@ -97,7 +97,6 @@ namespace AspNetCoreSpa
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
-            File.WriteAllText(@"E:\Shared\misc.txt", Configuration["Authentication:Facebook:AppId"]);
 
             app.UseFacebookAuthentication(new FacebookOptions()
             {
