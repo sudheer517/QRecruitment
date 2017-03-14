@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AspNetCoreSpa.Server;
 using AspNetCoreSpa.Server.Extensions;
 using Quantium.Recruitment.Portal;
+using System.IO;
 
 namespace AspNetCoreSpa
 {
@@ -25,12 +26,12 @@ namespace AspNetCoreSpa
             var builder = new ConfigurationBuilder()
                            .SetBasePath(env.ContentRootPath)
                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                           .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                           .AddJsonFile("secrets.json", optional: true)
                            .AddEnvironmentVariables();
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
+                builder.AddUserSecrets<Startup>();
             }
 
             Configuration = builder.Build();
@@ -96,6 +97,7 @@ namespace AspNetCoreSpa
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
+            File.WriteAllText(@"E:\Shared\misc.txt", Configuration["Authentication:Facebook:AppId"]);
 
             app.UseFacebookAuthentication(new FacebookOptions()
             {
@@ -103,10 +105,6 @@ namespace AspNetCoreSpa
                 AppSecret = Configuration["Authentication:Facebook:AppSecret"]
             });
 
-            app.UseGoogleAuthentication(new GoogleOptions() {
-                ClientId = Configuration["Authentication:Google:ClientId"],
-                ClientSecret = Configuration["Authentication:Google:ClientSecret"]
-            });
 
             app.UseMicrosoftAccountAuthentication(new MicrosoftAccountOptions()
             {
@@ -114,6 +112,11 @@ namespace AspNetCoreSpa
                 ClientSecret = Configuration["Authentication:Microsoft:ClientSecret"]
             });
 
+            app.UseGoogleAuthentication(new GoogleOptions()
+            {
+                ClientId = Configuration["Authentication:Google:ClientId"],
+                ClientSecret = Configuration["Authentication:Google:ClientSecret"]
+            });
 
             // Alternatively, you can also use the introspection middleware.
             // Using it is recommended if your resource server is in a
