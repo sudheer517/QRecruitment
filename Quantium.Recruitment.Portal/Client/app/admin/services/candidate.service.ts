@@ -10,7 +10,7 @@ export class CandidateService{
     constructor(private http: Http) { }
 
     public AddCandidate(candidate: CandidateDto): Observable<CandidateDto> {
-        return this.http.post(`${this.candidateApiUrl}AddCandidate`, candidate).map(
+        return this.http.post(`${this.candidateApiUrl}AddCandidateAsync`, candidate).map(
             (response: Response) => {
                 return response.json();
             });
@@ -24,7 +24,7 @@ export class CandidateService{
     }
 
     public AddCandidates(file: any): Observable<Number> {
-        return this.http.post(`${this.candidateApiUrl}AddCandidates`, file).map(
+        return this.http.post(`${this.candidateApiUrl}AddCandidatesAsync`, file).map(
             (response: Response) => {
                 return response.status;
             });

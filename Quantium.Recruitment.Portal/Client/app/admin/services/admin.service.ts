@@ -19,7 +19,7 @@ export class AdminService {
     }
 
     public AddAdmin(adminDto: AdminDto): Observable<AdminDto> {
-        return this.http.post(this.adminApiUrl + "AddAdmin", adminDto).map(
+        return this.http.post(this.adminApiUrl + "AddAdminAsync", adminDto).map(
             (response: Response) => {
                 return response.json();
             });

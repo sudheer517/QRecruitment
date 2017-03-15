@@ -126,13 +126,16 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
                 }
                 _challengeRepository.CommitAsync();
+                var candidateReponse = UpdateCandidatesForTest(candidatesJobsDto);
+                if (candidateReponse)
+                    return Created(string.Empty, JsonConvert.SerializeObject("test created"));
+                else
+                    throw new Exception("Test creation failed");
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Created(string.Empty, JsonConvert.SerializeObject("test created"));
+            }           
         }
 
         [HttpGet]
@@ -142,6 +145,34 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             var allTestDtos = Mapper.Map<List<TestDto>>(allTests);
 
             return Ok(allTestDtos);
+        }
+
+        private bool UpdateCandidatesForTest(List<Candidate_JobDto> candidateJob)
+        {
+            try
+            {
+                var candidateList = candidateJob.Select(x => x.Candidate.Id).ToList();
+                var candidates = _candidateRepository.GetAll().Where(c => candidateList.Contains(c.Id));
+                foreach (var candidate in candidates.ToList())
+                {
+                    //TestMailSent Stages
+                    //Default =0
+                    //TestCreated=2
+                    //TestMailSent=3
+                    if (!(candidate.TestMailSent == 2))
+                    {
+                        candidate.TestMailSent = 2;
+                        var updatedCandidate = (Candidate)Mapper.Map(candidate, candidate, typeof(Candidate), typeof(Candidate));
+                        _candidateRepository.Update(updatedCandidate);
+                        _candidateRepository.Commit();
+                    }
+                }
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
     }
 }

@@ -13,6 +13,9 @@ using Quantium.Recruitment.Portal.Server.Helpers;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using AspNetCoreSpa.Server.Entities;
+using Quantium.Recruitment.Portal.Server.Entities;
 
 namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 {
@@ -21,17 +24,27 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
     public class CandidateController : Controller
     {
         private readonly IEntityBaseRepository<Candidate> _candidateRepository;
+        private readonly UserManager<QRecruitmentUser> _userManager;
+        private readonly RoleManager<QRecruitmentRole> _roleManager;
+        private readonly IAccountHelper _accountHelper;
 
-        public CandidateController(IEntityBaseRepository<Candidate> candidateRepository)
+        public CandidateController(IEntityBaseRepository<Candidate> candidateRepository,
+            UserManager<QRecruitmentUser> userManager,
+            RoleManager<QRecruitmentRole> roleManager,
+            IAccountHelper accountHelper
+            )
         {
             _candidateRepository = candidateRepository;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _accountHelper = accountHelper;
         }
 
         //Accessible only by admin
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult AddCandidate([FromBody]CandidateDto candidateDto)
+        public async Task<IActionResult> AddCandidateAsync([FromBody]CandidateDto candidateDto)
         {
             var candidate = Mapper.Map<Candidate>(candidateDto);
             candidate.IsActive = true;
@@ -39,6 +52,9 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             try
             {
                 _candidateRepository.Add(candidate);
+                List<Candidate> candidates = new List<Candidate>();
+                candidates.Add(candidate);
+                await RegisterCandidate(candidates);
                 return Created("created", candidate);
             }
             catch (Exception ex)
@@ -93,7 +109,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult AddCandidates(ICollection<IFormFile> files)
+        public async Task<IActionResult> AddCandidatesAsync(ICollection<IFormFile> files)
         {
             var file = Request.Form.Files[0];
 
@@ -111,6 +127,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 {
                     _candidateRepository.Add(candidate);
                 }
+                await RegisterCandidate(candidates);
                 return Created(string.Empty, candidateDtos);
             }
             catch (Exception ex)
@@ -212,6 +229,30 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             _candidateRepository.Edit(candidate);
             _candidateRepository.Commit();
             return Ok(JsonConvert.SerializeObject("Saved"));
+        }  
+        
+
+        private async Task RegisterCandidate(List<Candidate> candidates)
+        {
+            foreach (var candidate in candidates)
+            {
+                var userRole = _accountHelper.GetRoleForEmail(candidate.Email);
+                var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email };
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    IdentityResult roleCreationResult = null;
+
+                    if (!_roleManager.RoleExistsAsync(userRole).Result)
+                    {
+                        roleCreationResult = _roleManager.CreateAsync(new QRecruitmentRole(userRole)).Result;
+                    }
+
+                    var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, userRole).Result;
+                }
+            }
+            return;
+
         }
     }
 }

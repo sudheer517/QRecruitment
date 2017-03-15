@@ -125,5 +125,9 @@ namespace AspNetCoreSpa.Server.Repositories
         {
             throw new NotImplementedException();
         }
+        public virtual void Update(T entity)
+        {
+            _context.Update(entity);
+        }
     }
 }
