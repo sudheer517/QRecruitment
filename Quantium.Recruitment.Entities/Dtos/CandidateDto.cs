@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Quantium.Recruitment.Models
 {
@@ -39,5 +40,7 @@ namespace Quantium.Recruitment.Models
         public bool PasswordSent { get; set; }
 
         public int TestMailSent { get; set; }
+
+        public DateTime? CreatedUtc { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AspNetCoreSpa.Server.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -41,6 +42,7 @@ namespace Quantium.Recruitment.Entities
         public virtual bool PasswordSent { get; set; }
        
         public virtual int TestMailSent { get; set; }
+        public DateTime? CreatedUtc { get; set; }
 
         public virtual ICollection<Candidate_Job> CandidateJobs { get; set; }
 
