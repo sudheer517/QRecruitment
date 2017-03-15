@@ -48,6 +48,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         {
             var candidate = Mapper.Map<Candidate>(candidateDto);
             candidate.IsActive = true;
+            candidate.CreatedUtc = DateTime.UtcNow;
 
             try
             {
