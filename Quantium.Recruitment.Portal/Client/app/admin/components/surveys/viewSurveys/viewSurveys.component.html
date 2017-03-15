@@ -1,1 +1,22 @@
-viewSurveys
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Candidate name</th>
+      <th>Candidate email</th>
+      <th>Survey status</th>
+      <th>Created date</th>
+      <th>Finished date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let survey of surveys; let i = index">
+      <th scope="row">{{i + 1}}</th>
+      <td>{{test.Candidate.FirstName}} {{test.Candidate.FirstName}}</td>
+      <td>{{test.Candidate.Email}}</td>
+      <td>{{test.IsFinished ? "Finished" : "Pending"}}</td>
+      <td>{{test.CreatedUtc | date:'medium' }}</td>
+      <td>{{test.IsFinished ? (test.FinishedDate | date: 'medium') : "N/A"}}</td>
+    </tr>
+  </tbody>
+</table>

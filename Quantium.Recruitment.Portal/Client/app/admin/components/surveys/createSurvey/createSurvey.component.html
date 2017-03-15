@@ -1,6 +1,21 @@
 ﻿<div class="" style="padding: 20px">
     <form novalidate #form="ngForm" (submit)="generateSurveys()">
         <div style="display: flex; min-height: 400px;">
+            <div class="" style="flex: 0 1 50%;display: flex;flex-direction: column" >
+                <div style="width: 50%">
+                    <div style="padding-top: 20px;">
+                        Download survey questions template
+                    </div>
+                    <button type="button" class="btn btn-primary download-template" style="margin-bottom: 20px;">
+                        <a href="/SurveyTemplate.xlsx" download="Survey Questions Template">Download</a>
+                    </button>
+                    <div class="form-group">
+                        <label class="form-control-label" for="surveyQuestion">Add a question to the survey</label>
+                        <input type="text" class="form-control" id="surveyQuestion" name="surveyQuestion" placeholder="Question">
+                    </div> 
+                    <button type="submit" class="btn" [disabled]="form.invalid">Add Question</button>                
+                </div>
+             </div>
 
             <div style="flex: 0 1 50%">
                 <div class="flex-row">
@@ -22,7 +37,7 @@
                         <div *ngFor="let candidate of filteredCandidates;let i=index">
                             <div class="flex-row" layout="">
                                 <input style="flex: 0 1 5%;margin-top: 5px;" id="search{{i}}" name="search{{i}}"
-                                       [(ngModel)]="selectedtestOptions.candidateIds[candidate.Id]" (ngModelChange)="updateSelectedCandidateCount()"
+                                       [(ngModel)]="selectedSurveyOptions.candidateIds[candidate.Id]" (ngModelChange)="updateSelectedCandidateCount()"
                                        type="checkbox" />
                                 <p style="flex: 0 1 20%;">{{candidate.FirstName}} {{candidate.LastName}}</p>
                                 <p style="flex: 0 1 20%;">{{candidate.Email}}</p>
@@ -32,7 +47,7 @@
                 </div>
 
                 <div style="margin-top: auto">
-                    <button type="submit" class="btn" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate)">Generate tests for selected candidates</button>
+                    <button type="submit" class="btn" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate)">Generate survey for selected candidates</button>
                 </div>
 
             </div>

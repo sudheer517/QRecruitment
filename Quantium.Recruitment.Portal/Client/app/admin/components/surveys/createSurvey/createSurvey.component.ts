@@ -5,6 +5,7 @@ import { CandidateDto } from '../../../../RemoteServicesProxy';
 import { ModalDirective } from 'ng2-bootstrap/modal';
 import { FilterCandidatesPipe } from '../../../pipes/filterCandidates.pipe';
 import { Observable } from 'rxjs/Observable';
+import { Router, ActivatedRoute } from '@angular/router';
 
 class SelectedSurveyOptions {
     public candidateIds: boolean[];
@@ -15,29 +16,35 @@ class SelectedSurveyOptions {
     templateUrl: './createSurvey.component.html'
 })
 export class CreateSurveyComponent implements OnInit {
+    @ViewChild('progress') progressModal: ModalDirective;
+
     candidates: CandidateDto[];
     hasSelectedAtleastOneCandidate: boolean;
     selectedOptionsMap: boolean[];
     selectedAll: boolean;
     filteredCandidates: CandidateDto[];
+
     @ViewChild('staticModal') bgModel: ModalDirective;
     selectedSurveyOptions: SelectedSurveyOptions;
 
-constructor(private candidateService: CandidateService, private surveyService: SurveyService){
+constructor(private candidateService: CandidateService, private surveyService: SurveyService, 
+private router: Router, private activatedRoute:ActivatedRoute){
 }
 
-    ngOnInit() {
+ngOnInit() {
         this.selectedSurveyOptions = new SelectedSurveyOptions();
         this.selectedSurveyOptions.candidateIds = [];
-    this.selectedOptionsMap = [];
-    this.candidateService.GetCandidateWithoutActiveTests().subscribe(
-        candidates => {
-            this.candidates = candidates;
-            this.filteredCandidates = candidates;
-        },
-        error => console.log(error)
+        this.selectedOptionsMap = [];
+
+        this.candidateService.GetCandidateWithoutActiveTests().subscribe(
+            candidates => {
+                this.candidates = candidates;
+                this.filteredCandidates = candidates;
+            },
+            error => console.log(error)
     );
 }
+
 filterCandidates(searchText: string){
     console.log(searchText);
     if (searchText.length > 0) {
@@ -64,22 +71,25 @@ updateSelectedCandidateCount(): void {
         });
     }
 
-            this.hasSelectedAtleastOneCandidate = isSelected;
+    this.hasSelectedAtleastOneCandidate = isSelected;
     this.selectedOptionsMap = selectedOptions;
 }
 
-
-
 generateSurveys(){
 
+    this.progressModal.show();
     let candidateIds = this.selectedSurveyOptions.candidateIds;
     let candidates: CandidateDto[] = [];
+
     this.surveyService.Generate(candidates).subscribe(
-        result => console.log(result)
-    );
+        result => {
+            console.log(result);
+            this.router.navigate(['viewSurveys'], {relativeTo: this.activatedRoute});
+        },
+        error => console.log(error)
 
-    this.bgModel.show();
-
+    // this.bgModel.show();
+    )
 }
 
 checkAll(filteredCandidates: CandidateDto[]): void {
@@ -92,7 +102,7 @@ checkAll(filteredCandidates: CandidateDto[]): void {
         isSelected = false;
     }
 
-            var selectedOptions = this.selectedOptionsMap;
+    var selectedOptions = this.selectedOptionsMap;
 
     if(filteredCandidates) {
         filteredCandidates.forEach((filteredCandidate, index) => {

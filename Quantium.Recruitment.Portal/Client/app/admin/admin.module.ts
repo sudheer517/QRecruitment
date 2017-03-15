@@ -40,6 +40,7 @@ import { JobService } from './services/job.service';
 import { LabelService } from './services/label.service';
 import { DifficultyService } from './services/difficulty.service';
 import { TestService } from './services/test.service';
+import { SurveyService } from './services/survey.service';
 
 
 
@@ -72,6 +73,6 @@ import { TestService } from './services/test.service';
         SurveyResultsComponent,
         FilterCandidatesPipe
     ],
-    providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService ]
+    providers: [AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService, SurveyService]
 })
 export class AdminModule { }

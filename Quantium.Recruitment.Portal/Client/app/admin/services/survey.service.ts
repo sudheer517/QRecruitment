@@ -16,4 +16,11 @@ export class SurveyService {
                 return response.json();
             });
     }
+
+    public GetAll(): Observable<any> {
+        return this.http.get(`${this.surveyApiUrl}GetAll`).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
 }
