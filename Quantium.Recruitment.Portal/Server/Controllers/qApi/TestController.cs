@@ -147,6 +147,35 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(allTestDtos);
         }
 
+        [HttpGet]
+        public IActionResult GetTestResults()
+        {
+            var allTests = _testRepository.AllIncluding(t => t.Candidate, t => t.Job).Where(t => t.IsArchived != true).OrderByDescending(t => t.FinishedDate).ToList();
+            var allTestDtos = Mapper.Map<List<TestDto>>(allTests);
+
+            var allTestResultDtos = new List<TestResultDto>();
+
+            foreach (var test in allTestDtos)
+            {
+                TestResultDto testResult = new TestResultDto
+                {
+                    Id = test.Id,
+                    Candidate = test.Candidate.FirstName + " " + test.Candidate.LastName,
+                    Email = test.Candidate.Email,
+                    JobApplied = test.Job.Title,
+                    FinishedDate = test.FinishedDate,
+                    IsTestPassed = test.IsTestPassed,
+                    College = test.Candidate.College,
+                    CGPA = test.Candidate.CGPA,
+                    TotalRightAnswers = test.TotalRightAnswers
+                };
+
+                allTestResultDtos.Add(testResult);
+            }
+
+            return Ok(allTestResultDtos);
+
+        }
         private bool UpdateCandidatesForTest(List<Candidate_JobDto> candidateJob)
         {
             try

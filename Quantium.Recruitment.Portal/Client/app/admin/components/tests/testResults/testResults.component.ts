@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TableData } from './table-data';
+import { TestService } from '../../../services/test.service';
+import { TestResultDto } from '../../../../RemoteServicesProxy';
 
 @Component({
     selector: 'appc-test-results',
@@ -8,23 +9,21 @@ import { TableData } from './table-data';
 export class TestResultsComponent implements OnInit {
   public rows:Array<any> = [];
   public columns:Array<any> = [
-    {title: 'Name', name: 'name', filtering: {filterString: '', placeholder: 'Filter by name'}},
-    {
-      title: 'Position',
-      name: 'position',
-      sort: false,
-      filtering: {filterString: '', placeholder: 'Filter by position'}
-    },
-    {title: 'Office', className: ['office-header', 'text-success'], name: 'office', sort: 'asc'},
-    {title: 'Extn.', name: 'ext', sort: '', filtering: {filterString: '', placeholder: 'Filter by extn.'}},
-    {title: 'Start date', className: 'text-warning', name: 'startDate'},
-    {title: 'Salary ($)', name: 'salary'}
+      { title: 'Candidate', name: 'Candidate', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Candidate' } },
+      { title: 'Email', name: 'Email', sort: false, filtering: { filterString: '', placeholder: 'Filter By Email' } },
+      { title: 'Job Applied', name: 'JobApplied', sort: false, filtering: { filterString: '', placeholder: 'Filter By Job' } },
+      { title: 'Finished Date', name: 'FinishedDate', sort: false },
+      { title: 'Test Result', name: 'IsTestPassed', sort: false },
+      { title: 'College', name: 'College', sort: false, filtering: { filterString: '', placeholder: 'Filter By College' } },
+      { title: 'CGPA', name: 'CGPA', sort: false },
+      { title: 'Correct Answers', name: 'TotalRightAnswers', sort: false }
   ];
   public page:number = 1;
   public itemsPerPage:number = 10;
   public maxSize:number = 5;
   public numPages:number = 1;
-  public length:number = 0;
+  public length: number = 0;
+  testResults: TestResultDto[];
 
   public config:any = {
     paging: true,
@@ -33,14 +32,26 @@ export class TestResultsComponent implements OnInit {
     className: ['table-striped', 'table-bordered']
   };
 
-  private data:Array<any> = TableData;
+  private data:Array<any>;
 
-  public constructor() {
-    this.length = this.data.length;
+  public constructor(private testService: TestService) {
   }
 
-  public ngOnInit():void {
-    this.onChangeTable(this.config);
+  public ngOnInit(): void {
+      this.testService.GetAllTestResults().subscribe(
+          testResultsDto => {
+              this.testResults = testResultsDto;
+
+              for (let testResult of testResultsDto) {
+                  testResult.IsTestPassed = testResult.IsTestPassed == false ? "Failed" : "Passed";                  
+              }
+
+              this.data = testResultsDto;
+              this.length = this.data.length;
+              this.onChangeTable(this.config);
+          },
+          error => console.log(error)
+      )      
   }
 
   public changePage(page:any, data:Array<any> = this.data):Array<any> {

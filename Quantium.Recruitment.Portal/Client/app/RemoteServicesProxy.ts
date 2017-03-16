@@ -352,5 +352,17 @@
         public Candidate: CandidateDto;
     }
 
+    export class TestResultDto {
+        public Id: number;
+        public Candidate: string;
+        public Email: string;
+        public JobApplied: string;
+        public FinishedDate: string;
+        public IsTestPassed: boolean;
+        public College: string;
+        public CGPA: number;
+        public TotalRightAnswers: number;
+    }
+
    
 
