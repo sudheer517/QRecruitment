@@ -13,4 +13,6 @@
     <li> Now you can debug the application in visual studio like any other web application</li>
     <li> This has Webpack HMR enabled in chrome. So any change you make on client resources will be immediately reflected.(Thanks to asadsahi)</li>
 </ol>
+<p>Pre requesite To run the Mail Sender Job </p>
+ <ol>Run the Scripts_sp.sql in the Recruitment DB (Will try to remove this dependency)</ol>
 

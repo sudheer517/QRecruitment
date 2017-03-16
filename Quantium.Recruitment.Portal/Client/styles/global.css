@@ -72,6 +72,18 @@ select {
     border-color: #646e82;
 }
 
+.btn.red{
+    background-color: #9D0015;
+    border-color: #9D0015;
+    color: white;
+}
+
+.btn.red:hover{
+    background-color: #913a45;
+    border-color: #913a45;
+    color: whitesmoke;
+}
+
 .btn.light-gray{
     background-color: #D9D7D7;
     border-color: #D9D7D7;
