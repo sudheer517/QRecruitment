@@ -22,7 +22,7 @@
                         <div *ngFor="let candidate of filteredCandidates;let i=index">
                             <div class="flex-row" layout="">
                                 <input style="flex: 0 1 5%;margin-top: 5px;" id="search{{i}}" name="search{{i}}"
-                                       [(ngModel)]="selectedtestOptions.candidateIds[candidate.Id]" (ngModelChange)="updateSelectedCandidateCount()"
+                                       [(ngModel)]="selectedSurveyOptions.candidateIds[candidate.Id]" (ngModelChange)="updateSelectedCandidateCount()"
                                        type="checkbox" />
                                 <p style="flex: 0 1 20%;">{{candidate.FirstName}} {{candidate.LastName}}</p>
                                 <p style="flex: 0 1 20%;">{{candidate.Email}}</p>
