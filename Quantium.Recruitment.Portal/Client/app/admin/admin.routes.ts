@@ -24,6 +24,7 @@ import { TestResultsComponent } from './components/tests/testResults/testResults
 
 import { SurveysComponent } from './components/surveys/surveys.component';
 import { CreateSurveyComponent } from './components/surveys/createSurvey/createSurvey.component';
+import { UploadSurveyComponent } from './components/surveys/uploadSurvey/uploadSurvey.component';
 import { ViewSurveysComponent } from './components/surveys/viewSurveys/viewSurveys.component';
 import { SurveyResultsComponent } from './components/surveys/surveyResults/surveyResults.component';
 
@@ -78,7 +79,8 @@ const routes: Routes = [
           { path: '', component:  CreateSurveyComponent },
           { path: 'createSurvey', component:  CreateSurveyComponent },
           { path: 'viewSurveys', component:  ViewSurveysComponent },
-          { path: 'surveyResults', component:  SurveyResultsComponent }
+          { path: 'surveyResults', component: SurveyResultsComponent },
+          { path: 'uploadSurvey', component: UploadSurveyComponent }
         ] 
       }
     ]

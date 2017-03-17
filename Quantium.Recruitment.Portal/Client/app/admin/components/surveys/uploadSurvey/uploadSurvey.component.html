@@ -1,0 +1,33 @@
+﻿<div style="padding: 20px;">
+    <div style="padding-top: 20px;">
+        Download bulk upload template
+    </div>
+    <button type="button" class="btn btn-primary download-template" style="margin-bottom: 20px;">
+        <a href="/SurveyTemplate.xlsx" download="Culture Survey Template">Download</a>
+    </button>
+    <div>
+        Upload .xlsx file
+    </div>
+    
+    <div class="l-container">
+        <div class="form-controlGroup">
+            <div class="form-controlGroup-inputWrapper">
+                <label class="form-input form-input--file">
+                    <span class="form-input--file-text">{{fileText}}</span>
+                    <span class="form-input--file-button">Browse</span>
+                    <input class="form-input-file" type="file" id="file" accept=".xlsx" size="14" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <div style="margin-bottom: 20px;margin-top: 20px">
+        <button type="button" class="btn btn-primary light-grey" data-toggle="button" autocomplete="off" (click)="addSurveyQuestions(progress)">
+            Save
+        </button>
+
+    </div>
+
+
+
+
+</div>

@@ -5,14 +5,17 @@
             <nav class="navbar navbar-light navbar-toggleable-xs bg-faded">
                 <ul class="navbar-nav mr-auto flex-row">
                     <li class="tab nav-item">
-                        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['./']">Create survey</a>
+                        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['./']">Generate surveys</a>
                     </li>
                     <li class="tab nav-item">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="['viewSurveys']">View surveys</a>
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['viewSurveys']">View Surveys</a>
                     </li>
                     <li class="tab nav-item">
-                        <a class="nav-link" routerLinkActive="active" [routerLink]="['surveyResults']">Survey results</a>
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['surveyResults']">Survey Results</a>
                     </li>
+                    <!--<li class="tab nav-item">
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="'[uploadSurvey]'">Upload Survey</a>
+                    </li>-->
                 </ul>
             </nav>
             <router-outlet></router-outlet>

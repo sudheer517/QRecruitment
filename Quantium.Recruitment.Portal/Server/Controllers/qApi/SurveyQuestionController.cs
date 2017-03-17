@@ -40,6 +40,101 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             var surveyQuestionDtos = Mapper.Map<IList<SurveyQuestionDto>>(surveyQuestions);
             return Ok(surveyQuestionDtos);
         }
-        
+
+
+        [HttpPost]
+        public IActionResult AddSurveyQuestions()
+        {
+            var file = Request.Form.Files[0];
+
+            var fs = file.OpenReadStream();
+
+            var excelPackage = new ExcelPackage(fs);
+            fs.Dispose();
+
+            var workSheet = excelPackage.Workbook.Worksheets.FirstOrDefault();
+            try
+            {
+                var surveyQuestionDtos = GetQuestionDtosFromWorkSheet(workSheet);
+
+                foreach (var surveyQuestionDto in surveyQuestionDtos)
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest(ModelState);
+                    }
+                    
+                    Action<Object, Object> removeQuestionDtoId =
+                        (qDto, obj) => ((QuestionDto)qDto).Id = 0;
+
+                    var inputQuestion = Mapper.Map<SurveyQuestion>(surveyQuestionDto);
+
+
+                    var result = _surveyQuestionRepository.Add(inputQuestion);
+                }
+
+                return Created(string.Empty, "All questions created");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        private IList<SurveyQuestionDto> GetQuestionDtosFromWorkSheet(ExcelWorksheet workSheet)
+        {
+
+            var row = workSheet.Dimension.Start.Row;
+            var end = workSheet.Dimension.End.Row;
+
+            IList<string> headers = new List<string>();
+
+            IList<SurveyQuestionDto> questionDtos = new List<SurveyQuestionDto>();
+
+            for (int rowIndex = workSheet.Dimension.Start.Row; rowIndex <= workSheet.Dimension.End.Row; rowIndex++)
+            {
+                if (rowIndex == 1)
+                {
+                    headers = ExcelHelper.GetExcelHeaders(workSheet, rowIndex);
+                }
+                else
+                {
+                    IList<string> questionAndOptions = ExcelHelper.GetExcelHeaders(workSheet, rowIndex);
+
+                    if (!validateQuestions(questionAndOptions))
+                    {
+                        string message = "Id " + questionAndOptions[0] + " has some invalid data";
+
+                        throw new Exception(message);
+                    }
+
+                    SurveyQuestionDto newQuestion = new SurveyQuestionDto
+                    {
+                        Id = Convert.ToInt64(questionAndOptions[0]),
+                        Text = questionAndOptions[1]                        
+                    };
+
+                    questionDtos.Add(newQuestion);
+
+                }
+
+            }
+
+            return questionDtos;
+        }
+        private bool validateQuestions(IList<string> question)
+        {
+            var mandatoryFields = new List<int> { 1, 2 };
+            var dataValid = true;
+
+            foreach (int mandatory in mandatoryFields)
+            {
+                if (question.ElementAt(mandatory) == string.Empty)
+                {
+                    dataValid = false;
+                }
+            }            
+            return dataValid;
+        }
     }
 }
