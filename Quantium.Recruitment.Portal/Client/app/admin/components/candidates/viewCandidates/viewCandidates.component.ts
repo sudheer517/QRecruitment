@@ -101,7 +101,10 @@ export class ViewCandidatesComponent implements OnInit{
         this.columns.forEach((column: any) => {
             if (column.filtering) {
                 filteredData = filteredData.filter((item: any) => {
-                    return item[column.name].toLowerCase().match(column.filtering.filterString.toLowerCase());
+                    if (item[column.name] != null)
+                        return item[column.name].toLowerCase().match(column.filtering.filterString.toLowerCase());
+                    else
+                        return null;
                 });
             }
         });

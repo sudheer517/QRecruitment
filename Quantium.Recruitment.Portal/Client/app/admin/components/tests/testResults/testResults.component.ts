@@ -37,23 +37,28 @@ export class TestResultsComponent implements OnInit {
   private data:Array<any>;
 
   public constructor(private testService: TestService, private datePipe: DatePipe) {
+      console.log("ctor");
   }
 
   public ngOnInit(): void {
       this.testService.GetAllTestResults().subscribe(
           testResultsDto => {
               this.testResults = testResultsDto;
+              console.log(testResultsDto);
+              console.log(testResultsDto.length);
+              if (testResultsDto.length > 0)
+              {
+                  for (let testResult of testResultsDto) {
+                      testResult.IsTestPassed = testResult.IsTestPassed ? "Passed" : "Failed";
+                      this.datePipe.transform(testResult.FinishedDate, 'medium');
+                  }
 
-              for (let testResult of testResultsDto) {
-                  testResult.IsTestPassed = testResult.IsTestPassed ? "Passed" : "Failed";
-                  this.datePipe.transform(testResult.FinishedDate, 'medium');
+                  this.data = testResultsDto;
+                  this.length = this.data.length;
+                  this.numPages = Math.ceil(this.length / this.itemsPerPage);
+                  this.maxSize = this.numPages;
+                  this.onChangeTable(this.config);
               }
-
-              this.data = testResultsDto;
-              this.length = this.data.length;
-              this.numPages = Math.ceil(this.length / this.itemsPerPage);
-              this.maxSize = this.numPages;
-              this.onChangeTable(this.config);
           },
           error => console.log(error)
       )      
@@ -101,7 +106,10 @@ export class TestResultsComponent implements OnInit {
       this.columns.forEach((column: any) => {
           if (column.filtering) {
               filteredData = filteredData.filter((item: any) => {
-                  return item[column.name].toLowerCase().match(column.filtering.filterString.toLowerCase());
+                  if (item[column.name] != null)
+                      return item[column.name].toLowerCase().match(column.filtering.filterString.toLowerCase());
+                  else
+                      return null;
               });
           }
       });
@@ -112,7 +120,7 @@ export class TestResultsComponent implements OnInit {
 
       if (config.filtering.columnName) {
           return filteredData.filter((item: any) =>
-              item[config.filtering.columnName].toLowerCase().match(this.config.filtering.filterString.toLowerCase()));
+                  item[config.filtering.columnName].toLowerCase().match(this.config.filtering.filterString.toLowerCase()));
       }
 
       let tempArray: Array<any> = [];
