@@ -101,7 +101,7 @@ export class ViewCandidatesComponent implements OnInit{
         this.columns.forEach((column: any) => {
             if (column.filtering) {
                 filteredData = filteredData.filter((item: any) => {
-                    return item[column.name].match(column.filtering.filterString);
+                    return item[column.name].toLowerCase().match(column.filtering.filterString.toLowerCase());
                 });
             }
         });
@@ -112,7 +112,7 @@ export class ViewCandidatesComponent implements OnInit{
 
         if (config.filtering.columnName) {
             return filteredData.filter((item: any) =>
-                item[config.filtering.columnName].match(this.config.filtering.filterString));
+                item[config.filtering.columnName].toLowerCase().match(this.config.filtering.filterString.toLowerCase()));
         }
 
         let tempArray: Array<any> = [];
