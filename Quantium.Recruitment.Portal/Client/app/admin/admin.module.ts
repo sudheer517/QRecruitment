@@ -22,11 +22,6 @@ import { CreateTestComponent } from './components/tests/createTest/createTest.co
 import { ViewTestsComponent } from './components/tests/viewTests/viewTests.component';
 import { TestResultsComponent } from './components/tests/testResults/testResults.component';
 
-import { SurveysComponent } from './components/surveys/surveys.component';
-import { CreateSurveyComponent } from './components/surveys/createSurvey/createSurvey.component';
-import { ViewSurveysComponent } from './components/surveys/viewSurveys/viewSurveys.component';
-import { SurveyResultsComponent } from './components/surveys/surveyResults/surveyResults.component';
-
 import { FilterCandidatesPipe } from './pipes/filterCandidates.pipe';
 
 import { routing } from './admin.routes';
@@ -40,8 +35,6 @@ import { JobService } from './services/job.service';
 import { LabelService } from './services/label.service';
 import { DifficultyService } from './services/difficulty.service';
 import { TestService } from './services/test.service';
-import { SurveyService } from './services/survey.service';
-
 
 
 @NgModule({
@@ -67,12 +60,8 @@ import { SurveyService } from './services/survey.service';
         CreateTestComponent,
         ViewTestsComponent,
         TestResultsComponent,
-        SurveysComponent,
-        CreateSurveyComponent,
-        ViewSurveysComponent,
-        SurveyResultsComponent,
         FilterCandidatesPipe
     ],
-    providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService, SurveyService ]
+    providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService ]
 })
 export class AdminModule { }
