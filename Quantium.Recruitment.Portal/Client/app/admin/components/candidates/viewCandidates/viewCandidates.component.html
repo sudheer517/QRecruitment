@@ -1,26 +1,18 @@
-<div style="margin-left:20px; width:300px">
-    <input  class="form-control" id="searchCandidates" name="searchCandidates" type="text" placeholder="Search" [(ngModel)]="candidateFilter">
+<ng-table [config]="config"
+          (tableChanged)="onChangeTable(config)"
+          (cellClicked)="onCellClick($event)"
+          [rows]="rows" [columns]="columns">
+</ng-table>
+<div>
+    <pagination *ngIf="config.paging"
+                class="pagination-sm"
+                [(ngModel)]="page"
+                [totalItems]="length"
+                [itemsPerPage]="itemsPerPage"
+                [maxSize]="maxSize"
+                [boundaryLinks]="true"
+                [rotate]="false"
+                (pageChanged)="onChangeTable(config, $event)"
+                (numPages)="numPages = $event">
+    </pagination>
 </div>
-
-<table class="table table-striped">
-    <thead>
-        <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Status</th>
-        <th>Welcome Email Sent?</th>
-        <th>Test Email Sent?</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let candidate of candidates | filterCandidates: candidateFilter; let i = index">
-            <td scope="row">{{i + 1}}</td>
-            <td>{{candidate.FirstName}} {{candidate.LastName}}</td>
-            <td>{{candidate.Email}}</td>
-            <td>{{candidate.IsActive? "Active" : "Archived"}}</td>
-            <td>{{candidate.PasswordSent? "Yes" : "No"}}</td>
-            <td>{{candidate.TestMailSent ? "Yes" : "No"}}</td>
-        </tr>
-    </tbody>
-</table>

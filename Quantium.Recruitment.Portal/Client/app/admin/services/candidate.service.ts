@@ -30,7 +30,7 @@ export class CandidateService{
             });
     }
 
-    public GetAllCandidates(): Observable<CandidateDto[]> {
+    public GetAllCandidates(): Observable<any> {
         return this.http.get(`${this.candidateApiUrl}GetAll`).map(
             (response: Response) => {
                 return response.json();

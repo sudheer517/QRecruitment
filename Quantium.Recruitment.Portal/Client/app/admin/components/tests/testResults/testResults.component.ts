@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { TestService } from '../../../services/test.service';
 import { TestResultDto } from '../../../../RemoteServicesProxy';
 
 @Component({
     selector: 'appc-test-results',
-    templateUrl: './testResults.component.html'
+    templateUrl: './testResults.component.html',
+    providers: [DatePipe]
 })
 export class TestResultsComponent implements OnInit {
   public rows:Array<any> = [];
@@ -34,7 +36,7 @@ export class TestResultsComponent implements OnInit {
 
   private data:Array<any>;
 
-  public constructor(private testService: TestService) {
+  public constructor(private testService: TestService, private datePipe: DatePipe) {
   }
 
   public ngOnInit(): void {
@@ -43,11 +45,14 @@ export class TestResultsComponent implements OnInit {
               this.testResults = testResultsDto;
 
               for (let testResult of testResultsDto) {
-                  testResult.IsTestPassed = testResult.IsTestPassed == false ? "Failed" : "Passed";                  
+                  testResult.IsTestPassed = testResult.IsTestPassed ? "Passed" : "Failed";
+                  this.datePipe.transform(testResult.FinishedDate, 'medium');
               }
 
               this.data = testResultsDto;
               this.length = this.data.length;
+              this.numPages = Math.ceil(this.length / this.itemsPerPage);
+              this.maxSize = this.numPages;
               this.onChangeTable(this.config);
           },
           error => console.log(error)
