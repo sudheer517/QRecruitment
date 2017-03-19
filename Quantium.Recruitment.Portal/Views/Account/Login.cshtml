@@ -129,10 +129,10 @@
                         </div>
                         @*<p>
                             <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
-                        </p>
-                        <p>
-                            <a asp-action="ForgotPassword">Forgot your password?</a>
                         </p>*@
+                        <p style="text-align:center; margin-top:20px">
+                            <a asp-controller="Account" asp-action="ForgotPassword" style="color: darkred">Forgot your password?</a>
+                        </p>
                     </div>
                 </form>
             </section>

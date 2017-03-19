@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using Quantium.Recruitment.Portal.Server.Helpers;
 using System;
 using Newtonsoft.Json;
+using Portal.Server.ViewModels.AccountViewModels;
 
 namespace AspNetCoreSpa.Server.Controllers.api
 {
@@ -332,16 +333,16 @@ namespace AspNetCoreSpa.Server.Controllers.api
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        [HttpGet("ForgotPassword")]
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
             return View();
         }
 
-        [HttpPost("ForgotPassword")]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordViewModel model)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             var currentUser = await _userManager.FindByNameAsync(model.Email);
             if (currentUser == null || !(await _userManager.IsEmailConfirmedAsync(currentUser)))
