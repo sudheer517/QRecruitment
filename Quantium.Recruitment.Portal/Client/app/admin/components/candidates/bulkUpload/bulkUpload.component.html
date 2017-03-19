@@ -27,10 +27,10 @@
                 </div>
                 <div class="d-flex" style="margin-bottom: 20px;margin-top: 40px; justify-content: space-between" >
 
-                        <button type="button" class="btn btn-primary light-gray" data-toggle="button" autocomplete="off" (click)="previewCandidates(content)" >
+                        <button type="button" class="btn btn-primary light-gray" data-toggle="button" autocomplete="off" [disabled]="!fileData" (click)="previewCandidates(content)" >
                                 Preview
                         </button>
-                        <button type="button" class="btn btn-primary red" data-toggle="button" autocomplete="off" (click)="addCandidates(progress)">
+                        <button type="button" class="btn btn-primary red" data-toggle="button" autocomplete="off" [disabled]="!fileData" (click)="addCandidates(progress)">
                                 Save
                         </button>
 

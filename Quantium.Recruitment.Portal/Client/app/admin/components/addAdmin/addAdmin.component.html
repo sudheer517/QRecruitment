@@ -48,7 +48,7 @@
                         <small *ngIf="department.touched && department.value == 0" class="form-text muted-text">Department is required</small>
                     </div>
 
-                    <button type="submit" class="btn" [disabled]="form.invalid || isEnteredEmailExists !== false || department.value == 0">Add Admin</button>
+                    <button type="submit" class="btn red" [disabled]="form.invalid || isEnteredEmailExists !== false || department.value == 0">Add Admin</button>
                 </form>
             </div>
         </div>

@@ -36,7 +36,7 @@
                         <button type="button" class="btn btn-primary light-gray" data-toggle="button" autocomplete="off" [disabled]="!fileData" (click)="previewQuestions(content)" >
                                 Preview
                         </button>
-                        <button type="button" class="btn btn-primary red" data-toggle="button" autocomplete="off" (click)="addQuestions(progress)">
+                        <button type="button" class="btn btn-primary red" data-toggle="button" autocomplete="off" [disabled]="!fileData" (click)="addQuestions(progress)">
                                 Save
                         </button>
 
