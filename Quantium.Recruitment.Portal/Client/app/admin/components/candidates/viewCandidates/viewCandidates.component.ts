@@ -7,8 +7,7 @@ import { FilterCandidatesPipe } from '../../../pipes/filterCandidates.pipe';
 
 @Component({
     selector: 'appc-view-candidates',
-    templateUrl: './viewCandidates.component.html',
-    providers: [DatePipe]
+    templateUrl: './viewCandidates.component.html'
 })
 
 export class ViewCandidatesComponent implements OnInit{
@@ -19,9 +18,9 @@ export class ViewCandidatesComponent implements OnInit{
         { title: 'First Name', name: 'FirstName', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By First Name' } },
         { title: 'Last Name', name: 'LastName', sort: false, filtering: { filterString: '', placeholder: 'Filter By Last Name' } },
         { title: 'Email', name: 'Email', sort: false, filtering: { filterString: '', placeholder: 'Filter By Email' } },
-        { title: 'Status', name: 'IsActive', sort: false },
-        { title: 'Account Status', name: 'PasswordSent', sort: false },
-        { title: 'Test Email', name: 'TestMailSent', sort: false },
+        // { title: 'Status', name: 'IsActive', sort: false },
+        // { title: 'Account Status', name: 'PasswordSent', sort: false },
+        // { title: 'Test Email', name: 'TestMailSent', sort: false },
         { title: 'Date Added', name: 'CreatedUtc', sort: false}        
     ];
     public page: number = 1;
@@ -45,9 +44,9 @@ export class ViewCandidatesComponent implements OnInit{
             candidateList => {
                 this.candidates = candidateList;
                 for (let candidate of candidateList) {
-                    candidate.IsActive = candidate.IsActive ? "Active" : "Archived";
-                    candidate.PasswordSent = candidate.PasswordSent ? "Created" : "Pending";
-                    candidate.TestMailSent = candidate.TestMailSent ? "Test Created" : "No Test";
+                    // candidate.IsActive = candidate.IsActive ? "Active" : "Archived";
+                    // candidate.PasswordSent = candidate.PasswordSent ? "Created" : "Pending";
+                    // candidate.TestMailSent = candidate.TestMailSent ? "Test Created" : "No Test";
                     candidate.CreatedUtc = this.datePipe.transform(candidate.CreatedUtc, 'medium');
                 }
                 this.data = candidateList;

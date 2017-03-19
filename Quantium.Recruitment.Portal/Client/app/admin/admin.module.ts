@@ -36,6 +36,7 @@ import { LabelService } from './services/label.service';
 import { DifficultyService } from './services/difficulty.service';
 import { TestService } from './services/test.service';
 
+import { DatePipe } from '@angular/common';
 
 @NgModule({
     imports: [
@@ -62,6 +63,6 @@ import { TestService } from './services/test.service';
         TestResultsComponent,
         FilterCandidatesPipe
     ],
-    providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService ]
+    providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService, DatePipe ]
 })
 export class AdminModule { }
