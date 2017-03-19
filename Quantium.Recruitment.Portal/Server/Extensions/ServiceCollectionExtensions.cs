@@ -27,13 +27,13 @@ namespace AspNetCoreSpa.Server.Extensions
     {
         public static IServiceCollection AddSslCertificate(this IServiceCollection services, IHostingEnvironment hostingEnv)
         {
-            var cert = new X509Certificate2(Path.Combine(hostingEnv.ContentRootPath, "extra", "cert.pfx"), "game123");
+            //var cert = new X509Certificate2(Path.Combine(hostingEnv.ContentRootPath, "extra", "cert.pfx"), "game123");
 
-            services.Configure<KestrelServerOptions>(options =>
-            {
-                options.UseHttps(cert);
+            //services.Configure<KestrelServerOptions>(options =>
+            //{
+            //    options.UseHttps(cert);
 
-            });
+            //});
 
             return services;
         }

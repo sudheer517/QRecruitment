@@ -11,7 +11,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, RequestMethod, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
 
 import { UtilityService } from './utility.service';
 import { DataServiceOptions } from './data-service-options';
@@ -20,14 +19,12 @@ import { DataServiceOptions } from './data-service-options';
 export class DataService {
 
     // Define the internal Subject we'll use to push the command count
-    public pendingCommandsSubject = new Subject<number>();
     public pendingCommandCount = 0;
 
     // Provide the *public* Observable that clients can subscribe to
     public pendingCommands$: Observable<number>;
 
     constructor(public http: Http, public us: UtilityService) {
-        this.pendingCommands$ = this.pendingCommandsSubject.asObservable();
     }
 
     // I perform a GET request to the API, appending the given params
@@ -77,7 +74,6 @@ export class DataService {
         requestOptions.search = this.buildUrlSearchParams(options.params);
         requestOptions.body = JSON.stringify(options.data);
 
-        this.pendingCommandsSubject.next(++this.pendingCommandCount);
 
         let stream = this.http.request(options.url, requestOptions)
             .catch((error: any) => {
@@ -89,7 +85,6 @@ export class DataService {
                 return Observable.throw(this.unwrapHttpError(error));
             })
             .finally(() => {
-                this.pendingCommandsSubject.next(--this.pendingCommandCount);
             });
 
         return stream;
