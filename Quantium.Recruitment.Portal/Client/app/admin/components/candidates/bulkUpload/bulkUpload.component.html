@@ -1,73 +1,93 @@
+<div class="d-flex" style="justify-content: center">
+        <div class="col-lg-5 col-md-10" style="padding: 20px;margin-top: 20px">
+                <div class="d-flex">
+                        <div style="padding-top: 6px;">
+                                Download bulk upload template
+                        </div>
+                        <button type="button" class="btn btn-primary download-template" style="margin-bottom: 20px; margin-left: auto">
+                                <a href="/CandidatesTemplate.xlsx" download="Candidates Template">Download</a>
+                        </button>
+                </div>
+                <div class="d-flex" style="margin-top: 20px">
+                        <div style="padding-top: 6px;">
+                                Upload .xlsx file
+                        </div>
+                        
+                        <div class="l-container" style="margin-left: auto">
+                                <div class="form-controlGroup">
+                                                <div class="form-controlGroup-inputWrapper">
+                                                                <label class="form-input form-input--file">
+                                                                                <span class="form-input--file-text">{{fileText}}</span>
+                                                                                <span class="form-input--file-button">Browse</span>
+                                                                                <input class="form-input-file" type="file" id="file" accept=".xlsx" size="14" (change)="onFileChange($event)"/>
+                                                                </label>
+                                                </div>
+                                </div>
+                        </div>
+                </div>
+                <div class="d-flex" style="margin-bottom: 20px;margin-top: 40px; justify-content: space-between" >
 
-<div style="padding: 20px;">
-        <div style="padding-top: 20px;">
-                Download bulk upload template
-        </div>
-        <button type="button" class="btn btn-primary download-template" style="margin-bottom: 20px;">
-                <a href="/CandidatesTemplate.xlsx" download="Candidates Template">Download</a>
-        </button>
-        <div>
-                Upload .xlsx file
-        </div>
-        <!--<label class="custom-file">
-        <input type="file" id="Image" class="custom-file-input"name="questionFile" (change)="changeInputValue($event)">
-        <span class="custom-file-control"></span>
-        </label>-->
-        <div class="l-container">
-	<div class="form-controlGroup">
-			<div class="form-controlGroup-inputWrapper">
-					<label class="form-input form-input--file">
-							<span class="form-input--file-text">{{fileText}}</span>
-							<span class="form-input--file-button">Browse</span>
-							<input class="form-input-file" type="file" id="file" accept=".xlsx" size="14" (change)="onFileChange($event)"/>
-					</label>
-			</div>
-	</div>
-        </div>
+                        <button type="button" class="btn btn-primary light-gray" data-toggle="button" autocomplete="off" (click)="previewCandidates(content)" >
+                                Preview
+                        </button>
+                        <button type="button" class="btn btn-primary red" data-toggle="button" autocomplete="off" (click)="addCandidates(progress)">
+                                Save
+                        </button>
 
-        <div style="margin-bottom: 20px;margin-top: 20px">
-        
-        <button type="button" class="btn btn-primary light-gray" data-toggle="button" autocomplete="off" (click)="previewCandidates(content)" >
-                Preview
-        </button>
-        <button type="button" class="btn btn-primary red" data-toggle="button" autocomplete="off" (click)="addCandidates(progress)">
-                Save
-        </button>
-
+                </div>
         </div>
 </div>
 
-<template ngbModalContainer></template>
-<template #content let-c="close" let-d="dismiss">
-
-
-        <div class="modal-header">
+ <div bsModal #previewCandidatesModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
                 <div class="d-flex" style="flex: 1 1 auto; justify-content: center">
                         <h4 class="modal-title">Your candidates</h4>
                 </div>
-                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                        <span><i class="fa fa-times fa-3x"></i></span>
+                <button type="button" class="close" aria-label="Close" (click)="previewCandidatesModal.hide()">
+                        <span><i class="fa fa-times-circle-o fa-2x"></i></span>
                 </button>
         </div>
         <div class="modal-body">
-                <div *ngFor="let candidate of candidates; let index=index">
-                        {{candidate.FirstName}}
-                        {{candidate.Last}}
-                        {{candidate.Email}}
-                </div>
+                <table class="table table-striped">
+                        <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let candidate of candidates; let index=index">
+                                <td scope="row">{{index + 1}}</td>
+                                <td>{{candidate.FirstName ? candidate.FirstName :  "-"}}</td>
+                                <td>{{candidate.LastName ? candidate.LastName :  "-"}}</td>
+                                <td>{{candidate.Email}}</td>
+                                </tr>
+                        </tbody>
+                </table>
         </div>
-</template>
+    </div>
+  </div>
+</div>
 
-<template #progress let-c="close" let-d="dismiss">
-        <div class="modal-header">
-                <h5 class="modal-title" *ngIf="!smallModalStatus">Adding candidates</h5>
-                <h5 class="modal-title" *ngIf="smallModalStatus">Oops !!  Unable to add candidates</h5>
+<div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+                <h5 class="modal-title" style="text-align: center">{{modalResponse}}</h5>
         </div>
-        <div class="modal-footer">
-                <span class="fa fa-spinner fa-spin fa-3x"  *ngIf="!smallModalStatus"></span>
+      
+      <div class="modal-footer" style="justify-content: center">
+                <span class="fa fa-spinner fa-spin fa-2x"  *ngIf="isRequestProcessing"></span>
                 
-                <button type="button" class="close"   *ngIf="smallModalStatus" (click)="d('Cross click')">
-                       <span class="fa fa-times fa-3x"></span>
+                <button type="button" class="close"   *ngIf="!isRequestProcessing" (click)="closeProgressModal()">
+                       <span class="fa fa-times-circle-o fa-2x"></span>
                 </button>
         </div>
-</template>
+    </div>
+  </div>
+</div>
+ 

@@ -1,37 +1,43 @@
-import { Component, Renderer, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, Renderer, ViewEncapsulation, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CandidateService } from '../../../services/candidate.service';
 import { CandidateDto } from '../../../../RemoteServicesProxy';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalDirective } from 'ng2-bootstrap/modal';
 
 @Component({
     selector: 'appc-bulk-upload',
     templateUrl: './bulkUpload.component.html',
     styleUrls: ['./bulkUpload.component.scss'],
-    //encapsulation: ViewEncapsulation.None
 })
 export class BulkUploadComponent implements OnInit {
-
-    smallModalStatus = false;
+    modalResponse: string;
+    isRequestProcessing = true;
     candidates: CandidateDto[];
     fileData: any;
     fileText = "Choose file";
+    @ViewChild('progress') progressModal: ModalDirective;
+    @ViewChild('previewCandidatesModal') previewModal: ModalDirective;
+
     constructor(private renderer: Renderer, private candidateService: CandidateService, private router: Router,
     private activatedRoute:ActivatedRoute){
         
     }
-    open(content) {
-        //this.modalRef = this.modalService.open(content, { windowClass: "large-modal-window" });
-
+    
+    closeProgressModal(){
+        this.progressModal.hide();
+        this.router.navigate(['../viewCandidates'], { relativeTo: this.activatedRoute});
     }
+
     ngOnInit(){
         let body = document.getElementsByTagName('input')[0];
         this.renderer.setElementAttribute(body, "accept", ".xlsx");
     }
 
     previewCandidates(modalContent: FormControl){
-        this.open(modalContent);
+        this.previewModal.show();
     }
+
     onFileChange(eventData: any){
         console.log("file change");
         console.log(event);
@@ -44,17 +50,21 @@ export class BulkUploadComponent implements OnInit {
     }
 
     addCandidates(modalContent: FormControl){
-        //this.smallModalRef = this.modalService.open(modalContent, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
+        this.progressModal.show();
+        this.modalResponse = "Adding candidates";
+
         let formData = this.getFileFormData(this.fileData); 
         this.candidateService.AddCandidates(formData).subscribe(
             status => {
+                this.isRequestProcessing = false;
+                this.modalResponse = "Candidates added successfully";
                 console.log(status);
-                //this.smallModalRef.close();
-                this.router.navigate(['../viewCandidates'], { relativeTo: this.activatedRoute});
+                //
             }, 
             error => {
+                this.modalResponse = "Unable to add candidates";
                 console.log(error);
-                this.smallModalStatus = true;
+                this.isRequestProcessing = false;
             }
         );
     }
