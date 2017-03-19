@@ -4,6 +4,8 @@ using AspNetCoreSpa.Server.Services.Abstract;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Logging;
 using MimeKit;
+using System.Collections.Generic;
+using Quantium.Recruitment.Portal.Server.Entities;
 
 namespace AspNetCoreSpa.Server.Services
 {
@@ -67,6 +69,34 @@ namespace AspNetCoreSpa.Server.Services
             }
         }
 
+        //public Task SendBatchEmailAsync(IList<UserCreationModel> userModels, EmailModel emailModel)
+        //{
+        //    // Plug in your email service here to send an email.
+        //    var myMessage = new SendGrid.SendGridMessage();
+        //    foreach (var userModel in userModels)
+        //    {
+        //        myMessage.AddTo(userModel.Username);
+        //    }
+
+        //    myMessage.From = new System.Net.Mail.MailAddress(emailModel.From, emailModel.DisplayName);
+        //    myMessage.Subject = emailModel.Subject;
+        //    myMessage.Text = emailModel.TextBody;
+        //    myMessage.Html = emailModel.HtmlBody;
+
+        //    var credentials = new System.Net.NetworkCredential(Startup.Configuration["Email:SendGrid:Username"], Startup.Configuration["Email:SendGrid:Password"]);
+        //    // Create a Web transport for sending email.
+        //    var transportWeb = new SendGrid.Web(credentials);
+        //    // Send the email.
+        //    if (transportWeb != null)
+        //    {
+        //        return transportWeb.DeliverAsync(myMessage);
+        //    }
+        //    else
+        //    {
+        //        return Task.FromResult(0);
+        //    }
+
+        //}
         // Using https://github.com/jstedfast/MailKit
         public bool SendEmail(EmailModel model)
         {
