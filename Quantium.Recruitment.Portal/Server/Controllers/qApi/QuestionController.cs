@@ -310,7 +310,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         //[Route("/GetQuestionsByLabelAndDifficulty")]
         public IActionResult GetQuestionsByLabelAndDifficulty()
         {
-            var allQuestions = _questionRepository.GetAll();
+            var allQuestions = _questionRepository.GetAll().Where(q => q.IsActive != false);
 
             var questionDifficultyLabelDto = 
                 allQuestions.GroupBy(x => new { x.LabelId, x.DifficultyId }, (key, group) => new Question_Difficulty_LabelDto
