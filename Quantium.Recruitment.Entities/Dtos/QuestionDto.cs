@@ -26,5 +26,7 @@ namespace Quantium.Recruitment.Models
         public LabelDto Label { get; set; }
 
         public bool IsRadio { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

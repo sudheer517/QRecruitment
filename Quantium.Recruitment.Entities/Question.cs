@@ -39,5 +39,7 @@ namespace Quantium.Recruitment.Entities
         public virtual long CreatedByUserId { get; set; }
 
         public virtual bool IsRadio { get; set; }
+
+        public virtual bool IsActive { get; set; }
     }
 }

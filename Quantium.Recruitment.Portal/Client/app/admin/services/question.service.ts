@@ -36,4 +36,15 @@ export class QuestionService{
                 return response.json();
             });
     }
+
+    public DeleteQuestion(questionId: number): Observable<Number> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers });
+
+        console.log(questionId);
+        return this.http.post(`${this.questionApiUrl}MarkQuestionInActive`, questionId, options).map(
+            (response: Response) => {
+                return response.status;
+            });
+    }
 }

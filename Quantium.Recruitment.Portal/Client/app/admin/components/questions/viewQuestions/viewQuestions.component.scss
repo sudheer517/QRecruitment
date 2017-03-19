@@ -4,4 +4,17 @@
     span{
         margin-right: 30px;
     }
+
+    a{
+     &:hover{
+         border: 1px solid lightgray;
+         width: 50px;
+     }   
+    }
+}
+
+.small-icon-btn{
+    min-width: 30px;
+    padding: 3px;
+    margin: 0;
 }

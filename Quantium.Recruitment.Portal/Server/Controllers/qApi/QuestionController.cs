@@ -46,7 +46,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         [HttpGet]
         public IActionResult GetAll()
         {
-            var questions = _questionRepository.AllIncluding(q => q.Label, q => q.Difficulty, q => q.Options, q => q.QuestionGroup);
+            var questions = _questionRepository.AllIncluding(q => q.Label, q => q.Difficulty, q => q.Options, q => q.QuestionGroup).Where(q => q.IsActive != false);
 
             var qDtos = Mapper.Map<IList<QuestionDto>>(questions);
 
@@ -125,6 +125,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                         inputQuestion.QuestionGroupId = null;
                     }
 
+                    inputQuestion.IsActive = true;
                     var result = _questionRepository.Add(inputQuestion);
                 }
 
@@ -311,7 +312,8 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         {
             var allQuestions = _questionRepository.GetAll();
 
-            var questionDifficultyLabelDto = allQuestions.GroupBy(x => new { x.LabelId, x.DifficultyId }, (key, group) => new Question_Difficulty_LabelDto
+            var questionDifficultyLabelDto = 
+                allQuestions.GroupBy(x => new { x.LabelId, x.DifficultyId }, (key, group) => new Question_Difficulty_LabelDto
             {
                 LabelId = key.LabelId.Value,
                 DifficultyId = key.DifficultyId.Value,
@@ -326,6 +328,24 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             return Ok(questionDifficultyLabelDto);
         }
 
+        [HttpPost]
+        public IActionResult MarkQuestionInActive([FromBody]long questionId)
+        {
+            var question = _questionRepository.GetSingle(q => q.Id == questionId);
+
+            try
+            {
+                question.IsActive = false;
+                _questionRepository.Edit(question);
+                _questionRepository.Commit();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
     }
         
 }

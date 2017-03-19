@@ -32,7 +32,6 @@ export class UploadQuestionsComponent implements OnInit{
         //this.renderer.setElementAttribute(body, "accept", ".xlsx");
     }
 
-
     previewQuestions(modalContent: FormControl){
         this.open(modalContent);
     }
