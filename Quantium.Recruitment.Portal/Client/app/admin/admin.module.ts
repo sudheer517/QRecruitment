@@ -35,7 +35,6 @@ import { JobService } from './services/job.service';
 import { LabelService } from './services/label.service';
 import { DifficultyService } from './services/difficulty.service';
 import { TestService } from './services/test.service';
-
 import { DatePipe } from '@angular/common';
 
 @NgModule({

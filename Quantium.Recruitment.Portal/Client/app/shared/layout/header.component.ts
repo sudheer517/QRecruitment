@@ -1,6 +1,5 @@
 // tslint:disable
 import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 @Component({

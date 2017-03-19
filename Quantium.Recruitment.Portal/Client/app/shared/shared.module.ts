@@ -17,18 +17,17 @@ import { FooterComponent } from './layout/footer.component';
 import { UppercasePipe } from './pipes/uppercase.pipe';
 
 // Services
-import { DataService } from './services/data.service';
-// import { AuthService } from './services/auth.service';
 import { ContentService } from './services/content.service';
 import { UtilityService } from './services/utility.service';
 
 import { ChartModule } from 'angular2-highcharts';
 
-// //import { ReactiveFormsModule } from '@angular/forms';
 import { ModalModule, ButtonsModule, DropdownModule, PaginationModule, TooltipModule } from 'ng2-bootstrap';
 import { SelectModule } from 'ng2-select';
 
 import { Ng2TableModule } from 'ng2-table/ng2-table';
+
+
 
 @NgModule({
   imports: [
@@ -48,8 +47,7 @@ import { Ng2TableModule } from 'ng2-table/ng2-table';
     PaginationModule.forRoot(),   
     DropdownModule.forRoot(),
     TooltipModule.forRoot(),
-    
-    Ng2TableModule,
+    Ng2TableModule
   ],
   declarations: [
     DynamicFormComponent,
@@ -95,9 +93,6 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         FormControlService,
-        DataService,
-        // AuthService,
-        DataService,
         ContentService,
         UtilityService
       ]

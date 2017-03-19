@@ -3,7 +3,7 @@ import { ChallengeService } from '../../services/challenge.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { QuestionDto, ChallengeDto, CandidateSelectedOptionDto } from '../../../RemoteServicesProxy';
 import { ModalDirective } from 'ng2-bootstrap/modal';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

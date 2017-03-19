@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, Router, RouterModule, Route } from '@angular/router';
 import { QAuthService } from './qauth.service';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class QAuthGuard implements CanLoad { 

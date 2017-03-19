@@ -1,7 +1,5 @@
 import { NgModule, NgModuleFactoryLoader } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreModule } from '@ngrx/store';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/Router';
 import { SharedModule } from './shared/shared.module';

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { DataService } from '../../shared/services/data.service';
 import { AdminDto } from '../../RemoteServicesProxy';
 import { Observable } from 'rxjs/Observable';
 

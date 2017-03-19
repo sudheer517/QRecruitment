@@ -1,10 +1,8 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
 import { RouterModule } from '@angular/router';
 
-import { DataService } from './shared/services/data.service';
 
 /*
  * App Component
