@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using AspNetCoreSpa.Server.Entities;
 using Quantium.Recruitment.Portal.Server.Entities;
+using AspNetCoreSpa.Server.Services.Abstract;
 
 namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 {
@@ -24,20 +25,25 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
     public class CandidateController : Controller
     {
         private readonly IEntityBaseRepository<Candidate> _candidateRepository;
+        private readonly IEntityBaseRepository<Admin> _adminRepository;
         private readonly UserManager<QRecruitmentUser> _userManager;
         private readonly RoleManager<QRecruitmentRole> _roleManager;
         private readonly IAccountHelper _accountHelper;
+        private readonly IEmailSender _emailSender;
 
         public CandidateController(IEntityBaseRepository<Candidate> candidateRepository,
+            IEntityBaseRepository<Admin> adminRepository,
             UserManager<QRecruitmentUser> userManager,
             RoleManager<QRecruitmentRole> roleManager,
-            IAccountHelper accountHelper
-            )
+            IAccountHelper accountHelper,
+            IEmailSender emailSender)
         {
             _candidateRepository = candidateRepository;
             _userManager = userManager;
             _roleManager = roleManager;
             _accountHelper = accountHelper;
+            _emailSender = emailSender;
+            _adminRepository = adminRepository;
         }
 
         //Accessible only by admin
@@ -46,6 +52,10 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddCandidateAsync([FromBody]CandidateDto candidateDto)
         {
+            var adminEmail = this.User.Identities.First().Name;
+
+            var admin = _adminRepository.GetSingle(a => a.Email == adminEmail);
+
             var existingCandidate = _candidateRepository.FindBy(c => c.Email == candidateDto.Email).FirstOrDefault();
 
             if(existingCandidate == null)
@@ -53,13 +63,12 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 var candidate = Mapper.Map<Candidate>(candidateDto);
                 candidate.IsActive = true;
                 candidate.CreatedUtc = DateTime.UtcNow;
+                candidate.AdminId = admin.Id;
 
                 try
                 {
                     _candidateRepository.Add(candidate);
-                    List<Candidate> candidates = new List<Candidate>();
-                    candidates.Add(candidate);
-                    await RegisterCandidate(candidates);
+                    await CreateUsersWithCandidateRole(new List<Candidate> { candidate });
                     return Created("created", candidate);
                 }
                 catch (Exception ex)
@@ -122,6 +131,9 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddCandidatesAsync(ICollection<IFormFile> files)
         {
+            var adminEmail = this.User.Identities.First().Name;
+            var admin = _adminRepository.FindBy(a => a.Email == adminEmail).FirstOrDefault();
+
             var file = Request.Form.Files[0];
 
             var fs = file.OpenReadStream();
@@ -136,9 +148,12 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 var candidates = Mapper.Map<List<Candidate>>(candidateDtos);
                 foreach (var candidate in candidates)
                 {
+                    candidate.CreatedUtc = DateTime.UtcNow;
+                    candidate.AdminId = admin.Id;
+                    candidate.IsActive = true;
                     _candidateRepository.Add(candidate);
                 }
-                await RegisterCandidate(candidates);
+                await CreateUsersWithCandidateRole(candidates);
                 return Created(string.Empty, candidateDtos);
             }
             catch (Exception ex)
@@ -243,27 +258,57 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }  
         
 
-        private async Task RegisterCandidate(List<Candidate> candidates)
+        private async Task CreateUsersWithCandidateRole(List<Candidate> candidates)
         {
+            var socialLogins = new List<string>()
+            {
+                "@outlook", "@live", "@hotmail", "@gmail", "@google"
+            };
+
+            IList<UserCreationModel> userModels = new List<UserCreationModel>();
+
             foreach (var candidate in candidates)
             {
-                var userRole = _accountHelper.GetRoleForEmail(candidate.Email);
-                var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email };
-                var result = await _userManager.CreateAsync(user);
-                if (result.Succeeded)
+                if (!socialLogins.Any(emailType => candidate.Email.Contains(emailType)))
                 {
-                    IdentityResult roleCreationResult = null;
+                    var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email };
+                    var password = AccountHelper.GenerateRandomString();
+                    userModels.Add(new UserCreationModel { Username = candidate.Email, Password = password });
 
-                    if (!_roleManager.RoleExistsAsync(userRole).Result)
+                    var result = await _userManager.CreateAsync(user, password);
+
+                    if (result.Succeeded)
                     {
-                        roleCreationResult = _roleManager.CreateAsync(new QRecruitmentRole(userRole)).Result;
+                        var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, Roles.Candidate).Result;
                     }
-
-                    var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, userRole).Result;
                 }
             }
+
+            await SendEmails(userModels);
+
             return;
 
+        }
+
+        private async Task<bool> SendEmails(IList<UserCreationModel> userModels)
+        {
+            var emailTemplate = System.IO.File.ReadAllText(@"Server/Templates/UserCreationEmailTemplate.html");
+
+            foreach (var userModel in userModels)
+            {
+                var emailTask = _emailSender.SendEmailAsync(new EmailModel
+                {
+                    To = userModel.Username,
+                    From = "rakeshrohan.aitipamula@quantium.co.in",
+                    DisplayName = "Quantium Recruitment",
+                    Subject = "User credentials",
+                    HtmlBody = string.Format(emailTemplate, userModel.Username ,userModel.Password)
+                });
+
+                await Task.Run(() => emailTask);
+            }
+            
+            return true;
         }
     }
 }
