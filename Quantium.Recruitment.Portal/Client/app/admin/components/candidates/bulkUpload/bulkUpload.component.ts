@@ -2,7 +2,6 @@ import { Component, Renderer, ViewEncapsulation, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CandidateService } from '../../../services/candidate.service';
 import { CandidateDto } from '../../../../RemoteServicesProxy';
-//import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -13,8 +12,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class BulkUploadComponent implements OnInit {
 
-    // modalRef: NgbModalRef;
-    // smallModalRef: NgbModalRef;
     smallModalStatus = false;
     candidates: CandidateDto[];
     fileData: any;
