@@ -46,22 +46,32 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddCandidateAsync([FromBody]CandidateDto candidateDto)
         {
-            var candidate = Mapper.Map<Candidate>(candidateDto);
-            candidate.IsActive = true;
-            candidate.CreatedUtc = DateTime.UtcNow;
+            var existingCandidate = _candidateRepository.FindBy(c => c.Email == candidateDto.Email).FirstOrDefault();
 
-            try
+            if(existingCandidate == null)
             {
-                _candidateRepository.Add(candidate);
-                List<Candidate> candidates = new List<Candidate>();
-                candidates.Add(candidate);
-                await RegisterCandidate(candidates);
-                return Created("created", candidate);
+                var candidate = Mapper.Map<Candidate>(candidateDto);
+                candidate.IsActive = true;
+                candidate.CreatedUtc = DateTime.UtcNow;
+
+                try
+                {
+                    _candidateRepository.Add(candidate);
+                    List<Candidate> candidates = new List<Candidate>();
+                    candidates.Add(candidate);
+                    await RegisterCandidate(candidates);
+                    return Created("created", candidate);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("unable to add candidate");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest("unable to add candidate");
+                return StatusCode(StatusCodes.Status409Conflict);
             }
+            
         }
 
         [HttpPost]

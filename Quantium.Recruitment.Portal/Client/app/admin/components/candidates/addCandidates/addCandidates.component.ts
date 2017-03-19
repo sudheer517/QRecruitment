@@ -1,26 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CandidateDto } from '../../../../RemoteServicesProxy';
 import { CandidateService } from '../../../services/candidate.service';
 import { FormGroup } from '@angular/forms';
+import { Response } from '@angular/http';
+import { ModalDirective } from 'ng2-bootstrap/modal';
 
 @Component({
     selector: 'appc-add-candidates',
     templateUrl: './addCandidates.component.html'
 })
 export class AddCandidatesComponent{
-    
+    @ViewChild('progress') progressModal:ModalDirective;
+    isRequestProcessing: boolean = true;
+    modalResponse: string;
+
     candidate = new CandidateDto();
     constructor(private candidateService: CandidateService){
 
     }
 
     addCandidate(form: FormGroup){
+        this.modalResponse = "Adding candidate";
+        this.progressModal.show();
         this.candidateService.AddCandidate(this.candidate).subscribe(
             candidate => {
+                this.isRequestProcessing = false;
+                this.modalResponse = "Candidate added";
                 console.log(candidate);
                 form.reset();
             },
-            error => console.log(error)
+            (error: Response) => {
+                this.isRequestProcessing = false;
+                if(error.status === 409){
+                    this.modalResponse = "Duplicate candidate found";
+                }
+            }
         );
 
     }

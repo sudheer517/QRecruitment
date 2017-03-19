@@ -288,6 +288,7 @@ namespace AspNetCoreSpa.Server
                 IsActive = true,
                 PasswordSent = true,
                 TestMailSent = 1,
+                CreatedUtc = DateTime.UtcNow,
             };
 
             Candidate candidate2 = new Candidate
@@ -299,6 +300,7 @@ namespace AspNetCoreSpa.Server
                 IsActive = true,
                 PasswordSent = true,
                 TestMailSent = 1,
+                CreatedUtc = DateTime.UtcNow,
             };
 
             Candidate candidate3 = new Candidate
@@ -310,6 +312,7 @@ namespace AspNetCoreSpa.Server
                 IsActive = true,
                 PasswordSent = true,
                 TestMailSent = 1,
+                CreatedUtc = DateTime.UtcNow,
             };
 
             Candidate candidate4 = new Candidate
@@ -321,6 +324,7 @@ namespace AspNetCoreSpa.Server
                 IsActive = true,
                 PasswordSent = true,
                 TestMailSent = 1,
+                CreatedUtc = DateTime.UtcNow,
             };
 
             Candidate candidate5 = new Candidate
@@ -332,6 +336,7 @@ namespace AspNetCoreSpa.Server
                 IsActive = true,
                 PasswordSent = true,
                 TestMailSent = 1,
+                CreatedUtc = DateTime.UtcNow,
             };
 
             Candidate candidate6 = new Candidate
@@ -343,6 +348,7 @@ namespace AspNetCoreSpa.Server
                 IsActive = true,
                 PasswordSent = true,
                 TestMailSent = 1,
+                CreatedUtc = DateTime.UtcNow,
             };
 
             Candidate candidate7 = new Candidate
@@ -354,6 +360,7 @@ namespace AspNetCoreSpa.Server
                 IsActive = true,
                 PasswordSent = true,
                 TestMailSent = 1,
+                CreatedUtc = DateTime.UtcNow,
             };
 
             _context.Candidates.Add(candidate1);
