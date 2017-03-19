@@ -351,7 +351,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
             if (currentUser != null && currentUser.Email != "user@user.com")
             {
                 var emailTemplate = System.IO.File.ReadAllText(@"Server/Templates/ResetPasswordEmailTemplate.html");
-                var password = GenerateRandomString();
+                var password = AccountHelper.GenerateRandomString();
 
                 var emailTask = _emailSender.SendEmailAsync(new EmailModel
                 {
@@ -519,33 +519,6 @@ namespace AspNetCoreSpa.Server.Controllers.api
         private IActionResult Render(ExternalLoginStatus status)
         {
             return RedirectToAction("Index", "Home", new { externalLoginStatus = (int)status });
-        }
-
-        private static string GenerateRandomString()
-        {
-            var length = new Random().Next(5, 10);
-            string allowedLetterChars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
-            string allowedNumberChars = "23456789";
-            char[] chars = new char[length];
-            Random rd = new Random();
-
-            bool useLetter = true;
-            for (int i = 0; i < length; i++)
-            {
-                if (useLetter)
-                {
-                    chars[i] = allowedLetterChars[rd.Next(0, allowedLetterChars.Length)];
-                    useLetter = false;
-                }
-                else
-                {
-                    chars[i] = allowedNumberChars[rd.Next(0, allowedNumberChars.Length)];
-                    useLetter = true;
-                }
-
-            }
-
-            return new string(chars);
         }
 
         #endregion
