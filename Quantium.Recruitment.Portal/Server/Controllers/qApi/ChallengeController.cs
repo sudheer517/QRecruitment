@@ -190,8 +190,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             var email = this.User.Identities.First().Name;
 
-            var isFinished = _testRepository.FindBy(t => t.Candidate.Email == email).FirstOrDefault().IsFinished;
-            
+            var testFound = _testRepository.FindBy(t => t.Candidate.Email == email).FirstOrDefault();
+
+            var isFinished = testFound != null ? testFound.IsFinished : true;
 
             return Ok(JsonConvert.SerializeObject(isFinished));
         }
