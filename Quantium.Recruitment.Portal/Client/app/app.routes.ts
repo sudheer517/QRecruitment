@@ -8,16 +8,7 @@ const routes: Routes = [
     path: 'candidate', loadChildren: './candidate/candidate.module#CandidateModule'
   },
   {
-    path: 'register', loadChildren: './+register/register.module#RegisterModule'
-  },
-  {
-    path: 'profile', loadChildren: './+profile/profile.module#ProfileModule'
-  },
-  {
     path: 'admin', loadChildren: './admin/admin.module#AdminModule', canLoad: [QAuthGuard]
-  },
-  {
-    path: 'examples', loadChildren: './+examples/examples.module#ExamplesModule'
   }
 ];
 
