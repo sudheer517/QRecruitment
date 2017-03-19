@@ -16,6 +16,8 @@ using Quantium.Recruitment.Portal.Server.Helpers;
 using System;
 using Newtonsoft.Json;
 using Portal.Server.ViewModels.AccountViewModels;
+using System.Threading;
+using System.IO;
 
 namespace AspNetCoreSpa.Server.Controllers.api
 {
@@ -345,20 +347,43 @@ namespace AspNetCoreSpa.Server.Controllers.api
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             var currentUser = await _userManager.FindByNameAsync(model.Email);
-            if (currentUser == null || !(await _userManager.IsEmailConfirmedAsync(currentUser)))
-            {
-                // Don't reveal that the user does not exist or is not confirmed
-                return View("ForgotPasswordConfirmation");
-            }
-            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-            // Send an email with this link
-            var code = await _userManager.GeneratePasswordResetTokenAsync(currentUser);
 
-            var host = Request.Scheme + "://" + Request.Host;
-            var callbackUrl = host + "?userId=" + currentUser.Id + "&passwordResetCode=" + code;
-            var confirmationLink = "<a class='btn-primary' href=\"" + callbackUrl + "\">Reset your password</a>";
-            await _emailSender.SendEmailAsync(MailType.ForgetPassword, new EmailModel { To = model.Email }, confirmationLink);
-            return Json(new { });
+            if (currentUser != null && currentUser.Email != "user@user.com")
+            {
+                var emailTemplate = System.IO.File.ReadAllText(@"Server/Templates/ResetPasswordEmailTemplate.html");
+                var password = GenerateRandomString();
+
+                var emailTask = _emailSender.SendEmailAsync(new EmailModel
+                {
+                    To = model.Email,
+                    From = "rakeshrohan.aitipamula@quantium.co.in",
+                    DisplayName = "Quantium Recruitment",
+                    Subject = "Password reset",
+                    HtmlBody = string.Format(emailTemplate, password)
+                });
+
+                await Task.Run(() => emailTask);
+
+                ViewData["Message"] = "Please check your email to reset your password.";
+            }
+            else
+            {
+                ViewData["Message"] = "User does not exist or signed in using social login";
+            }
+            //if (currentUser == null || !(await _userManager.IsEmailConfirmedAsync(currentUser)))
+            //{
+            //    // Don't reveal that the user does not exist or is not confirmed
+            //    return View("ForgotPasswordConfirmation");
+            //}
+            //// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
+            //// Send an email with this link
+            //var code = await _userManager.GeneratePasswordResetTokenAsync(currentUser);
+
+            //var host = Request.Scheme + "://" + Request.Host;
+            //var callbackUrl = host + "?userId=" + currentUser.Id + "&passwordResetCode=" + code;
+            //var confirmationLink = "<a class='btn-primary' href=\"" + callbackUrl + "\">Reset your password</a>";
+            ////var emailTask =_emailSender.SendEmailAsync(new EmailModel { To = model.Email });
+            return View("ForgotPasswordConfirmation");
         }
 
         [HttpPost("resetpassword")]
@@ -496,6 +521,32 @@ namespace AspNetCoreSpa.Server.Controllers.api
             return RedirectToAction("Index", "Home", new { externalLoginStatus = (int)status });
         }
 
+        private static string GenerateRandomString()
+        {
+            var length = new Random().Next(5, 10);
+            string allowedLetterChars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
+            string allowedNumberChars = "23456789";
+            char[] chars = new char[length];
+            Random rd = new Random();
+
+            bool useLetter = true;
+            for (int i = 0; i < length; i++)
+            {
+                if (useLetter)
+                {
+                    chars[i] = allowedLetterChars[rd.Next(0, allowedLetterChars.Length)];
+                    useLetter = false;
+                }
+                else
+                {
+                    chars[i] = allowedNumberChars[rd.Next(0, allowedNumberChars.Length)];
+                    useLetter = true;
+                }
+
+            }
+
+            return new string(chars);
+        }
 
         #endregion
     }
