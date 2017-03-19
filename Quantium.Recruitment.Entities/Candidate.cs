@@ -42,7 +42,13 @@ namespace Quantium.Recruitment.Entities
         public virtual bool PasswordSent { get; set; }
        
         public virtual int TestMailSent { get; set; }
+
         public DateTime? CreatedUtc { get; set; }
+
+        public virtual long AdminId { get; set; }
+
+        [ForeignKey("AdminId")]
+        public virtual Admin Admin { get; set; }
 
         public virtual ICollection<Candidate_Job> CandidateJobs { get; set; }
 

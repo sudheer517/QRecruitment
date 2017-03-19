@@ -62,11 +62,14 @@ namespace AspNetCoreSpa.Server
             //    relationship.DeleteBehavior = DeleteBehavior.Cascade;
             //}
 
-
-
             modelBuilder.Entity<Option>()
                 .HasOne(p => p.CandidateSelectedOption)
                 .WithOne(b => b.Option)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Admin>()
+                .HasMany(cj => cj.Candidates)
+                .WithOne(c => c.Admin)
                 .OnDelete(DeleteBehavior.Restrict);
 
             //modelBuilder.Entity<ContentText>()

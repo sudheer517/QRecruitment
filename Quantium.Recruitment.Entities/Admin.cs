@@ -1,6 +1,7 @@
 ﻿using AspNetCoreSpa.Server.Entities;
 using System.ComponentModel.DataAnnotations.Schema;
 using System;
+using System.Collections.Generic;
 
 namespace Quantium.Recruitment.Entities
 {
@@ -22,7 +23,10 @@ namespace Quantium.Recruitment.Entities
         public virtual long DepartmentId { get; set; }
 
         public virtual bool PasswordSent { get; set; }
+
         [ForeignKey("DepartmentId")]
         public virtual Department Department { get; set; }
+
+        public virtual ICollection<Candidate> Candidates { get; set; }
     }
 }

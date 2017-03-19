@@ -123,58 +123,58 @@ namespace AspNetCoreSpa.Server
 
             Admin admin1 = new Admin()
             {
-                FirstName = "Kannan",
-                LastName = "Perumal",
-                Email = "kannan.perumal@quantium.co.in",
+                FirstName = "Bruce",
+                LastName = "Wayne",
+                Email = "admin@admin.com",
                 IsActive = true,
-                Mobile = 8886008855,
+                Mobile = 9642013699,
                 Department = softwareDepartment,
-                PasswordSent = true
+                PasswordSent = true,
             };
 
-            Admin admin2 = new Admin()
-            {
-                FirstName = "Rakesh",
-                LastName = "Rohan",
-                Email = "Rakesh.Aitipamula@quantium.co.in",
-                IsActive = true,
-                Mobile = 9052791243,
-                Department = softwareDepartment,
-                PasswordSent = true
-            };
+            //Admin admin2 = new Admin()
+            //{
+            //    FirstName = "Rakesh",
+            //    LastName = "Rohan",
+            //    Email = "Rakesh.Aitipamula@quantium.co.in",
+            //    IsActive = true,
+            //    Mobile = 9052791243,
+            //    Department = softwareDepartment,
+            //    PasswordSent = true
+            //};
 
-            Admin admin3 = new Admin()
-            {
-                FirstName = "Ravi",
-                LastName = "Bhaskar",
-                Email = "Ravi.Bhaskar@quantium.co.in",
-                IsActive = true,
-                Mobile = 7799814877,
-                Department = softwareDepartment,
-                PasswordSent = true
-            };
+            //Admin admin3 = new Admin()
+            //{
+            //    FirstName = "Ravi",
+            //    LastName = "Bhaskar",
+            //    Email = "Ravi.Bhaskar@quantium.co.in",
+            //    IsActive = true,
+            //    Mobile = 7799814877,
+            //    Department = softwareDepartment,
+            //    PasswordSent = true
+            //};
 
-            Admin admin4 = new Admin()
-            {
-                FirstName = "Mit",
-                LastName = "Suthar",
-                Email = "Mit.Suthar@quantium.co.in",
-                IsActive = true,
-                Mobile = 8886008855,
-                Department = softwareDepartment,
-                PasswordSent = true
-            };
+            //Admin admin4 = new Admin()
+            //{
+            //    FirstName = "Mit",
+            //    LastName = "Suthar",
+            //    Email = "Mit.Suthar@quantium.co.in",
+            //    IsActive = true,
+            //    Mobile = 8886008855,
+            //    Department = softwareDepartment,
+            //    PasswordSent = true
+            //};
 
-            Admin admin5 = new Admin()
-            {
-                FirstName = "Babul",
-                LastName = "Reddy",
-                Email = "Babul.Yasa@quantium.co.in",
-                IsActive = true,
-                Mobile = 9618415060,
-                Department = softwareDepartment,
-                PasswordSent = true
-            };
+            //Admin admin5 = new Admin()
+            //{
+            //    FirstName = "Babul",
+            //    LastName = "Reddy",
+            //    Email = "Babul.Yasa@quantium.co.in",
+            //    IsActive = true,
+            //    Mobile = 9618415060,
+            //    Department = softwareDepartment,
+            //    PasswordSent = true
+            //};
 
             Admin admin6 = new Admin()
             {
@@ -198,16 +198,16 @@ namespace AspNetCoreSpa.Server
                 PasswordSent = true
             };
 
-            Admin admin8 = new Admin()
-            {
-                FirstName = "Rakesh",
-                LastName = "Rohan",
-                Email = "rkshrohan@gmail.com",
-                IsActive = true,
-                Mobile = 9052791243,
-                Department = softwareDepartment,
-                PasswordSent = true
-            };
+            //Admin admin8 = new Admin()
+            //{
+            //    FirstName = "Rakesh",
+            //    LastName = "Rohan",
+            //    Email = "rkshrohan@gmail.com",
+            //    IsActive = true,
+            //    Mobile = 9052791243,
+            //    Department = softwareDepartment,
+            //    PasswordSent = true
+            //};
 
             Admin admin9 = new Admin()
             {
@@ -231,51 +231,31 @@ namespace AspNetCoreSpa.Server
                 PasswordSent = true
             };
 
-            Admin admin11 = new Admin()
-            {
-                FirstName = "Bruce",
-                LastName = "Wayne",
-                Email = "admin@admin.com",
-                IsActive = true,
-                Mobile = 9642013699,
-                Department = softwareDepartment,
-                PasswordSent = true
-            };
+
+            //Admin admin11 = new Admin()
+            //{
+            //    FirstName = "Kannan",
+            //    LastName = "Perumal",
+            //    Email = "kannan.perumal@quantium.co.in",
+            //    IsActive = true,
+            //    Mobile = 8886008855,
+            //    Department = softwareDepartment,
+            //    PasswordSent = true
+            //};
 
             _context.Admins.Add(admin1);
-            _context.Admins.Add(admin2);
-            _context.Admins.Add(admin3);
-            _context.Admins.Add(admin4);
-            _context.Admins.Add(admin5);
+            //_context.Admins.Add(admin2);
+            //_context.Admins.Add(admin3);
+            //_context.Admins.Add(admin4);
+            //_context.Admins.Add(admin5);
             _context.Admins.Add(admin6);
             _context.Admins.Add(admin7);
-            _context.Admins.Add(admin8);
+            //_context.Admins.Add(admin8);
             _context.Admins.Add(admin9);
             _context.Admins.Add(admin10);
-            _context.Admins.Add(admin11);
+            //_context.Admins.Add(admin11);
 
             #endregion Admin
-
-            #region Job
-
-            //Job job1 = new Job()
-            //{
-            //    Title = "Mid-Level Software Developer",
-            //    Profile = "Software Developer is responsible for requirements analysis and object modelling of new software features and ensuring adequate testing and quality control measures are followed. The ideal candidates should have very strong technical ability and be able to apply programming techniques to solve complex problems. They should also have well developed written and verbal communication skills",
-            //    Department = softwareDepartment
-            //};
-
-            //Job job2 = new Job()
-            //{
-            //    Title = "Data Analyst",
-            //    Profile = "We are looking for a passionate Data Analyst to turn data into information, information into insight and insight into business decisions.Data analyst responsibilities include conducting full lifecycle activities to include requirements analysis and design, developing analysis and reporting capabilities,and continuously monitoring performance and quality control plans to identify improvements",
-            //    Department = analyticsDepartment
-            //};
-
-            //_context.Jobs.Add(job1);
-            //_context.Jobs.Add(job2);
-
-            #endregion Job
 
             #region Candidate
 
@@ -289,6 +269,7 @@ namespace AspNetCoreSpa.Server
                 PasswordSent = true,
                 TestMailSent = 1,
                 CreatedUtc = DateTime.UtcNow,
+                Admin = admin1,
             };
 
             Candidate candidate2 = new Candidate
@@ -301,6 +282,7 @@ namespace AspNetCoreSpa.Server
                 PasswordSent = true,
                 TestMailSent = 1,
                 CreatedUtc = DateTime.UtcNow,
+                Admin = admin1,
             };
 
             Candidate candidate3 = new Candidate
@@ -313,43 +295,44 @@ namespace AspNetCoreSpa.Server
                 PasswordSent = true,
                 TestMailSent = 1,
                 CreatedUtc = DateTime.UtcNow,
+                Admin = admin1,
             };
 
-            Candidate candidate4 = new Candidate
-            {
-                FirstName = "Rakesh1",
-                LastName = "Rohan1",
-                Email = "rakeshrohan@outlook.com",
-                Mobile = 9242526667,
-                IsActive = true,
-                PasswordSent = true,
-                TestMailSent = 1,
-                CreatedUtc = DateTime.UtcNow,
-            };
+            //Candidate candidate4 = new Candidate
+            //{
+            //    FirstName = "Rakesh1",
+            //    LastName = "Rohan1",
+            //    Email = "rakeshrohan@outlook.com",
+            //    Mobile = 9242526667,
+            //    IsActive = true,
+            //    PasswordSent = true,
+            //    TestMailSent = 1,
+            //    CreatedUtc = DateTime.UtcNow,
+            //};
 
-            Candidate candidate5 = new Candidate
-            {
-                FirstName = "Rakesh2",
-                LastName = "Rohan2",
-                Email = "rakesh.rohan@outlook.com",
-                Mobile = 9010456746,
-                IsActive = true,
-                PasswordSent = true,
-                TestMailSent = 1,
-                CreatedUtc = DateTime.UtcNow,
-            };
+            //Candidate candidate5 = new Candidate
+            //{
+            //    FirstName = "Rakesh2",
+            //    LastName = "Rohan2",
+            //    Email = "rakesh.rohan@outlook.com",
+            //    Mobile = 9010456746,
+            //    IsActive = true,
+            //    PasswordSent = true,
+            //    TestMailSent = 1,
+            //    CreatedUtc = DateTime.UtcNow,
+            //};
 
-            Candidate candidate6 = new Candidate
-            {
-                FirstName = "Firefist",
-                LastName = "Ace",
-                Email = "0firefist0@gmail.com",
-                Mobile = 9052791243,
-                IsActive = true,
-                PasswordSent = true,
-                TestMailSent = 1,
-                CreatedUtc = DateTime.UtcNow,
-            };
+            //Candidate candidate6 = new Candidate
+            //{
+            //    FirstName = "Firefist",
+            //    LastName = "Ace",
+            //    Email = "0firefist0@gmail.com",
+            //    Mobile = 9052791243,
+            //    IsActive = true,
+            //    PasswordSent = true,
+            //    TestMailSent = 1,
+            //    CreatedUtc = DateTime.UtcNow,
+            //};
 
             Candidate candidate7 = new Candidate
             {
@@ -361,14 +344,15 @@ namespace AspNetCoreSpa.Server
                 PasswordSent = true,
                 TestMailSent = 1,
                 CreatedUtc = DateTime.UtcNow,
+                Admin = admin1,
             };
 
             _context.Candidates.Add(candidate1);
             _context.Candidates.Add(candidate2);
             _context.Candidates.Add(candidate3);
-            _context.Candidates.Add(candidate4);
-            _context.Candidates.Add(candidate5);
-            _context.Candidates.Add(candidate6);
+            //_context.Candidates.Add(candidate4);
+            //_context.Candidates.Add(candidate5);
+            //_context.Candidates.Add(candidate6);
             _context.Candidates.Add(candidate7);
 
             #endregion Candidate
