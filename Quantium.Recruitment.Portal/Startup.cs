@@ -57,8 +57,6 @@ namespace AspNetCoreSpa
 
             services.AddCustomIdentity();
 
-            services.AddCustomOpenIddict();
-
             services.AddMemoryCache();
 
             services.RegisterCustomServices();
@@ -92,7 +90,6 @@ namespace AspNetCoreSpa
 
             app.UseIdentity();
 
-            app.UseOpenIddict();
 
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.

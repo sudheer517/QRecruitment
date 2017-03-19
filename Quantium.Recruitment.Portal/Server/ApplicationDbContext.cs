@@ -11,10 +11,9 @@ namespace AspNetCoreSpa.Server
     public class ApplicationDbContext : IdentityDbContext<QRecruitmentUser, QRecruitmentRole, int>
     {
         public DbSet<QRecruitmentUser> ApplicationUsers { get; set; }
+
         public DbSet<QRecruitmentRole> ApplicationRoles { get; set; }
-        public DbSet<Language> Languageses { get; set; }
-        public DbSet<Content> Content { get; set; }
-        public DbSet<ContentText> ContentText { get; set; }
+        
         public DbSet<Admin> Admins { get; set; }
 
         public DbSet<Candidate> Candidates { get; set; }
@@ -71,12 +70,6 @@ namespace AspNetCoreSpa.Server
                 .HasMany(cj => cj.Candidates)
                 .WithOne(c => c.Admin)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //modelBuilder.Entity<ContentText>()
-            //    .HasOne(p => p.Language)
-            //    .WithMany(b => b.ContentTexts)
-            //    .HasForeignKey(p => p.LanguageId)
-            //    .HasConstraintName("ForeignKey_ContentText_Language");
 
             base.OnModelCreating(modelBuilder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
