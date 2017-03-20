@@ -1,7 +1,7 @@
  <div class="" style="padding: 20px">
         <form  novalidate #form="ngForm" (submit)="generateTests()">
-                <div style="display: flex; min-height: 400px;">
-                        <div class="" style="flex: 0 1 50%;display: flex;flex-direction: column" >
+                <div class="row" style="min-height: 400px;">
+                        <div class="col-md-12 col-lg-6" style="flex: 0 1 50%;display: flex;flex-direction: column" >
                                 <div class="d-flex" style="">
                                         <div class="form-group" [class.has-danger]="job.touched && job.invalid" style="flex: 1 1 50%">
                                                 <label class="form-control-label" for="job">Select job</label>
@@ -40,7 +40,7 @@
                                 </div>
                         </div>
                         
-                        <div style="flex: 0 1 50%">
+                        <div class="col-md-12 col-lg-6" style="">
                                 <div class="flex-row">
                                         <div class="form-group col-lg-6" [class.has-danger]="" style="">
                                                 <label class="form-control-label" for="search">Search candidates</label>
