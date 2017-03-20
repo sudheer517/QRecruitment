@@ -19,6 +19,9 @@ class SelectedTestOptions {
 })
 export class CreateTestComponent implements OnInit{
     @ViewChild('progress') progressModal: ModalDirective;
+    isRequestProcessing = true;
+    modalResponse: string;
+
     jobs: JobDto[];
     selectedJobId: number;
     selectedJob: JobDto;
@@ -39,6 +42,10 @@ export class CreateTestComponent implements OnInit{
 
     constructor(private jobService: JobService, private candidateService: CandidateService,
     private testService: TestService, private router: Router, private activatedRoute:ActivatedRoute){
+    }
+
+    closeProgressModal(){
+        this.progressModal.hide();
     }
 
     ngOnInit(){
@@ -113,9 +120,15 @@ export class CreateTestComponent implements OnInit{
             this.testService.Generate(candidatesJobs).subscribe(
                 result => {
                     console.log(result);
+                    this.isRequestProcessing = false;
+                    this.modalResponse = "Test generated";
                     this.router.navigate(['viewTests'], { relativeTo: this.activatedRoute});
                 },
-                error => console.log(error)
+                error => {
+                    this.isRequestProcessing = false;
+                    this.modalResponse = "Test generation failed";
+                    console.log(error);
+                }
             );
             
 
