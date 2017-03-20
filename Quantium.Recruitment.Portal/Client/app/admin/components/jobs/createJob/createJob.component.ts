@@ -11,6 +11,8 @@ import { JobDto, DepartmentDto, LabelDto, DifficultyDto, Question_Difficulty_Lab
 import { ModalDirective } from 'ng2-bootstrap/modal';
 import { Router, ActivatedRoute } from '@angular/router';
 
+ 
+
 @Component({
     selector: 'appc-create-job',
     templateUrl: './createJob.component.html',
@@ -63,11 +65,22 @@ export class CreateJobComponent implements OnInit {
 
     closeProgressModal(){
         this.progressModal.hide();
+        this.router.navigate(['viewJobs'], { relativeTo: this.activatedRoute});
+    }
+
+    
+    noQuestionsValidator(c: AbstractControl): {[key: string]: boolean} | null {
+        if(c.value != undefined && c.value == "No questions found"){
+            return { 'count': true};
+        }
+
+        return null;
     }
 
     save(): void{
         this.progressModal.show();
-        console.log(JSON.stringify(this.jobForm.value));
+        this.modalResponse = "Creating job";
+
         this.job.Title = this.jobForm.get('title').value;
         this.job.Profile = this.jobForm.get('profile').value;
         this.job.Department = new DepartmentDto(this.jobForm.get('department').value);
@@ -83,16 +96,11 @@ export class CreateJobComponent implements OnInit {
             this.job.JobDifficultyLabels.push(jobDifficultyLabel);
         });
 
-        
-        //this.job.JobDifficultyLabels = new Job_Difficulty_LabelDto(null, new DifficultyDto(this.jobForm.get('labelsAndDifficulties.'))
-        console.log(this.job);
-
         this.jobService.Create(this.job).subscribe(
             result => {
-                console.log("job created"); 
                 this.isRequestProcessing = false;
+                this.jobForm.reset();
                 this.modalResponse = "Job created";
-                this.router.navigate(['viewJobs'], { relativeTo: this.activatedRoute});
             }, 
             error => {
                 console.log(error);
@@ -113,6 +121,8 @@ export class CreateJobComponent implements OnInit {
         this.labelsAndDifficulties.push(this.getNewLabelDifficultyGroup())
     }
 
+    
+
     private rearrangeQuestionMaps(indexToBeRemoved: number, arrayToBeReArranged: QuestionsInJobMap): QuestionsInJobMap {
         let rearrangedMap = new QuestionsInJobMap();
 
@@ -131,8 +141,8 @@ export class CreateJobComponent implements OnInit {
         let dynamicFormGroup = this.formBuilder.group({
                 label: ['', Validators.required],
                 difficulty: ['', Validators.required],
-                availableQuestions: ['', Validators.required],
-                questionsToPass: ['', Validators.required]
+                availableQuestions: ['', [Validators.required, this.noQuestionsValidator]],
+                questionsToPass: ['', [Validators.required, this.noQuestionsValidator]]
             });
 
         let availableQuestionControlIndex = 0;
@@ -191,12 +201,12 @@ export class CreateJobComponent implements OnInit {
             availableQuestionsControl.reset();
             this.availableQuestionsMap[formGroupIndex] = [questionNotFoundText];
             availableQuestionsControl.setValue(questionNotFoundText);
-            availableQuestionsControl.disable();
+            //availableQuestionsControl.disable();
 
             questionsToPassControl.reset();
             this.questionsToPassMap[formGroupIndex] = [questionNotFoundText];
             questionsToPassControl.setValue(questionNotFoundText);
-            questionsToPassControl.disable();
+            //questionsToPassControl.disable();
             
         }
         else{

@@ -56,27 +56,37 @@
                                                                 class="form-text muted-text">Difficulty is required</small>
                                                         </div>
                                                         
-                                                        <div class="form-group" style="flex: 0 1 20%;margin-right: 20px" [class.has-danger]="labelAndDifficulty.get('availableQuestions').invalid && labelAndDifficulty.get('availableQuestions').touched">
+                                                        <div class="form-group" style="flex: 0 1 20%;margin-right: 20px"
+                                                         [class.has-danger]="(labelAndDifficulty.get('availableQuestions').invalid && labelAndDifficulty.get('availableQuestions').touched) || labelAndDifficulty.get('availableQuestions').errors?.count">
                                                                 <label class="form-control-label" attr.for="{{'availableQuestions' + i}}">Available questions</label>
                                                                 <select class="form-control" id="{{'availableQuestions' + i}}" formControlName="availableQuestions">
                                                                         <option *ngFor="let questionNumber of availableQuestionsMap[i]; let index=index" [value]="questionNumber">{{questionNumber}}</option>
                                                                 </select>
                                                                 <small *ngIf="labelAndDifficulty.get('availableQuestions').touched && labelAndDifficulty.get('availableQuestions').errors?.required" 
                                                                 class="form-text muted-text">Available questions is required</small>
+                                                                <small *ngIf="labelAndDifficulty.get('availableQuestions').errors?.count" 
+                                                                class="form-text muted-text">Cannot have labels with no questions</small>
                                                         </div>
                                                         
-                                                        <div class="form-group" style="flex: 0 1 20%;margin-right: 20px" [class.has-danger]="labelAndDifficulty.get('questionsToPass').invalid && labelAndDifficulty.get('questionsToPass').touched">
+                                                        <div class="form-group" style="flex: 0 1 20%;margin-right: 20px" 
+                                                        [class.has-danger]="(labelAndDifficulty.get('questionsToPass').invalid && labelAndDifficulty.get('questionsToPass').touched) || labelAndDifficulty.get('questionsToPass').errors?.count">
                                                                 <label class="form-control-label" attr.for="{{'questionsToPass' + i}}">Questions to pass</label>
                                                                 <select class="form-control" id="{{'questionsToPass' + i}}" formControlName="questionsToPass">
                                                                         <option *ngFor="let questionNumber of questionsToPassMap[i]; let index=index" [value]="questionNumber">{{questionNumber}}</option>
                                                                 </select>
                                                                 <small *ngIf="labelAndDifficulty.get('questionsToPass').touched && labelAndDifficulty.get('questionsToPass').errors?.required" 
                                                                 class="form-text muted-text">Questions to pass is required</small>
+                                                                <small *ngIf="labelAndDifficulty.get('questionsToPass').errors?.count" 
+                                                                class="form-text muted-text">Cannot have labels with no questions</small>
                                                         </div>
                                                         <div class=""  class="" style="flex: 0 1 5%; text-align: end; flex: 0 1 10%; margin-top: 35px">
                                                                 <button class="btn small-icon-btn red" (click)="removeLabelAndDifficulty(i)"><i class="fa fa-minus"></i></button>
                                                         </div>
                                                 </div>
+                                                <!--{{labelAndDifficulty.get('availableQuestions').invalid | json}}
+                                                {{labelAndDifficulty.get('availableQuestions').value | json}}
+                                                {{labelAndDifficulty.get('availableQuestions').errors?.range ? "range Errors" : "No errors" | json}}
+                                                {{labelAndDifficulty.get('availableQuestions').errors?.required ? "required Errors" : "No required errors" | json}}-->
                                         </div>
                                 </div>
                         </div>
