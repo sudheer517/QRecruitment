@@ -22,6 +22,8 @@ export class CreateJobComponent implements OnInit {
     availableQuestionsMap: QuestionsInJobMap = new QuestionsInJobMap();
     questionsToPassMap: QuestionsInJobMap = new QuestionsInJobMap();
     @ViewChild('progress') progressModal:ModalDirective;
+    isRequestProcessing: boolean = true;
+    modalResponse: string;
 
     get labelsAndDifficulties(): FormArray { 
         return this.jobForm.get('labelsAndDifficulties') as FormArray; 
@@ -59,8 +61,11 @@ export class CreateJobComponent implements OnInit {
         this.getQuestionsByLabelAndDifficulty();
     }
 
-    save(): void{
+    closeProgressModal(){
+        this.progressModal.hide();
+    }
 
+    save(): void{
         this.progressModal.show();
         console.log(JSON.stringify(this.jobForm.value));
         this.job.Title = this.jobForm.get('title').value;
@@ -85,9 +90,15 @@ export class CreateJobComponent implements OnInit {
         this.jobService.Create(this.job).subscribe(
             result => {
                 console.log("job created"); 
-                 this.router.navigate(['viewJobs'], { relativeTo: this.activatedRoute});
+                this.isRequestProcessing = false;
+                this.modalResponse = "Job created";
+                this.router.navigate(['viewJobs'], { relativeTo: this.activatedRoute});
             }, 
-            error => console.log(error)
+            error => {
+                console.log(error);
+                this.isRequestProcessing = false;
+                this.modalResponse = "Job creation failed";
+            }
         );
     }
 

@@ -12,12 +12,13 @@ import { ModalDirective } from 'ng2-bootstrap/modal';
     //encapsulation: ViewEncapsulation.None
 })
 export class UploadQuestionsComponent implements OnInit{
-    smallModalStatus = false;
     questions: QuestionDto[];
     fileData: any;
     fileText = "Choose file";
     @ViewChild('questionsPreview') questionsPreviewModal:ModalDirective;
     @ViewChild('progress') progressModal:ModalDirective;
+    isRequestProcessing: boolean = true;
+    modalResponse: string;
 
     constructor(private renderer: Renderer, private questionService: QuestionService,  private router: Router, private activatedRoute:ActivatedRoute){
         
@@ -30,6 +31,10 @@ export class UploadQuestionsComponent implements OnInit{
     ngOnInit(){
         let body = document.getElementsByTagName('input')[0];
         //this.renderer.setElementAttribute(body, "accept", ".xlsx");
+    }
+
+    closeProgressModal(){
+        this.progressModal.hide();
     }
 
     previewQuestions(modalContent: FormControl){
@@ -55,12 +60,15 @@ export class UploadQuestionsComponent implements OnInit{
         this.questionService.AddQuestions(formData).subscribe(
             status => {
                 console.log(status);
+                this.isRequestProcessing = false;
+                this.modalResponse = "Question uploaded";
                 //this.smallModalRef.close();
                 this.router.navigate(['viewQuestions'], { relativeTo: this.activatedRoute});
             }, 
             error => {
                 console.log(error);
-                this.smallModalStatus = true;
+                this.isRequestProcessing = false;
+                this.modalResponse = "Question upload failed";
             }
         );
     }

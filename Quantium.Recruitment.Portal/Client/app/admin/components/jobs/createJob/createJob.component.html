@@ -94,21 +94,21 @@
  </div>
 
  
-    <div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+<div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-                <h5 class="modal-title" *ngIf="!smallModalStatus">Adding job</h5>
-                <h5 class="modal-title" *ngIf="smallModalStatus">Oops !!  Unable to add questions</h5>
+                <h5 class="modal-title">{{modalResponse}}</h5>
         </div>
       
       <div class="modal-footer" style="justify-content: center">
-                <span class="fa fa-spinner fa-spin fa-3x"  *ngIf="!smallModalStatus"></span>
+                <span class="fa fa-spinner fa-spin fa-3x"  *ngIf="isRequestProcessing"></span>
                 
-                <button type="button" class="close"   *ngIf="smallModalStatus" (click)="d('Cross click')">
-                       <span class="fa fa-times fa-3x"></span>
+                <button type="button" class="close"   *ngIf="!isRequestProcessing" (click)="closeProgressModal()">
+                       <span class="fa fa-times-circle-o fa-2x"></span>
                 </button>
         </div>
     </div>
   </div>
 </div>
+ 
