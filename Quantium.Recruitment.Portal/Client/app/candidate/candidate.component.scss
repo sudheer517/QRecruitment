@@ -92,3 +92,10 @@ nav{
         z-index: 99999;
         margin-top: 21px;
     }
+
+@media (max-width: 1217px){
+    .admin-outlet{
+        margin-left: 0px;
+        margin-right: 0px; 
+    }
+}
