@@ -2,33 +2,47 @@
         <form  novalidate #form="ngForm" (submit)="generateTests()">
                 <div style="display: flex; min-height: 400px;">
                         <div class="" style="flex: 0 1 50%;display: flex;flex-direction: column" >
-                                <div style="width: 50%">
-                                        <div class="form-group" [class.has-danger]="job.touched && job.invalid">
-                                        <label class="form-control-label" for="job">Select job</label>
-                                        <select class="form-control" #job="ngModel" id="job" name="job" required [(ngModel)]="selectedJobId" (ngModelChange)="selectJob($event)">
-                                                <option *ngFor="let job of jobs" [value]="job.Id">{{job.Title}}</option>
-                                        </select>
-                                        <small *ngIf="job.touched && job.invalid" class="form-text muted-text">Job is required</small>
+                                <div class="d-flex" style="">
+                                        <div class="form-group" [class.has-danger]="job.touched && job.invalid" style="flex: 1 1 50%">
+                                                <label class="form-control-label" for="job">Select job</label>
+                                                <select class="form-control" #job="ngModel" id="job" name="job" required [(ngModel)]="selectedJobId" (ngModelChange)="selectJob($event)">
+                                                        <option *ngFor="let job of jobs" [value]="job.Id">{{job.Title}}</option>
+                                                </select>
+                                                <small *ngIf="job.touched && job.invalid" class="form-text muted-text">Job is required</small>
+                                        </div>
+                                        <div style="flex: 1 1 50%; margin-top: 38px; margin-left: 60px">
+                                        <button type="submit" class="btn red" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate)">Generate tests for selected candidates</button>
                                         </div>
                                 </div>
-                                <div *ngIf="selectedJob" style="">
-                                        <div *ngFor="let jobDifficultyLabel of selectedJob.JobDifficultyLabels">
-                                                <div>
-                                                        <span>{{jobDifficultyLabel.Label.Name}}</span>
-                                                        <span>Difficulty - {{jobDifficultyLabel.Difficulty.Name}}</span>
-                                                        <span>Questions - {{jobDifficultyLabel.DisplayQuestionCount}}</span>
-                                                        <span>Passing criteria - {{jobDifficultyLabel.PassingQuestionCount}}</span>
-                                                </div>
-                                        </div>
-                                </div>
-                                <div style="margin-top: auto">
-                                <button type="submit" class="btn red" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate)">Generate tests for selected candidates</button>
+                                
+                                
+                                <div *ngIf="selectedJob" style="margin-right: 20px">
+                                        <table class="table table-striped">
+                                                <thead>
+                                                        <tr>
+                                                        <th>#</th>
+                                                        <th>Label</th>
+                                                        <th>Difficulty</th>
+                                                        <th>Questions</th>
+                                                        <th>Passing criteria</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                        <tr *ngFor="let jobDifficultyLabel of selectedJob.JobDifficultyLabels; let i = index">
+                                                        <td scope="row">{{i + 1}}</td>
+                                                        <td>{{jobDifficultyLabel.Label.Name}}</td>
+                                                        <td>{{jobDifficultyLabel.Difficulty.Name}}</td>
+                                                        <td>{{jobDifficultyLabel.DisplayQuestionCount}}</td>
+                                                        <td>{{jobDifficultyLabel.PassingQuestionCount}}</td>
+                                                        </tr>
+                                                </tbody>
+                                        </table>
                                 </div>
                         </div>
                         
                         <div style="flex: 0 1 50%">
                                 <div class="flex-row">
-                                        <div class="form-group" [class.has-danger]="" style="flex: 0 1 30%">
+                                        <div class="form-group col-lg-6" [class.has-danger]="" style="">
                                                 <label class="form-control-label" for="search">Search candidates</label>
                                                 <input class="form-control" id="search" name="search" [(ngModel)]="search"  type="text"
                                                  placeholder="Search Candidates" (ngModelChange)="filterCandidates(search)">
@@ -42,19 +56,28 @@
                                         
                                 </div>
                                 
-                                <div>
+                                <div style="margin-left: 10px">
                                         <div>
-                                                
-
-                                                <div *ngFor="let candidate of filteredCandidates;let i=index">
-                                                        <div class="flex-row" layout="">
-                                                                <input style="flex: 0 1 5%;margin-top: 5px;" id="search{{i}}" name="search{{i}}" 
+                                                <table class="table table-striped">
+                                                        <thead>
+                                                                <tr>
+                                                                <th>#</th>
+                                                                <th style="text-align: center">Generate test</th>
+                                                                <th>Name</th>
+                                                                <th>Email</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                                <tr *ngFor="let candidate of filteredCandidates;let i=index">
+                                                                <td scope="row">{{i + 1}}</td>
+                                                                <td style="text-align: center"><input style="height: 18px;width: 18px;margin-top: 5px;" id="search{{i}}" name="search{{i}}" 
                                                                 [(ngModel)]="selectedtestOptions.candidateIds[candidate.Id]" (ngModelChange)="updateSelectedCandidateCount()"
-                                                                type="checkbox"/>
-                                                                <p style="flex: 0 1 20%;">{{candidate.FirstName}} {{candidate.LastName}}</p>
-                                                                <p style="flex: 0 1 20%;">{{candidate.Email}}</p>
-                                                        </div>
-                                                </div>
+                                                                type="checkbox"/></td>
+                                                                <td>{{candidate.FirstName}} {{candidate.LastName}}</td>
+                                                                <td>{{candidate.Email}}</td>
+                                                                </tr>
+                                                        </tbody>
+                                                </table>
 
                                                 
                                         </div>
