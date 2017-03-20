@@ -83,10 +83,6 @@
                                                                 <button class="btn small-icon-btn red" (click)="removeLabelAndDifficulty(i)"><i class="fa fa-minus"></i></button>
                                                         </div>
                                                 </div>
-                                                <!--{{labelAndDifficulty.get('availableQuestions').invalid | json}}
-                                                {{labelAndDifficulty.get('availableQuestions').value | json}}
-                                                {{labelAndDifficulty.get('availableQuestions').errors?.range ? "range Errors" : "No errors" | json}}
-                                                {{labelAndDifficulty.get('availableQuestions').errors?.required ? "required Errors" : "No required errors" | json}}-->
                                         </div>
                                 </div>
                         </div>
@@ -108,7 +104,7 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-                <h5 class="modal-title">{{modalResponse}}</h5>
+                <h5 class="modal-title" style="width: 100%; text-align: center">{{modalResponse}}</h5>
         </div>
       
       <div class="modal-footer" style="justify-content: center">

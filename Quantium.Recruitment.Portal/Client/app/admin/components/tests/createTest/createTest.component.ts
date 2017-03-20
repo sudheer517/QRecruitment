@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { JobService } from '../../../services/job.service';
 import { CandidateService } from '../../../services/candidate.service';
 import { TestService } from '../../../services/test.service';
@@ -16,6 +16,7 @@ class SelectedTestOptions {
 @Component({
     selector: 'appc-create-test',
     templateUrl: './createTest.component.html',
+    styleUrls: ['./createTest.component.scss']
 })
 export class CreateTestComponent implements OnInit{
     @ViewChild('progress') progressModal: ModalDirective;
