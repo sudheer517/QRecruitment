@@ -40,7 +40,7 @@ export class DashboardComponent implements AfterViewInit, OnInit{
         colors: ['#6D7991', '#DD6600', '#61AEE1', '#EE2525', '#E8C54F', '#009E4A' ]
         });
     }
-    setHighchartsOptionsForLocationChart(){
+    setHighchartsOptionsForBranchChart(){
         this.locationChartOptions = {
             chart: { type: 'pie', backgroundColor: '#F5F4F4' },
             title: { text : ''},
@@ -62,13 +62,13 @@ export class DashboardComponent implements AfterViewInit, OnInit{
                 { 
                     innerSize: '50%',
                     data: [
-                        ['Firefox',   10.38],
-                        ['IE',       56.33],
-                        ['Chrome', 24.03],
-                        ['Safari',    4.77],
-                        ['Opera',     0.91],
+                        ['Mechanical',   10.38],
+                        ['Chemical',       56.33],
+                        ['Metallurgy', 24.03],
+                        ['Other',    4.77],
+                        ['Computer science',     0.91],
                         {
-                            name: 'Proprietary or Undetectable',
+                            name: 'MBA',
                             y: 0.2,
                             dataLabels: {
                                 enabled: false
@@ -80,7 +80,7 @@ export class DashboardComponent implements AfterViewInit, OnInit{
         };
     }
 
-    setHighchartsOptionsForBranchChart(){
+    setHighchartsOptionsForLocationChart(){
         this.branchChartOptions = {
             chart: { type: 'pie', backgroundColor: '#F5F4F4' },
             title: { text : ''},
@@ -104,13 +104,13 @@ export class DashboardComponent implements AfterViewInit, OnInit{
                 { 
                     innerSize: '50%',
                     data: [
-                        ['Firefox',   10.38],
-                        ['IE',       56.33],
-                        ['Chrome', 24.03],
-                        ['Safari',    4.77],
-                        ['Opera',     0.91],
+                        ['Hyderabad',   10.38],
+                        ['Other',       56.33],
+                        ['Bangalore', 24.03],
+                        ['Mumbai',    4.77],
+                        ['Delhi',     0.91],
                         {
-                            name: 'Proprietary or Undetectable',
+                            name: 'Chennai',
                             y: 0.2,
                             dataLabels: {
                                 enabled: false
@@ -154,38 +154,38 @@ export class DashboardComponent implements AfterViewInit, OnInit{
                 pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
             },
             series: [{
-                name: 'Brands',
+                name: 'Teams',
                 colorByPoint: true,
                 data: [{
-                    name: 'Microsoft Internet Explorer',
+                    name: 'Retail',
                     y: 56.33,
-                    drilldown: 'Microsoft Internet Explorer'
+                    drilldown: 'Retail'
                 }, {
-                    name: 'Chrome',
+                    name: 'Media',
                     y: 24.03,
-                    drilldown: 'Chrome'
+                    drilldown: 'Media'
                 }, {
-                    name: 'Firefox',
+                    name: 'Web automation',
                     y: 10.38,
-                    drilldown: 'Firefox'
+                    drilldown: 'Web automation'
                 }, {
-                    name: 'Safari',
+                    name: 'Checkout',
                     y: 4.77,
-                    drilldown: 'Safari'
+                    drilldown: 'Checkout'
                 }, {
-                    name: 'Opera',
+                    name: 'Wow',
                     y: 0.91,
-                    drilldown: 'Opera'
+                    drilldown: 'Wow'
                 }, {
-                    name: 'Proprietary or Undetectable',
+                    name: 'Other',
                     y: 0.2,
                     drilldown: null
                 }]
             }],
             drilldown: {
                 series: [{
-                    name: 'Microsoft Internet Explorer',
-                    id: 'Microsoft Internet Explorer',
+                    name: 'Retail',
+                    id: 'Retail',
                     data: [
                         [
                             'v11.0',
@@ -213,8 +213,8 @@ export class DashboardComponent implements AfterViewInit, OnInit{
                         ]
                     ]
                 }, {
-                    name: 'Chrome',
-                    id: 'Chrome',
+                    name: 'Media',
+                    id: 'Media',
                     data: [
                         [
                             'v40.0',
@@ -274,8 +274,8 @@ export class DashboardComponent implements AfterViewInit, OnInit{
                         ]
                     ]
                 }, {
-                    name: 'Firefox',
-                    id: 'Firefox',
+                    name: 'Web automation',
+                    id: 'Web automation',
                     data: [
                         [
                             'v35',
@@ -311,8 +311,8 @@ export class DashboardComponent implements AfterViewInit, OnInit{
                         ]
                     ]
                 }, {
-                    name: 'Safari',
-                    id: 'Safari',
+                    name: 'Checkout',
+                    id: 'Checkout',
                     data: [
                         [
                             'v8.0',
@@ -344,8 +344,8 @@ export class DashboardComponent implements AfterViewInit, OnInit{
                         ]
                     ]
                 }, {
-                    name: 'Opera',
-                    id: 'Opera',
+                    name: 'Wow',
+                    id: 'Wow',
                     data: [
                         [
                             'v12.x',
