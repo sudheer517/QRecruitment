@@ -17,7 +17,9 @@
                 <small *ngIf="email.hasError('pattern')" class="form-text muted-text">Email is not valid</small>
         </div>
 
-        <button type="submit" class="btn red" [disabled]="form.invalid">Add Candidate</button>
+        <div class="d-flex" style="justify-content: center">
+                <button type="submit" class="btn red" [disabled]="form.invalid">Add Candidate</button>
+        </div>
  </form>
  </div>
 
