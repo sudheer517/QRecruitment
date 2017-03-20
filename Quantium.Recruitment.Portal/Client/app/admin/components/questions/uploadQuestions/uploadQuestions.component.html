@@ -67,8 +67,8 @@
                                <span><b> Difficulty : </b>{{question.Difficulty.Name}}</span>
                                <span> <b>Randomize Options :</b> {{question.RandomizeOptions}}</span>
                         </div>
-                        <p *ngIf="question.QuestionGroup.Description.length > 0"><b>Question Group : </b><span [innerHTML]="question.QuestionGroup.Description"></span></p>
-                        <b><p> {{index + 1}} <span [innerHTML]="question.Text"></span></p></b>
+                        <b><p *ngIf="question.QuestionGroup.Description.length > 0">{{index + 1}}. <span [innerHTML]="question.QuestionGroup.Description"></span></p></b>
+                        <b><p> <span *ngIf="question.QuestionGroup.Description.length < 1">{{index + 1}}. </span> <span [innerHTML]="question.Text"></span></p></b>
                         <div *ngIf="question.ImageUrl.length > 0">
                                 <img [src]="question.ImageUrl" class="imagePreview" />
                         </div>

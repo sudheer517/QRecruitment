@@ -9,7 +9,6 @@ import { ModalDirective } from 'ng2-bootstrap/modal';
     selector: 'appc-upload-questions',
     templateUrl: './uploadQuestions.component.html',
     styleUrls: ['./uploadQuestions.component.scss'],
-    //encapsulation: ViewEncapsulation.None
 })
 export class UploadQuestionsComponent implements OnInit{
     questions: QuestionDto[];
@@ -21,20 +20,18 @@ export class UploadQuestionsComponent implements OnInit{
     modalResponse: string;
 
     constructor(private renderer: Renderer, private questionService: QuestionService,  private router: Router, private activatedRoute:ActivatedRoute){
-        
     }
     open(content) {
         this.questionsPreviewModal.show();
-        //this.modalRef = this.modalService.open(content, { windowClass: "large-modal-window" });
-
     }
     ngOnInit(){
         let body = document.getElementsByTagName('input')[0];
-        //this.renderer.setElementAttribute(body, "accept", ".xlsx");
     }
 
     closeProgressModal(){
         this.progressModal.hide();
+        this.router.navigate(['viewQuestions'], { relativeTo: this.activatedRoute});
+        
     }
 
     previewQuestions(modalContent: FormControl){
@@ -42,8 +39,6 @@ export class UploadQuestionsComponent implements OnInit{
     }
 
     onFileChange(eventData: any){
-        console.log("file change");
-        console.log(event);
         this.fileText = eventData.target.value.split("\\").pop();
 
         this.fileData = eventData;
@@ -55,20 +50,17 @@ export class UploadQuestionsComponent implements OnInit{
 
     addQuestions(modalContent: FormControl){
         this.progressModal.show();
-        //this.smallModalRef = this.modalService.open(modalContent, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
+        this.modalResponse = "Uploading question";
         let formData = this.getFileFormData(this.fileData); 
         this.questionService.AddQuestions(formData).subscribe(
             status => {
-                console.log(status);
                 this.isRequestProcessing = false;
-                this.modalResponse = "Question uploaded";
-                //this.smallModalRef.close();
-                this.router.navigate(['viewQuestions'], { relativeTo: this.activatedRoute});
+                this.modalResponse = "Questions uploaded";
             }, 
             error => {
                 console.log(error);
                 this.isRequestProcessing = false;
-                this.modalResponse = "Question upload failed";
+                this.modalResponse = "Questions upload failed";
             }
         );
     }

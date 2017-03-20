@@ -1,4 +1,4 @@
-<div style="padding: 20px;">
+<div style="padding: 20px;" *ngIf="questions?.length > 0">
     <div *ngFor="let question of questions; let index=index">
             <div class="question-attributes d-flex">
                     <span><b>Time for question :</b> {{question.TimeInSeconds}} seconds</span>
@@ -41,6 +41,9 @@
     </div>
 </div>
 
+<div *ngIf="!questions || questions?.length < 1" class="d-flex" style="justify-content: center; margin-top: 40px">
+        <span><b>No questions found</b></span>
+</div>
 <div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
