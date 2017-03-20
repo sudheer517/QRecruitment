@@ -1,60 +1,46 @@
-import { Component, AfterViewInit, ViewEncapsulation, Renderer, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 import { DepartmentService } from '../../services/department.service';
 import { AdminDto, DepartmentDto } from '../../../RemoteServicesProxy';
-//import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { ModalDirective } from 'ng2-bootstrap/modal';
+import { Response } from '@angular/http';
+
 
 @Component({
     selector: "[appc-add-admin]",
     templateUrl: "./addAdmin.component.html",
     styleUrls: ["./addAdmin.component.scss"],
-    // encapsulation: ViewEncapsulation.None
 })
 export class AddAdminComponent implements OnInit{
 
     departments: DepartmentDto[];
 
-    //modalRef: NgbModalRef;
     newAdmin: AdminDto;
     hasValidDept = false;
     isEnteredEmailExists= false;
     validationInProgress = false;
-    closeResult: string;
-    constructor(private renderer: Renderer, private adminService: AdminService, private departmentService: DepartmentService) {
+    isRequestProcessing = true;
+    modalResponse: string;
+    @ViewChild('progress') progressModal: ModalDirective;
+    constructor(private adminService: AdminService, private departmentService: DepartmentService) {
         
     }
     
-    open(content) {
-        //this.modalRef = this.modalService.open(content, { keyboard: false, backdrop: "static", windowClass: "modal-window" });
-        
-        // this.modalRef.result.then((result) => {
-        // this.closeResult = `Closed with: ${result}`;
-        // }, (reason) => {
-        // this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        // });
-    }
-    // private getDismissReason(reason: any): string {
-    //     if (reason === ModalDismissReasons.ESC) {
-    //     return 'by pressing ESC';
-    //     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-    //     return 'by clicking on a backdrop';
-    //     } else {
-    //     return  `with: ${reason}`;
-    //     }
-    // }
     ngOnInit(){
         this.changeBackground();
         this.newAdmin = new AdminDto();
         this.newAdmin.DepartmentId = 0;
-        // this.adminService.AddAdmin(new AdminDto(0,"Rohan", "Marthand", "rohan.marthand@hola.com", 9052791243, true, 1)).subscribe(
-        //     result => console.log(result), error => console.log(error)
-        // )
         this.departmentService.GetAll().subscribe(
             result => this.departments = result
         );
         
     }
+
+    closeProgressModal(){
+        this.progressModal.hide();
+    }
+
     validateEmail(emailInput: FormControl){
         if(emailInput.valid){
             this.validationInProgress = true;
@@ -73,13 +59,23 @@ export class AddAdminComponent implements OnInit{
     }
 
     addAdmin(modalContent: FormControl){
-        this.open(modalContent);
+        this.modalResponse = "Adding admin";
+        this.progressModal.show();
         this.adminService.AddAdmin(this.newAdmin).subscribe(
             result => {
-                //this.modalRef.close();
+                this.modalResponse = "Added admin";
+                this.isRequestProcessing = false;
+                modalContent.reset();
             },
-            error => {
-                this.closeResult = "Add Admin failed";
+            (error: Response) => {
+                if(error.status === 409){
+                    this.modalResponse = "Duplicate admin found";
+                }
+                else{
+                    this.modalResponse = "Add Admin failed";
+                }
+                
+                this.isRequestProcessing = false;
             }
         );
     }

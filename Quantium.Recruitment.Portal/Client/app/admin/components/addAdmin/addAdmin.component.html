@@ -3,8 +3,8 @@
         <span class="admin-outlet-heading">ADD ADMIN</span>
         <div class="admin-data-container">
 
-            <div class="d-flex">
-                <form style="flex: 0 1 50%" novalidate #form="ngForm" (submit)="addAdmin(content)">
+            <div class="d-flex" style="justify-content: center">
+                <form style="flex: 0 1 50%" novalidate #form="ngForm" (submit)="addAdmin(form)">
                     <div class="form-group" [class.has-danger]="firstName.invalid && firstName.touched">
                         <label class="form-control-label" for="firstName">First name</label>
                         <input type="text" #firstName="ngModel" class="form-control" id="firstName" required name="firstName" placeholder="First name" [(ngModel)]="newAdmin.FirstName">
@@ -48,8 +48,28 @@
                         <small *ngIf="department.touched && department.value == 0" class="form-text muted-text">Department is required</small>
                     </div>
 
-                    <button type="submit" class="btn red" [disabled]="form.invalid || isEnteredEmailExists !== false || department.value == 0">Add Admin</button>
+                    <div class="d-flex" style="justify-content: center">
+                        <button type="submit" class="btn red" [disabled]="form.invalid || isEnteredEmailExists !== false || department.value == 0">Add Admin</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
+
+<div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+                <h5 class="modal-title" style="text-align: center">{{modalResponse}}</h5>
+        </div>
+      
+      <div class="modal-footer" style="justify-content: center">
+                <span class="fa fa-spinner fa-spin fa-2x"  *ngIf="isRequestProcessing"></span>
+                
+                <button type="button" class="close"   *ngIf="!isRequestProcessing" (click)="closeProgressModal()">
+                       <span class="fa fa-times-circle-o fa-2x"></span>
+                </button>
+        </div>
+    </div>
+  </div>
+</div>

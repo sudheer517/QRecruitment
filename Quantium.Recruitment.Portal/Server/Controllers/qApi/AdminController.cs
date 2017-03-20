@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using AspNetCoreSpa.Server.Entities;
 using Quantium.Recruitment.Portal.Server.Entities;
 using Quantium.Recruitment.Portal.Server.Helpers;
+using AspNetCoreSpa.Server.Services.Abstract;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -29,12 +30,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly UserManager<QRecruitmentUser> _userManager;
         private readonly RoleManager<QRecruitmentRole> _roleManager;
         private readonly IAccountHelper _accountHelper;
+        private readonly IEmailSender _emailSender;
 
         public AdminController(IEntityBaseRepository<Admin> adminRepository, 
             IHttpContextAccessor httpContextAccessor,
              UserManager<QRecruitmentUser> userManager,
             RoleManager<QRecruitmentRole> roleManager,
-            IAccountHelper accountHelper
+            IAccountHelper accountHelper,
+            IEmailSender emailSender
             )
         {
             _adminRepository = adminRepository;
@@ -42,6 +45,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
             _accountHelper = accountHelper;
+            _emailSender = emailSender;
         }
 
         [HttpGet]
@@ -74,38 +78,74 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAdminAsync([FromBody]AdminDto adminDto)
         {
-            var admin = Mapper.Map<Admin>(adminDto);
+            var existingAdmin = _adminRepository.GetSingle(a => a.Email == adminDto.Email);
+            if (existingAdmin == null)
+            {
+                var admin = Mapper.Map<Admin>(adminDto);
 
-            try
-            {
-                _adminRepository.Add(admin);
-                await RegisterAdmin(admin);
-                return Created("created", admin);
+                try
+                {
+                    _adminRepository.Add(admin);
+                    await CreateUserWithAdminRole(admin);
+                    return Created("created", admin);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("unable to add admin");
+                }
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest("unable to add admin");
+                return StatusCode(StatusCodes.Status409Conflict);
             }
         }
 
-        private async Task RegisterAdmin(Admin admin)
+        private async Task CreateUserWithAdminRole(Admin admin)
         {
-            var userRole = _accountHelper.GetRoleForEmail(admin.Email);
-            var user = new QRecruitmentUser { UserName = admin.Email, Email = admin.Email };
-            var result = await _userManager.CreateAsync(user);
-            if (result.Succeeded)
+            var socialLogins = new List<string>()
             {
-                IdentityResult roleCreationResult = null;
+                "@outlook", "@live", "@hotmail", "@gmail", "@google"
+            };
 
-                if (!_roleManager.RoleExistsAsync(userRole).Result)
+            UserCreationModel userModel = null;
+
+
+            if (!socialLogins.Any(emailType => admin.Email.Contains(emailType)))
+            {
+                var user = new QRecruitmentUser { UserName = admin.Email, Email = admin.Email };
+                var password = AccountHelper.GenerateRandomString();
+                userModel = new UserCreationModel { Username = admin.Email, Password = password };
+
+                var result = await _userManager.CreateAsync(user, password);
+
+                if (result.Succeeded)
                 {
-                    roleCreationResult = _roleManager.CreateAsync(new QRecruitmentRole(userRole)).Result;
+                    var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, Roles.Admin).Result;
                 }
-
-                var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, userRole).Result;
             }
+
+            await SendEmails(userModel, admin.FirstName);
+
             return;
 
+        }
+
+        private async Task<bool> SendEmails(UserCreationModel userModel, string firstName)
+        {
+            var emailTemplate = System.IO.File.ReadAllText(@"Server/Templates/AdminCreationEmailTemplate.html");
+
+            var emailTask = _emailSender.SendEmailAsync(new EmailModel
+            {
+                To = userModel.Username,
+                From = "rakeshrohan.aitipamula@quantium.co.in",
+                DisplayName = "Quantium Recruitment",
+                Subject = "User credentials",
+                HtmlBody = string.Format(emailTemplate, firstName, userModel.Username, userModel.Password)
+            });
+
+            await Task.Run(() => emailTask);
+
+            return true;
         }
     }
 }
