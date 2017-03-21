@@ -5,8 +5,7 @@ import { TestDto } from '../../../../RemoteServicesProxy';
 
 @Component({
     selector: 'appc-view-tests',
-    templateUrl: './viewTests.component.html',
-    providers: [DatePipe]
+    templateUrl: './viewTests.component.html'
 })
 export class ViewTestsComponent implements OnInit{
    tests: TestDto[];

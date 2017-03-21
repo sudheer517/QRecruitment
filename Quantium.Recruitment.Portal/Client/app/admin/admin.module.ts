@@ -36,11 +36,13 @@ import { LabelService } from './services/label.service';
 import { DifficultyService } from './services/difficulty.service';
 import { TestService } from './services/test.service';
 import { DatePipe } from '@angular/common';
+import { TableModule } from './directives/data-table/ng-table-module';
 
 @NgModule({
     imports: [
         routing, 
         SharedModule,
+        TableModule
 ],
     declarations: [
         AdminComponent, 

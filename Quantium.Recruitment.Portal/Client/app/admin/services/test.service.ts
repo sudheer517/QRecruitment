@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs, ResponseContentType } from '@angular/http';
-import { Candidate_JobDto } from '../../RemoteServicesProxy';
+import { Candidate_JobDto, TestResultDto } from '../../RemoteServicesProxy';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -24,7 +24,7 @@ export class TestService{
             });
     }
 
-    public GetAllTestResults(): Observable<any> {
+    public GetAllTestResults(): Observable<TestResultDto[]> {
         return this.http.get(`${this.testApiUrl}GetTestResults`).map(
             (response: Response) => {
                 return response.json();

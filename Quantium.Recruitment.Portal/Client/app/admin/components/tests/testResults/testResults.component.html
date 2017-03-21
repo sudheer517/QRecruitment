@@ -1,9 +1,9 @@
 <div *ngIf="length > 0">
-    <ng-table [config]="config"
+    <ng2-table [config]="config"
               (tableChanged)="onChangeTable(config)"
               (cellClicked)="onCellClick($event)"
-              [rows]="rows" [columns]="columns">
-    </ng-table>
+              [rows]="rows" [columns]="columns" id="test-results-table">
+    </ng2-table>
     <pagination *ngIf="config.paging"
                 class="pagination-sm"
                 [(ngModel)]="page"

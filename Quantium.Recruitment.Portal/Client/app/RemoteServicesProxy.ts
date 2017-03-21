@@ -358,10 +358,11 @@
         public Email: string;
         public JobApplied: string;
         public FinishedDate: string;
-        public IsTestPassed: boolean;
+        public Result: string;
         public College: string;
         public CGPA: number;
         public TotalRightAnswers: number;
+        public IsFinished: boolean;
     }
 
    

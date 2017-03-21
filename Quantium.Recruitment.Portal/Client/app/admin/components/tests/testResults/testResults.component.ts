@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TestService } from '../../../services/test.service';
 import { TestResultDto } from '../../../../RemoteServicesProxy';
@@ -6,19 +6,20 @@ import { TestResultDto } from '../../../../RemoteServicesProxy';
 @Component({
     selector: 'appc-test-results',
     templateUrl: './testResults.component.html',
-    providers: [DatePipe]
+    styleUrls: ['./testResults.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class TestResultsComponent implements OnInit {
   public rows:Array<any> = [];
   public columns:Array<any> = [
-      { title: 'Candidate', name: 'Candidate', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Candidate' } },
-      { title: 'Email', name: 'Email', sort: false, filtering: { filterString: '', placeholder: 'Filter By Email' } },
-      { title: 'Job Applied', name: 'JobApplied', sort: false, filtering: { filterString: '', placeholder: 'Filter By Job' } },
-      { title: 'Finished Date', name: 'FinishedDate', sort: false },
-      { title: 'Test Result', name: 'IsTestPassed', sort: false },
-      { title: 'College', name: 'College', sort: false, filtering: { filterString: '', placeholder: 'Filter By College' } },
-      { title: 'CGPA', name: 'CGPA', sort: false },
-      { title: 'Correct Answers', name: 'TotalRightAnswers', sort: false }
+      { title: 'Candidate', name: 'Candidate', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Candidate' }, className: 'table-header-cursor' },
+      { title: 'Email', name: 'Email', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Email' }, className: 'table-header-cursor'  },
+      { title: 'Job Applied', name: 'JobApplied', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Job' }, className: 'table-header-cursor'  },
+      { title: 'Finished Date', name: 'FinishedDate', sort: 'asc', className: 'table-header-cursor'  },
+      { title: 'Test Result', name:  'Result', sort: 'asc', className: 'table-header-cursor'  },
+      { title: 'College', name: 'College', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By College' }, className: 'table-header-cursor'  },
+      { title: 'CGPA', name: 'CGPA', sort: 'asc', className: 'table-header-cursor'  },
+      { title: 'Correct Answers', name: 'TotalRightAnswers', sort: 'asc', className: 'table-header-cursor'  }
   ];
   public page:number = 1;
   public itemsPerPage:number = 10;
@@ -49,8 +50,13 @@ export class TestResultsComponent implements OnInit {
               if (testResultsDto.length > 0)
               {
                   for (let testResult of testResultsDto) {
-                      testResult.IsTestPassed = testResult.IsTestPassed ? "Passed" : "Failed";
-                      this.datePipe.transform(testResult.FinishedDate, 'medium');
+                      //testResult.IsTestPassed = testResult.IsTestPassed ? "Passed" : "Failed";
+                      if(testResult.IsFinished){
+                        testResult.FinishedDate = this.datePipe.transform(testResult.FinishedDate, 'medium');
+                      }
+                      else{
+                          testResult.FinishedDate = "N/A";
+                      }
                   }
 
                   this.data = testResultsDto;
@@ -102,6 +108,8 @@ export class TestResultsComponent implements OnInit {
   }
 
   public changeFilter(data: any, config: any): any {
+      console.log(data);
+      
       let filteredData: Array<any> = data;
       this.columns.forEach((column: any) => {
           if (column.filtering) {
@@ -141,16 +149,17 @@ export class TestResultsComponent implements OnInit {
   }
 
   public onChangeTable(config: any, page: any = { page: this.page, itemsPerPage: this.itemsPerPage }): any {
+      
       if (config.filtering) {
           Object.assign(this.config.filtering, config.filtering);
       }
-
       if (config.sorting) {
           Object.assign(this.config.sorting, config.sorting);
       }
 
-      let filteredData = this.changeFilter(this.data, this.config);
-      let sortedData = this.changeSort(filteredData, this.config);
+      
+      //let filteredData = this.changeFilter(this.data, this.config);
+      let sortedData = this.changeSort(this.data, this.config);
       this.rows = page && config.paging ? this.changePage(page, sortedData) : sortedData;
       this.length = sortedData.length;
   }

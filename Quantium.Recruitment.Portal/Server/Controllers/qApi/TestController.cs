@@ -150,7 +150,13 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         [HttpGet]
         public IActionResult GetTestResults()
         {
-            var allTests = _testRepository.AllIncluding(t => t.Candidate, t => t.Job).Where(t => t.IsArchived != true).OrderByDescending(t => t.FinishedDate).ToList();
+            var allTests = 
+                _testRepository.
+                AllIncluding(t => t.Candidate, t => t.Job).
+                Where(t => t.IsArchived != true).
+                OrderByDescending(t => t.FinishedDate).
+                ToList();
+
             var allTestDtos = Mapper.Map<List<TestDto>>(allTests);
 
             var allTestResultDtos = new List<TestResultDto>();
@@ -164,10 +170,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     Email = test.Candidate.Email,
                     JobApplied = test.Job.Title,
                     FinishedDate = test.FinishedDate,
-                    IsTestPassed = test.IsTestPassed,
+                    Result = test.IsFinished ? test.IsTestPassed ? "Passed" : "Failed" : "N/A" ,
                     College = test.Candidate.College,
                     CGPA = test.Candidate.CGPA,
-                    TotalRightAnswers = test.TotalRightAnswers
+                    TotalRightAnswers = test.TotalRightAnswers,
+                    IsFinished = test.IsFinished
                 };
 
                 allTestResultDtos.Add(testResult);

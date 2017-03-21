@@ -16,12 +16,14 @@ namespace Quantium.Recruitment.Models
 
         public DateTime? FinishedDate { get; set; }
 
-        public bool IsTestPassed { get; set; }
+        public string Result { get; set; }
 
         public string College { get; set; }
 
         public double CGPA { get; set; }
 
         public int TotalRightAnswers { get; set; }
+
+        public bool IsFinished { get; set; }
     }
 }

@@ -1,0 +1,17 @@
+.table-header-cursor {
+    cursor: pointer;
+    .pull-right.fa.fa-chevron-up, .pull-right.fa.fa-chevron-down{
+        color: indianred;
+    }
+}
+
+#test-results-table{
+    tr{
+        cursor: pointer;
+        margin-top: 2px; 
+    }
+    tr:first-child{
+        cursor: default;
+    }
+}
+
