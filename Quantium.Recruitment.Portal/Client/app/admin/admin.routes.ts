@@ -22,6 +22,8 @@ import { CreateTestComponent } from './components/tests/createTest/createTest.co
 import { ViewTestsComponent } from './components/tests/viewTests/viewTests.component';
 import { TestResultsComponent } from './components/tests/testResults/testResults.component';
 
+import { TestDetailComponent } from './components/tests/testDetail/testDetail.component';
+
 const routes: Routes = [
   {
     path: '', component: AdminComponent, children: [
@@ -63,7 +65,8 @@ const routes: Routes = [
           { path: '', component:  CreateTestComponent },
           { path: 'createTest', component:  CreateTestComponent },
           { path: 'viewTests', component:  ViewTestsComponent },
-          { path: 'testResults', component:  TestResultsComponent }
+          { path: 'testResults', component:  TestResultsComponent },
+          { path: 'testDetail/:testId', component: TestDetailComponent }
         ] 
       }
     ]

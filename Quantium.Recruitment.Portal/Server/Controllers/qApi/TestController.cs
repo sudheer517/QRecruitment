@@ -183,6 +183,84 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return Ok(allTestResultDtos);
 
         }
+
+        [HttpPost]
+        public IActionResult GetFinishedTestDetail([FromBody]long testId)
+        {
+            var finishedTest =
+                _testRepository.GetSingle(t => t.IsArchived != true && t.Id == testId);
+
+            var finishedTestDto = Mapper.Map<TestDto>(finishedTest);
+            FillTestDto(finishedTest, finishedTestDto);
+            return Ok(finishedTestDto);
+        }
+
+        private TestDto FillTestDto(Test finishedTest, TestDto finishedTestDto)
+        {
+            finishedTestDto.TotalChallengesDisplayed = finishedTestDto.Challenges.Count;
+            var answeredChallenges = finishedTest.Challenges.Where(c => c.IsAnswered == true);
+            var jobDiffLabels = Mapper.Map<List<Job_Difficulty_LabelDto>>(finishedTest.Job.JobDifficultyLabels);
+
+            var twoKeyJobDiffLabelMap = jobDiffLabels.Select(jdl => new Job_Difficulty_LabelDto
+            {
+                Label = jdl.Label,
+                Difficulty = jdl.Difficulty,
+                PassingQuestionCount = jdl.PassingQuestionCount,
+                AnsweredCount = 0
+            }).ToList();
+
+            int totalRightAnswers = 0;
+            finishedTestDto.TotalChallengesAnswered = answeredChallenges.Count();
+
+            foreach (var answeredChallenge in answeredChallenges)
+            {
+                var questionLabel = answeredChallenge.Question.Label;
+                var questionDifficulty = answeredChallenge.Question.Difficulty;
+
+                var answersIds = answeredChallenge.Question.Options.Where(o => o.IsAnswer == true).Select(o => o.Id);
+                var candidateAnswersIds = answeredChallenge.CandidateSelectedOptions.Select(cso => cso.OptionId);
+
+                if (answersIds.Intersect(candidateAnswersIds).Count() == answersIds.Count() && answersIds.Count() == candidateAnswersIds.Count())
+                {
+                    totalRightAnswers += 1;
+                    var jobDiffLabel =
+                        twoKeyJobDiffLabelMap.Single(
+                          item =>
+                              item.Difficulty.Id == answeredChallenge.Question.DifficultyId &&
+                              item.Label.Id == answeredChallenge.Question.LabelId);
+
+                    string labelName = jobDiffLabel.Label.Name;
+
+                    jobDiffLabel.AnsweredCount += 1;
+
+                }
+
+                var optionDtos = finishedTestDto.Challenges.Single(c => c.Id == answeredChallenge.Id).Question.Options;
+
+                foreach (var option in answeredChallenge.Question.Options)
+                {
+                    if (option.IsAnswer == true && candidateAnswersIds.Contains(option.Id))
+                    {
+                        optionDtos.Single(o => o.Id == option.Id).IsCandidateSelected = true;
+                    }
+                }
+            }
+
+            finishedTestDto.TotalRightAnswers = totalRightAnswers;
+            finishedTestDto.IsTestPassed = true;
+
+            foreach (var item in twoKeyJobDiffLabelMap)
+            {
+                if (item.PassingQuestionCount > item.AnsweredCount)
+                {
+                    finishedTestDto.IsTestPassed = false;
+                    break;
+                }
+            }
+
+            return finishedTestDto;
+        }
+
         private bool UpdateCandidatesForTest(List<Candidate_JobDto> candidateJob)
         {
             try

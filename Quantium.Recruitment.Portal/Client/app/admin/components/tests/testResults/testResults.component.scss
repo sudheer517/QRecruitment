@@ -6,12 +6,12 @@
 }
 
 #test-results-table{
-    tr{
-        cursor: pointer;
-        margin-top: 2px; 
-    }
+    
     tr:first-child{
         cursor: default;
     }
 }
 
+.cursor-pointer{
+    cursor: pointer;
+}

@@ -1,0 +1,68 @@
+<div *ngIf="test">
+    <div>
+        <span>Test information - {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</span>
+
+        <div>
+            <p><i class="fa fa-user fa-lg"></i><span><b> Name : </b>{{test.Candidate.FirstName}} {{test.Candidate.LastName}}</span></p>
+            <p><i class="fa fa-user fa-lg"></i><span><b> Email : </b>{{test.Candidate.Email}}</span></p>
+            <p><i class="fa fa-user fa-lg"></i><span><b> Mobile: </b>{{test.Candidate.Mobile}}</span></p>
+            <p><i class="fa fa-user fa-lg"></i><span><b> City : </b>{{test.Candidate.City}}</span></p>
+            <p><i class="fa fa-user fa-lg"></i><span><b> State : </b>{{test.Candidate.State}}</span></p>
+            <p><i class="fa fa-user fa-lg"></i><span><b> Country: </b>{{test.Candidate.Country}}</span></p>
+        </div>
+
+        <div>
+            <p><i class="fa fa-bank fa-lg"></i><b> Branch : </b>{{test.Candidate.Branch}}</p>
+
+            <p class=""><i class="fa fa-bank fa-lg"></i><b> College : </b></p>
+            <p class=""> {{test.Candidate.College}}</p>
+
+            <p><i class="fa fa-bank fa-lg"></i><b> Passing Year : </b>{{test.Candidate.PassingYear}}</p>
+            <p><i class="fa fa-bank fa-lg"></i><b> CGPA : </b>{{test.Candidate.CGPA}}</p>
+            <p><i class="fa fa-bank fa-lg"></i><b> Experience : </b>{{test.Candidate.ExperienceInYears}} years</p>
+
+            <p class=""><i class="fa fa-bank fa-lg"></i><b> Current company : </b></p>
+            <p class=""> {{test.Candidate.CurrentCompany}}</p>
+        </div>
+
+        <div>
+            <p><i class="fa fa-info-circle fa-lg"></i><b> Job applied for: </b>{{test.Job.Title}}</p>
+            <p><i class="fa fa-info-circle fa-lg"></i><b> Test Finished on : </b>{{test.FinishedDate | date}}</p>
+            <p><i class="fa fa-info-circle fa-lg"></i><b> Total Questions displayed : </b>{{test.Challenges.length}} </p>
+            <p><i class="fa fa-info-circle fa-lg"></i><b> Total Questions answered : </b>{{test.TotalChallengesAnswered}}</p>
+            <p><i class="fa fa-info-circle fa-lg"></i><b> Total right answers : </b>{{test.TotalRightAnswers}}</p>
+            <p><i class="fa fa-info-circle fa-lg"></i><b> Test result : </b><span [ngClass]="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></p>
+        </div>
+    </div>
+
+    <div>
+        <div *ngFor="let challenge of test.Challenges">
+            <div>
+                <div>
+                    <div>
+                        <span>
+                            Label : {{challenge.Question.Label.Name}}
+                        </span>
+                        <span>
+                            Difficulty: {{challenge.Question.Difficulty.Name}}
+                        </span>
+                    </div>
+                    <p *ngIf="challenge.Question.QuestionGroup?.Description"><i class="fa fa-star"></i>&nbsp; <span [innerHTML]="challenge.Question.QuestionGroup?.Description"></span></p>
+                    <p><i class="fa fa-star"></i>&nbsp; <span [innerHTML]="challenge.Question.Text"></span></p>
+                    <div *ngIf="challenge.Question.ImageUrl.length > 0">
+                        <img [src]="challenge.Question.ImageUrl" class="imagePreview" />
+                    </div>
+                    
+                    <div *ngFor="let option of challenge.Question.Options">
+                        <div>
+                            <span *ngIf="option.IsAnswer">Right Answer</span>
+                            <span *ngIf="hasCandidateSelected(option, challenge)">CandidateSelected</span>
+                        </div>
+                        <p class="finishedTestQuestionOption" [ngClass]="{'green-color': option.IsAnswer,'blue-color': option.IsCandidateSelected ,'red-color': hasCandidateSelected(option, challenge)}"><i class="fa fa-caret-right"></i>{{option.Text}}- {{option.IsAnswer}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

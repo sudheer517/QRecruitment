@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs, ResponseContentType } from '@angular/http';
-import { Candidate_JobDto, TestResultDto } from '../../RemoteServicesProxy';
+import { Candidate_JobDto, TestResultDto, TestDto } from '../../RemoteServicesProxy';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -26,6 +26,16 @@ export class TestService{
 
     public GetAllTestResults(): Observable<TestResultDto[]> {
         return this.http.get(`${this.testApiUrl}GetTestResults`).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
+
+    public GetFinishedTestDetail(testId: number): Observable<TestDto> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers });
+
+        return this.http.post(`${this.testApiUrl}GetFinishedTestDetail`, testId, options).map(
             (response: Response) => {
                 return response.json();
             });

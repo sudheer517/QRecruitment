@@ -56,6 +56,28 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
             return query.AsEnumerable();
         }
 
+        public override Test GetSingle(Expression<Func<Test, bool>> predicate)
+        {
+            IQueryable<Test> query = _context.Set<Test>().Where(predicate);
+
+            query =
+                query.
+                Include(t => t.Candidate).
+                Include(t => t.Job).
+                    ThenInclude(j => j.JobDifficultyLabels).
+                        ThenInclude(jdl => jdl.Label).
+                Include(t => t.Job).
+                    ThenInclude(j => j.JobDifficultyLabels).
+                        ThenInclude(jdl => jdl.Difficulty).
+                Include(t => t.Challenges).
+                    ThenInclude(c => c.CandidateSelectedOptions).
+                Include(t => t.Challenges).
+                        ThenInclude(c => c.Question).
+                            ThenInclude(q => q.Options);
+
+            return query.Where(predicate).FirstOrDefault();
+        }
+
         //public Test FindActiveTestByCandidateEmail(string candidateEmail)
         //{
         //    return _dbContext.Tests.FirstOrDefault(entity => entity.Candidate.Email == candidateEmail && entity.IsFinished != true);

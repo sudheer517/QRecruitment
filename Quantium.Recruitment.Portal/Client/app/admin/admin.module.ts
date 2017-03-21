@@ -22,6 +22,8 @@ import { CreateTestComponent } from './components/tests/createTest/createTest.co
 import { ViewTestsComponent } from './components/tests/viewTests/viewTests.component';
 import { TestResultsComponent } from './components/tests/testResults/testResults.component';
 
+import { TestDetailComponent } from './components/tests/testDetail/testDetail.component';
+
 import { FilterCandidatesPipe } from './pipes/filterCandidates.pipe';
 
 import { routing } from './admin.routes';
@@ -62,6 +64,7 @@ import { TableModule } from './directives/data-table/ng-table-module';
         CreateTestComponent,
         ViewTestsComponent,
         TestResultsComponent,
+        TestDetailComponent,
         FilterCandidatesPipe
     ],
     providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService, DatePipe ]

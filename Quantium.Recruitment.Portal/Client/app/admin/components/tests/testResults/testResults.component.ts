@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TestService } from '../../../services/test.service';
 import { TestResultDto } from '../../../../RemoteServicesProxy';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'appc-test-results',
@@ -37,16 +38,13 @@ export class TestResultsComponent implements OnInit {
 
   private data:Array<any>;
 
-  public constructor(private testService: TestService, private datePipe: DatePipe) {
-      console.log("ctor");
+  public constructor(private testService: TestService, private datePipe: DatePipe, private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   public ngOnInit(): void {
       this.testService.GetAllTestResults().subscribe(
           testResultsDto => {
               this.testResults = testResultsDto;
-              console.log(testResultsDto);
-              console.log(testResultsDto.length);
               if (testResultsDto.length > 0)
               {
                   for (let testResult of testResultsDto) {
@@ -108,8 +106,6 @@ export class TestResultsComponent implements OnInit {
   }
 
   public changeFilter(data: any, config: any): any {
-      console.log(data);
-      
       let filteredData: Array<any> = data;
       this.columns.forEach((column: any) => {
           if (column.filtering) {
@@ -165,6 +161,10 @@ export class TestResultsComponent implements OnInit {
   }
 
   public onCellClick(data: any): any {
-      console.log(data);
+      let clickedTestResult = data.row as TestResultDto;
+      if(clickedTestResult.IsFinished){
+          //this.router.navigate(['testDetail', clickedTestResult.Id]);
+          this.router.navigate(['../testDetail', clickedTestResult.Id], { relativeTo: this.activatedRoute});
+      }
   }
 }
