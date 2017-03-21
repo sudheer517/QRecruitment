@@ -23,7 +23,6 @@ export class TestDetailComponent implements OnInit, OnDestroy {
             this.testService.GetFinishedTestDetail(this.testId).subscribe(
                 test => {
                     this.test = test;
-                    console.log(this.test);
                 },
                 error => {
                     console.log(error);
