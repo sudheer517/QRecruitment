@@ -154,6 +154,7 @@ export class CreateTestComponent implements OnInit{
             }
 
             this.selectedtestOptions.candidateIds = selectedOptions;
+            this.updateSelectedCandidateCount();
         }
     
 }
