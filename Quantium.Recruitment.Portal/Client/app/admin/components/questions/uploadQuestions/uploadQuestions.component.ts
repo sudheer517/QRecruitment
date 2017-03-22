@@ -4,6 +4,7 @@ import { QuestionService } from '../../../services/question.service';
 import { QuestionDto } from '../../../../RemoteServicesProxy';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/modal';
+import { Response } from '@angular/http';
 
 @Component({
     selector: 'appc-upload-questions',
@@ -18,6 +19,8 @@ export class UploadQuestionsComponent implements OnInit{
     @ViewChild('progress') progressModal:ModalDirective;
     isRequestProcessing: boolean = true;
     modalResponse: string;
+    validationFailed = true;
+    questionsSaved = false;
 
     constructor(private renderer: Renderer, private questionService: QuestionService,  private router: Router, private activatedRoute:ActivatedRoute){
     }
@@ -30,7 +33,9 @@ export class UploadQuestionsComponent implements OnInit{
 
     closeProgressModal(){
         this.progressModal.hide();
-        this.router.navigate(['viewQuestions'], { relativeTo: this.activatedRoute});
+        if(!this.validationFailed && this.questionsSaved){
+            this.router.navigate(['viewQuestions'], { relativeTo: this.activatedRoute});
+        }
         
     }
 
@@ -40,11 +45,25 @@ export class UploadQuestionsComponent implements OnInit{
 
     onFileChange(eventData: any){
         this.fileText = eventData.target.value.split("\\").pop();
-
+        this.modalResponse = "Validating questions";
+        this.progressModal.show();
         this.fileData = eventData;
         let formData = this.getFileFormData(this.fileData); 
         this.questionService.PreviewQuestions(formData).subscribe(
-            questions => this.questions = questions, error => console.log(error)
+            questions => {
+                this.questions = questions;
+                this.modalResponse = "Validation successful";
+                this.validationFailed = false;
+            },
+            (error: Response) => {
+                if(error.status == 406){
+                    this.validationFailed = true;
+                    this.modalResponse = "Questions data validation failed. Please upload correct data";
+                    this.isRequestProcessing = false;
+                    this.progressModal.show();
+                }
+                console.log(error);
+            }
         );       
     }
 
@@ -56,6 +75,7 @@ export class UploadQuestionsComponent implements OnInit{
             status => {
                 this.isRequestProcessing = false;
                 this.modalResponse = "Questions uploaded";
+                this.questionsSaved = true;
             }, 
             error => {
                 console.log(error);
