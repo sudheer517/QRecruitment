@@ -96,6 +96,9 @@ export class ViewCandidatesComponent implements OnInit{
     }
 
     public changeFilter(data: any, config: any): any {
+
+        console.log(config);
+
         let filteredData: Array<any> = data;
         this.columns.forEach((column: any) => {
             if (column.filtering) {

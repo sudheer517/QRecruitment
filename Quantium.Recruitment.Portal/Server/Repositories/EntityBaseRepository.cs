@@ -31,6 +31,7 @@ namespace AspNetCoreSpa.Server.Repositories
         {
             return await _context.Set<T>().ToListAsync();
         }
+
         public virtual IEnumerable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _context.Set<T>();
@@ -75,7 +76,13 @@ namespace AspNetCoreSpa.Server.Repositories
         {
             return await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
         }
+
         public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
+        {
+            return _context.Set<T>().Where(predicate);
+        }
+
+        public virtual IEnumerable<T> FindByIncludeAll(Expression<Func<T, bool>> predicate)
         {
             return _context.Set<T>().Where(predicate);
         }

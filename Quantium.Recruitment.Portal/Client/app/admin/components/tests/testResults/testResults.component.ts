@@ -106,6 +106,8 @@ export class TestResultsComponent implements OnInit {
   }
 
   public changeFilter(data: any, config: any): any {
+      //console.log(config);
+
       let filteredData: Array<any> = data;
       this.columns.forEach((column: any) => {
           if (column.filtering) {
@@ -145,7 +147,8 @@ export class TestResultsComponent implements OnInit {
   }
 
   public onChangeTable(config: any, page: any = { page: this.page, itemsPerPage: this.itemsPerPage }): any {
-      
+    
+        console.log(config);
       if (config.filtering) {
           Object.assign(this.config.filtering, config.filtering);
       }
@@ -154,7 +157,7 @@ export class TestResultsComponent implements OnInit {
       }
 
       
-      //let filteredData = this.changeFilter(this.data, this.config);
+      let filteredData = this.changeFilter(this.data, this.config);
       let sortedData = this.changeSort(this.data, this.config);
       this.rows = page && config.paging ? this.changePage(page, sortedData) : sortedData;
       this.length = sortedData.length;
@@ -164,7 +167,7 @@ export class TestResultsComponent implements OnInit {
       let clickedTestResult = data.row as TestResultDto;
       if(clickedTestResult.IsFinished){
           //this.router.navigate(['testDetail', clickedTestResult.Id]);
-          this.router.navigate(['../testDetail', clickedTestResult.Id], { relativeTo: this.activatedRoute});
+          this.router.navigate(['../../testDetail', clickedTestResult.Id], { relativeTo: this.activatedRoute});
       }
   }
 }

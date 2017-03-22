@@ -70,7 +70,6 @@ export class CreateTestComponent implements OnInit{
     }
     
     filterCandidates(searchText: string){
-        console.log(searchText);
         if(searchText.length > 0){
         this.filteredCandidates = this.candidates.filter(
         candidate => 
@@ -86,7 +85,6 @@ export class CreateTestComponent implements OnInit{
     updateSelectedCandidateCount(): void {
             var isSelected = false;
             var selectedOptions = this.selectedOptionsMap;
-            //console.log(this.selectedtestOptions);
             if(this.selectedtestOptions.candidateIds){
                 this.selectedtestOptions.candidateIds.forEach((item, index) => {
                     if (item === true) {
@@ -103,8 +101,6 @@ export class CreateTestComponent implements OnInit{
     
     
     generateTests(){
-        console.log("test created");
-        //console.log(this.selectedtestOptions.candidateIds);
         this.progressModal.show();
         let candidateIds = this.selectedtestOptions.candidateIds;
             let candidatesJobs: Candidate_JobDto[] = [];
@@ -120,7 +116,6 @@ export class CreateTestComponent implements OnInit{
 
             this.testService.Generate(candidatesJobs).subscribe(
                 result => {
-                    console.log(result);
                     this.isRequestProcessing = false;
                     this.modalResponse = "Test generated";
                     this.router.navigate(['viewTests'], { relativeTo: this.activatedRoute});

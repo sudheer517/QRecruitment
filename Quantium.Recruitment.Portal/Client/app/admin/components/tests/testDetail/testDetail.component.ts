@@ -4,8 +4,9 @@ import { TestService } from '../../../services/test.service';
 import { TestDto, OptionDto, ChallengeDto } from '../../../../RemoteServicesProxy';
 
 @Component({
-    selector: 'appc-test-detail',
-    templateUrl: './testDetail.component.html'
+    selector: '[appc-test-detail]',
+    templateUrl: './testDetail.component.html',
+    styleUrls: ['./testDetail.component.scss']
 })
 export class TestDetailComponent implements OnInit, OnDestroy {
 
@@ -30,6 +31,24 @@ export class TestDetailComponent implements OnInit, OnDestroy {
             )
         });
     }
+
+    isCorrect(challenge: ChallengeDto){
+        let correctOptions = challenge.Question.Options.filter(o => o.IsAnswer === true);
+
+        let intersection = challenge.CandidateSelectedOptions.map(cso => cso.OptionId).filter(n => {
+            return correctOptions.map(o => o.Id).indexOf(n) !== -1;
+        });
+
+        //console.log(intersection);
+        if(intersection.length === correctOptions.length){
+            //console.log("right answer for id:" + challenge.Id);
+            return true;
+        }
+
+        return false;
+    }
+
+
 
     hasCandidateSelected(option: OptionDto, currentChallenge: ChallengeDto): boolean {
         var test = this.test;

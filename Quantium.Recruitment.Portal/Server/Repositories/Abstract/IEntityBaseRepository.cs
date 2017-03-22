@@ -17,6 +17,7 @@ namespace AspNetCoreSpa.Server.Repositories.Abstract
         T GetSingle(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetSingleAsync(long id);
         IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> FindByIncludeAll(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> FindByAsync(Expression<Func<T, bool>> predicate);
         T Add(T entity);
         void Delete(T entity);

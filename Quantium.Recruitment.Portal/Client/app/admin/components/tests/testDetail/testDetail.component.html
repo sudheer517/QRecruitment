@@ -1,68 +1,145 @@
-<div *ngIf="test">
-    <div>
-        <span>Test information - {{test.Candidate.FirstName}} {{test.Candidate.LastName}}</span>
+<div class="router-outlet-container">
+    <span class="admin-outlet-heading">TEST INFROMATION</span>
+    <div class="admin-data-container" style="display: flex; flex-direction: column">
 
-        <div>
-            <p><i class="fa fa-user fa-lg"></i><span><b> Name : </b>{{test.Candidate.FirstName}} {{test.Candidate.LastName}}</span></p>
-            <p><i class="fa fa-user fa-lg"></i><span><b> Email : </b>{{test.Candidate.Email}}</span></p>
-            <p><i class="fa fa-user fa-lg"></i><span><b> Mobile: </b>{{test.Candidate.Mobile}}</span></p>
-            <p><i class="fa fa-user fa-lg"></i><span><b> City : </b>{{test.Candidate.City}}</span></p>
-            <p><i class="fa fa-user fa-lg"></i><span><b> State : </b>{{test.Candidate.State}}</span></p>
-            <p><i class="fa fa-user fa-lg"></i><span><b> Country: </b>{{test.Candidate.Country}}</span></p>
-        </div>
-
-        <div>
-            <p><i class="fa fa-bank fa-lg"></i><b> Branch : </b>{{test.Candidate.Branch}}</p>
-
-            <p class=""><i class="fa fa-bank fa-lg"></i><b> College : </b></p>
-            <p class=""> {{test.Candidate.College}}</p>
-
-            <p><i class="fa fa-bank fa-lg"></i><b> Passing Year : </b>{{test.Candidate.PassingYear}}</p>
-            <p><i class="fa fa-bank fa-lg"></i><b> CGPA : </b>{{test.Candidate.CGPA}}</p>
-            <p><i class="fa fa-bank fa-lg"></i><b> Experience : </b>{{test.Candidate.ExperienceInYears}} years</p>
-
-            <p class=""><i class="fa fa-bank fa-lg"></i><b> Current company : </b></p>
-            <p class=""> {{test.Candidate.CurrentCompany}}</p>
-        </div>
-
-        <div>
-            <p><i class="fa fa-info-circle fa-lg"></i><b> Job applied for: </b>{{test.Job.Title}}</p>
-            <p><i class="fa fa-info-circle fa-lg"></i><b> Test Finished on : </b>{{test.FinishedDate | date}}</p>
-            <p><i class="fa fa-info-circle fa-lg"></i><b> Total Questions displayed : </b>{{test.Challenges.length}} </p>
-            <p><i class="fa fa-info-circle fa-lg"></i><b> Total Questions answered : </b>{{test.TotalChallengesAnswered}}</p>
-            <p><i class="fa fa-info-circle fa-lg"></i><b> Total right answers : </b>{{test.TotalRightAnswers}}</p>
-            <p><i class="fa fa-info-circle fa-lg"></i><b> Test result : </b><span [ngClass]="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</span></p>
-        </div>
-    </div>
-
-    <div>
-        <div *ngFor="let challenge of test.Challenges">
-            <div>
-                <div>
-                    <div>
-                        <span>
-                            Label : {{challenge.Question.Label.Name}}
-                        </span>
-                        <span>
-                            Difficulty: {{challenge.Question.Difficulty.Name}}
-                        </span>
-                    </div>
-                    <p *ngIf="challenge.Question.QuestionGroup?.Description"><i class="fa fa-star"></i>&nbsp; <span [innerHTML]="challenge.Question.QuestionGroup?.Description"></span></p>
-                    <p><i class="fa fa-star"></i>&nbsp; <span [innerHTML]="challenge.Question.Text"></span></p>
-                    <div *ngIf="challenge.Question.ImageUrl.length > 0">
-                        <img [src]="challenge.Question.ImageUrl" class="imagePreview" />
-                    </div>
+        <div *ngIf="test" class="container" style="overflow: hidden; flex: 1 1 auto">
+            <div class="row" style="overflow: hidden; width: 100%; margin-right: 0px; margin-left: 0px">
+                <div class="col-md-2 col-lg-4 candidate-information">
+                    <button [routerLink]="['../../tests/testResults']" class="btn light-gray">Back to results</button>
+                    <p style="text-align: center"><b>Candidate information</b></p>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td><b>Name</b></td>
+                                <td>{{test.Candidate.FirstName}} {{test.Candidate.LastName}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Email</b></td>
+                                <td>{{test.Candidate.Email}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Mobile</b></td>
+                                <td>{{test.Candidate.Mobile}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>City</b></td>
+                                <td>{{test.Candidate.City}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>State</b></td>
+                                <td>{{test.Candidate.State}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Country</b></td>
+                                <td>{{test.Candidate.Country}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     
-                    <div *ngFor="let option of challenge.Question.Options">
-                        <div>
-                            <span *ngIf="option.IsAnswer">Right Answer</span>
-                            <span *ngIf="hasCandidateSelected(option, challenge)">CandidateSelected</span>
+                    <p style="text-align: center"><b>Education & Experience</b></p>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td><b>Branch</b></td>
+                                <td>{{test.Candidate.Branch}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>College</b></td>
+                                <td>{{test.Candidate.College}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Passing year</b></td>
+                                <td>{{test.Candidate.PassingYear}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>CGPA</b></td>
+                                <td>{{test.Candidate.CGPA}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Experience</b></td>
+                                <td>{{test.Candidate.ExperienceInYears}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Current company</b></td>
+                                <td>{{test.Candidate.CurrentCompany}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p style="text-align: center"><b>Test Details</b></p>
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td><b>Job applied for</b></td>
+                                <td>{{test.Job.Title}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Test finished on</b></td>
+                                <td>{{test.FinishedDate | date}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Total questions</b></td>
+                                <td>{{test.Challenges.length}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Total answered</b></td>
+                                <td>{{test.TotalChallengesAnswered}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Total correct</b></td>
+                                <td>{{test.TotalRightAnswers}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Test result</b></td>
+                                <td [ngClass]="test.IsTestPassed === false ? 'red-color' : 'green-color'">{{test.IsTestPassed === false ? 'Failed' : 'Passed'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-md-10 col-lg-8" style="overflow-y: scroll; padding: 10px; padding-top: 0; ">
+                    <p style="background-color: #353B47; color: whitesmoke ; text-align: center; padding-top: 10px; padding-bottom: 10px"><b>Questions displayed to candidate</b></p>
+                    <p style="text-align: center">
+                        <span style="margin-right: 15px;"><i class="fa fa-circle blue-color" style="margin-right: 8px;"></i>Candidate selected & correct answer</span>
+                        <span style="margin-right: 15px;"><i class="fa fa-circle green-color" style="margin-right: 8px;"></i>Correct answer</span>
+                        <span ><i class="fa fa-circle red-color" style="margin-right: 8px;"></i>Candidate selected & wrong answer</span>
+                    </p>
+                    <hr>
+                    <div>
+                        <div *ngFor="let challenge of test.Challenges">
+                            <div>
+                                <div>
+                                    <div>
+                                        <span>
+                                            Label : <b>{{challenge.Question.Label.Name}}  </b>
+                                        </span> |
+                                        <span>
+                                            Difficulty: <b>{{challenge.Question.Difficulty.Name}} </b>
+                                        </span> |
+                                        <span>
+                                            Answered correctly: <b >{{isCorrect(challenge) ? "Yes" : "No"}}</b>
+                                        </span>
+                                    </div>
+                                    <p *ngIf="challenge.Question.QuestionGroup?.Description"><i class="fa fa-star"></i>&nbsp; <span [innerHTML]="challenge.Question.QuestionGroup?.Description"></span></p>
+                                    <p><i class="fa fa-star"></i>&nbsp; <span [innerHTML]="challenge.Question.Text"></span></p>
+                                    <div *ngIf="challenge.Question.ImageUrl.length > 0">
+                                        <img [src]="challenge.Question.ImageUrl" class="imagePreview" />
+                                    </div>
+                                    
+                                    <div *ngFor="let option of challenge.Question.Options">
+                                        <div>
+                                            <!--<span *ngIf="option.IsAnswer">Right Answer</span>
+                                            <span *ngIf="hasCandidateSelected(option, challenge)">CandidateSelected</span>-->
+                                        </div>
+                                        <p class="finishedTestQuestionOption" [ngClass]="{'green-color': option.IsAnswer,'blue-color': option.IsCandidateSelected && option.IsAnswer ,'red-color': hasCandidateSelected(option, challenge)}"><i class="fa fa-caret-right"></i>{{option.Text}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
                         </div>
-                        <p class="finishedTestQuestionOption" [ngClass]="{'green-color': option.IsAnswer,'blue-color': option.IsCandidateSelected ,'red-color': hasCandidateSelected(option, challenge)}"><i class="fa fa-caret-right"></i>{{option.Text}}- {{option.IsAnswer}}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

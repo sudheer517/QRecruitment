@@ -65,10 +65,11 @@ const routes: Routes = [
           { path: '', component:  CreateTestComponent },
           { path: 'createTest', component:  CreateTestComponent },
           { path: 'viewTests', component:  ViewTestsComponent },
-          { path: 'testResults', component:  TestResultsComponent },
-          { path: 'testDetail/:testId', component: TestDetailComponent }
+          { path: 'testResults', component:  TestResultsComponent }
+          
         ] 
-      }
+      },
+      { path: 'testDetail/:testId', component: TestDetailComponent }
     ]
   }
 ];

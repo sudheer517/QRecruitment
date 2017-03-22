@@ -13,6 +13,7 @@ using AspNetCoreSpa.Server.Repositories.Abstract;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -152,29 +153,33 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         {
             var allTests = 
                 _testRepository.
-                AllIncluding(t => t.Candidate, t => t.Job).
-                Where(t => t.IsArchived != true).
+                FindByIncludeAll(t => t.IsArchived != true).
                 OrderByDescending(t => t.FinishedDate).
                 ToList();
 
-            var allTestDtos = Mapper.Map<List<TestDto>>(allTests);
+            IList<TestResultDto> allTestResultDtos = new List<TestResultDto>();
 
-            var allTestResultDtos = new List<TestResultDto>();
-
-            foreach (var test in allTestDtos)
+            foreach (var test in allTests)
             {
+                var testDto = Mapper.Map<TestDto>(test);
+
+                if (test.IsFinished)
+                {
+                    FillTestDto(test, testDto);
+                }
+
                 TestResultDto testResult = new TestResultDto
                 {
-                    Id = test.Id,
-                    Candidate = test.Candidate.FirstName + " " + test.Candidate.LastName,
-                    Email = test.Candidate.Email,
-                    JobApplied = test.Job.Title,
-                    FinishedDate = test.FinishedDate,
-                    Result = test.IsFinished ? test.IsTestPassed ? "Passed" : "Failed" : "N/A" ,
-                    College = test.Candidate.College,
-                    CGPA = test.Candidate.CGPA,
-                    TotalRightAnswers = test.TotalRightAnswers,
-                    IsFinished = test.IsFinished
+                    Id = testDto.Id,
+                    Candidate = testDto.Candidate.FirstName + " " + testDto.Candidate.LastName,
+                    Email = testDto.Candidate.Email,
+                    JobApplied = testDto.Job.Title,
+                    FinishedDate = testDto.FinishedDate,
+                    Result = testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : "N/A" ,
+                    College = testDto.Candidate.College,
+                    CGPA = testDto.Candidate.CGPA,
+                    TotalRightAnswers = testDto.TotalRightAnswers,
+                    IsFinished = testDto.IsFinished
                 };
 
                 allTestResultDtos.Add(testResult);
