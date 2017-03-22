@@ -98,6 +98,17 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             try
             {
                 var candidateDtos = GetCandidateDtosFromWorkSheet(workSheet);
+
+                foreach (var candidateDto in candidateDtos)
+                {
+                    var candidate = _candidateRepository.GetSingle(c => c.Email == candidateDto.Email);
+
+                    if(candidate != null)
+                    {
+                        return StatusCode(StatusCodes.Status409Conflict, candidate);
+                    }
+                }
+
                 return Ok(candidateDtos);
             }
             catch (Exception ex)
