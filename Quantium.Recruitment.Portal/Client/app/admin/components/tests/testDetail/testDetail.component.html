@@ -5,7 +5,6 @@
         <div *ngIf="test" class="container" style="overflow: hidden; flex: 1 1 auto">
             <div class="row" style="overflow: hidden; width: 100%; margin-right: 0px; margin-left: 0px">
                 <div class="col-md-2 col-lg-4 candidate-information">
-                    <button [routerLink]="['../../tests/testResults']" class="btn light-gray">Back to results</button>
                     <p style="text-align: center"><b>Candidate information</b></p>
                     <table class="table table-striped">
                         <tbody>
@@ -95,6 +94,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div style="display: flex; justify-content: center;margin-top: auto">
+                        <button [routerLink]="['../../tests/testResults']" class="btn light-gray"><i class="fa fa-chevron-left" style="margin-right: 8px"></i>Back to results</button>
+                    </div>
                 </div>
 
                 <div class="col-md-10 col-lg-8" style="overflow-y: scroll; padding: 10px; padding-top: 0; ">

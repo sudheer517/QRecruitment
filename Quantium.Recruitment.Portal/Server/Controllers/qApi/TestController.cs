@@ -175,7 +175,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     Email = testDto.Candidate.Email,
                     JobApplied = testDto.Job.Title,
                     FinishedDate = testDto.FinishedDate,
-                    Result = testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : "N/A" ,
+                    Result = testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : string.Empty ,
                     College = testDto.Candidate.College,
                     CGPA = testDto.Candidate.CGPA,
                     TotalRightAnswers = testDto.TotalRightAnswers,

@@ -53,7 +53,7 @@ export class TestResultsComponent implements OnInit {
                         testResult.FinishedDate = this.datePipe.transform(testResult.FinishedDate, 'medium');
                       }
                       else{
-                          testResult.FinishedDate = "N/A";
+                          testResult.FinishedDate = "";
                       }
                   }
 
@@ -76,6 +76,11 @@ export class TestResultsComponent implements OnInit {
 
   public changeSort(data: any, config: any): any {
       if (!config.sorting) {
+          return data;
+      }
+
+      //hack for first time page load only.refactor later
+      if (this.columns.filter(col => col.sort.length === 0).length === 0) {
           return data;
       }
 
@@ -148,7 +153,7 @@ export class TestResultsComponent implements OnInit {
 
   public onChangeTable(config: any, page: any = { page: this.page, itemsPerPage: this.itemsPerPage }): any {
     
-        console.log(config);
+       
       if (config.filtering) {
           Object.assign(this.config.filtering, config.filtering);
       }
@@ -156,9 +161,16 @@ export class TestResultsComponent implements OnInit {
           Object.assign(this.config.sorting, config.sorting);
       }
 
+      let hasFilterString = this.columns.filter(col => col.filtering && col.filtering.filterString.length > 0).length > 0;
+      let filteredData = this.data;
+      let sortedData = this.data;
+
+      if(hasFilterString){
+          filteredData = this.changeFilter(this.data, this.config);
+      }
       
-      let filteredData = this.changeFilter(this.data, this.config);
-      let sortedData = this.changeSort(this.data, this.config);
+      sortedData = this.changeSort(filteredData, this.config);
+
       this.rows = page && config.paging ? this.changePage(page, sortedData) : sortedData;
       this.length = sortedData.length;
   }
