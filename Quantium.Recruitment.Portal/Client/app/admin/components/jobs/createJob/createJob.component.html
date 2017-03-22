@@ -83,6 +83,8 @@
                                                                 <button class="btn small-icon-btn red" (click)="removeLabelAndDifficulty(i)"><i class="fa fa-minus"></i></button>
                                                         </div>
                                                 </div>
+                                                 <small *ngIf="labelAndDifficulty.errors?.duplicate" 
+                                                        class="form-text muted-text text-danger">Cannot have duplicate labels and difficulties</small>
                                         </div>
                                 </div>
                         </div>

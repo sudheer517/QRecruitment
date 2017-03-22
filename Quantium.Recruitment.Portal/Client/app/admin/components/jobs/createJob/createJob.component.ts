@@ -1,5 +1,5 @@
 import { Component, OnInit,ChangeDetectorRef, ViewChild  } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl, FormArray, ValidatorFn } from '@angular/forms';
 
 import { JobService } from '../../../services/job.service';
 import { DepartmentService } from '../../../services/department.service';
@@ -11,7 +11,7 @@ import { JobDto, DepartmentDto, LabelDto, DifficultyDto, Question_Difficulty_Lab
 import { ModalDirective } from 'ng2-bootstrap/modal';
 import { Router, ActivatedRoute } from '@angular/router';
 
- 
+
 
 @Component({
     selector: 'appc-create-job',
@@ -26,6 +26,7 @@ export class CreateJobComponent implements OnInit {
     @ViewChild('progress') progressModal:ModalDirective;
     isRequestProcessing: boolean = true;
     modalResponse: string;
+    selectedLabelAndDiffs = new SelectedLabelAndDiffs();
 
     get labelsAndDifficulties(): FormArray { 
         return this.jobForm.get('labelsAndDifficulties') as FormArray; 
@@ -77,6 +78,28 @@ export class CreateJobComponent implements OnInit {
         return null;
     }
 
+     duplicateLabelDiffValidator(selectedLabelAndDiffs: SelectedLabelAndDiffs): ValidatorFn {
+
+        return (c: any): {[key: string]: boolean} | null => {
+            
+            let labelId = c.get('label').value;
+            let difficultyId = c.get('difficulty').value;
+            let count = 0;
+            Object.keys(selectedLabelAndDiffs).forEach((item, index)=> {
+                let labelAndDiff = selectedLabelAndDiffs[0];
+                if(labelAndDiff.labelId == labelId && labelAndDiff.diffId == difficultyId){
+                    count++;
+                }
+            })
+
+            if(count > 1){
+                return { 'duplicate': true }
+            }
+
+            return null;
+        }
+    }
+
     save(): void{
         this.progressModal.show();
         this.modalResponse = "Creating job";
@@ -121,8 +144,6 @@ export class CreateJobComponent implements OnInit {
         this.labelsAndDifficulties.push(this.getNewLabelDifficultyGroup())
     }
 
-    
-
     private rearrangeQuestionMaps(indexToBeRemoved: number, arrayToBeReArranged: QuestionsInJobMap): QuestionsInJobMap {
         let rearrangedMap = new QuestionsInJobMap();
 
@@ -143,7 +164,7 @@ export class CreateJobComponent implements OnInit {
                 difficulty: ['', Validators.required],
                 availableQuestions: ['', [Validators.required, this.noQuestionsValidator]],
                 questionsToPass: ['', [Validators.required, this.noQuestionsValidator]]
-            });
+            }, { validator: this.duplicateLabelDiffValidator(this.selectedLabelAndDiffs) });
 
         let availableQuestionControlIndex = 0;
 
@@ -189,6 +210,7 @@ export class CreateJobComponent implements OnInit {
     }
 
     private setQuestionCounts(dynamicFormGroup: FormGroup, formGroupIndex: number, difficultyValue: any, labelValue: any ){
+        
         let matchingCombinationOfLabelAndDiff = this.questionDifficultyLabels.find(item => item.DifficultyId == difficultyValue && item.LabelId == labelValue);
         let questionCount = matchingCombinationOfLabelAndDiff ? matchingCombinationOfLabelAndDiff.QuestionCount : 0;
 
@@ -210,6 +232,17 @@ export class CreateJobComponent implements OnInit {
             
         }
         else{
+            let selectedLAndDObj = this.selectedLabelAndDiffs[formGroupIndex];
+            if(selectedLAndDObj){
+                selectedLAndDObj.labelId = labelValue;
+                selectedLAndDObj.diffId = difficultyValue;
+            } 
+            else{
+                selectedLAndDObj = new LabelAndDiff(labelValue, difficultyValue);
+            }
+            this.selectedLabelAndDiffs[formGroupIndex] = selectedLAndDObj;
+
+            //console.log(this.selectedLabelAndDiffs[formGroupIndex]);
             availableQuestionsControl.enable();
             questionsToPassControl.enable();
             this.availableQuestionsMap[formGroupIndex] = this.getArray(questionCount);
@@ -247,4 +280,16 @@ export class CreateJobComponent implements OnInit {
 
 export class QuestionsInJobMap{
     [key: number]: any[];
+}
+
+class LabelAndDiff{
+    constructor(labelId, diffId){
+        this.labelId = labelId;
+        this.diffId = diffId;
+    }
+    labelId: number;
+    diffId: number;
+}
+class SelectedLabelAndDiffs{
+    [key: number]:  LabelAndDiff;
 }
