@@ -102,7 +102,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status406NotAcceptable, ex.Message);
             }
 
         }

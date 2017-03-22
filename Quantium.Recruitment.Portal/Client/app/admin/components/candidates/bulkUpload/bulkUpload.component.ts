@@ -4,6 +4,7 @@ import { CandidateService } from '../../../services/candidate.service';
 import { CandidateDto } from '../../../../RemoteServicesProxy';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/modal';
+import { Response } from '@angular/http';
 
 @Component({
     selector: 'appc-bulk-upload',
@@ -18,6 +19,8 @@ export class BulkUploadComponent implements OnInit {
     fileText = "Choose file";
     @ViewChild('progress') progressModal: ModalDirective;
     @ViewChild('previewCandidatesModal') previewModal: ModalDirective;
+    validationFailed = true;
+    candidatesSaved = false;
 
     constructor(private renderer: Renderer, private candidateService: CandidateService, private router: Router,
     private activatedRoute:ActivatedRoute){
@@ -26,7 +29,9 @@ export class BulkUploadComponent implements OnInit {
     
     closeProgressModal(){
         this.progressModal.hide();
-        this.router.navigate(['../viewCandidates'], { relativeTo: this.activatedRoute});
+        if(!this.validationFailed && this.candidatesSaved){
+            this.router.navigate(['../viewCandidates'], { relativeTo: this.activatedRoute});
+        }
     }
 
     ngOnInit(){
@@ -39,13 +44,26 @@ export class BulkUploadComponent implements OnInit {
     }
 
     onFileChange(eventData: any){
-        console.log("file change");
-        console.log(event);
         this.fileText = eventData.target.value.split("\\").pop();
+        this.modalResponse = "Validating candidates";
+        this.progressModal.show();
         this.fileData = eventData;
         let formData = this.getFileFormData(this.fileData); 
         this.candidateService.PreviewCandidates(formData).subscribe(
-            candidates => this.candidates = candidates, error => console.log(error)
+            candidates => {
+                this.candidates = candidates;
+                this.modalResponse = "Validation successful";
+                this.validationFailed = false;
+            },
+            (error: Response) =>{
+                if(error.status == 406){
+                    this.validationFailed = true;
+                    this.modalResponse = "Candidates validation failed. Please upload correct data";
+                    this.isRequestProcessing = false;
+                    this.progressModal.show();
+                }
+                console.log(error)
+            } 
         );       
     }
 
@@ -58,8 +76,7 @@ export class BulkUploadComponent implements OnInit {
             status => {
                 this.isRequestProcessing = false;
                 this.modalResponse = "Candidates added successfully";
-                console.log(status);
-                //
+                this.candidatesSaved = true;
             }, 
             error => {
                 this.modalResponse = "Unable to add candidates";
