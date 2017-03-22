@@ -19,7 +19,6 @@ import { ViewCandidatesComponent } from './components/candidates/viewCandidates/
 
 import { TestsComponent } from './components/tests/tests.component';
 import { CreateTestComponent } from './components/tests/createTest/createTest.component';
-import { ViewTestsComponent } from './components/tests/viewTests/viewTests.component';
 import { TestResultsComponent } from './components/tests/testResults/testResults.component';
 
 import { TestDetailComponent } from './components/tests/testDetail/testDetail.component';
@@ -64,7 +63,6 @@ const routes: Routes = [
         children: [ 
           { path: '', component:  CreateTestComponent },
           { path: 'createTest', component:  CreateTestComponent },
-          { path: 'viewTests', component:  ViewTestsComponent },
           { path: 'testResults', component:  TestResultsComponent }
           
         ] 

@@ -19,7 +19,6 @@ import { ViewCandidatesComponent } from './components/candidates/viewCandidates/
 
 import { TestsComponent } from './components/tests/tests.component';
 import { CreateTestComponent } from './components/tests/createTest/createTest.component';
-import { ViewTestsComponent } from './components/tests/viewTests/viewTests.component';
 import { TestResultsComponent } from './components/tests/testResults/testResults.component';
 
 import { TestDetailComponent } from './components/tests/testDetail/testDetail.component';
@@ -62,7 +61,6 @@ import { TableModule } from './directives/data-table/ng-table-module';
         ViewCandidatesComponent,
         TestsComponent,
         CreateTestComponent,
-        ViewTestsComponent,
         TestResultsComponent,
         TestDetailComponent,
         FilterCandidatesPipe
