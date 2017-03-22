@@ -28,12 +28,14 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         private readonly IEntityBaseRepository<Label> _labelRepository;
         private readonly IEntityBaseRepository<Difficulty> _difficultyRepository;
         private readonly IEntityBaseRepository<QuestionGroup> _questionGroupRepository;
+        private readonly IEntityBaseRepository<Admin> _adminRepository;
 
         public QuestionController(IHttpHelper helper, IHttpContextAccessor httpContextAccessor,
             IEntityBaseRepository<Question> questionRepository,
             IEntityBaseRepository<Label> labelRepository,
             IEntityBaseRepository<Difficulty> difficultyRepository,
-            IEntityBaseRepository<QuestionGroup> questionGroupRepository)
+            IEntityBaseRepository<QuestionGroup> questionGroupRepository,
+            IEntityBaseRepository<Admin> adminRepository)
         {
             _helper = helper;
             _httpContextAccessor = httpContextAccessor;
@@ -41,16 +43,43 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             _labelRepository = labelRepository;
             _difficultyRepository = difficultyRepository;
             _questionGroupRepository = questionGroupRepository;
+            _adminRepository = adminRepository;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(bool paging = false, int pageNumber = 1, int questionsPerPage = 10)
         {
-            var questions = _questionRepository.AllIncluding(q => q.Label, q => q.Difficulty, q => q.Options, q => q.QuestionGroup).Where(q => q.IsActive != false);
+            IList<Question> questions = null;
+
+            IList<Question> totalQuestions =
+                _questionRepository.
+                AllIncluding(q => q.Label, q => q.Difficulty, q => q.Options, q => q.QuestionGroup).
+                Where(q => q.IsActive != false).
+                OrderByDescending(q => q.CreatedUtc).ToList();
+
+            if (paging == true)
+            {
+                questions =
+                    totalQuestions.
+                    Skip((pageNumber - 1) * questionsPerPage).
+                    Take(questionsPerPage).
+                    ToList();
+            }
+            else
+            {
+                questions = totalQuestions.ToList();
+            }
 
             var qDtos = Mapper.Map<IList<QuestionDto>>(questions);
 
-            return Ok(qDtos);
+            if (paging == true)
+            {
+                return Ok(new { totalPages = Math.Ceiling((double)totalQuestions.Count / questionsPerPage), questions = qDtos });
+            }
+            else
+            {
+                return Ok(qDtos);
+            }
         }
 
         [HttpPost]
@@ -124,8 +153,10 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                         inputQuestion.QuestionGroup = null;
                         inputQuestion.QuestionGroupId = null;
                     }
-
+                    var adminEmail = this.User.Identities.First().Name;
+                    inputQuestion.CreatedByUserId = _adminRepository.GetSingle(a => a.Email == adminEmail).Id;
                     inputQuestion.IsActive = true;
+                    inputQuestion.CreatedUtc = DateTime.UtcNow;
                     var result = _questionRepository.Add(inputQuestion);
                 }
 

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AspNetCoreSpa.Server.Entities;
+using System.Linq;
 
 namespace AspNetCoreSpa.Server.Repositories.Abstract
 {
     public interface IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
-        IEnumerable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties);
+        IQueryable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties);
         Task<IEnumerable<T>> AllIncludingAsync(params Expression<Func<T, object>>[] includeProperties);
         IEnumerable<T> GetAll();
         Task<IEnumerable<T>> GetAllAsync();

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions, RequestOptionsArgs, ResponseContentType } from '@angular/http';
-import { QuestionDto, Question_Difficulty_LabelDto } from '../../RemoteServicesProxy';
+import { Http, Response, Headers, RequestOptions, RequestOptionsArgs, ResponseContentType, URLSearchParams } from '@angular/http';
+import { QuestionDto, Question_Difficulty_LabelDto, PagedQuestionDto } from '../../RemoteServicesProxy';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -30,6 +30,18 @@ export class QuestionService{
             });
     }
 
+    public GetAllQuestionsByPaging(pageNumber, questionsPerPage): Observable<PagedQuestionDto> {
+        let params = new URLSearchParams();
+        params.set('paging', 'true');
+        params.set('pageNumber', pageNumber);
+        params.set('questionsPerPage', questionsPerPage);
+
+        return this.http.get(`${this.questionApiUrl}GetAll`, { search: params }).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
+
     public GetQuestionsByLabelAndDifficulty(): Observable<Question_Difficulty_LabelDto[]> {
         return this.http.get(`${this.questionApiUrl}GetQuestionsByLabelAndDifficulty`).map(
             (response: Response) => {
@@ -48,3 +60,4 @@ export class QuestionService{
             });
     }
 }
+

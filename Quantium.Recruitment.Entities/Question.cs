@@ -1,4 +1,5 @@
 ﻿using AspNetCoreSpa.Server.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -41,5 +42,7 @@ namespace Quantium.Recruitment.Entities
         public virtual bool IsRadio { get; set; }
 
         public virtual bool IsActive { get; set; }
+
+        public DateTime? CreatedUtc { get; set; }
     }
 }

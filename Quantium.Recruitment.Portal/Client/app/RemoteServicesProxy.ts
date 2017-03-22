@@ -227,6 +227,11 @@
 
     }
 
+    export class PagedQuestionDto {
+        questions: QuestionDto[];
+        totalPages: number;
+    }
+
     export class QuestionDto { 
         public Id: number;
         public Text: string;

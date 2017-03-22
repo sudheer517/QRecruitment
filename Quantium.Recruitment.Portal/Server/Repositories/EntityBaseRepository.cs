@@ -32,14 +32,14 @@ namespace AspNetCoreSpa.Server.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public virtual IEnumerable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties)
+        public virtual IQueryable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = _context.Set<T>();
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
             }
-            return query.AsEnumerable();
+            return query;
         }
 
         public virtual async Task<IEnumerable<T>> AllIncludingAsync(params Expression<Func<T, object>>[] includeProperties)

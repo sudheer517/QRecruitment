@@ -1,4 +1,17 @@
 <div style="padding: 20px;" *ngIf="questions?.length > 0">
+        <div class="d-flex" style="justify-content: center">
+                <pagination
+                        class="pagination-sm"
+                        [(ngModel)]="page"
+                        [totalItems]="length"
+                        [itemsPerPage]="itemsPerPage"
+                        [maxSize]="maxSize"
+                        [boundaryLinks]="true"
+                        [rotate]="false"
+                        (pageChanged)="changePage($event)"
+                        (numPages)="numPages = $event">
+                </pagination>
+        </div>
     <div *ngFor="let question of questions; let index=index">
             <div class="question-attributes d-flex">
                     <span><b>Time for question :</b> {{question.TimeInSeconds}} seconds</span>
@@ -11,7 +24,7 @@
             </div>
             <p *ngIf="question.QuestionGroup?.Description.length > 0"><span [innerHTML]="question.QuestionGroup.Description"></span></p>
             <div>
-                    <b><p> {{index + 1}}. <span [innerHTML]="question.Text"></span></p></b>
+                    <b><p> {{((page-1)* 10) + (index + 1)}}. <span [innerHTML]="question.Text"></span></p></b>
                     
             </div>
             <div *ngIf="question.ImageUrl.length > 0">
@@ -39,6 +52,19 @@
             </div>
             <hr>
     </div>
+    <div class="d-flex" style="justify-content: center">
+                <pagination
+                        class="pagination-sm"
+                        [(ngModel)]="page"
+                        [totalItems]="length"
+                        [itemsPerPage]="itemsPerPage"
+                        [maxSize]="maxSize"
+                        [boundaryLinks]="true"
+                        [rotate]="false"
+                        (pageChanged)="changePage($event)"
+                        (numPages)="numPages = $event">
+                </pagination>
+        </div>
 </div>
 
 <div *ngIf="!questions || questions?.length < 1" class="d-flex" style="justify-content: center; margin-top: 40px">
