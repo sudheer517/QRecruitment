@@ -3,91 +3,119 @@
         <span class="admin-outlet-heading">CANDIDATE INFORMATION</span>
         <div class="admin-data-container">
                 <div class="d-flex" style="justify-content: center">
-                    <form class="col-md-12" novalidate #form="ngForm" (submit)="saveCandidateDetails(form)">
+                    <form class="col-md-12" novalidate (ngSubmit)="saveCandidateDetails(form)" [formGroup]="candidateDetailsForm">
                         <h4 style="text-align: center; margin-bottom: 50px">Please fill your details</h4>
                         <div class="d-flex" style="justify-content: space-around">
-                            <div class="form-group" [class.has-danger]="firstName.invalid && firstName.touched">
+
+                            <div class="form-group" [class.has-danger]="candidateDetailsForm.get('firstName').invalid && candidateDetailsForm.get('firstName').touched">
                                 <label class="form-control-label" for="firstName">First name</label>
-                                <input type="text" #firstName="ngModel" class="form-control" id="firstName" required name="firstName" placeholder="First name" [(ngModel)]="candidate.FirstName">
-                                <small *ngIf="firstName.invalid && firstName.touched" class="form-text muted-text">First name is required</small>
+                                <input type="text" class="form-control" id="firstName" placeholder="First name" formControlName="firstName">
+                                <small *ngIf="candidateDetailsForm.get('firstName').touched && candidateDetailsForm.get('firstName').invalid" class="form-text muted-text">First name is required</small>
                             </div>
 
-                            <div class="form-group" [class.has-danger]="lastName.invalid && lastName.touched">
+                            <div class="form-group" [class.has-danger]="candidateDetailsForm.get('lastName').invalid && candidateDetailsForm.get('lastName').touched">
                                 <label class="form-control-label" for="lastName">Last name</label>
-                                <input type="text" #lastName="ngModel" class="form-control" id="lastName" required name="lastName" placeholder="Last name"  [(ngModel)]="candidate.LastName">
-                                <small *ngIf="lastName.invalid && lastName.touched" class="form-text muted-text">Last name is required</small>
+                                <input type="text" class="form-control" id="lastName" placeholder="Last name" formControlName="lastName">
+                                <small *ngIf="candidateDetailsForm.get('lastName').touched && candidateDetailsForm.get('lastName').invalid" class="form-text muted-text">Last name is required</small>
                             </div>
 
-                            <div class="form-group" [class.has-danger]="mobileNumber.invalid && mobileNumber.touched">
-                                <label class="form-control-label" for="mobileNumber">Mobile Number</label>
-                                <input type="number" #mobileNumber="ngModel" class="form-control" id="mobileNumber" required name="mobileNumber" placeholder="Mobile number" [(ngModel)]="candidate.Mobile"
-                                minlength="10" maxlength="10">
-                                <small *ngIf="mobileNumber.invalid && mobileNumber.touched" class="form-text muted-text">Mobile is required</small>
+                            <div class="form-group" [class.has-danger]="candidateDetailsForm.get('mobile').invalid && candidateDetailsForm.get('mobile').touched">
+                                <label class="form-control-label" for="mobile">Mobile</label>
+                                <input type="text" class="form-control" id="mobile" placeholder="Mobile" formControlName="mobile">
+                                <span *ngIf="candidateDetailsForm.get('mobile').touched && candidateDetailsForm.get('mobile').invalid">
+                                    <small *ngIf="candidateDetailsForm.get('mobile').errors?.required" class="form-text muted-text">Mobile is required</small>
+                                    <small *ngIf="candidateDetailsForm.get('mobile').errors?.minlength" class="form-text muted-text">
+                                        Mobile should not be < 10 digits</small>
+                                    <small *ngIf="candidateDetailsForm.get('mobile').errors?.maxlength" class="form-text muted-text">
+                                    Mobile should not be > 10 digits</small>
+                                     <small *ngIf="candidateDetailsForm.get('mobile').errors?.notnumeric" class="form-text muted-text">
+                                    Mobile should be numeric</small>
+                                </span>
                             </div>
                         </div>
 
                         <div class="d-flex" style="justify-content: space-around">
-                                <div class="form-group" [class.has-danger]="branch.invalid && branch.touched">
+
+                                <div class="form-group" [class.has-danger]="candidateDetailsForm.get('branch').invalid && candidateDetailsForm.get('branch').touched">
                                     <label class="form-control-label" for="branch">Branch</label>
-                                    <input type="text" #branch="ngModel" class="form-control" id="branch" required name="branch" placeholder="Branch" [(ngModel)]="candidate.Branch">
-                                    <small *ngIf="branch.invalid && branch.touched" class="form-text muted-text">Branch is required</small>
+                                    <input type="text" class="form-control" id="branch" placeholder="Branch" formControlName="branch">
+                                    <small *ngIf="candidateDetailsForm.get('branch').touched && candidateDetailsForm.get('branch').invalid" class="form-text muted-text">Branch is required</small>
                                 </div>
 
-                                <div class="form-group" [class.has-danger]="cgpa.invalid && cgpa.touched">
+                                <div class="form-group" [class.has-danger]="candidateDetailsForm.get('cgpa').invalid && candidateDetailsForm.get('cgpa').touched">
                                     <label class="form-control-label" for="cgpa">CGPA</label>
-                                    <input type="text" #cgpa="ngModel" class="form-control" id="cgpa" required name="branch" placeholder="CGPA" [(ngModel)]="candidate.CGPA">
-                                    <small *ngIf="cgpa.invalid && cgpa.touched" class="form-text muted-text">CGPA is required</small>
+                                    <input type="text" class="form-control" id="cgpa" placeholder="e.g. 7 or 7.5" formControlName="cgpa">
+                                    <span *ngIf="candidateDetailsForm.get('cgpa').touched && candidateDetailsForm.get('cgpa').invalid">
+                                        <small *ngIf="candidateDetailsForm.get('cgpa').errors?.required" class="form-text muted-text">CGPA is required</small>
+                                        <small *ngIf="candidateDetailsForm.get('cgpa').errors?.minlength || candidateDetailsForm.get('cgpa').errors?.maxlength" class="form-text muted-text">
+                                            CGPA should be in the format X or X.Y</small>
+                                        <small *ngIf="candidateDetailsForm.get('cgpa').errors?.notnumeric" class="form-text muted-text">
+                                            CGPA should be numeric</small>
+                                        <small *ngIf="candidateDetailsForm.get('cgpa').errors?.morethan10" class="form-text muted-text">
+                                            CGPA should not be more than 10</small>
+                                    </span>
                                 </div>
 
-                                <div class="form-group" [class.has-danger]="college.invalid && college.touched">
+                                <div class="form-group" [class.has-danger]="candidateDetailsForm.get('college').invalid && candidateDetailsForm.get('college').touched">
                                     <label class="form-control-label" for="college">College</label>
-                                    <input type="text" #college="ngModel" class="form-control" id="college" required name="college" placeholder="College" [(ngModel)]="candidate.College">
-                                    <small *ngIf="college.invalid && college.touched" class="form-text muted-text">College is required</small>
+                                    <input type="text" class="form-control" id="college" placeholder="College" formControlName="college">
+                                    <small *ngIf="candidateDetailsForm.get('college').touched && candidateDetailsForm.get('college').invalid" class="form-text muted-text">College is required</small>
                                 </div>
                         </div>
 
                         <div class="d-flex" style="justify-content: space-around">
-                                <div class="form-group" [class.has-danger]="state.invalid && state.touched">
+                                <div class="form-group" [class.has-danger]="candidateDetailsForm.get('state').invalid && candidateDetailsForm.get('state').touched">
                                     <label class="form-control-label" for="state">State</label>
-                                    <input type="text" #state="ngModel" class="form-control" id="state" required name="state" placeholder="State" [(ngModel)]="candidate.State">
-                                    <small *ngIf="state.invalid && state.touched" class="form-text muted-text">State is required</small>
+                                    <input type="text" class="form-control" id="state" placeholder="State" formControlName="state">
+                                    <small *ngIf="candidateDetailsForm.get('state').touched && candidateDetailsForm.get('state').invalid" class="form-text muted-text">State is required</small>
                                 </div>
 
-                                <div class="form-group" [class.has-danger]="city.invalid && city.touched">
+                                <div class="form-group" [class.has-danger]="candidateDetailsForm.get('city').invalid && candidateDetailsForm.get('city').touched">
                                     <label class="form-control-label" for="city">City</label>
-                                    <input type="text" #city="ngModel" class="form-control" id="city" required name="city" placeholder="City" [(ngModel)]="candidate.City">
-                                    <small *ngIf="city.invalid && city.touched" class="form-text muted-text">City is required</small>
+                                    <input type="text" class="form-control" id="city" placeholder="City" formControlName="city">
+                                    <small *ngIf="candidateDetailsForm.get('city').touched && candidateDetailsForm.get('city').invalid" class="form-text muted-text">City is required</small>
                                 </div>
 
-                                <div class="form-group" [class.has-danger]="country.invalid && country.touched">
+                                <div class="form-group" [class.has-danger]="candidateDetailsForm.get('country').invalid && candidateDetailsForm.get('country').touched">
                                     <label class="form-control-label" for="country">Country</label>
-                                    <input type="text" #country="ngModel" class="form-control" id="country" required name="country" placeholder="Country" [(ngModel)]="candidate.Country">
-                                    <small *ngIf="country.invalid && country.touched" class="form-text muted-text">Country is required</small>
+                                    <input type="text" class="form-control" id="country" placeholder="Country" formControlName="country">
+                                    <small *ngIf="candidateDetailsForm.get('country').touched && candidateDetailsForm.get('country').invalid" class="form-text muted-text">Country is required</small>
                                 </div>
                         </div>
 
                         <div class="d-flex" style="justify-content: space-around">
-                            <div class="form-group" [class.has-danger]="graduation.invalid && graduation.touched">
-                                <label class="form-control-label" for="country">Graduation Year</label>
-                                <input type="text" #graduation="ngModel" class="form-control" id="graduation" required name="graduation" placeholder="N/A" [(ngModel)]="candidate.PassingYear">
-                                <small *ngIf="graduation.invalid && graduation.touched" class="form-text muted-text">Graduation year is required</small>
+                            <div class="form-group" [class.has-danger]="candidateDetailsForm.get('graduation').invalid && candidateDetailsForm.get('graduation').touched">
+                                <label class="form-control-label" for="graduation">Graduation year</label>
+                                <input type="number" class="form-control" id="graduation" placeholder="e.g. 2012" formControlName="graduation">
+                                 <span *ngIf="candidateDetailsForm.get('graduation').touched && candidateDetailsForm.get('graduation').invalid">
+                                        <small *ngIf="candidateDetailsForm.get('graduation').errors?.required" class="form-text muted-text">Graduation year is required</small>
+                                        <small *ngIf="candidateDetailsForm.get('graduation').errors?.minlength ||
+                                             candidateDetailsForm.get('graduation').errors?.maxlength || 
+                                             candidateDetailsForm.get('graduation').errors?.yearNotValid" class="form-text muted-text">
+                                           Graduation year should be between 1900 and 2025</small>
+                                        <small *ngIf="candidateDetailsForm.get('graduation').errors?.notnumeric" class="form-text muted-text">
+                                            CGPA should be numeric</small>
+                                    </span>
                             </div>
 
-                            <div class="form-group" [class.has-danger]="currentCompany.invalid && currentCompany.touched">
-                                <label class="form-control-label" for="country">Current Company</label>
-                                <input type="text" #currentCompany="ngModel" class="form-control" id="currentCompany" required name="currentCompany" placeholder="N/A" [(ngModel)]="candidate.CurrentCompany">
-                                <small *ngIf="currentCompany.invalid && currentCompany.touched" class="form-text muted-text">Company is required</small>
+                            <div class="form-group" [class.has-danger]="candidateDetailsForm.get('currentCompany').invalid && candidateDetailsForm.get('currentCompany').touched">
+                                <label class="form-control-label" for="currentCompany">Current company</label>
+                                <input type="text" class="form-control" id="currentCompany" placeholder="Current company" formControlName="currentCompany">
+                                <small *ngIf="candidateDetailsForm.get('currentCompany').touched && candidateDetailsForm.get('currentCompany').invalid" class="form-text muted-text">Current company is required</small>
                             </div>
 
-                            <div class="form-group" [class.has-danger]="experience.invalid && experience.touched">
-                                <label class="form-control-label" for="experience">Experience in years</label>
-                                <input type="text" #experience="ngModel" class="form-control" id="experience" required name="experience" placeholder="N/A" [(ngModel)]="candidate.ExperienceInYears">
-                                <small *ngIf="experience.invalid && experience.touched" class="form-text muted-text">Experience is required</small>
+                            <div class="form-group" [class.has-danger]="candidateDetailsForm.get('experience').invalid && candidateDetailsForm.get('experience').touched">
+                                <label class="form-control-label" for="experience">Experience</label>
+                                <select class="form-control" id="experience" formControlName="experience">
+                                    <option [value]="year" *ngFor="let year of years">{{ year + (year == 1 ? ' year' : ' years')}}</option>
+                                </select>
+                                <small *ngIf="candidateDetailsForm.get('experience').touched && candidateDetailsForm.get('experience').invalid" class="form-text muted-text">Experience is required</small>
                             </div>
+
                         </div>
 
                         <div style="margin-top: 30px;display: flex;justify-content: center">
-                            <button type="submit" class="btn red" [disabled]="form.invalid">Save details</button>
+                            <button type="submit" class="btn red" [disabled]="candidateDetailsForm.invalid">Save details</button>
                         </div>
                     </form>
                 </div>
