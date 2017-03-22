@@ -113,7 +113,15 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         {
             var candidates = _candidateRepository.GetAll();
 
-            var cDtos = Mapper.Map<IList<CandidateDto>>(candidates);
+            //set firstname and lastname to empty rather than null because of filtering bug on client side
+            var cDtos = Mapper.Map<IList<CandidateDto>>(candidates,
+                opts => opts.AfterMap((src, dest) => {
+                    var candidateList = (List<CandidateDto>)dest;
+                    candidateList.ForEach(candidateDto => {
+                        candidateDto.FirstName = candidateDto.FirstName == null ? candidateDto.FirstName = "" : candidateDto.FirstName;
+                        candidateDto.LastName = candidateDto.LastName == null ? candidateDto.LastName = "" : candidateDto.LastName;
+                    });
+                }));
 
             return Ok(cDtos);
         }
@@ -122,7 +130,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         [Authorize(Roles = "Admin")]
         public IActionResult GetCandidatesWithoutActiveTests()
         {
-            var candidates = _candidateRepository.AllIncluding(c => c.Tests).Where(c => c.IsActive && c.Tests.Count() == 0).ToList();
+            var candidates = _candidateRepository.AllIncluding(c => c.Tests).Where(c => c.IsActive && c.Tests.Count() == 0).OrderByDescending(c => c.CreatedUtc).ToList();
 
             return Ok(Mapper.Map<IList<CandidateDto>>(candidates));
         }
