@@ -79,6 +79,15 @@ select {
     border-color: #646e82;
 }
 
+.page-item.active .page-link{
+    background-color: #9D0015;
+    border-color: #9D0015;
+}
+
+.page-link{
+    color: #353B47;
+}
+
 .btn.red{
     background-color: #9D0015;
     border-color: #9D0015;
