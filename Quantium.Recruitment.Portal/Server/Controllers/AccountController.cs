@@ -356,7 +356,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
                 var emailTask = _emailSender.SendEmailAsync(new EmailModel
                 {
                     To = model.Email,
-                    From = "rakeshrohan.aitipamula@quantium.co.in",
+                    From = Startup.Configuration["RecruitmentAdminEmail"],
                     DisplayName = "Quantium Recruitment",
                     Subject = "Password reset",
                     HtmlBody = string.Format(emailTemplate, password)

@@ -1,9 +1,12 @@
-<div *ngIf="length > 0">
+<div>
     <ng2-table [config]="config"
               (tableChanged)="onChangeTable(config)"
               (cellClicked)="onCellClick($event)"
               [rows]="rows" [columns]="columns" id="test-results-table">
     </ng2-table>
+    <div *ngIf="length < 1">
+        <p style="text-align: center">No tests found</p>
+    </div>
     <pagination *ngIf="config.paging"
                 class="pagination-sm"
                 [(ngModel)]="page"

@@ -14,6 +14,9 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using AspNetCoreSpa.Server.Services.Abstract;
+using AspNetCoreSpa;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -28,6 +31,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly IEntityBaseRepository<Job_Difficulty_Label> _jobDifficultyLabelRepository;
         private readonly IEntityBaseRepository<Question> _questionRepository;
         private readonly IEntityBaseRepository<Challenge> _challengeRepository;
+        private readonly IEmailSender _emailSender;
 
 
         public TestController(
@@ -37,7 +41,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             IEntityBaseRepository<Test> testRepository,
             IEntityBaseRepository<Job_Difficulty_Label> jobDifficultyLabelRepository,
             IEntityBaseRepository<Question> questionRepository,
-            IEntityBaseRepository<Challenge> challengeRepository)
+            IEntityBaseRepository<Challenge> challengeRepository,
+            IEmailSender emailSender)
         {
             _jobRepository = jobRepository;
             _candidateRepository = candidateRepository;
@@ -46,14 +51,17 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             _jobDifficultyLabelRepository = jobDifficultyLabelRepository;
             _questionRepository = questionRepository;
             _challengeRepository = challengeRepository;
+            _emailSender = emailSender;
 
         }
 
         [HttpPost]
-        public IActionResult Generate([FromBody]List<Candidate_JobDto> candidatesJobsDto)
+        public async Task<IActionResult> Generate([FromBody]List<Candidate_JobDto> candidatesJobsDto)
         {
             try
             {
+                IList<string> emails = new List<string>();
+
                 var candidatesJobs = Mapper.Map<List<Candidate_Job>>(candidatesJobsDto);
                 var job = _jobRepository.GetSingle(candidatesJobsDto.First().Job.Id);
 
@@ -125,13 +133,13 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         _challengeRepository.Add(newChallenge);
                     }
 
+                    emails.Add(candidate.Email);
                 }
                 _challengeRepository.CommitAsync();
-                var candidateReponse = UpdateCandidatesForTest(candidatesJobsDto);
-                if (candidateReponse)
-                    return Created(string.Empty, JsonConvert.SerializeObject("test created"));
-                else
-                    throw new Exception("Test creation failed");
+
+                await SendEmails(emails);
+
+                return Created(string.Empty, JsonConvert.SerializeObject("Tests created"));
             }
             catch (Exception ex)
             {
@@ -292,6 +300,42 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             {
                 return false;
             }
+        }
+
+        private async Task<bool> SendEmails(IList<string> emails)
+        {
+            var emailTemplate = System.IO.File.ReadAllText(@"Server/Templates/TestCreationEmailTemplate.html");
+
+            var socialLogins = new List<string>()
+            {
+                "@outlook", "@live", "@hotmail", "@gmail", "@google"
+            };
+
+            foreach (var email in emails)
+            {
+                string loginProviderMessage = string.Empty;
+
+                if (!socialLogins.Any(emailType => email.Contains(emailType)))
+                {
+                    loginProviderMessage = "the credentials sent to you";
+                }
+                else
+                {
+                    loginProviderMessage = "your social login(this should match the email you registered with us)";
+                }
+                var emailTask = _emailSender.SendEmailAsync(new EmailModel
+                {
+                    To = email,
+                    From = Startup.Configuration["RecruitmentAdminEmail"],
+                    DisplayName = "Quantium Recruitment",
+                    Subject = "Test generated for you",
+                    HtmlBody = string.Format(emailTemplate, loginProviderMessage)
+                });
+
+                await Task.Run(() => emailTask);
+            }
+
+            return true;
         }
     }
 }

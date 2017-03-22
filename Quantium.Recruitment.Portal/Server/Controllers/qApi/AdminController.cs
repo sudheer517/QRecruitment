@@ -18,6 +18,7 @@ using AspNetCoreSpa.Server.Entities;
 using Quantium.Recruitment.Portal.Server.Entities;
 using Quantium.Recruitment.Portal.Server.Helpers;
 using AspNetCoreSpa.Server.Services.Abstract;
+using AspNetCoreSpa;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -137,7 +138,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             var emailTask = _emailSender.SendEmailAsync(new EmailModel
             {
                 To = userModel.Username,
-                From = "rakeshrohan.aitipamula@quantium.co.in",
+                From = Startup.Configuration["RecruitmentAdminEmail"],
                 DisplayName = "Quantium Recruitment",
                 Subject = "User credentials",
                 HtmlBody = string.Format(emailTemplate, firstName, userModel.Username, userModel.Password)

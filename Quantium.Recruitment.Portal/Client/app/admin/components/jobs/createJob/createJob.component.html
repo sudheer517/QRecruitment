@@ -70,7 +70,7 @@
                                                         
                                                         <div class="form-group" style="flex: 0 1 20%;margin-right: 20px" 
                                                         [class.has-danger]="(labelAndDifficulty.get('questionsToPass').invalid && labelAndDifficulty.get('questionsToPass').touched) || labelAndDifficulty.get('questionsToPass').errors?.count">
-                                                                <label class="form-control-label" attr.for="{{'questionsToPass' + i}}">Questions to pass</label>
+                                                                <label class="form-control-label" attr.for="{{'questionsToPass' + i}}">Answer correctly</label>
                                                                 <select class="form-control" id="{{'questionsToPass' + i}}" formControlName="questionsToPass">
                                                                         <option *ngFor="let questionNumber of questionsToPassMap[i]; let index=index" [value]="questionNumber">{{questionNumber}}</option>
                                                                 </select>

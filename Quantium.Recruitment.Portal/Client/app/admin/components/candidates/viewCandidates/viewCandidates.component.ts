@@ -27,6 +27,7 @@ export class ViewCandidatesComponent implements OnInit{
     public itemsPerPage: number = 10;
     public maxSize: number = 5;
     public numPages: number = 1;
+    
     public length: number = 0;
 
     public config: any = {
@@ -97,8 +98,6 @@ export class ViewCandidatesComponent implements OnInit{
 
     public changeFilter(data: any, config: any): any {
 
-        console.log(config);
-
         let filteredData: Array<any> = data;
         this.columns.forEach((column: any) => {
             if (column.filtering) {
@@ -154,6 +153,6 @@ export class ViewCandidatesComponent implements OnInit{
     }
 
     public onCellClick(data: any): any {
-        console.log(data);
+        //console.log(data);
     }
 }
