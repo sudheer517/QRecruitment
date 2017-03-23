@@ -7,6 +7,7 @@ import { ModalDirective } from 'ng2-bootstrap/modal';
 import { FilterCandidatesPipe } from '../../../pipes/filterCandidates.pipe';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FormGroup } from '@angular/forms';
 
 class SelectedTestOptions {
     public candidateIds: boolean[];
@@ -100,8 +101,9 @@ export class CreateTestComponent implements OnInit{
 
     
     
-    generateTests(){
+    generateTests(form: FormGroup){
         this.progressModal.show();
+        this.modalResponse = "Generating tests";
         let candidateIds = this.selectedtestOptions.candidateIds;
             let candidatesJobs: Candidate_JobDto[] = [];
 
@@ -117,8 +119,9 @@ export class CreateTestComponent implements OnInit{
             this.testService.Generate(candidatesJobs).subscribe(
                 result => {
                     this.isRequestProcessing = false;
-                    this.modalResponse = "Test generated";
-                    this.router.navigate(['viewTests'], { relativeTo: this.activatedRoute});
+                    this.modalResponse = "Tests generated";
+                    this.router.navigate(['../viewTests'], { relativeTo: this.activatedRoute});
+                    form.reset();
                 },
                 error => {
                     this.isRequestProcessing = false;

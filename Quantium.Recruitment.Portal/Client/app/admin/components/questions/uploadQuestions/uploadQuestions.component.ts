@@ -53,6 +53,7 @@ export class UploadQuestionsComponent implements OnInit{
             questions => {
                 this.questions = questions;
                 this.modalResponse = "Validation successful";
+                this.isRequestProcessing = false;
                 this.validationFailed = false;
             },
             (error: Response) => {
@@ -68,6 +69,7 @@ export class UploadQuestionsComponent implements OnInit{
     }
 
     addQuestions(modalContent: FormControl){
+        this.isRequestProcessing = true;
         this.progressModal.show();
         this.modalResponse = "Uploading question";
         let formData = this.getFileFormData(this.fileData); 

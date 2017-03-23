@@ -12,7 +12,6 @@ export class CandidateService{
     public Get(): Observable<CandidateDto> {
         return this.http.get(`${this.candidateApiUrl}Get`).map(
             (response: Response) => {
-                console.log(response.json());
                 return response.json();
             });
     }
@@ -20,8 +19,6 @@ export class CandidateService{
     public IsInformationFilled(): Observable<boolean> {
         return this.http.get(`${this.candidateApiUrl}IsInformationFilled`).map(
             (response: Response) => {
-                console.log("is info filled called");
-                console.log(response.json());
                 return response.json();
             });
     }
@@ -29,7 +26,6 @@ export class CandidateService{
     public SaveDetails(candidate: CandidateDto): Observable<any> {
         return this.http.post(`${this.candidateApiUrl}SaveDetails`, candidate).map(
             (response: Response) => {
-                console.log(response);
                 return response.json();
             });
     }

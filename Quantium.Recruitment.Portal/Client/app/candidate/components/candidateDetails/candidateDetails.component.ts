@@ -10,7 +10,6 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl} from 
   templateUrl: './candidateDetails.component.html',
 })
 export class CandidateDetailsComponent implements OnInit{
-  candidate: CandidateDto;
   candidateDetailsForm: FormGroup;
   years = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
   constructor(
@@ -22,20 +21,30 @@ export class CandidateDetailsComponent implements OnInit{
   
   
   ngOnInit(){
-    this.candidate = new CandidateDto();
-
     this.candidateDetailsForm = this.formBuilder.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            mobile : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), this.mobileValidator]],
-            branch: ['', Validators.required],
-            cgpa: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(3), this.cgpaValidator]],
-            college: ['', Validators.required],
-            state: ['', Validators.required],
-            city: ['', Validators.required],
-            country: ['', Validators.required],
-            graduation: ['', [Validators.required,  this.graduationValidator]],
-            currentCompany: ['', Validators.required],
+            // firstName: ['', Validators.required],
+            // lastName: ['', Validators.required],
+            // mobile : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), this.mobileValidator]],
+            // branch: ['', Validators.required],
+            // cgpa: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(3), this.cgpaValidator]],
+            // college: ['', Validators.required],
+            // state: ['', Validators.required],
+            // city: ['', Validators.required],
+            // country: ['', Validators.required],
+            // graduation: ['', [Validators.required,  this.graduationValidator]],
+            // currentCompany: ['', Validators.required],
+            // experience: ['', Validators.required],
+            firstName: ['Rohan', Validators.required],
+            lastName: ['Rakesh', Validators.required],
+            mobile : ['9052791243', [Validators.required, Validators.minLength(10), Validators.maxLength(10), this.mobileValidator]],
+            branch: ['IT', Validators.required],
+            cgpa: ['2', [Validators.required, Validators.minLength(1), Validators.maxLength(3), this.cgpaValidator]],
+            college: ['IITA', Validators.required],
+            state: ['TElangana', Validators.required],
+            city: ['hyd', Validators.required],
+            country: ['india', Validators.required],
+            graduation: ['2009', [Validators.required,  this.graduationValidator]],
+            currentCompany: ['Quantium', Validators.required],
             experience: ['', Validators.required],
         });
   }
@@ -74,10 +83,25 @@ export class CandidateDetailsComponent implements OnInit{
       return null;
   }
 
-  saveCandidateDetails(form: any){
-      this.cadidateService.SaveDetails(this.candidate).subscribe(
+  saveCandidateDetails(){
+      let candidateFormObject= this.candidateDetailsForm.value;
+
+      let candidate: CandidateDto = new CandidateDto();
+      candidate.FirstName = candidateFormObject.firstName;
+      candidate.LastName = candidateFormObject.lastName;
+      candidate.Mobile = candidateFormObject.mobile;
+      candidate.Branch = candidateFormObject.branch;
+      candidate.CGPA = candidateFormObject.cgpa;
+      candidate.College = candidateFormObject.college;
+      candidate.State = candidateFormObject.state;
+      candidate.City = candidateFormObject.city;
+      candidate.Country = candidateFormObject.country;
+      candidate.CurrentCompany = candidateFormObject.currentCompany;
+      candidate.ExperienceInYears = candidateFormObject.experience;
+      candidate.PassingYear = candidateFormObject.graduation;
+
+      this.cadidateService.SaveDetails(candidate).subscribe(
         result => {
-            console.log("saveCandidate response :" + result);
             this.router.navigate(["../instructions"], { relativeTo : this.activatedRoute});
         },
         error => console.log(error)

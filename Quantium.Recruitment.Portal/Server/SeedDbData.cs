@@ -259,44 +259,44 @@ namespace AspNetCoreSpa.Server
 
             #region Candidate
 
-            Candidate candidate1 = new Candidate
-            {
-                FirstName = "Aman",
-                LastName = "Agarwal",
-                Email = "aman.agarwal@gmail.com",
-                Mobile = 9595959595,
-                IsActive = true,
-                PasswordSent = true,
-                TestMailSent = 1,
-                CreatedUtc = DateTime.UtcNow,
-                Admin = admin1,
-            };
+            //Candidate candidate1 = new Candidate
+            //{
+            //    FirstName = "Aman",
+            //    LastName = "Agarwal",
+            //    Email = "aman.agarwal@gmail.com",
+            //    Mobile = 9595959595,
+            //    IsActive = true,
+            //    PasswordSent = true,
+            //    TestMailSent = 1,
+            //    CreatedUtc = DateTime.UtcNow,
+            //    Admin = admin1,
+            //};
 
-            Candidate candidate2 = new Candidate
-            {
-                FirstName = "Raj",
-                LastName = "Kundal",
-                Email = "Raj.Kundal@gmail.com",
-                Mobile = 9595958885,
-                IsActive = true,
-                PasswordSent = true,
-                TestMailSent = 1,
-                CreatedUtc = DateTime.UtcNow,
-                Admin = admin1,
-            };
+            //Candidate candidate2 = new Candidate
+            //{
+            //    FirstName = "Raj",
+            //    LastName = "Kundal",
+            //    Email = "Raj.Kundal@gmail.com",
+            //    Mobile = 9595958885,
+            //    IsActive = true,
+            //    PasswordSent = true,
+            //    TestMailSent = 1,
+            //    CreatedUtc = DateTime.UtcNow,
+            //    Admin = admin1,
+            //};
 
-            Candidate candidate3 = new Candidate
-            {
-                FirstName = "Pooja",
-                LastName = "Sharma",
-                Email = "Pooja.Sharma41@gmail.com",
-                Mobile = 96759987453,
-                IsActive = true,
-                PasswordSent = true,
-                TestMailSent = 1,
-                CreatedUtc = DateTime.UtcNow,
-                Admin = admin1,
-            };
+            //Candidate candidate3 = new Candidate
+            //{
+            //    FirstName = "Pooja",
+            //    LastName = "Sharma",
+            //    Email = "Pooja.Sharma41@gmail.com",
+            //    Mobile = 96759987453,
+            //    IsActive = true,
+            //    PasswordSent = true,
+            //    TestMailSent = 1,
+            //    CreatedUtc = DateTime.UtcNow,
+            //    Admin = admin1,
+            //};
 
             //Candidate candidate4 = new Candidate
             //{
@@ -347,9 +347,9 @@ namespace AspNetCoreSpa.Server
                 Admin = admin1,
             };
 
-            _context.Candidates.Add(candidate1);
-            _context.Candidates.Add(candidate2);
-            _context.Candidates.Add(candidate3);
+            //_context.Candidates.Add(candidate1);
+            //_context.Candidates.Add(candidate2);
+            //_context.Candidates.Add(candidate3);
             //_context.Candidates.Add(candidate4);
             //_context.Candidates.Add(candidate5);
             //_context.Candidates.Add(candidate6);

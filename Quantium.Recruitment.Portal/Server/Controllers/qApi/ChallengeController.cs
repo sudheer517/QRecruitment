@@ -112,6 +112,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             currentChallengeDto.RemainingTestTimeInMinutes = remainingTestTimeInMins.ToString();
             currentChallengeDto.Question.Options.ForEach(o => o.IsAnswer = false);
 
+            if (currentChallengeDto.Question.RandomizeOptions)
+            {
+                currentChallengeDto.Question.Options = currentChallengeDto.Question.Options.OrderBy(item => Guid.NewGuid()).ToList();
+            }
+
             if (currentChallengeDto.RemainingChallenges == 0)
             {
                 test.IsFinished = true;

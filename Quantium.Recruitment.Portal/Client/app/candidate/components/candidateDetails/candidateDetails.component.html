@@ -3,7 +3,7 @@
         <span class="admin-outlet-heading">CANDIDATE INFORMATION</span>
         <div class="admin-data-container">
                 <div class="d-flex" style="justify-content: center">
-                    <form class="col-md-12" novalidate (ngSubmit)="saveCandidateDetails(form)" [formGroup]="candidateDetailsForm">
+                    <form class="col-md-12" novalidate [formGroup]="candidateDetailsForm">
                         <h4 style="text-align: center; margin-bottom: 50px">Please fill your details</h4>
                         <div class="d-flex" style="justify-content: space-around">
 
@@ -115,7 +115,7 @@
                         </div>
 
                         <div style="margin-top: 30px;display: flex;justify-content: center">
-                            <button type="submit" class="btn red" [disabled]="candidateDetailsForm.invalid">Save details</button>
+                            <button type="submit" class="btn red" [disabled]="candidateDetailsForm.invalid" (click)="saveCandidateDetails()">Save details</button>
                         </div>
                     </form>
                 </div>
