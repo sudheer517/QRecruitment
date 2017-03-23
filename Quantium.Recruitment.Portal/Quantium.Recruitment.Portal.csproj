@@ -13,19 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Client\app\admin\components\surveys\**" />
     <Compile Remove="node_modules;Client\**\*" />
-    <Content Remove="Client\app\admin\components\surveys\**" />
-    <EmbeddedResource Remove="Client\app\admin\components\surveys\**" />
-    <None Remove="Client\app\admin\components\surveys\**" />
-    <Compile Remove="Server\Controllers\qApi\SurveyController.cs" />
-    <Compile Remove="Server\Controllers\qApi\SurveyQuestionController.cs" />
-    <Compile Remove="Server\Repositories\QRepos\SurveyChallengeRepository.cs" />
-    <Compile Remove="Server\Repositories\QRepos\SurveyQuestionRepository.cs" />
-    <Compile Remove="Server\Repositories\QRepos\SurveyRepository.cs" />
     <Content Remove="wwwroot/dist\assets\img\1489206038_Microsoft.svg" />
-    <None Remove="Client\app\admin\services\survey.service.ts" />
-    <Content Update="wwwroot\**\*;Views\**\*;appsettings.json;web.config;Dockerfile">
+    <Content Update="wwwroot\**\*;Views\**\*;appsettings.json;web.config;">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
