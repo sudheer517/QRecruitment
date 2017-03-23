@@ -3,9 +3,10 @@
 
  <form (ngSubmit)="save()" novalidate [formGroup]="jobForm">
         <div class="d-flex" style="justify-content: space-between">
-                <div class="form-group" [class.has-danger]="jobForm.get('title').invalid && jobForm.get('title').touched" style="flex: 0 1 20%">
+                <div class="form-group" [class.has-danger]="(isEnteredTitleExists || jobForm.get('title').invalid) && jobForm.get('title').touched" style="flex: 0 1 20%">
                         <label class="form-control-label" for="title">Job title</label>
-                        <input type="text" class="form-control" id="title" placeholder="Job title" formControlName="title">
+                        <input type="text" class="form-control" id="title" placeholder="Job title" formControlName="title" (blur)="validateJobTitle()">
+                    <small *ngIf="isEnteredTitleExists && jobForm.get('title').touched " class="form-text muted-text">Job already exists</small>
                         <span *ngIf="jobForm.get('title').touched && jobForm.get('title').invalid">
                                 <small *ngIf="jobForm.get('title').errors?.required" class="form-text muted-text">Job title is required</small>
                                 <small *ngIf="jobForm.get('title').errors?.minlength" class="form-text muted-text">Job title should be more than 3 characters</small>
@@ -29,8 +30,7 @@
                         <small *ngIf="jobForm.get('department').touched && jobForm.get('department').errors?.required" class="form-text muted-text">Department is required</small>
                 </div>
         </div>
-
-        
+   
          <div>
                  <p class="label-section-header"><b>Add Labels and difficulties</b></p>
          

@@ -26,6 +26,7 @@ export class CreateJobComponent implements OnInit {
     @ViewChild('progress') progressModal:ModalDirective;
     isRequestProcessing: boolean = true;
     modalResponse: string;
+    isEnteredTitleExists: boolean = false;
     selectedLabelAndDiffs = new SelectedLabelAndDiffs();
 
     get labelsAndDifficulties(): FormArray { 
@@ -77,8 +78,18 @@ export class CreateJobComponent implements OnInit {
 
         return null;
     }
-
-     duplicateLabelDiffValidator(selectedLabelAndDiffs: SelectedLabelAndDiffs): ValidatorFn {
+    validateJobTitle() {
+        let jobTitle = this.jobForm.get('title').value;
+        this.jobService.GetAllJobs().subscribe(
+            result => {
+                if (result.find(job => job.Title == jobTitle))
+                    this.isEnteredTitleExists = true;
+                else
+                    this.isEnteredTitleExists = false;
+            }
+        );
+    }
+    duplicateLabelDiffValidator(selectedLabelAndDiffs: SelectedLabelAndDiffs): ValidatorFn {
 
         return (c: any): {[key: string]: boolean} | null => {
             
