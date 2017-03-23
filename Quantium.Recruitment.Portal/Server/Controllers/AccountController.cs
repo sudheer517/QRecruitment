@@ -62,10 +62,10 @@ namespace AspNetCoreSpa.Server.Controllers.api
         }
 
         [HttpGet]
-        public IActionResult GetUserRole()
+        public async Task<IActionResult> GetUserRole()
         {
-            var result = _userManager.GetRolesAsync(this.GetCurrentUserAsync().Result).Result.First();
-            return Ok(JsonConvert.SerializeObject(result));
+            var result = await _userManager.GetRolesAsync(this.GetCurrentUserAsync().Result);
+            return Ok(JsonConvert.SerializeObject(result.First()));
             //var roleResult = _roleManager.GetRoleNameAsync(userResult);
         }
 

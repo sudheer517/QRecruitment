@@ -71,7 +71,7 @@ export class UploadQuestionsComponent implements OnInit{
     addQuestions(modalContent: FormControl){
         this.isRequestProcessing = true;
         this.progressModal.show();
-        this.modalResponse = "Uploading question";
+        this.modalResponse = "Uploading questions";
         let formData = this.getFileFormData(this.fileData); 
         this.questionService.AddQuestions(formData).subscribe(
             status => {

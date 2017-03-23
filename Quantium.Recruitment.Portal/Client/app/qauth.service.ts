@@ -4,24 +4,35 @@ import { CanLoad, Route } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+import { Store } from '@ngrx/store';
+import { AppState, GlobalState } from './app-store';
+import { LoggedInActions } from './auth/logged-in.actions';
+
 @Injectable()
 export class QAuthService{ 
-    // static UNKNOWN_USER = new QAuthInfo(null);
-    // authInfo$: BehaviorSubject<QAuthInfo> = new BehaviorSubject<QAuthInfo>(QAuthService.UNKNOWN_USER);
     private authUrl = "/Account/GetUserRole";
-    public isLoggedIn = false;
-    constructor(private http: Http){
+    constructor(private http: Http, private store: Store<AppState>, private loggedInActions: LoggedInActions, private globalState: GlobalState){
     }
     
-    isAdmin() {
-        return this.http.get(this.authUrl).map(
+    isAdmin(): Observable<boolean> | boolean{
+        if(this.globalState.isAdmin === null){
+         return this.http.get(this.authUrl).map(
             auth => {
-                let result = auth;
-                 if(auth.json() === "Admin")
+                 if(auth.json() === "Admin"){
+                    this.globalState.isAdmin = true;
+                    this.store.dispatch(this.loggedInActions.loggedIn());
                     return true;
-                 else 
+                 }
+                 else {
+                     this.globalState.isAdmin = false;
+                    this.store.dispatch(this.loggedInActions.notLoggedIn());
                     return false;
+                 }
             });
+        }
+        else{
+            return this.globalState.isAdmin;
+        }
     }
 }
 

@@ -35,7 +35,8 @@ module.exports = webpackMerge(commonConfig, {
                     '@angular/router',
                     'rxjs',
                     'bootstrap',
-                    'ng2-bootstrap'
+                    'ng2-bootstrap',
+                    '@ngrx/store',
                 ]
             },
             dllDir: './wwwroot/dist',

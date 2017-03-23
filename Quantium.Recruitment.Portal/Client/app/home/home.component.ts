@@ -2,6 +2,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { QAuthService } from '../qauth.service'; 
 // import { routerTransition, hostStyle } from '../router.animations';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app-store';
+import { LoggedInActions } from '../auth/logged-in.actions';
 
 @Component({
   selector: 'appc-home',
@@ -13,17 +16,23 @@ import { QAuthService } from '../qauth.service';
   // host: hostStyle()
 })
 export class HomeComponent {
-  constructor(private router: Router, private qauthService: QAuthService) {
+
+  constructor(private router: Router, private store: Store<AppState>, private loggedInActions: LoggedInActions) {
   }
 
   ngOnInit(){
     this.router.navigate(['admin']);
-
-    this.qauthService.isAdmin().subscribe(
-        result =>{ 
-          if(!result){
-            this.router.navigate(['candidate']);
-          }
+    console.log("home loaded");
+    this.store.select(authState => authState.auth.loggedIn).subscribe(
+      isLogged =>
+      { 
+        if(isLogged === true){
+          this.router.navigate(['admin']);
+        }
+        if(isLogged === false){
+          this.router.navigate(['candidate']);
+        }
       });
   }
+
  }
