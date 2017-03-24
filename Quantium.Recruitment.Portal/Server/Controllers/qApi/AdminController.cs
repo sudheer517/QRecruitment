@@ -19,6 +19,7 @@ using Quantium.Recruitment.Portal.Server.Entities;
 using Quantium.Recruitment.Portal.Server.Helpers;
 using AspNetCoreSpa.Server.Services.Abstract;
 using AspNetCoreSpa;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -32,14 +33,15 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly RoleManager<QRecruitmentRole> _roleManager;
         private readonly IAccountHelper _accountHelper;
         private readonly IEmailSender _emailSender;
+        private readonly IHostingEnvironment _env;
 
         public AdminController(IEntityBaseRepository<Admin> adminRepository, 
             IHttpContextAccessor httpContextAccessor,
              UserManager<QRecruitmentUser> userManager,
             RoleManager<QRecruitmentRole> roleManager,
             IAccountHelper accountHelper,
-            IEmailSender emailSender
-            )
+            IEmailSender emailSender,
+            IHostingEnvironment env)
         {
             _adminRepository = adminRepository;
             _httpContextAccessor = httpContextAccessor;
@@ -47,6 +49,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             _roleManager = roleManager;
             _accountHelper = accountHelper;
             _emailSender = emailSender;
+            _env = env;
         }
 
         [HttpGet]
@@ -133,7 +136,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         private async Task<bool> SendEmails(UserCreationModel userModel, string firstName)
         {
-            var emailTemplate = System.IO.File.ReadAllText(@"Server/Templates/AdminCreationEmailTemplate.html");
+            var emailTemplate = System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\AdminCreationEmailTemplate.html"));
 
             var emailTask = _emailSender.SendEmailAsync(new EmailModel
             {

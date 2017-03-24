@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using AspNetCoreSpa.Server.Services.Abstract;
 using AspNetCoreSpa;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -33,7 +34,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly IEntityBaseRepository<Challenge> _challengeRepository;
         private readonly IEntityBaseRepository<Admin> _adminRepository;
         private readonly IEmailSender _emailSender;
-
+        private readonly IHostingEnvironment _env;
 
         public TestController(
             IEntityBaseRepository<Job> jobRepository, 
@@ -44,7 +45,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             IEntityBaseRepository<Question> questionRepository,
             IEntityBaseRepository<Challenge> challengeRepository,
             IEntityBaseRepository<Admin> adminRepository,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IHostingEnvironment env)
         {
             _jobRepository = jobRepository;
             _candidateRepository = candidateRepository;
@@ -55,6 +57,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             _challengeRepository = challengeRepository;
             _emailSender = emailSender;
             _adminRepository = adminRepository;
+            _env = env;
         }
 
         [HttpPost]
@@ -307,7 +310,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         private async Task<bool> SendEmails(IList<string> emails)
         {
-            var emailTemplate = System.IO.File.ReadAllText(@"Server/Templates/TestCreationEmailTemplate.html");
+            var emailTemplate = System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\TestCreationEmailTemplate.html"));
 
             var socialLogins = new List<string>()
             {

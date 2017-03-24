@@ -71,7 +71,8 @@ export class CreateTestComponent implements OnInit{
     }
     
     filterCandidates(searchText: string){
-        if(searchText.length > 0){
+
+        if(searchText && searchText.length > 0){
         this.filteredCandidates = this.candidates.filter(
         candidate => 
                 candidate.FirstName.toLocaleLowerCase().indexOf(searchText) != -1 ||
@@ -104,6 +105,7 @@ export class CreateTestComponent implements OnInit{
     generateTests(form: FormGroup){
         this.progressModal.show();
         this.modalResponse = "Generating tests";
+        this.isRequestProcessing = true;
         let candidateIds = this.selectedtestOptions.candidateIds;
             let candidatesJobs: Candidate_JobDto[] = [];
 
@@ -120,8 +122,11 @@ export class CreateTestComponent implements OnInit{
                 result => {
                     this.isRequestProcessing = false;
                     this.modalResponse = "Tests generated";
-                    this.router.navigate(['../viewTests'], { relativeTo: this.activatedRoute});
                     form.reset();
+                    candidatesJobs.forEach(cj => {
+                        this.filteredCandidates = this.filteredCandidates.filter(c => c.Id !== cj.Candidate.Id);
+                        this.candidates = this.candidates.filter(c => c.Id !== cj.Candidate.Id);
+                    });
                 },
                 error => {
                     this.isRequestProcessing = false;

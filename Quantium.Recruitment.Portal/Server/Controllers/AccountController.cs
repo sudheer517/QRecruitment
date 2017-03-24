@@ -18,6 +18,7 @@ using Newtonsoft.Json;
 using Portal.Server.ViewModels.AccountViewModels;
 using System.Threading;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AspNetCoreSpa.Server.Controllers.api
 {
@@ -33,6 +34,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IAccountHelper _accountHelper;
+        private readonly IHostingEnvironment _env;
 
         public AccountController(
             UserManager<QRecruitmentUser> userManager,
@@ -41,7 +43,8 @@ namespace AspNetCoreSpa.Server.Controllers.api
             IAccountHelper accountHelper,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IHostingEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -50,6 +53,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
             _smsSender = smsSender;
             _roleManager = roleManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _env = env;
         }
 
 
@@ -350,7 +354,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
 
             if (currentUser != null && currentUser.Email != "user@user.com")
             {
-                var emailTemplate = System.IO.File.ReadAllText(@"Server/Templates/ResetPasswordEmailTemplate.html");
+                var emailTemplate = System.IO.File.ReadAllText(Path.Combine(_env.WebRootPath, "templates\\ResetPasswordEmailTemplate.html"));
                 var password = AccountHelper.GenerateRandomString();
 
                 var emailTask = _emailSender.SendEmailAsync(new EmailModel
