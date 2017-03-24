@@ -52,6 +52,7 @@ namespace AspNetCoreSpa.Server
             {
                 var qAdminUser = new QRecruitmentUser { UserName = Startup.Configuration["RecruitmentAdminEmail"], Email = Startup.Configuration["RecruitmentAdminEmail"], CreatedDate = DateTime.Now, IsEnabled = true };
                 var adminUserResult = _userManager.CreateAsync(qAdminUser, Startup.Configuration["RecruitmentAdminPassword"]).Result;
+                qAdminUser = _userManager.FindByEmailAsync(Startup.Configuration["RecruitmentAdminEmail"]).Result;
                 var adminRoleResult = _userManager.AddToRoleAsync(qAdminUser, "Admin").Result;
 
                 //var qUser = new QRecruitmentUser { UserName = "user@user.com", Email = "user@user.com", CreatedDate = DateTime.Now, IsEnabled = true };
