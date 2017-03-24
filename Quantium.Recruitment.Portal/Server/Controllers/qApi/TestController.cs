@@ -31,6 +31,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly IEntityBaseRepository<Job_Difficulty_Label> _jobDifficultyLabelRepository;
         private readonly IEntityBaseRepository<Question> _questionRepository;
         private readonly IEntityBaseRepository<Challenge> _challengeRepository;
+        private readonly IEntityBaseRepository<Admin> _adminRepository;
         private readonly IEmailSender _emailSender;
 
 
@@ -42,6 +43,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             IEntityBaseRepository<Job_Difficulty_Label> jobDifficultyLabelRepository,
             IEntityBaseRepository<Question> questionRepository,
             IEntityBaseRepository<Challenge> challengeRepository,
+            IEntityBaseRepository<Admin> adminRepository,
             IEmailSender emailSender)
         {
             _jobRepository = jobRepository;
@@ -52,7 +54,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             _questionRepository = questionRepository;
             _challengeRepository = challengeRepository;
             _emailSender = emailSender;
-
+            _adminRepository = adminRepository;
         }
 
         [HttpPost]
@@ -85,7 +87,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         Name = job.Title + candidate.FirstName,
                         Candidate = candidate,
                         Job = job,
-                        CreatedUtc = DateTime.UtcNow
+                        CreatedUtc = DateTime.UtcNow,
+                        CreatedByUserId = _adminRepository.GetSingle(a => a.Email == this.User.Identities.First().Name).Id
                     };
 
                     var activeTest = candidate.Tests.FirstOrDefault(t => t.IsFinished != true && t.Job.Id == job.Id);

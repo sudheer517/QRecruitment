@@ -291,7 +291,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             {
                 if (!socialLogins.Any(emailType => candidate.Email.Contains(emailType)))
                 {
-                    var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email };
+                    var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email, CreatedDate = DateTime.UtcNow };
                     var password = AccountHelper.GenerateRandomString();
                     userModels.Add(new UserCreationModel { Username = candidate.Email, Password = password });
 
