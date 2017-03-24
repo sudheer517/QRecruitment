@@ -21,6 +21,7 @@ export class AddCandidatesComponent{
 
     addCandidate(form: FormGroup){
         this.modalResponse = "Adding candidate";
+        this.isRequestProcessing = true;
         this.progressModal.show();
         this.candidateService.AddCandidate(this.candidate).subscribe(
             candidate => {
