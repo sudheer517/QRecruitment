@@ -32,6 +32,7 @@ export class AddCandidatesComponent{
             },
             (error: Response) => {
                 this.isRequestProcessing = false;
+                this.modalResponse = "Unable to add candidate";
                 if(error.status === 409){
                     this.modalResponse = "Duplicate candidate found";
                 }

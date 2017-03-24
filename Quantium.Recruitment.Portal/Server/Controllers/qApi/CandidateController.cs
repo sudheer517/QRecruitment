@@ -74,7 +74,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest("unable to add candidate");
+                    return BadRequest("unable to add candidate" + ex.Message);
                 }
             }
             else
