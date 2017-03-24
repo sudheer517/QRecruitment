@@ -23,7 +23,6 @@ import { UtilityService } from './services/utility.service';
 import { ChartModule } from 'angular2-highcharts';
 
 import { ModalModule, ButtonsModule, DropdownModule, PaginationModule, TooltipModule } from 'ng2-bootstrap';
-import { SelectModule } from 'ng2-select';
 
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 
@@ -43,7 +42,6 @@ import { Ng2TableModule } from 'ng2-table/ng2-table';
     ReactiveFormsModule,
     ModalModule.forRoot(),
     ButtonsModule.forRoot(),
-    SelectModule, 
     PaginationModule.forRoot(),   
     DropdownModule.forRoot(),
     TooltipModule.forRoot(),
@@ -70,7 +68,6 @@ import { Ng2TableModule } from 'ng2-table/ng2-table';
     //Ng2FileInputModule,
     ModalModule,
     ButtonsModule,
-    SelectModule,
     PaginationModule,
     Ng2TableModule,
     DropdownModule,
