@@ -13,6 +13,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 
 
+
 @Component({
     selector: 'appc-create-job',
     templateUrl: './createJob.component.html',
@@ -56,7 +57,7 @@ export class CreateJobComponent implements OnInit {
             title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
             profile: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(300)]],
             department : ['', Validators.required],
-            labelsAndDifficulties: this.formBuilder.array([this.getNewLabelDifficultyGroup()])
+            labelsAndDifficulties: this.formBuilder.array([this.getNewLabelDifficultyGroup()], this.duplicateLabelDiffValidator(this.selectedLabelAndDiffs))
         });
 
         this.getDepartments();
@@ -78,6 +79,7 @@ export class CreateJobComponent implements OnInit {
 
         return null;
     }
+
     validateJobTitle() {
         let jobTitle = this.jobForm.get('title').value;
         this.jobService.GetAllJobs().subscribe(
@@ -93,25 +95,29 @@ export class CreateJobComponent implements OnInit {
             }
         );
     }
-    duplicateLabelDiffValidator(selectedLabelAndDiffs: SelectedLabelAndDiffs): ValidatorFn {
 
-        return (c: any): {[key: string]: boolean} | null => {
-            
-            let labelId = c.get('label').value;
-            let difficultyId = c.get('difficulty').value;
+    duplicateLabelDiffValidator(selectedLabelAndDiffs: SelectedLabelAndDiffs): ValidatorFn {
+        return (formArray: FormArray): {[key: string]: boolean} | null => {
             let count = 0;
-            Object.keys(selectedLabelAndDiffs).forEach((item, index)=> {
-                let labelAndDiff = selectedLabelAndDiffs[0];
-                if(labelAndDiff.labelId == labelId && labelAndDiff.diffId == difficultyId){
-                    count++;
-                }
-            })
+            console.log();
+            formArray.controls.forEach((c, index)=>{
+                let labelId = c.get('label').value;
+                let difficultyId = c.get('difficulty').value;
+                count = 0;
+                Object.keys(selectedLabelAndDiffs).forEach((item, index)=> {
+                    let labelAndDiff = selectedLabelAndDiffs[index];
+                    if(labelAndDiff.labelId == labelId && labelAndDiff.diffId == difficultyId){
+                        count++;
+                    }
+                })
+            });
 
             if(count > 1){
                 return { 'duplicate': true }
             }
-
-            return null;
+            else{
+                return null;
+            }
         }
     }
 
@@ -179,7 +185,7 @@ export class CreateJobComponent implements OnInit {
                 difficulty: ['', Validators.required],
                 availableQuestions: ['', [Validators.required, this.noQuestionsValidator]],
                 questionsToPass: ['', [Validators.required, this.noQuestionsValidator]]
-            }, { validator: this.duplicateLabelDiffValidator(this.selectedLabelAndDiffs) });
+            });
 
         let availableQuestionControlIndex = 0;
 
@@ -231,10 +237,10 @@ export class CreateJobComponent implements OnInit {
 
         let availableQuestionsControl = dynamicFormGroup.controls['availableQuestions'];
         let questionsToPassControl = dynamicFormGroup.controls['questionsToPass'];
-        console.log(matchingCombinationOfLabelAndDiff);
 
+        let questionNotFoundText = "No questions found";
         if(!matchingCombinationOfLabelAndDiff){
-            let questionNotFoundText = "No questions found";
+            
 
             availableQuestionsControl.reset();
             this.availableQuestionsMap[formGroupIndex] = [questionNotFoundText];
@@ -259,9 +265,18 @@ export class CreateJobComponent implements OnInit {
             this.selectedLabelAndDiffs[formGroupIndex] = selectedLAndDObj;
 
             //console.log(this.selectedLabelAndDiffs[formGroupIndex]);
-            availableQuestionsControl.enable();
-            questionsToPassControl.enable();
+            // availableQuestionsControl.enable();
+            // questionsToPassControl.enable();
+            let availableQuestionControlValue = availableQuestionsControl.value
+            
             this.availableQuestionsMap[formGroupIndex] = this.getArray(questionCount);
+            if(availableQuestionControlValue === questionNotFoundText){
+                availableQuestionsControl.setValue('');
+                availableQuestionsControl.markAsTouched();
+
+                questionsToPassControl.setValue('');
+                questionsToPassControl.markAsTouched();
+            }
         }
     }
     private getDepartments(){
