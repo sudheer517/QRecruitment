@@ -82,10 +82,14 @@ export class CreateJobComponent implements OnInit {
         let jobTitle = this.jobForm.get('title').value;
         this.jobService.GetAllJobs().subscribe(
             result => {
-                if (result.find(job => job.Title == jobTitle))
+                if (result.find(job => job.Title == jobTitle)) {
                     this.isEnteredTitleExists = true;
+                }
                 else
-                    this.isEnteredTitleExists = false;
+                {
+                this.isEnteredTitleExists = false;
+                }
+                   
             }
         );
     }
@@ -220,13 +224,14 @@ export class CreateJobComponent implements OnInit {
         return arr;
     }
 
-    private setQuestionCounts(dynamicFormGroup: FormGroup, formGroupIndex: number, difficultyValue: any, labelValue: any ){
-        
-        let matchingCombinationOfLabelAndDiff = this.questionDifficultyLabels.find(item => item.DifficultyId == difficultyValue && item.LabelId == labelValue);
+    private setQuestionCounts(dynamicFormGroup: FormGroup, formGroupIndex: number, difficultyValue: any, labelValue: any) {
+
+        let matchingCombinationOfLabelAndDiff = this.questionDifficultyLabels != null && this.questionDifficultyLabels.find(item => item.DifficultyId == difficultyValue && item.LabelId == labelValue);
         let questionCount = matchingCombinationOfLabelAndDiff ? matchingCombinationOfLabelAndDiff.QuestionCount : 0;
 
         let availableQuestionsControl = dynamicFormGroup.controls['availableQuestions'];
         let questionsToPassControl = dynamicFormGroup.controls['questionsToPass'];
+        console.log(matchingCombinationOfLabelAndDiff);
 
         if(!matchingCombinationOfLabelAndDiff){
             let questionNotFoundText = "No questions found";
