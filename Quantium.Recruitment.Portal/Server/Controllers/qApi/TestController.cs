@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using AspNetCoreSpa.Server.Services.Abstract;
 using AspNetCoreSpa;
 using Microsoft.AspNetCore.Hosting;
+using OfficeOpenXml;
+using System.IO;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -342,6 +344,28 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             }
 
             return true;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportAllTests()
+        {
+
+            var tests = await _testRepository.FindByAsync( t => t.IsArchived != true);
+
+            var excelPackage = new ExcelPackage();
+            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("TestResults");
+
+            worksheet.SetValue(1, 1, "Candidates");
+
+            var bytesArray = excelPackage.GetAsByteArray();
+            var stream = excelPackage.Stream;
+
+            FileContentResult fileResult = new FileContentResult(bytesArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "TestResults.xlsx"
+            };
+
+            return fileResult;
         }
     }
 }

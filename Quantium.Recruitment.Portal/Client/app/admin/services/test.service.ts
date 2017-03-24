@@ -40,4 +40,8 @@ export class TestService{
                 return response.json();
             });
     }
+
+    public GetExcelFileForAllActiveTests(): Observable<any> {
+            return this.http.get(`${this.testApiUrl}ExportAllTests`, { responseType: ResponseContentType.Blob }).map(response => response.blob());
+    }
 }

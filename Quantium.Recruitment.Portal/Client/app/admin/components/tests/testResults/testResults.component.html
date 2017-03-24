@@ -1,4 +1,4 @@
-<div>
+<div style="position:relative">
     <ng2-table [config]="config"
               (tableChanged)="onChangeTable(config)"
               (cellClicked)="onCellClick($event)"
@@ -18,4 +18,9 @@
                 (pageChanged)="onChangeTable(config, $event)"
                 (numPages)="numPages = $event">
     </pagination>
+
+    <div style="position: absolute; top: -50px; right: 30px">
+        <a class="small-icon-btn-2x" (click)="exportToExcel()"  tooltip="Export" placement="left"><i class="fa fa-2x fa-file-excel-o"></i></a>
+    </div>
 </div> 
+

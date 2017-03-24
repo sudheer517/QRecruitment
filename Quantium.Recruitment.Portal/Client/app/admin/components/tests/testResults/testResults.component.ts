@@ -182,4 +182,18 @@ export class TestResultsComponent implements OnInit {
           this.router.navigate(['../../testDetail', clickedTestResult.Id], { relativeTo: this.activatedRoute});
       }
   }
+
+  public exportToExcel(){
+      this.testService.GetExcelFileForAllActiveTests().subscribe(
+          data => {
+                var blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                var link=document.createElement('a');
+                link.href=window.URL.createObjectURL(blob);
+                link.download="Test Results.xlsx";
+                link.click();
+          },
+          error => console.log(error)
+      )
+  }
+
 }
