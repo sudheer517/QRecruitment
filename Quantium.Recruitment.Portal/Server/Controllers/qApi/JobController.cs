@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using AspNetCoreSpa.Server.Repositories.Abstract;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -88,6 +89,18 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             var jDtos = Mapper.Map<List<JobDto>>(jobs);
 
             return Ok(jDtos);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> IsJobExists([FromQuery]string title)
+        {
+            var job = await _jobRepository.GetSingleAsync(j => j.Title == title);
+
+            if (job != null)
+                return Ok(JsonConvert.SerializeObject(true));
+            else
+                return Ok(JsonConvert.SerializeObject(false));
+
         }
     }
 }

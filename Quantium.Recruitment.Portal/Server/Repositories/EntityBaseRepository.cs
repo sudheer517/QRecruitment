@@ -72,9 +72,11 @@ namespace AspNetCoreSpa.Server.Repositories
             return query.Where(predicate).FirstOrDefault();
         }
 
-        public async Task<T> GetSingleAsync(long id)
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+            IQueryable<T> query = _context.Set<T>();
+
+            return await _context.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
         public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)

@@ -82,14 +82,14 @@ export class CreateJobComponent implements OnInit {
 
     validateJobTitle() {
         let jobTitle = this.jobForm.get('title').value;
-        this.jobService.GetAllJobs().subscribe(
-            result => {
-                if (result.find(job => job.Title == jobTitle)) {
+        this.jobService.IsJobExists(jobTitle).subscribe(
+            jobTitleExists => {
+                if (jobTitleExists) {
                     this.isEnteredTitleExists = true;
                 }
                 else
                 {
-                this.isEnteredTitleExists = false;
+                    this.isEnteredTitleExists = false;
                 }
                    
             }

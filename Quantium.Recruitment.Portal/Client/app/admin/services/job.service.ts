@@ -31,4 +31,11 @@ export class JobService{
                 return response.json();
             });
     }
+
+    public IsJobExists(jobTitle: string): Observable<boolean> {
+        return this.http.get(`${this.jobApiUrl}IsJobExists?title=`+ jobTitle).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
 }
