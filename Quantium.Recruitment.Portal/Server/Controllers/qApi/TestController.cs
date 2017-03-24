@@ -149,7 +149,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex);
             }           
         }
 

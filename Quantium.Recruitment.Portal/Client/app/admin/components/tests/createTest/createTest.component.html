@@ -69,16 +69,18 @@
                                                         </thead>
                                                         <tbody>
                                                                 <tr *ngFor="let candidate of filteredCandidates;let i=index">
-                                                                <td scope="row">{{i + 1}}</td>
-                                                                <td style="text-align: center"><input style="height: 18px;width: 18px;margin-top: 5px;" id="search{{i}}" name="search{{i}}" 
-                                                                [(ngModel)]="selectedtestOptions.candidateIds[candidate.Id]" (ngModelChange)="updateSelectedCandidateCount()"
-                                                                type="checkbox"/></td>
-                                                                <td>{{candidate.FirstName}} {{candidate.LastName}}</td>
-                                                                <td>{{candidate.Email}}</td>
+                                                                        <td scope="row">{{i + 1}}</td>
+                                                                        <td style="text-align: center"><input style="height: 18px;width: 18px;margin-top: 5px;" id="search{{i}}" name="search{{i}}" 
+                                                                        [(ngModel)]="selectedtestOptions.candidateIds[candidate.Id]" (ngModelChange)="updateSelectedCandidateCount()"
+                                                                        type="checkbox"/></td>
+                                                                        <td>{{candidate.FirstName}} {{candidate.LastName}}</td>
+                                                                        <td>{{candidate.Email}}</td>
                                                                 </tr>
                                                         </tbody>
                                                 </table>
-
+                                                <p style="text-align: center" *ngIf="filteredCandidates?.length === 0">
+                                                        <b>No active candidates without tests found</b>
+                                                </p>
                                                 
                                         </div>
                                 </div>

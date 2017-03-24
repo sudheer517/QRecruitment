@@ -9,15 +9,17 @@
     <div *ngIf="length < 1">
         <p style="text-align: center">No candidates found</p>
     </div>
-    <pagination *ngIf="config.paging"
-                class="pagination-sm"
-                [(ngModel)]="page"
-                [totalItems]="length"
-                [itemsPerPage]="itemsPerPage"
-                [maxSize]="maxSize"
-                [boundaryLinks]="true"
-                [rotate]="false"
-                (pageChanged)="onChangeTable(config, $event)"
-                (numPages)="numPages = $event">
-    </pagination>
+    <div class="d-flex" style="justify-content: center">
+        <pagination *ngIf="config.paging"
+                    class="pagination-sm"
+                    [(ngModel)]="page"
+                    [totalItems]="length"
+                    [itemsPerPage]="itemsPerPage"
+                    [maxSize]="maxSize"
+                    [boundaryLinks]="true"
+                    [rotate]="false"
+                    (pageChanged)="onChangeTable(config, $event)"
+                    (numPages)="numPages = $event">
+        </pagination>
+    </div>
 </div>

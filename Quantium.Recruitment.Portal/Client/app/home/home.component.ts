@@ -22,7 +22,6 @@ export class HomeComponent {
 
   ngOnInit(){
     this.router.navigate(['admin']);
-    console.log("home loaded");
     this.store.select(authState => authState.auth.loggedIn).subscribe(
       isLogged =>
       { 

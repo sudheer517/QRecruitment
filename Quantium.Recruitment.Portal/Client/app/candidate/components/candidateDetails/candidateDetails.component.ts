@@ -102,7 +102,7 @@ export class CandidateDetailsComponent implements OnInit{
 
       this.cadidateService.SaveDetails(candidate).subscribe(
         result => {
-            this.router.navigate(["../instructions"], { relativeTo : this.activatedRoute});
+            this.router.navigate(["instructions"], { relativeTo : this.activatedRoute});
         },
         error => console.log(error)
       );
