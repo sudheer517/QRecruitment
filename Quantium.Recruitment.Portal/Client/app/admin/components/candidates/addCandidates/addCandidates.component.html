@@ -10,11 +10,11 @@
         </div>
 
         <div class="form-group"  [class.has-danger]="email.invalid && email.touched">
-                <label class="form-control-label"  for="email">Email</label>
+                <label class="form-control-label"  for="email">Email*</label>
                 <input type="text" #firstName="ngModel" class="form-control" #email="ngModel" id="email" required name="email" placeholder="Email" [(ngModel)]="candidate.Email"
                 pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
                 <small *ngIf="email.invalid && email.touched && !email.hasError('pattern')" class="form-text muted-text">Email is required</small>
-                <small *ngIf="email.hasError('pattern')" class="form-text muted-text">Email is not valid</small>
+                <small *ngIf="email.touched && email.hasError('pattern')" class="form-text muted-text">Email is not valid</small>
         </div>
 
         <div class="d-flex" style="justify-content: center">
