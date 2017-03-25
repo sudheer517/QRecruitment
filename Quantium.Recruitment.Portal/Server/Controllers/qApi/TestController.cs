@@ -427,7 +427,98 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             return fileResult;
         }
 
-        private void FillCutOffByLabelAndDiff(Test test, TestDto testDto, ExcelWorksheet worksheet, int startAtColumn)
+        [HttpGet]
+        public async Task<IActionResult> ExportFinishedTestsByJob([FromQuery]long jobId)
+        {
+
+            var tests =
+                await _testRepository.
+                FindByIncludeAllAsync(t => t.IsArchived != true && t.Job.Id == jobId && t.IsFinished);
+
+            var job = await _jobRepository.GetSingleAsyncIncluding(j => j.Id == jobId, j => j.JobDifficultyLabels);
+
+            var excelPackage = new ExcelPackage();
+            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("TestResults");
+
+            int columnCount = 14;
+            IList<string> headers = new List<string>()
+            {
+                "Id",
+                "Candidate Name",
+                "Email",
+                "Title",
+                "Test Completion Date",
+                "Test Result",
+                "College",
+                "CGPA",
+                "Branch",
+                "PassingYear",
+                "Mobile",
+                "Total Questions Displayed",
+                "Total Questions Answered",
+                "Total Correct Answers",
+
+            };
+
+            if (job.JobDifficultyLabels != null)
+            {
+                foreach (var jdl in job.JobDifficultyLabels)
+                {
+                    headers.Add($"{jdl.Label.Name} - {jdl.Difficulty.Name}");
+                }
+            }
+
+            for (int column = 1; column <= headers.Count; column++)
+            {
+                worksheet.SetValue(1, column, headers[column - 1]);
+            }
+
+            for (int testIndex = 0, rowIndex = 2; testIndex < tests.Count; testIndex++, rowIndex++)
+            {
+                var test = tests[testIndex];
+                var testDto = Mapper.Map<TestDto>(test);
+
+                if (testDto.IsFinished)
+                {
+                    FillTestDto(tests[testIndex], testDto);
+                }
+
+                worksheet.SetValue(rowIndex, 1, testIndex + 1);
+                worksheet.SetValue(rowIndex, 2, $"{testDto.Candidate.FirstName} {testDto.Candidate.LastName}");
+                worksheet.SetValue(rowIndex, 3, testDto.Candidate.Email);
+                worksheet.SetValue(rowIndex, 4, testDto.Job.Title);
+                if (testDto.IsFinished)
+                    worksheet.SetValue(rowIndex, 5, testDto.FinishedDate.ToLocalTime().ToString("M/d/yyyy h:mm:ss tt"));
+                else
+                    worksheet.SetValue(rowIndex, 5, "N/A");
+                worksheet.SetValue(rowIndex, 6, testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : "Not Finished");
+                worksheet.SetValue(rowIndex, 7, testDto.Candidate.College);
+                worksheet.SetValue(rowIndex, 8, testDto.Candidate.CGPA);
+                worksheet.SetValue(rowIndex, 9, testDto.Candidate.Branch);
+                worksheet.SetValue(rowIndex, 10, testDto.Candidate.PassingYear);
+                worksheet.SetValue(rowIndex, 11, testDto.Candidate.Mobile);
+                worksheet.SetValue(rowIndex, 12, testDto.TotalChallengesDisplayed);
+                worksheet.SetValue(rowIndex, 13, testDto.TotalChallengesAnswered);
+                worksheet.SetValue(rowIndex, 14, testDto.TotalRightAnswers);
+
+                if (job.JobDifficultyLabels != null)
+                {
+                    FillCutOffByLabelAndDiff(test, testDto, worksheet, rowIndex, 15);
+                }
+            }
+
+            var bytesArray = excelPackage.GetAsByteArray();
+            var stream = excelPackage.Stream;
+
+            FileContentResult fileResult = new FileContentResult(bytesArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "TestResults.xlsx"
+            };
+
+            return fileResult;
+        }
+
+        private void FillCutOffByLabelAndDiff(Test test, TestDto testDto, ExcelWorksheet worksheet, int rowIndex, int startAtColumn)
         {
 
             var jobDiffLabels = Mapper.Map<List<Job_Difficulty_LabelDto>>(test.Job.JobDifficultyLabels);
@@ -465,7 +556,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             {
                 var item = twoKeyJobDiffLabelMap[itemIndex];
 
-                worksheet.SetValue(1, startAtColumn + itemIndex, $"{item.Label.Name} - {item.Difficulty.Name}");
+                worksheet.SetValue(rowIndex, startAtColumn + itemIndex, item.AnsweredCount);
             }
         }
     }

@@ -79,6 +79,17 @@ namespace AspNetCoreSpa.Server.Repositories
             return await _context.Set<T>().FirstOrDefaultAsync(predicate);
         }
 
+        public async Task<T> GetSingleAsyncIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            foreach (var includeProperty in includeProperties)
+            {
+                query = query.Include(includeProperty);
+            }
+
+            return await _context.Set<T>().Where(predicate).FirstOrDefaultAsync(predicate);
+        }
+
         public virtual IEnumerable<T> FindBy(Expression<Func<T, bool>> predicate)
         {
             return _context.Set<T>().Where(predicate);

@@ -44,4 +44,8 @@ export class TestService{
     public GetExcelFileForAllActiveTests(): Observable<any> {
             return this.http.get(`${this.testApiUrl}ExportAllTests`, { responseType: ResponseContentType.Blob }).map(response => response.blob());
     }
+
+    public GetExcelFileForFinishedTestsByJob(jobId: number): Observable<any> {
+            return this.http.get(`${this.testApiUrl}ExportFinishedTestsByJob?jobId=${jobId}`, { responseType: ResponseContentType.Blob }).map(response => response.blob());
+    }
 }

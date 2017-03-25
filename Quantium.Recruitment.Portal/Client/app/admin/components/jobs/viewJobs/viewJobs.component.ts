@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { JobDto } from '../../../../RemoteServicesProxy';
 import { JobService } from '../../../services/job.service';
+import { TestService } from '../../../services/test.service';
 
 @Component({
     selector: 'appc-view-jobs',
@@ -9,7 +10,7 @@ import { JobService } from '../../../services/job.service';
 })
 export class ViewJobsComponent{
     jobs: JobDto[];
-    constructor(private jobService: JobService){
+    constructor(private jobService: JobService, private testService: TestService){
 
     }
 
@@ -38,7 +39,22 @@ export class ViewJobsComponent{
         return total;
     }
 
+    exportFinishedTests(job: JobDto, jobIndex: number){
+        
+        this.testService.GetExcelFileForFinishedTestsByJob(job.Id).subscribe(
+            data => {
+                var blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                var link=document.createElement('a');
+                link.href=window.URL.createObjectURL(blob);
+                link.download=`Finished tests - ${job.Title}.xlsx`;
+                link.click();
+            },
+            error => console.log(error)
+        )
+    }
+
     deleteJob(job: JobDto, jobIndex: number){
+        
         this.jobService.DeleteJob(job).subscribe(
             result => {
                 console.log(this.jobs);
