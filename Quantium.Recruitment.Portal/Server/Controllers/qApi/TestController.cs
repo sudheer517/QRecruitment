@@ -356,25 +356,40 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             var excelPackage = new ExcelPackage();
             ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("TestResults");
 
-
-            for (int column = 1; column <= 11; column++)
+            int columnCount = 14;
+            IList<string> headers = new List<string>()
             {
-                worksheet.SetValue(1, column, "Id");
-                worksheet.SetValue(1, column, "Candidate Name");
-                worksheet.SetValue(1, column, "Email");
-                worksheet.SetValue(1, column, "Title");
-                worksheet.SetValue(1, column, "Test Completion Date");
-                worksheet.SetValue(1, column, "Test Result");
-                worksheet.SetValue(1, column, "College");
-                worksheet.SetValue(1, column, "CGPA");
-                worksheet.SetValue(1, column, "Branch");
-                worksheet.SetValue(1, column, "PassingYear");
-                worksheet.SetValue(1, column, "Mobile");
+                "Id",
+                "Candidate Name",
+                "Email",
+                "Title",
+                "Test Completion Date",
+                "Test Result",
+                "College",
+                "CGPA",
+                "Branch",
+                "PassingYear",
+                "Mobile",
+                "Total Questions Displayed",
+                "Total Questions Answered",
+                "Total Correct Answers",
+
+            };
+
+            if(columnCount != headers.Count)
+            {
+                throw new Exception("Header count not equal columns");
+            }
+
+            for (int column = 1; column <= columnCount; column++)
+            {
+                worksheet.SetValue(1, column, headers[column - 1]);
             }
 
             for (int testIndex = 0, rowIndex = 2; testIndex < tests.Count; testIndex++, rowIndex++)
             {
-                var testDto = Mapper.Map<TestDto>(tests[testIndex]);
+                var test = tests[testIndex];
+                var testDto = Mapper.Map<TestDto>(test);
 
                 if (testDto.IsFinished)
                 {
@@ -385,8 +400,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 worksheet.SetValue(rowIndex, 2, $"{testDto.Candidate.FirstName} {testDto.Candidate.LastName}");
                 worksheet.SetValue(rowIndex, 3, testDto.Candidate.Email);
                 worksheet.SetValue(rowIndex, 4, testDto.Job.Title);
-                if(testDto.IsFinished)
-                    worksheet.SetValue(rowIndex, 5, testDto.FinishedDate);
+                if (testDto.IsFinished)
+                    worksheet.SetValue(rowIndex, 5, testDto.FinishedDate.ToLocalTime().ToString("M/d/yyyy h:mm:ss tt"));
                 else
                     worksheet.SetValue(rowIndex, 5, "N/A");
                 worksheet.SetValue(rowIndex, 6, testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : "Not Finished");
@@ -395,9 +410,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 worksheet.SetValue(rowIndex, 9, testDto.Candidate.Branch);
                 worksheet.SetValue(rowIndex, 10, testDto.Candidate.PassingYear);
                 worksheet.SetValue(rowIndex, 11, testDto.Candidate.Mobile);
+                worksheet.SetValue(rowIndex, 12, testDto.TotalChallengesDisplayed);
+                worksheet.SetValue(rowIndex, 13, testDto.TotalChallengesAnswered);
+                worksheet.SetValue(rowIndex, 14, testDto.TotalRightAnswers);
 
             }
-
 
             var bytesArray = excelPackage.GetAsByteArray();
             var stream = excelPackage.Stream;
@@ -408,6 +425,48 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             };
 
             return fileResult;
+        }
+
+        private void FillCutOffByLabelAndDiff(Test test, TestDto testDto, ExcelWorksheet worksheet, int startAtColumn)
+        {
+
+            var jobDiffLabels = Mapper.Map<List<Job_Difficulty_LabelDto>>(test.Job.JobDifficultyLabels);
+
+            var twoKeyJobDiffLabelMap = jobDiffLabels.Select(jdl => new Job_Difficulty_LabelDto
+            {
+                Label = jdl.Label,
+                Difficulty = jdl.Difficulty,
+                PassingQuestionCount = jdl.PassingQuestionCount,
+                AnsweredCount = 0
+            }).ToList();
+
+            var answeredChallenges = test.Challenges.Where(c => c.IsAnswered == true);
+
+            foreach (var answeredChallenge in answeredChallenges)
+            {
+                var answersIds = answeredChallenge.Question.Options.Where(o => o.IsAnswer == true).Select(o => o.Id);
+                var candidateAnswersIds = answeredChallenge.CandidateSelectedOptions.Select(cso => cso.OptionId);
+
+                if (answersIds.Intersect(candidateAnswersIds).Count() == answersIds.Count() && answersIds.Count() == candidateAnswersIds.Count())
+                {
+                    var jobDiffLabel =
+                        twoKeyJobDiffLabelMap.Single(
+                          item =>
+                              item.Difficulty.Id == answeredChallenge.Question.DifficultyId &&
+                              item.Label.Id == answeredChallenge.Question.LabelId);
+
+                    string labelName = jobDiffLabel.Label.Name;
+
+                    jobDiffLabel.AnsweredCount += 1;
+                }
+            }
+
+            for (int itemIndex = 0 ; itemIndex < twoKeyJobDiffLabelMap.Count; itemIndex++)
+            {
+                var item = twoKeyJobDiffLabelMap[itemIndex];
+
+                worksheet.SetValue(1, startAtColumn + itemIndex, $"{item.Label.Name} - {item.Difficulty.Name}");
+            }
         }
     }
 }
