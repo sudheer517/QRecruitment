@@ -84,9 +84,9 @@ namespace AspNetCoreSpa.Server.Repositories
             return _context.Set<T>().Where(predicate);
         }
 
-        public virtual IEnumerable<T> FindByIncludeAll(Expression<Func<T, bool>> predicate)
+        public virtual async Task<IList<T>> FindByIncludeAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return _context.Set<T>().Where(predicate);
+            return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
         public virtual async Task<IEnumerable<T>> FindByAsync(Expression<Func<T, bool>> predicate)

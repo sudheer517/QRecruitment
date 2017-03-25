@@ -165,13 +165,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTestResults()
+        public async Task<IActionResult> GetTestResults()
         {
-            var allTests = 
-                _testRepository.
-                FindByIncludeAll(t => t.IsArchived != true).
-                OrderByDescending(t => t.FinishedDate).
-                ToList();
+            var allTests =
+                await _testRepository.
+                FindByIncludeAllAsync(t => t.IsArchived != true);
 
             IList<TestResultDto> allTestResultDtos = new List<TestResultDto>();
 
@@ -191,7 +189,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     Email = testDto.Candidate.Email,
                     JobApplied = testDto.Job.Title,
                     FinishedDate = testDto.FinishedDate,
-                    Result = testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : string.Empty ,
+                    Result = testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : string.Empty,
                     College = testDto.Candidate.College,
                     CGPA = testDto.Candidate.CGPA,
                     TotalRightAnswers = testDto.TotalRightAnswers,
@@ -350,12 +348,56 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         public async Task<IActionResult> ExportAllTests()
         {
 
-            var tests = await _testRepository.FindByAsync( t => t.IsArchived != true);
+            var tests = 
+                await _testRepository.
+                FindByIncludeAllAsync(t => t.IsArchived != true);
+
 
             var excelPackage = new ExcelPackage();
             ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("TestResults");
 
-            worksheet.SetValue(1, 1, "Candidates");
+
+            for (int column = 1; column <= 11; column++)
+            {
+                worksheet.SetValue(1, column, "Id");
+                worksheet.SetValue(1, column, "Candidate Name");
+                worksheet.SetValue(1, column, "Email");
+                worksheet.SetValue(1, column, "Title");
+                worksheet.SetValue(1, column, "Test Completion Date");
+                worksheet.SetValue(1, column, "Test Result");
+                worksheet.SetValue(1, column, "College");
+                worksheet.SetValue(1, column, "CGPA");
+                worksheet.SetValue(1, column, "Branch");
+                worksheet.SetValue(1, column, "PassingYear");
+                worksheet.SetValue(1, column, "Mobile");
+            }
+
+            for (int testIndex = 0, rowIndex = 2; testIndex < tests.Count; testIndex++, rowIndex++)
+            {
+                var testDto = Mapper.Map<TestDto>(tests[testIndex]);
+
+                if (testDto.IsFinished)
+                {
+                    FillTestDto(tests[testIndex], testDto);
+                }
+
+                worksheet.SetValue(rowIndex, 1, testIndex + 1);
+                worksheet.SetValue(rowIndex, 2, $"{testDto.Candidate.FirstName} {testDto.Candidate.LastName}");
+                worksheet.SetValue(rowIndex, 3, testDto.Candidate.Email);
+                worksheet.SetValue(rowIndex, 4, testDto.Job.Title);
+                if(testDto.IsFinished)
+                    worksheet.SetValue(rowIndex, 5, testDto.FinishedDate);
+                else
+                    worksheet.SetValue(rowIndex, 5, "N/A");
+                worksheet.SetValue(rowIndex, 6, testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : "Not Finished");
+                worksheet.SetValue(rowIndex, 7, testDto.Candidate.College);
+                worksheet.SetValue(rowIndex, 8, testDto.Candidate.CGPA);
+                worksheet.SetValue(rowIndex, 9, testDto.Candidate.Branch);
+                worksheet.SetValue(rowIndex, 10, testDto.Candidate.PassingYear);
+                worksheet.SetValue(rowIndex, 11, testDto.Candidate.Mobile);
+
+            }
+
 
             var bytesArray = excelPackage.GetAsByteArray();
             var stream = excelPackage.Stream;

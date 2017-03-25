@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System;
+using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
@@ -78,7 +79,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
             return query.Where(predicate).FirstOrDefault();
         }
 
-        public override IEnumerable<Test> FindByIncludeAll(Expression<Func<Test, bool>> predicate)
+        public override async Task<IList<Test>> FindByIncludeAllAsync(Expression<Func<Test, bool>> predicate)
         {
             IQueryable<Test> query = _context.Set<Test>();
 
@@ -97,7 +98,7 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
                         ThenInclude(c => c.Question).
                             ThenInclude(q => q.Options);
 
-            return query.Where(predicate);
+            return await query.Where(predicate).ToListAsync();
         }
 
         //public Test FindActiveTestByCandidateEmail(string candidateEmail)
