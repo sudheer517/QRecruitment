@@ -55,7 +55,7 @@ namespace AspNetCoreSpa.Server.Services
             myMessage.Text = model.TextBody;
             myMessage.Html = model.HtmlBody;
 
-            var credentials = new System.Net.NetworkCredential(Startup.Configuration["Email:SendGrid:Username"], Startup.Configuration["Email:SendGrid:Password"]);
+            var credentials = new System.Net.NetworkCredential(Startup.Configuration["SendGrid:Username"], Startup.Configuration["SendGrid:Password"]);
             // Create a Web transport for sending email.
             var transportWeb = new SendGrid.Web(credentials);
             // Send the email.
