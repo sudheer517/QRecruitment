@@ -59,7 +59,7 @@
                                                         <div class="form-group" style="flex: 0 1 20%;margin-right: 20px"
                                                          [class.has-danger]="(labelAndDifficulty.get('availableQuestions').invalid && labelAndDifficulty.get('availableQuestions').touched) || labelAndDifficulty.get('availableQuestions').errors?.count">
                                                                 <label class="form-control-label" attr.for="{{'availableQuestions' + i}}">Available questions</label>
-                                                                <select class="form-control" id="{{'availableQuestions' + i}}" formControlName="availableQuestions">
+                                                                <select class="form-control" id="{{'availableQuestions' + i}}" formControlName="availableQuestions"  (change)="onAvailableChange(i)">
                                                                         <option *ngFor="let questionNumber of availableQuestionsMap[i]; let index=index" [value]="questionNumber">{{questionNumber}}</option>
                                                                 </select>
                                                                 <small *ngIf="labelAndDifficulty.get('availableQuestions').touched && labelAndDifficulty.get('availableQuestions').errors?.required" 
@@ -85,8 +85,6 @@
                                                 </div>
                                                  
                                         </div>
-                                        {{labelsAndDifficulties.errors}}
-                                        {{labelsAndDifficulties.invalid}}
                                         <small *ngIf="labelsAndDifficulties.errors?.duplicate" 
                                                         class="form-text muted-text text-danger">Cannot have duplicate labels and difficulties</small>
                                 </div>

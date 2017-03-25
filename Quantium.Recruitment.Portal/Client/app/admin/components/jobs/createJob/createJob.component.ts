@@ -22,13 +22,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class CreateJobComponent implements OnInit {
     jobForm: FormGroup;
     job: JobDto = new JobDto();
-    availableQuestionsMap: QuestionsInJobMap = new QuestionsInJobMap();
-    questionsToPassMap: QuestionsInJobMap = new QuestionsInJobMap();
+    availableQuestionsMap = [];
+    questionsToPassMap = [];
     @ViewChild('progress') progressModal:ModalDirective;
     isRequestProcessing: boolean = true;
     modalResponse: string;
     isEnteredTitleExists: boolean = false;
-    selectedLabelAndDiffs = new SelectedLabelAndDiffs();
+    selectedLabelAndDiffs = [];
 
     get labelsAndDifficulties(): FormArray { 
         return this.jobForm.get('labelsAndDifficulties') as FormArray; 
@@ -96,23 +96,23 @@ export class CreateJobComponent implements OnInit {
         );
     }
 
-    duplicateLabelDiffValidator(selectedLabelAndDiffs: SelectedLabelAndDiffs): ValidatorFn {
+    duplicateLabelDiffValidator(selectedLabelAndDiffs: LabelAndDiff[]): ValidatorFn {
         return (formArray: FormArray): {[key: string]: boolean} | null => {
-            let count = 0;
-            console.log();
-            formArray.controls.forEach((c, index)=>{
-                let labelId = c.get('label').value;
-                let difficultyId = c.get('difficulty').value;
-                count = 0;
-                Object.keys(selectedLabelAndDiffs).forEach((item, index)=> {
-                    let labelAndDiff = selectedLabelAndDiffs[index];
-                    if(labelAndDiff.labelId == labelId && labelAndDiff.diffId == difficultyId){
-                        count++;
-                    }
-                })
-            });
+            let formArrayErrorCount = 0;
 
-            if(count > 1){
+            Object.keys(selectedLabelAndDiffs).forEach((first, indexFirst)=> {
+                    let i = selectedLabelAndDiffs[indexFirst];
+                    Object.keys(selectedLabelAndDiffs).forEach((second, indexSecond)=>{
+                        let j = selectedLabelAndDiffs[indexSecond];
+                        if(i != j){
+                            if(i.labelId == j.labelId && i.diffId == j.diffId){
+                                formArrayErrorCount++;
+                            }
+                        }
+                    });
+                })
+
+            if(formArrayErrorCount > 0){
                 return { 'duplicate': true }
             }
             else{
@@ -156,27 +156,22 @@ export class CreateJobComponent implements OnInit {
 
     removeLabelAndDifficulty(labelAndDifficultyIndex: number): void{
         this.labelsAndDifficulties.removeAt(labelAndDifficultyIndex);
+        this.selectedLabelAndDiffs.splice(labelAndDifficultyIndex, 1);
+        this.jobForm.get('labelsAndDifficulties').updateValueAndValidity();
 
         this.availableQuestionsMap = this.rearrangeQuestionMaps(labelAndDifficultyIndex, this.availableQuestionsMap);
-        this.questionsToPassMap = this.rearrangeQuestionMaps(labelAndDifficultyIndex, this.questionsToPassMap);
+        if(this.questionsToPassMap && labelAndDifficultyIndex < this.questionsToPassMap.length){
+            this.questionsToPassMap = this.rearrangeQuestionMaps(labelAndDifficultyIndex, this.questionsToPassMap);
+        }
     }
 
     addLabelAndDifficulty(): void{
         this.labelsAndDifficulties.push(this.getNewLabelDifficultyGroup())
     }
 
-    private rearrangeQuestionMaps(indexToBeRemoved: number, arrayToBeReArranged: QuestionsInJobMap): QuestionsInJobMap {
-        let rearrangedMap = new QuestionsInJobMap();
-
-        for(let i = 0 ; i < indexToBeRemoved; i++){
-            rearrangedMap[i] = arrayToBeReArranged[i];
-        }
-
-        for(let i = indexToBeRemoved ; i < (Object.keys(arrayToBeReArranged).length - 1); i++){
-            rearrangedMap[i] = arrayToBeReArranged[i + 1];
-        }
-
-        return rearrangedMap;
+    private rearrangeQuestionMaps(indexToBeRemoved: number, arrayToBeReArranged: Array<any>): Array<any> {
+        arrayToBeReArranged.splice(indexToBeRemoved, 1);
+        return arrayToBeReArranged;
     }
     
     private getNewLabelDifficultyGroup(): FormGroup {
@@ -214,11 +209,6 @@ export class CreateJobComponent implements OnInit {
                 this.setQuestionCounts(dynamicFormGroup, formGroupIndex, difficultyValue, labelValue);
             }
         });
-
-        dynamicFormGroup.controls['availableQuestions'].valueChanges.subscribe(availableQuestionsValue => {
-            let questionToPassCount: number = Number(availableQuestionsValue);
-            this.questionsToPassMap[formGroupIndex] = this.getArray(availableQuestionsValue);
-        });
     }
 
     private getArray(size: number){
@@ -228,6 +218,13 @@ export class CreateJobComponent implements OnInit {
         }
 
         return arr;
+    }
+
+    onAvailableChange(i: number){
+        console.log(i);
+        let availValue = this.jobForm.get('labelsAndDifficulties').get(i.toString()).get('availableQuestions').value
+        let questionToPassCount: number = Number(availValue);
+        this.questionsToPassMap[i] = this.getArray(questionToPassCount);
     }
 
     private setQuestionCounts(dynamicFormGroup: FormGroup, formGroupIndex: number, difficultyValue: any, labelValue: any) {
@@ -309,10 +306,6 @@ export class CreateJobComponent implements OnInit {
 
 }
 
-export class QuestionsInJobMap{
-    [key: number]: any[];
-}
-
 class LabelAndDiff{
     constructor(labelId, diffId){
         this.labelId = labelId;
@@ -320,7 +313,4 @@ class LabelAndDiff{
     }
     labelId: number;
     diffId: number;
-}
-class SelectedLabelAndDiffs{
-    [key: number]:  LabelAndDiff;
 }
