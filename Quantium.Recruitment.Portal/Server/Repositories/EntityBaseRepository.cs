@@ -100,7 +100,7 @@ namespace AspNetCoreSpa.Server.Repositories
             return await _context.Set<T>().Where(predicate).ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<T>> FindByAsync(Expression<Func<T, bool>> predicate)
+        public virtual async Task<IList<T>> FindByAsync(Expression<Func<T, bool>> predicate)
         {
             return await _context.Set<T>().Where(predicate).ToListAsync();
         }

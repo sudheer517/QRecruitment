@@ -5,6 +5,9 @@ using AspNetCoreSpa.Server.Repositories;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Threading.Tasks;
+using System.Linq.Expressions;
+using System;
 
 namespace Quantium.Recruitment.Infrastructure.Repositories
 {
@@ -35,6 +38,20 @@ namespace Quantium.Recruitment.Infrastructure.Repositories
                     ThenInclude(jdl => jdl.Label);
 
             return query.AsEnumerable();
+        }
+
+        public override async Task<IList<Job>> FindByAsync(Expression<Func<Job, bool>> predicate)
+        {
+            IQueryable<Job> query = _context.Set<Job>();
+            query =
+                query.
+                Include(job => job.Department).
+                Include(job => job.JobDifficultyLabels).
+                    ThenInclude(jdl => jdl.Difficulty).
+                Include(job => job.JobDifficultyLabels).
+                    ThenInclude(jdl => jdl.Label);
+
+            return await query.Where(predicate).ToListAsync();
         }
 
         public override void Delete(Job job)

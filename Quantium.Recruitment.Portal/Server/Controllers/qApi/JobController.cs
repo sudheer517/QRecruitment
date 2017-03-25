@@ -72,7 +72,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             try
             {
                 var job = Mapper.Map<Job>(jobDto);
-                _jobRepository.Delete(job);
+                job.IsActive = false;
+                _jobRepository.Update(job);
+                //_jobRepository.Delete(job);
             }
             catch (Exception ex)
             {
@@ -82,9 +84,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var jobs = _jobRepository.GetAll().OrderByDescending(j => j.CreatedUtc).ToList();
+            var jobs = await _jobRepository.FindByAsync(j => j.IsActive == true);
+
+            jobs = jobs.OrderByDescending(j => j.CreatedUtc).ToList();
 
             var jDtos = Mapper.Map<List<JobDto>>(jobs);
 
