@@ -74,10 +74,10 @@ export class CreateTestComponent implements OnInit{
 
         if(searchText && searchText.length > 0){
         this.filteredCandidates = this.candidates.filter(
-        candidate => 
-                candidate.FirstName.toLocaleLowerCase().indexOf(searchText) != -1 ||
-                candidate.LastName.toLocaleLowerCase().indexOf(searchText) != -1 ||
-                candidate.Email.toLocaleLowerCase().indexOf(searchText) != -1);
+            candidate => 
+                    (candidate.FirstName && candidate.FirstName.toLocaleLowerCase().indexOf(searchText) != -1) ||
+                    (candidate.LastName && candidate.LastName.toLocaleLowerCase().indexOf(searchText) != -1 )||
+                    candidate.Email.toLocaleLowerCase().indexOf(searchText) != -1);
         }
         else{
             this.filteredCandidates = this.candidates;
