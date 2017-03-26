@@ -230,6 +230,7 @@
     export class PagedQuestionDto {
         questions: QuestionDto[];
         totalPages: number;
+        totalQuestions : number;
     }
 
     export class QuestionDto { 

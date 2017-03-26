@@ -30,11 +30,13 @@ export class QuestionService{
             });
     }
 
-    public GetAllQuestionsByPaging(pageNumber, questionsPerPage): Observable<PagedQuestionDto> {
+    public GetAllQuestionsByPaging(pageNumber, questionsPerPage, labelId, difficultyId): Observable<PagedQuestionDto> {
         let params = new URLSearchParams();
         params.set('paging', 'true');
         params.set('pageNumber', pageNumber);
         params.set('questionsPerPage', questionsPerPage);
+        params.set('labelId', labelId);
+        params.set('difficultyId', difficultyId);
 
         return this.http.get(`${this.questionApiUrl}GetAll`, { search: params }).map(
             (response: Response) => {

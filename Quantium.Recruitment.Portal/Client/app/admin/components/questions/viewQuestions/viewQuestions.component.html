@@ -1,5 +1,23 @@
 <div style="padding: 20px;" *ngIf="questions?.length > 0">
-        <div class="d-flex" style="justify-content: center">
+        <div class="d-flex view-questions-header" style="justify-content: center">
+                <div style="margin-right: 15px; display: flex">
+                        <p style="margin-right: 5px">Label:</p>
+                        <div class="form-group">
+                                <select class="form-control" #label="ngModel" id="label" name="label" required [(ngModel)]="selectedLabel" (ngModelChange)="labelOrDifficultyChanged()">
+                                        <option value="0" [selected]>No Selection</option>
+                                        <option *ngFor="let label of labels" [value]="label.Id">{{label.Name}}</option>
+                                </select>
+                        </div>
+                </div>
+                <div style="margin-right: 15px; display: flex">
+                        <p style="margin-right: 5px">Difficulty:</p>
+                        <div class="form-group">
+                                <select class="form-control" #difficulty="ngModel" id="difficulty" name="difficulty" required [(ngModel)]="selectedDifficulty" (ngModelChange)="labelOrDifficultyChanged()">
+                                        <option value="0" [selected]>No Selection</option>
+                                        <option *ngFor="let difficulty of difficulties" [value]="difficulty.Id">{{difficulty.Name}}</option>
+                                </select>
+                        </div>
+                </div>
                 <pagination
                         class="pagination-sm"
                         [(ngModel)]="page"
@@ -53,17 +71,17 @@
             <hr>
     </div>
     <div class="d-flex" style="justify-content: center">
-                <pagination
-                        class="pagination-sm"
-                        [(ngModel)]="page"
-                        [totalItems]="length"
-                        [itemsPerPage]="itemsPerPage"
-                        [maxSize]="maxSize"
-                        [boundaryLinks]="true"
-                        [rotate]="false"
-                        (numPages)="numPages = $event">
-                </pagination>
-        </div>
+        <pagination
+                class="pagination-sm"
+                [(ngModel)]="page"
+                [totalItems]="length"
+                [itemsPerPage]="itemsPerPage"
+                [maxSize]="maxSize"
+                [boundaryLinks]="true"
+                [rotate]="false"
+                (numPages)="numPages = $event">
+        </pagination>
+    </div>
 </div>
 
 <div *ngIf="!questions || questions?.length < 1" class="d-flex" style="justify-content: center; margin-top: 40px">

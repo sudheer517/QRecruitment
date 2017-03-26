@@ -11,6 +11,7 @@ using Quantium.Recruitment.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using AspNetCoreSpa.Server.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace Quantium.Recruitment.ApiServices.Controllers
 {
@@ -26,11 +27,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var difficulties = _difficultyRepository.GetAll().ToList();
+            var difficulties = await _difficultyRepository.GetAllAsync();
 
-            var dDtos = Mapper.Map<List<DifficultyDto>>(difficulties);
+            var dDtos = Mapper.Map<List<DifficultyDto>>(difficulties.ToList());
 
             return Ok(dDtos);
         }

@@ -15,6 +15,8 @@ using Quantium.Recruitment.Entities;
 using AutoMapper;
 using Quantium.Recruitment.Portal.Server.Helpers;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq.Expressions;
+using AspNetCoreSpa.Server;
 
 namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 {
@@ -47,14 +49,28 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
         [HttpGet]
-        public IActionResult GetAll(bool paging = false, int pageNumber = 1, int questionsPerPage = 10)
+        public IActionResult GetAll(bool paging = false, int pageNumber = 1, int questionsPerPage = 10, int labelId = 0, int difficultyId = 0)
         {
             IList<Question> questions = null;
+
+            Expression<Func<Question, bool>> predicate = q => q.IsActive != false;
+
+            if(labelId != 0)
+            {
+                Expression<Func<Question, bool>> labelPredicate = q => q.Label.Id == labelId;
+                predicate = PredicateHelper.CombineWithAnd(predicate, labelPredicate);
+            }
+
+            if (difficultyId != 0)
+            {
+                Expression<Func<Question, bool>> difficultyPredicate = q => q.Difficulty.Id == difficultyId;
+                predicate = PredicateHelper.CombineWithAnd(predicate, difficultyPredicate);
+            }
 
             IList<Question> totalQuestions =
                 _questionRepository.
                 AllIncluding(q => q.Label, q => q.Difficulty, q => q.Options, q => q.QuestionGroup).
-                Where(q => q.IsActive != false).
+                Where(predicate).
                 OrderByDescending(q => q.CreatedUtc).ToList();
 
             if (paging == true)
@@ -74,7 +90,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
             if (paging == true)
             {
-                return Ok(new { totalPages = Math.Ceiling((double)totalQuestions.Count / questionsPerPage), questions = qDtos });
+                return Ok(new { totalPages = Math.Ceiling((double)totalQuestions.Count / questionsPerPage), questions = qDtos, totalQuestions = totalQuestions.Count });
             }
             else
             {

@@ -3,6 +3,8 @@ using System.Linq;
 using Serilog;
 using Serilog.Events;
 using static Microsoft.AspNetCore.ResponseCompression.ResponseCompressionDefaults;
+using System.Linq.Expressions;
+using System;
 
 namespace AspNetCoreSpa.Server
 {
@@ -20,9 +22,9 @@ namespace AspNetCoreSpa.Server
         }
 
         public static IEnumerable<string> DefaultMimeTypes => MimeTypes.Concat(new[]
-                                {
-                                    "image/svg+xml",
-                                    "application/font-woff2"
-                                });
+        {
+            "image/svg+xml",
+            "application/font-woff2"
+        });
     }
 }

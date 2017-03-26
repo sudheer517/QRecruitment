@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { QuestionService } from '../../../services/question.service';
-import { QuestionDto, PagedQuestionDto } from '../../../../RemoteServicesProxy';
+import { LabelService } from '../../../services/label.service';
+import { DifficultyService } from '../../../services/difficulty.service';
+import { QuestionDto, PagedQuestionDto, LabelDto, DifficultyDto } from '../../../../RemoteServicesProxy';
 import { ModalDirective } from 'ng2-bootstrap/modal';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'appc-view-questions',
@@ -10,6 +13,11 @@ import { ModalDirective } from 'ng2-bootstrap/modal';
 })
 export class ViewQuestionsComponent implements OnInit{
     questions: QuestionDto[];
+    labels: LabelDto[];
+    difficulties: DifficultyDto[];
+    selectedLabel: number;
+    selectedDifficulty: number;
+
     isRequestProcessing = true;
     modalResponse: string;
     @ViewChild('progress') progressModal: ModalDirective;
@@ -20,17 +28,39 @@ export class ViewQuestionsComponent implements OnInit{
     public maxSize:number = 5;
     public numPages:number = 1;
 
-    constructor(private questionService: QuestionService){
+    constructor(private questionService: QuestionService, private labelService: LabelService, private difficultyService: DifficultyService){
 
     }
 
     ngOnInit(){
-        this.questionService.GetAllQuestionsByPaging(1, this.itemsPerPage).subscribe(
+        this.questionService.GetAllQuestionsByPaging(1, this.itemsPerPage, 0, 0).subscribe(
             pagedQuestionDto => {
-                console.log(pagedQuestionDto); 
-                console.log(pagedQuestionDto.questions); 
                 this.questions = pagedQuestionDto.questions;
-                this.length = this.questions.length * 2;
+                this.length = pagedQuestionDto.totalQuestions;
+                this.numPages = pagedQuestionDto.totalPages;
+                this.maxSize = this.numPages;
+            },
+            error => console.log(error)
+        )
+
+        this.labelService.GetAllLabels().subscribe(
+            labels => this.labels = labels
+        );
+
+        this.difficultyService.GetAllDifficulties().subscribe(
+            difficulties => this.difficulties = difficulties
+        );
+    }
+
+    labelOrDifficultyChanged(){
+        this.getQuestions(1);
+    }
+
+    getQuestions(pageNum: number){
+        this.questionService.GetAllQuestionsByPaging(pageNum, this.itemsPerPage, this.selectedLabel, this.selectedDifficulty).subscribe(
+            pagedQuestionDto => {
+                this.questions = pagedQuestionDto.questions;
+                this.length = pagedQuestionDto.totalQuestions;
                 this.numPages = pagedQuestionDto.totalPages;
                 this.maxSize = this.numPages;
             },
@@ -39,17 +69,7 @@ export class ViewQuestionsComponent implements OnInit{
     }
 
     changePage(event: any){
-        this.questionService.GetAllQuestionsByPaging(event.page, this.itemsPerPage).subscribe(
-            pagedQuestionDto => {
-                console.log(pagedQuestionDto); 
-                console.log(pagedQuestionDto.questions); 
-                this.questions = pagedQuestionDto.questions;
-                this.length = this.questions.length * 2;
-                this.numPages = pagedQuestionDto.totalPages;
-                this.maxSize = this.numPages;
-            },
-            error => console.log(error)
-        )
+        this.getQuestions(event.page);
     }
     
     closeModal(){
