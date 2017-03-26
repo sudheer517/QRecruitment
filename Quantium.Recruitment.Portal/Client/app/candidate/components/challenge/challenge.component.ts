@@ -70,7 +70,7 @@ export class ChallengeComponent implements OnInit{
                     else{
                         this.isTimeUp = false;
                         this.ticks = challenge.Question.TimeInSeconds;
-                        console.log("Yo");
+                       
                         this.sub = this.timer.subscribe(t => this.tickerFunc(t));
                         //console.log(this.ticks);
                         this.selectedCheckboxOptions = new Array<boolean>(challenge.Question.Options.length);
@@ -103,8 +103,8 @@ export class ChallengeComponent implements OnInit{
         //this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
         this.progressModal.show();
         this.sub.unsubscribe();
-        console.log(this.selectedRadioOption);
-        console.log(this.selectedCheckboxOptions);
+        //console.log(this.selectedRadioOption);
+        //console.log(this.selectedCheckboxOptions);
 
         this.endDateTime = new Date().toUTCString();
         this.postChallenge();
@@ -152,7 +152,7 @@ export class ChallengeComponent implements OnInit{
         
         this.challengeService.PostChallenge(challengeDto).subscribe(
             result => {
-                console.log("answer posted");
+                //console.log("answer posted");
                 if (shouldGetNextQuestion) {
                     this.getNextChallenge();
                 }
