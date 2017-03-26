@@ -24,38 +24,45 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         private readonly IEntityBaseRepository<Department> _departmentRepository;
         private readonly IEntityBaseRepository<Label> _labelRepository;
         private readonly IEntityBaseRepository<Difficulty> _difficultyRepository;
+        private readonly IEntityBaseRepository<Admin> _adminRepository;
 
         public JobController(
             IEntityBaseRepository<Job> jobRepository, 
             IEntityBaseRepository<Department> departmentRepository,
             IEntityBaseRepository<Label> labelRepository,
-            IEntityBaseRepository<Difficulty> difficultyRepository)
+            IEntityBaseRepository<Difficulty> difficultyRepository,
+            IEntityBaseRepository<Admin> adminRepository)
         {
             _jobRepository = jobRepository;
             _departmentRepository = departmentRepository;
             _labelRepository = labelRepository;
             _difficultyRepository = difficultyRepository;
+            _adminRepository = adminRepository;
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody]JobDto jobDto)
+        public async Task<IActionResult> Create([FromBody]JobDto jobDto)
         {
             try
             {
                 var job = Mapper.Map<Job>(jobDto);
-
-                var department = _departmentRepository.GetSingle(job.Department.Id);
+                var department = await _departmentRepository.GetSingleAsync(j => j.Id == job.Department.Id);
 
                 foreach (var jobDifficultyLabel in job.JobDifficultyLabels)
                 {
-                    var label = _labelRepository.GetSingle(jobDifficultyLabel.Label.Id);
-                    var difficulty = _difficultyRepository.GetSingle(jobDifficultyLabel.Difficulty.Id);
+                    var label = await _labelRepository.GetSingleAsync(l => l.Id == jobDifficultyLabel.Label.Id);
+                    var difficulty = await _difficultyRepository.GetSingleAsync(d => d.Id == jobDifficultyLabel.Difficulty.Id);
                     jobDifficultyLabel.Label = label;
                     jobDifficultyLabel.Difficulty = difficulty;
                 }
 
+                var adminEmail = this.User.Identities.First().Name;
+                var admin = await _adminRepository.GetSingleAsync(a => a.Email == adminEmail);
+
                 job.CreatedUtc = DateTime.UtcNow;
+                job.IsActive = true;
                 job.Department = department;
+                job.CreatedByUserId = admin.Id;
                 _jobRepository.Add(job);
                 var responseDto = Mapper.Map<JobDto>(job);
             }
@@ -67,14 +74,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete([FromBody]JobDto jobDto)
+        public async Task<IActionResult> Delete([FromBody]long jobId)
         {
             try
             {
-                var job = Mapper.Map<Job>(jobDto);
+                var job = await _jobRepository.GetSingleAsync(j => j.Id == jobId);
                 job.IsActive = false;
-                _jobRepository.Update(job);
-                //_jobRepository.Delete(job);
+                _jobRepository.Edit(job);
+                _jobRepository.Commit();
             }
             catch (Exception ex)
             {
@@ -86,7 +93,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var jobs = await _jobRepository.FindByAsync(j => j.IsActive == true);
+            var jobs = await _jobRepository.FindByAsync(j => j.IsActive != false);
 
             jobs = jobs.OrderByDescending(j => j.CreatedUtc).ToList();
 

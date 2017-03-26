@@ -55,7 +55,7 @@ export class ViewJobsComponent{
 
     deleteJob(job: JobDto, jobIndex: number){
         
-        this.jobService.DeleteJob(job).subscribe(
+        this.jobService.DeleteJob(job.Id).subscribe(
             result => {
                 console.log(this.jobs);
                 console.log("deleting");//let deleteIndex = this.jobs.findIndex(item => item === job);

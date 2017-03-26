@@ -25,8 +25,11 @@ export class JobService{
             });
     }
 
-    public DeleteJob(job: JobDto): Observable<any> {
-        return this.http.post(`${this.jobApiUrl}Delete`, job).map(
+    public DeleteJob(jobId: number): Observable<any> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers });
+
+        return this.http.post(`${this.jobApiUrl}Delete`, jobId, options).map(
             (response: Response) => {
                 return response.json();
             });
