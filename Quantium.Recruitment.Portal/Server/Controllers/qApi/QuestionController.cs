@@ -99,7 +99,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
         [HttpPost]
-        public IActionResult AddQuestions()
+        public async Task<IActionResult> AddQuestions()
         {
             var file = Request.Form.Files[0];
 
@@ -115,9 +115,11 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
                 foreach (var questionDto in questionDtos)
                 {
-                    if (!ModelState.IsValid)
+                    var duplicateQuestionExists = await _questionRepository.GetSingleAsync(q => q.Text == questionDto.Text.Trim());
+
+                    if(duplicateQuestionExists != null)
                     {
-                        return BadRequest(ModelState);
+                        return StatusCode(StatusCodes.Status409Conflict, questionDto.Id);
                     }
 
                     questionDto.Options = questionDto.Options.Where(item => item.Text.Trim().Length > 0).ToList();
@@ -133,7 +135,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                     {
                         labelName = userEnteredLabel;
                     }
-                    var label = _labelRepository.GetSingle(item => item.Name == labelName);
+                    var label = await _labelRepository.GetSingleAsync(item => item.Name == labelName);
                     inputQuestion.Label = label;
                     if (label == null)
                     {
@@ -148,7 +150,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                     {
                         difficultyName = userEnteredDifficulty;
                     }
-                    var difficulty = _difficultyRepository.GetSingle(item => item.Name == difficultyName);
+                    var difficulty = await _difficultyRepository.GetSingleAsync(item => item.Name == difficultyName);
                     inputQuestion.Difficulty = difficulty;
                     if (difficulty == null)
                     {
@@ -159,7 +161,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
                     if (!string.IsNullOrEmpty(questionDto.QuestionGroup.Description))
                     {
-                        var questionGroup = _questionGroupRepository.GetSingle(item => item.Description == questionDto.QuestionGroup.Description);
+                        var questionGroup = await _questionGroupRepository.GetSingleAsync(item => item.Description == questionDto.QuestionGroup.Description);
 
                         if (questionGroup != null)
                             inputQuestion.QuestionGroup = questionGroup;
@@ -170,7 +172,8 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                         inputQuestion.QuestionGroupId = null;
                     }
                     var adminEmail = this.User.Identities.First().Name;
-                    inputQuestion.CreatedByUserId = _adminRepository.GetSingle(a => a.Email == adminEmail).Id;
+                    var admin = await _adminRepository.GetSingleAsync(a => a.Email == adminEmail);
+                    inputQuestion.CreatedByUserId = admin.Id;
                     inputQuestion.IsActive = true;
                     inputQuestion.CreatedUtc = DateTime.UtcNow;
                     var result = _questionRepository.Add(inputQuestion);
@@ -185,7 +188,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
         [HttpPost]
-        public IActionResult PreviewQuestions(ICollection<IFormFile> files)
+        public async Task<IActionResult> PreviewQuestions(ICollection<IFormFile> files)
         {
             var file = Request.Form.Files[0];
 
@@ -198,6 +201,17 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             try
             {
                 var questionDtos = GetQuestionDtosFromWorkSheet(workSheet);
+
+                foreach (var questionDto in questionDtos)
+                {
+                    var duplicateQuestionExists = await _questionRepository.GetSingleAsync(q => q.Text == questionDto.Text.Trim());
+
+                    if (duplicateQuestionExists != null)
+                    {
+                        return StatusCode(StatusCodes.Status409Conflict, questionDto.Id);
+                    }
+                }
+                
                 return Ok(questionDtos);
             }
             catch (Exception ex)
@@ -239,47 +253,47 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                     QuestionDto newQuestion = new QuestionDto
                     {
                         Id = Convert.ToInt64(questionAndOptions[0]),
-                        Text = questionAndOptions[1],
-                        TimeInSeconds = Convert.ToInt32(questionAndOptions[3]),
-                        Label = new LabelDto { Name = questionAndOptions[10] },
-                        Difficulty = new DifficultyDto { Name = questionAndOptions[11] },
+                        Text = questionAndOptions[1].Trim(),
+                        TimeInSeconds = Convert.ToInt32(questionAndOptions[3].Trim()),
+                        Label = new LabelDto { Name = questionAndOptions[10].Trim() },
+                        Difficulty = new DifficultyDto { Name = questionAndOptions[11].Trim() },
                         RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
                         ImageUrl = questionAndOptions[13],
                         QuestionGroup = new QuestionGroupDto
                         {
-                            Description = questionAndOptions[14]
+                            Description = questionAndOptions[14].Trim()
                         },
                         IsRadio = !string.IsNullOrEmpty(questionAndOptions[15]) ? Convert.ToBoolean(questionAndOptions[15]) : false,
                         Options = new List<OptionDto>
                             {
                                 new OptionDto
                                 {
-                                    Text = questionAndOptions[4],
+                                    Text = questionAndOptions[4].Trim(),
                                     IsAnswer = selectedOptions.Contains(headers[4])
                                 },
                                 new OptionDto
                                 {
-                                    Text = questionAndOptions[5],
+                                    Text = questionAndOptions[5].Trim(),
                                     IsAnswer = selectedOptions.Contains(headers[5])
                                 },
                                 new OptionDto
                                 {
-                                    Text = questionAndOptions[6],
+                                    Text = questionAndOptions[6].Trim(),
                                     IsAnswer = selectedOptions.Contains(headers[6])
                                 },
                                 new OptionDto
                                 {
-                                    Text = questionAndOptions[7],
+                                    Text = questionAndOptions[7].Trim(),
                                     IsAnswer = selectedOptions.Contains(headers[7])
                                 },
                                 new OptionDto
                                 {
-                                    Text = questionAndOptions[8],
+                                    Text = questionAndOptions[8].Trim(),
                                     IsAnswer = selectedOptions.Contains(headers[8])
                                 },
                                 new OptionDto
                                 {
-                                    Text = questionAndOptions[9],
+                                    Text = questionAndOptions[9].Trim(),
                                     IsAnswer = selectedOptions.Contains(headers[9])
                                 }
                             }

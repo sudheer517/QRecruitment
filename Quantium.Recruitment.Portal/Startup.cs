@@ -6,6 +6,7 @@ using AspNetCoreSpa.Server;
 using AspNetCoreSpa.Server.Extensions;
 using Quantium.Recruitment.Portal;
 using System.IO;
+using Quantium.Recruitment.Portal.Server.Helpers;
 
 namespace AspNetCoreSpa
 {
