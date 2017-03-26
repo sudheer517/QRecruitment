@@ -59,10 +59,17 @@ export class ViewQuestionsComponent implements OnInit{
     getQuestions(pageNum: number){
         this.questionService.GetAllQuestionsByPaging(pageNum, this.itemsPerPage, this.selectedLabel, this.selectedDifficulty).subscribe(
             pagedQuestionDto => {
-                this.questions = pagedQuestionDto.questions;
-                this.length = pagedQuestionDto.totalQuestions;
-                this.numPages = pagedQuestionDto.totalPages;
-                this.maxSize = this.numPages;
+                if(pagedQuestionDto.questions && pagedQuestionDto.questions.length > 0){
+                    this.questions = pagedQuestionDto.questions;
+                    this.length = pagedQuestionDto.totalQuestions;
+                    this.numPages = pagedQuestionDto.totalPages;
+                    this.maxSize = this.numPages;
+                }
+                else{
+                    this.modalResponse = "No questions found";
+                    this.isRequestProcessing = false;
+                    this.progressModal.show();
+                }
             },
             error => console.log(error)
         )
