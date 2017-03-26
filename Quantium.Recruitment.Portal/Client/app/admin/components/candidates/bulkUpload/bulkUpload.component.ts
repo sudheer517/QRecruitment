@@ -63,9 +63,16 @@ export class BulkUploadComponent implements OnInit {
                     this.isRequestProcessing = false;
                     this.progressModal.show();
                 }
+                if(error.status == 422){
+                    this.validationFailed = true;
+                    this.modalResponse = "No candidates found. Check your data";
+                    this.isRequestProcessing = false;
+                    this.progressModal.show();
+                }
                 if(error.status == 409){
                     this.validationFailed = true;
-                    this.modalResponse = "Duplicate candidate found for " + (error.json() as CandidateDto).Email;
+                    //this.modalResponse = "Duplicate candidate found " + (error.json() as CandidateDto).Email;
+                    this.modalResponse = "Duplicate candidate found. Check your data";
                     this.isRequestProcessing = false;
                     this.progressModal.show();
                 }

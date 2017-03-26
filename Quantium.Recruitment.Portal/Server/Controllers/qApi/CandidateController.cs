@@ -83,44 +83,43 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             }
             else
             {
-                return StatusCode(StatusCodes.Status409Conflict);
+                return StatusCode(StatusCodes.Status409Conflict, JsonConvert.SerializeObject("Duplicate"));
             }
             
         }
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult PreviewCandidates(ICollection<IFormFile> files)
+        public IActionResult PreviewCandidates()
         {
-            var file = Request.Form.Files[0];
-
-            var fs = file.OpenReadStream();
-
-            var excelPackage = new ExcelPackage(fs);
-            fs.Dispose();
-
-            var workSheet = excelPackage.Workbook.Worksheets.FirstOrDefault();
             try
             {
-                var candidateDtos = GetCandidateDtosFromWorkSheet(workSheet);
+                IList<CandidateDto> candidateDtos;
+                var statusCode = GetCandidateDtosFromWorkSheet(out candidateDtos);
 
-                foreach (var candidateDto in candidateDtos)
+                if (statusCode == StatusCodes.Status200OK)
                 {
-                    var candidate = _candidateRepository.GetSingle(c => c.Email == candidateDto.Email);
-
-                    if(candidate != null)
+                    foreach (var candidateDto in candidateDtos)
                     {
-                        return StatusCode(StatusCodes.Status409Conflict, candidate);
-                    }
-                }
+                        var candidate = _candidateRepository.GetSingle(c => c.Email == candidateDto.Email);
 
-                return Ok(candidateDtos);
+                        if (candidate != null)
+                        {
+                            return StatusCode(StatusCodes.Status409Conflict, candidate);
+                        }
+                    }
+
+                    return Ok(candidateDtos);
+                }
+                else
+                {
+                    return StatusCode(statusCode, JsonConvert.SerializeObject("Validation failed"));
+                }
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status406NotAcceptable, ex.Message);
             }
-
         }
 
         [HttpGet]
@@ -153,11 +152,51 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddCandidatesAsync(ICollection<IFormFile> files)
+        public async Task<IActionResult> AddCandidatesAsync()
         {
-            var adminEmail = this.User.Identities.First().Name;
-            var admin = _adminRepository.FindBy(a => a.Email == adminEmail).FirstOrDefault();
+            try
+            {
+                IList<CandidateDto> candidateDtos;
+                var statusCode = GetCandidateDtosFromWorkSheet(out candidateDtos);
 
+                if (statusCode == StatusCodes.Status200OK)
+                {
+                    var candidates = Mapper.Map<List<Candidate>>(candidateDtos);
+
+                    var adminEmail = this.User.Identities.First().Name;
+                    var admin = await _adminRepository.GetSingleAsync(a => a.Email == adminEmail);
+
+                    foreach (var candidate in candidates)
+                    {
+                        var candidateEntity = await _candidateRepository.GetSingleAsync(c => c.Email == candidate.Email);
+
+                        if (candidateEntity != null)
+                        {
+                            return StatusCode(StatusCodes.Status409Conflict, candidate);
+                        }
+
+                        candidate.CreatedUtc = DateTime.UtcNow;
+                        candidate.AdminId = admin.Id;
+                        candidate.IsActive = true;
+                        _candidateRepository.Add(candidate);
+                    }
+                    await CreateUsersWithCandidateRole(candidates);
+
+                    return Created(string.Empty, JsonConvert.SerializeObject("created"));
+                }
+                else
+                {
+                    return StatusCode(statusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        private int GetCandidateDtosFromWorkSheet(out IList<CandidateDto> candidateDtos)
+        {
             var file = Request.Form.Files[0];
 
             var fs = file.OpenReadStream();
@@ -166,36 +205,13 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             fs.Dispose();
 
             var workSheet = excelPackage.Workbook.Worksheets.FirstOrDefault();
-            try
-            {
-                var candidateDtos = GetCandidateDtosFromWorkSheet(workSheet);
-                var candidates = Mapper.Map<List<Candidate>>(candidateDtos);
-                foreach (var candidate in candidates)
-                {
-                    candidate.CreatedUtc = DateTime.UtcNow;
-                    candidate.AdminId = admin.Id;
-                    candidate.IsActive = true;
-                    _candidateRepository.Add(candidate);
-                }
-                await CreateUsersWithCandidateRole(candidates);
-                return Created(string.Empty, candidateDtos);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-        }
-
-        private IList<CandidateDto> GetCandidateDtosFromWorkSheet(ExcelWorksheet workSheet)
-        {
 
             var row = workSheet.Dimension.Start.Row;
             var end = workSheet.Dimension.End.Row;
 
             IList<string> headers = new List<string>();
 
-            IList<CandidateDto> candidateDtos = new List<CandidateDto>();
+            candidateDtos = new List<CandidateDto>();
 
             for (int rowIndex = workSheet.Dimension.Start.Row; rowIndex <= workSheet.Dimension.End.Row; rowIndex++)
             {
@@ -217,20 +233,29 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
                     CandidateDto newCandidate = new CandidateDto
                     {
-                        Id = Convert.ToInt32(candidateDetails[0]),
-                        FirstName = candidateDetails[1],
-                        LastName = candidateDetails[2],
-                        Email = email
+                        FirstName = candidateDetails[1].Trim(),
+                        LastName = candidateDetails[2].Trim(),
+                        Email = email.Trim()
                     };
 
-
                     candidateDtos.Add(newCandidate);
-
                 }
 
             }
 
-            return candidateDtos;
+            if (candidateDtos.Count == 0)
+            {
+                return StatusCodes.Status422UnprocessableEntity;
+            }
+
+            var distinctCandidates = candidateDtos.DistinctBy(c => c.Email);
+
+            if (distinctCandidates.Count() != candidateDtos.Count)
+            {
+                return StatusCodes.Status409Conflict;
+            }
+
+            return StatusCodes.Status200OK;
         }
 
         private bool IsValidEmail(string input)
