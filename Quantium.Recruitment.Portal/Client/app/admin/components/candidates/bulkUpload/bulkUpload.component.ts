@@ -13,6 +13,7 @@ import { Response } from '@angular/http';
 })
 export class BulkUploadComponent implements OnInit {
     modalResponse: string;
+    fileModel;
     isRequestProcessing = true;
     candidates: CandidateDto[];
     fileData: any;
@@ -79,6 +80,12 @@ export class BulkUploadComponent implements OnInit {
                 console.log(error)
             } 
         );       
+    }
+
+    browseClick(fileInput: any){
+        let fileInputControl: FormControl = fileInput.control as FormControl;
+        fileInputControl.reset();
+        this.fileText= "Choose file";
     }
 
     addCandidates(modalContent: FormControl){
