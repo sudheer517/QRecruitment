@@ -24,7 +24,7 @@
                                                                 <label class="form-input form-input--file">
                                                                                 <span class="form-input--file-text">{{fileText}}</span>
                                                                                 <span class="form-input--file-button">Browse</span>
-                                                                                <input class="form-input-file" type="file" id="file" accept=".xlsx" size="14" (change)="onFileChange($event)"/>
+                                                                                <input class="form-input-file" #fileInput="ngModel" [ngModel]="fileModel" type="file" id="file" accept=".xlsx" size="14" (click)="browseClick(fileInput)" (change)="onFileChange($event)"/>
                                                                 </label>
                                                 </div>
                                 </div>

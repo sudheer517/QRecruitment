@@ -13,6 +13,7 @@ import { Response } from '@angular/http';
 })
 export class UploadQuestionsComponent implements OnInit{
     questions: QuestionDto[];
+    fileModel;
     fileData: any;
     fileText = "Choose file";
     @ViewChild('questionsPreview') questionsPreviewModal:ModalDirective;
@@ -63,6 +64,17 @@ export class UploadQuestionsComponent implements OnInit{
                     this.isRequestProcessing = false;
                     this.progressModal.show();
                 }
+                if(error.status == 409){
+                    this.validationFailed = true;
+                    this.modalResponse = "Duplicate question found for Id:" + error.json();
+                    this.isRequestProcessing = false;
+                    this.progressModal.show();
+                }
+                else{
+                    this.validationFailed = true;
+                    this.isRequestProcessing = false;
+                    this.modalResponse = "Questions validation failed";
+                }
                 console.log(error);
             }
         );       
@@ -79,12 +91,32 @@ export class UploadQuestionsComponent implements OnInit{
                 this.modalResponse = "Questions uploaded";
                 this.questionsSaved = true;
             }, 
-            error => {
-                console.log(error);
-                this.isRequestProcessing = false;
-                this.modalResponse = "Questions upload failed";
+            (error: Response) => {
+                if(error.status == 406){
+                    this.validationFailed = true;
+                    this.modalResponse = "Questions data validation failed. Please upload correct data";
+                    this.isRequestProcessing = false;
+                    this.progressModal.show();
+                }
+                if(error.status == 409){
+                    this.validationFailed = true;
+                    this.modalResponse = "Duplicate question found for Id:" + error.json();
+                    this.isRequestProcessing = false;
+                    this.progressModal.show();
+                }
+                else{
+                    this.validationFailed = true;
+                    this.isRequestProcessing = false;
+                    this.modalResponse = "Questions upload failed";
+                }
             }
         );
+    }
+
+    browseClick(fileInput: any){
+        let fileInputControl: FormControl = fileInput.control as FormControl;
+        fileInputControl.reset();
+        this.fileText= "Choose file";
     }
 
     private getFileFormData(eventData: any){
