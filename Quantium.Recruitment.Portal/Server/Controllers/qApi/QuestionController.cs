@@ -17,6 +17,9 @@ using Quantium.Recruitment.Portal.Server.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
 using AspNetCoreSpa.Server;
+using OfficeOpenXml.Drawing;
+using Microsoft.AspNetCore.Hosting;
+using AspNetCoreSpa;
 
 namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 {
@@ -31,13 +34,15 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         private readonly IEntityBaseRepository<Difficulty> _difficultyRepository;
         private readonly IEntityBaseRepository<QuestionGroup> _questionGroupRepository;
         private readonly IEntityBaseRepository<Admin> _adminRepository;
+        private readonly IHostingEnvironment _env;
 
         public QuestionController(IHttpHelper helper, IHttpContextAccessor httpContextAccessor,
             IEntityBaseRepository<Question> questionRepository,
             IEntityBaseRepository<Label> labelRepository,
             IEntityBaseRepository<Difficulty> difficultyRepository,
             IEntityBaseRepository<QuestionGroup> questionGroupRepository,
-            IEntityBaseRepository<Admin> adminRepository)
+            IEntityBaseRepository<Admin> adminRepository,
+            IHostingEnvironment env)
         {
             _helper = helper;
             _httpContextAccessor = httpContextAccessor;
@@ -46,6 +51,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             _difficultyRepository = difficultyRepository;
             _questionGroupRepository = questionGroupRepository;
             _adminRepository = adminRepository;
+            _env = env;
         }
 
         [HttpGet]
@@ -221,11 +227,42 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
         }
 
+        private IDictionary<int, string> CreateImages(ExcelWorksheet workSheet)
+        {
+            var imageCount = workSheet.Drawings.Count;
+
+            var adminEmail = this.User.Identities.First().Name;
+
+            var directoryPath = $"{_env.WebRootPath}{Startup.Configuration["QuestionImagesStorePath"]}{adminEmail}\\";
+
+            Directory.CreateDirectory(directoryPath);
+
+            IDictionary<int, string> imageRowPathMap = new Dictionary<int, string>();
+
+            for (int imageIndex = 0; imageIndex < imageCount; imageIndex++)
+            {
+                var image = workSheet.Drawings[imageIndex] as ExcelPicture;
+                var imageCol = image.From.Column;
+                var imageRow = image.From.Row;
+
+                var fileName = $"{DateTime.Now.ToString("yyyyMMddTHHmmss-FFF")}-{imageCol}-{imageRow}.{image.ImageFormat.ToString().ToLower()}";
+                var pathWithFileName = directoryPath + fileName;
+
+                image.Image.Save(pathWithFileName);
+
+                imageRowPathMap.Add(imageRow + 1, $"{Startup.Configuration["QuestionImagesStorePath"]}{adminEmail}\\{fileName}");
+            }
+
+            return imageRowPathMap;
+        }
+
         private IList<QuestionDto> GetQuestionDtosFromWorkSheet(ExcelWorksheet workSheet)
         {
 
             var row = workSheet.Dimension.Start.Row;
             var end = workSheet.Dimension.End.Row;
+
+            IDictionary<int, string> imagePathMap = CreateImages(workSheet);
 
             IList<string> headers = new List<string>();
 
@@ -239,6 +276,8 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 }
                 else
                 {
+                    
+
                     IList<string> questionAndOptions = ExcelHelper.GetExcelHeaders(workSheet, rowIndex);
 
                     string[] selectedOptions = questionAndOptions[2].Split(';').Select(item => item.Trim()).ToArray();
@@ -250,6 +289,9 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                         throw new Exception(message);
                     }
 
+                    string imagePath = string.Empty;
+                    imagePathMap.TryGetValue(1, out imagePath);
+
                     QuestionDto newQuestion = new QuestionDto
                     {
                         Id = Convert.ToInt64(questionAndOptions[0]),
@@ -258,7 +300,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                         Label = new LabelDto { Name = questionAndOptions[10].Trim() },
                         Difficulty = new DifficultyDto { Name = questionAndOptions[11].Trim() },
                         RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
-                        ImageUrl = questionAndOptions[13],
+                        ImageUrl = imagePath,
                         QuestionGroup = new QuestionGroupDto
                         {
                             Description = questionAndOptions[14].Trim()
