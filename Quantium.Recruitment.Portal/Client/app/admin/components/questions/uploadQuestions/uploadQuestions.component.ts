@@ -46,6 +46,7 @@ export class UploadQuestionsComponent implements OnInit{
 
     onFileChange(eventData: any){
         this.fileText = eventData.target.value.split("\\").pop();
+        this.isRequestProcessing = true;
         this.modalResponse = "Validating questions";
         this.progressModal.show();
         this.fileData = eventData;

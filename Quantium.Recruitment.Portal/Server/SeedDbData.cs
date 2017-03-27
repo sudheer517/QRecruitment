@@ -133,16 +133,17 @@ namespace AspNetCoreSpa.Server
                 PasswordSent = true,
             };
 
-            //Admin admin2 = new Admin()
-            //{
-            //    FirstName = "Rakesh",
-            //    LastName = "Rohan",
-            //    Email = "Rakesh.Aitipamula@quantium.co.in",
-            //    IsActive = true,
-            //    Mobile = 9052791243,
-            //    Department = softwareDepartment,
-            //    PasswordSent = true
-            //};
+
+            Admin admin2 = new Admin()
+            {
+                FirstName = "Rakesh",
+                LastName = "Rohan",
+                Email = "rakeshrohan@outlook.com",
+                IsActive = true,
+                Mobile = 9052791243,
+                Department = softwareDepartment,
+                PasswordSent = true
+            };
 
             //Admin admin3 = new Admin()
             //{
@@ -245,7 +246,7 @@ namespace AspNetCoreSpa.Server
             //};
 
             _context.Admins.Add(admin1);
-            //_context.Admins.Add(admin2);
+            _context.Admins.Add(admin2);
             //_context.Admins.Add(admin3);
             //_context.Admins.Add(admin4);
             //_context.Admins.Add(admin5);
