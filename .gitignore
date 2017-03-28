@@ -34,3 +34,5 @@ Quantium.Recruitment.Portal/wwwroot/lib/*
 Quantium.Recruitment.Portal/wwwroot/css/site*
 Quantium.Recruitment.ApiServices/scripts/ODataEntities.js
 */secrets.json
+Quantium.Recruitment.Portal/wwwroot/PreviewImages/*
+Quantium.Recruitment.Portal/wwwroot/QuestionImages/*
