@@ -239,8 +239,8 @@ select {
 
 ::-webkit-scrollbar
 {
-  width: 5px;  /* for vertical scrollbars */
-  height: 5px; /* for horizontal scrollbars */
+  width: 7px;  /* for vertical scrollbars */
+  height: 7px; /* for horizontal scrollbars */
 }
 
 ::-webkit-scrollbar-track
