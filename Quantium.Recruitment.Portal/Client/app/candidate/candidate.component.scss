@@ -53,10 +53,12 @@ nav{
     background-color: #9D0015;
 }
 
-@media (max-width: 1217px){
+@media (max-width: 1529px){
     .admin-outlet{
-        margin-left: 0px;
-        margin-right: 0px; 
+        margin-left: 0 !important;
+        margin-right: 0 !important;
     }
 }
+
+
 

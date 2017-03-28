@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, trigger, state, style, transition, animate, keyframes  } from '@angular/core';
 import { ChallengeService } from '../../services/challenge.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { QuestionDto, ChallengeDto, CandidateSelectedOptionDto } from '../../../RemoteServicesProxy';
@@ -10,11 +10,26 @@ import { Subscription } from 'rxjs/Subscription';
   selector: '[appc-challenge]',
   styleUrls: ['./challenge.component.scss'],
   templateUrl: './challenge.component.html',
+  animations: [
+      trigger("visibility",[
+          state("shown", style({
+            left: '0px'
+          })),
+          state("hidden", style({
+            left: '-270px',
+          })),
+          transition("* <=> *", animate("200ms"))
+      ])
+  ],
 })
 export class ChallengeComponent implements OnInit{
     @ViewChild('confirmation') confirmationModal: ModalDirective;
     @ViewChild('progress') progressModal: ModalDirective;
     @ViewChild('timeUp') timeUpModal: ModalDirective;
+
+    visibility: string = "hidden";
+    setDisplayNoneForSideNav = true;
+    isNavbarCollapsed: boolean;
 
     constructor(private challengeService: ChallengeService, private router: Router, private activatedRoute: ActivatedRoute) {
     }
@@ -58,6 +73,12 @@ export class ChallengeComponent implements OnInit{
             this.endDateTime = new Date().toUTCString();
             this.postChallenge(false);
         }
+    }
+
+    toggleNavButton(){
+        this.setDisplayNoneForSideNav = false;
+        this.isNavbarCollapsed = !this.isNavbarCollapsed;
+        this.visibility = (this.visibility === "hidden" ? "shown" : "hidden");
     }
 
     private getNextChallenge(): void {

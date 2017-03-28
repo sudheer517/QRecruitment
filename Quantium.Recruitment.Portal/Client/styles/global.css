@@ -179,11 +179,12 @@ select {
     max-height: 100%;
 }
 
-@media (max-width: 858px) {
+@media (max-width: 858px) , (max-height: 543px){
     .admin-outlet{
         margin-left: 0px !important;
         margin-right: 0px !important; 
         margin-bottom: 0px !important; 
+        margin-top: 10px !important;
     }
 }
 
@@ -231,3 +232,4 @@ select {
         padding-right: 0px !important; 
     }
 }
+
