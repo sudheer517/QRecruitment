@@ -3,7 +3,7 @@
         <span class="admin-outlet-heading">ADD ADMIN</span>
         <div class="admin-data-container">
 
-            <div class="d-flex" style="justify-content: center">
+            <div class="d-flex" style="justify-content: center; max-height: 0px">
                 <form style="flex: 0 1 50%" novalidate #form="ngForm" (submit)="addAdmin(form)">
                     <div class="form-group" [class.has-danger]="firstName.invalid && firstName.touched">
                         <label class="form-control-label" for="firstName">First name</label>
