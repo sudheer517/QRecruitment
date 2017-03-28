@@ -1,15 +1,15 @@
 body,html{
-    height: 100%;
-    overflow: hidden;
+    height: 100vh;
 }
 
 body{
     background-size:cover;
+    overflow: hidden;
 }
 
 router-outlet + div {
     display: flex;
-    flex: 1 1 auto;
+    flex: 1;
 }
 
 .q-logo{
@@ -125,13 +125,16 @@ select {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 .admin-data-container{
-    overflow: auto;
-    flex: 1 1 auto;
+    
     background-color: white;
     padding: 35px;
     margin-top: 10px;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0px;
 }
 
 .admin-outlet-heading{
@@ -185,6 +188,7 @@ select {
         margin-right: 0px !important; 
         margin-bottom: 0px !important; 
         margin-top: 10px !important;
+        
     }
 }
 
@@ -229,7 +233,7 @@ select {
 @media (max-width: 547px){
     .admin-data-container{
         padding-left: 0px !important;
-        padding-right: 0px !important; 
+        padding-right: 20px !important; 
     }
 }
 

@@ -3,16 +3,14 @@ nav{
     flex: 0 0 auto;
 }
 
-
-
 .navbar-brand{
     width: 180px;
 }
 
 #navbarContent{
-    margin-top: 10px;
     position: absolute;
     right: 2px;
+    top:20px;
 }
 
 .q-user-icon{
@@ -31,14 +29,14 @@ nav{
 
 .admin-outlet{
     margin: 30px 50px 40px 50px;
-    flex: 1 1 auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
 .admin-container{
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
 .highcharts-credits{
