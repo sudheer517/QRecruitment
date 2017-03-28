@@ -75,7 +75,7 @@ namespace AspNetCoreSpa.Server.Controllers.api
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Unathorized()
+        public IActionResult Unauthorized()
         {
             return Ok("You are not authorized to access this page");
         }
