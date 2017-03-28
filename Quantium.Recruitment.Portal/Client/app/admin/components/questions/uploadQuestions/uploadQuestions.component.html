@@ -1,5 +1,8 @@
 <div class="d-flex" style="justify-content: center">
         <div class="col-lg-5 col-md-10" style="padding: 20px;margin-top: 20px">
+                        <div class="d-flex" style="justify-content: center">
+                                <p>Click <a style="cursor: pointer; text-decoration: underline" (click)="lgModal.show()">here</a> for help with formatting images</p>
+                        </div>
                         <div class="d-flex">
                                 <div style="padding-top: 6px;">
                                         Download bulk upload template
@@ -118,3 +121,31 @@
   </div>
 </div>
  
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #353B47; color: whitesmoke">
+        <h4 class="modal-title pull-left">Image Formatting </h4>
+        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span style="color:whitesmoke">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>If you dont want to resize the images you add in the excel file, follow the below steps</p>
+        <ul>
+                <li>In Excel, go to File->Options->Advanced</li>
+                <li>Under Image Size and Quality section, check "Do not compress images in file"</li>
+        </ul>
+        <p>To fit image in a cell under "Image" column, follow the below steps</p>
+        <ul>
+                <li>In Excel, click on the cell you want to add the image</li>
+                <li>Click on Insert-> Pictures and choose your image</li>
+                <li>Click and drag the image corner using mouse to fit in a cell</li>
+                <li>After resizing, right click the image and click "Format Picture"</li>
+                <li>Under "Format Picture" tab, go to "Properties" section and select "Move and size with cells"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
