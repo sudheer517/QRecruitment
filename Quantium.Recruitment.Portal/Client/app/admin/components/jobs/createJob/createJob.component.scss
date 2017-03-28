@@ -7,3 +7,15 @@
     background-color: #f7f7f7;
     line-height: 40px;
 }
+
+@media (max-width: 739px){
+    .label-diff-group{
+        flex-direction: column;
+    }
+    .remove-group{
+        text-align: center !important;
+    }
+    .job-desc-group{
+        flex-direction: column;
+    }
+}

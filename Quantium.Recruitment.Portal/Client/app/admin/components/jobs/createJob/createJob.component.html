@@ -2,7 +2,7 @@
 <div  style="padding: 20px;">
 
  <form (ngSubmit)="save()" novalidate [formGroup]="jobForm">
-        <div class="d-flex" style="justify-content: space-between">
+        <div class="d-flex job-desc-group" style="justify-content: space-between">
                 <div class="form-group" [class.has-danger]="(isEnteredTitleExists || jobForm.get('title').invalid) && jobForm.get('title').touched" style="flex: 0 1 20%">
                         <label class="form-control-label" for="title">Job title</label>
                         <input type="text" class="form-control" id="title" placeholder="Job title" formControlName="title" (blur)="validateJobTitle()">
@@ -38,7 +38,7 @@
                         <div style="flex: 1 1 100%;">
                                 <div formArrayName="labelsAndDifficulties">
                                         <div *ngFor="let labelAndDifficulty of labelsAndDifficulties.controls; let i = index" [formGroupName]="i" style="margin-bottom: 20px">
-                                                <div class="d-flex" style="justify-content: space-between">
+                                                <div class="d-flex label-diff-group" style="justify-content: space-between">
                                                         <div class="form-group" style="flex: 0 1 20%;margin-right: 20px" [class.has-danger]="labelAndDifficulty.get('label').invalid && labelAndDifficulty.get('label').touched">
                                                                 <label class="form-control-label" attr.for="{{ 'label' + i}}">Label</label>
                                                                 <select class="form-control" id="{{'label' + i}}" formControlName="label">
@@ -79,7 +79,7 @@
                                                                 <small *ngIf="labelAndDifficulty.get('questionsToPass').errors?.count" 
                                                                 class="form-text muted-text">Cannot have labels with no questions</small>
                                                         </div>
-                                                        <div class=""  class="" style="flex: 0 1 5%; text-align: end; flex: 0 1 10%; margin-top: 35px">
+                                                        <div class="remove-group" style="flex: 0 1 5%; text-align: end; flex: 0 1 10%; margin-top: 35px">
                                                                 <button class="btn small-icon-btn red" (click)="removeLabelAndDifficulty(i)"><i class="fa fa-minus"></i></button>
                                                         </div>
                                                 </div>

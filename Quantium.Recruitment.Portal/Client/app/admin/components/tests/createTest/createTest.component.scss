@@ -1,4 +1,18 @@
-.blhaasdad{
-    color: hotpink;
+.generate-test{
+    flex: 1 1 50%; 
+    margin-top: 38px; 
+    margin-left: 60px
 }
 
+@media (max-width:1206px){
+    .generate-test{
+        margin-left: 20px;
+        margin-bottom: 15px;
+    }
+    .job-details{
+        flex: 1 1 100% !important;
+    }
+    .candidate-test-details{
+        flex: 1 1 100% !important;
+    }
+}

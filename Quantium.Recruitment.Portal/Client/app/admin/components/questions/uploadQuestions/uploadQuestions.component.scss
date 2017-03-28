@@ -63,4 +63,12 @@ $color-primary: green;
 	}
 }
 
+.upload-questions-container{
+	width: 600px;
+}
 
+@media (max-width: 1313px){
+	.upload-questions-container{
+		flex: 1 1 auto !important;
+	}
+}
