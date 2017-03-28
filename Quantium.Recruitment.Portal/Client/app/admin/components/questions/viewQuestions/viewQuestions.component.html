@@ -45,7 +45,7 @@
                     <b><p> {{((page-1)* 10) + (index + 1)}}. <span [innerHTML]="question.Text"></span></p></b>
                     
             </div>
-            <div *ngIf="question.ImageUrl.length > 0">
+            <div *ngIf="question.ImageUrl?.length > 0">
                     <img [src]="question.ImageUrl" class="imagePreview" />
             </div>
             <div class="previewOptionList" *ngIf="!question.IsRadio">

@@ -117,7 +117,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             var workSheet = excelPackage.Workbook.Worksheets.FirstOrDefault();
             try
             {
-                var questionDtos = GetQuestionDtosFromWorkSheet(workSheet);
+                var questionDtos = GetQuestionDtosFromWorkSheet(workSheet, false);
 
                 foreach (var questionDto in questionDtos)
                 {
@@ -194,7 +194,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
         [HttpPost]
-        public async Task<IActionResult> PreviewQuestions(ICollection<IFormFile> files)
+        public async Task<IActionResult> PreviewQuestions()
         {
             var file = Request.Form.Files[0];
 
@@ -227,13 +227,22 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
         }
 
-        private IDictionary<int, string> CreateImages(ExcelWorksheet workSheet)
+        private IDictionary<int, string> CreateImages(ExcelWorksheet workSheet, bool isPreview)
         {
             var imageCount = workSheet.Drawings.Count;
 
             var adminEmail = this.User.Identities.First().Name;
 
-            var directoryPath = $"{_env.WebRootPath}{Startup.Configuration["QuestionImagesStorePath"]}{adminEmail}\\";
+            string folderToSave = "QuestionImagesPreviewStorePath";
+
+            if (!isPreview)
+            {
+                string previewDirectoryPath = $"{_env.WebRootPath}{Startup.Configuration[folderToSave]}{adminEmail}\\";
+                Directory.Delete(previewDirectoryPath, true);
+                folderToSave = "QuestionImagesStorePath";
+            }
+
+            var directoryPath = $"{_env.WebRootPath}{Startup.Configuration[folderToSave]}{adminEmail}\\";
 
             Directory.CreateDirectory(directoryPath);
 
@@ -250,19 +259,19 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
                 image.Image.Save(pathWithFileName);
 
-                imageRowPathMap.Add(imageRow + 1, $"{Startup.Configuration["QuestionImagesStorePath"]}{adminEmail}\\{fileName}");
+                imageRowPathMap.Add(imageRow + 1, $"{Startup.Configuration[folderToSave]}{adminEmail}\\{fileName}");
             }
 
             return imageRowPathMap;
         }
 
-        private IList<QuestionDto> GetQuestionDtosFromWorkSheet(ExcelWorksheet workSheet)
+        private IList<QuestionDto> GetQuestionDtosFromWorkSheet(ExcelWorksheet workSheet, bool isPreview = true)
         {
 
             var row = workSheet.Dimension.Start.Row;
             var end = workSheet.Dimension.End.Row;
 
-            IDictionary<int, string> imagePathMap = CreateImages(workSheet);
+            IDictionary<int, string> imagePathMap = CreateImages(workSheet, isPreview);
 
             IList<string> headers = new List<string>();
 
@@ -276,8 +285,6 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 }
                 else
                 {
-                    
-
                     IList<string> questionAndOptions = ExcelHelper.GetExcelHeaders(workSheet, rowIndex);
 
                     string[] selectedOptions = questionAndOptions[2].Split(';').Select(item => item.Trim()).ToArray();
@@ -290,7 +297,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                     }
 
                     string imagePath = string.Empty;
-                    imagePathMap.TryGetValue(1, out imagePath);
+                    imagePathMap.TryGetValue(rowIndex, out imagePath);
 
                     QuestionDto newQuestion = new QuestionDto
                     {

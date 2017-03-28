@@ -69,7 +69,7 @@
                         </div>
                         <b><p *ngIf="question.QuestionGroup.Description.length > 0">{{index + 1}}. <span [innerHTML]="question.QuestionGroup.Description"></span></p></b>
                         <b><p> <span *ngIf="question.QuestionGroup.Description.length < 1">{{index + 1}}. </span> <span [innerHTML]="question.Text"></span></p></b>
-                        <div *ngIf="question.ImageUrl.length > 0">
+                        <div *ngIf="question.ImageUrl?.length > 0">
                                 <img [src]="question.ImageUrl" class="imagePreview" />
                         </div>
                         <div class="previewOptionList" *ngIf="!question.IsRadio">
