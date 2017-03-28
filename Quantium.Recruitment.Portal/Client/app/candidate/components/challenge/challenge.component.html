@@ -44,13 +44,13 @@
 
 <div class="router-outlet-container">
     <p class="d-flex admin-outlet-heading" style="margin-bottom: 0px"><span style="padding-left: 15px"><i class="fa fa-bars fa-lg sidenav-close" (click)="toggleNavButton()" style="cursor: pointer; color: whitesmoke"></i></span> <span class="question-timer" style="text-align: center;margin-left: auto;margin-right: auto">Seconds left : {{ticks}}</span></p>
-    <div class="admin-data-container">
+    <div class="admin-data-container" style="box-sizing: border-box">
         <div class="d-flex" (click)="toggleNavButton()">
 
             <div class="d-flex" style="flex: 1 1 auto; padding-left: 20px">
                 <div style="flex: 1 1 auto" [ngClass]="{'blur-question': isTimeUp}">
                     <div>
-                        <p><span [innerHTML]="question?.QuestionGroup?.Description"></span></p>
+                        <p *ngIf="question?.QuestionGroup?.Description?.length > 0"><span [innerHTML]="question?.QuestionGroup?.Description"></span></p>
                         <p><b><span [innerHTML]="question?.Text"></span></b></p>
                         <div *ngIf="question?.ImageUrl?.length > 0">
                             <img [src]="question.ImageUrl" class="imagePreview" />
