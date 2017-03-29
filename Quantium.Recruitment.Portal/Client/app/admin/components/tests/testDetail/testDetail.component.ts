@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, trigger, state, style, transition, animate, keyframes } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TestService } from '../../../services/test.service';
 import { TestDto, OptionDto, ChallengeDto } from '../../../../RemoteServicesProxy';
@@ -6,9 +6,24 @@ import { TestDto, OptionDto, ChallengeDto } from '../../../../RemoteServicesProx
 @Component({
     selector: '[appc-test-detail]',
     templateUrl: './testDetail.component.html',
-    styleUrls: ['./testDetail.component.scss']
+    styleUrls: ['./testDetail.component.scss'],
+    animations: [
+      trigger("visibility",[
+          state("shown", style({
+            left: '0px'
+          })),
+          state("hidden", style({
+            left: '-350px',
+          })),
+          transition("* <=> *", animate("200ms"))
+      ])
+  ],
 })
 export class TestDetailComponent implements OnInit, OnDestroy {
+
+    visibility: string = "hidden";
+    setDisplayNoneForSideNav = true;
+    isNavbarCollapsed: boolean;
 
     testId: number;
     test: TestDto;
@@ -30,6 +45,12 @@ export class TestDetailComponent implements OnInit, OnDestroy {
                 }
             )
         });
+    }
+
+    toggleNavButton(){
+        this.setDisplayNoneForSideNav = false;
+        this.isNavbarCollapsed = !this.isNavbarCollapsed;
+        this.visibility = (this.visibility === "hidden" ? "shown" : "hidden");
     }
 
     isCorrect(challenge: ChallengeDto){
