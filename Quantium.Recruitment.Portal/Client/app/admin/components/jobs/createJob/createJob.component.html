@@ -79,8 +79,10 @@
                                                                 <small *ngIf="labelAndDifficulty.get('questionsToPass').errors?.count" 
                                                                 class="form-text muted-text">Cannot have labels with no questions</small>
                                                         </div>
-                                                        <div class="remove-group" style="flex: 0 1 5%; text-align: end; flex: 0 1 10%; margin-top: 35px">
+                                                        <div class="remove-group" style="flex: 0 1 5%; display: flex; flex: 0 1 10%; margin-top: 35px">
+                                                                <div style="margin-left: auto">
                                                                 <button class="btn small-icon-btn red" (click)="removeLabelAndDifficulty(i)"><i class="fa fa-minus"></i></button>
+                                                                </div>
                                                         </div>
                                                 </div>
                                                  
