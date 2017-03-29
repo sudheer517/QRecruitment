@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using MimeKit;
 using System.Collections.Generic;
 using Quantium.Recruitment.Portal.Server.Entities;
+using System.IO;
 
 namespace AspNetCoreSpa.Server.Services
 {
@@ -53,11 +54,12 @@ namespace AspNetCoreSpa.Server.Services
             myMessage.From = new System.Net.Mail.MailAddress(model.From, model.DisplayName);
             myMessage.Subject = model.Subject;
             myMessage.Text = model.TextBody;
-            myMessage.Html = model.HtmlBody;
+            myMessage.Html = model.HtmlBody;           
+            myMessage.AddAttachment(new FileStream("./wwwroot/templates/qlogo.png", FileMode.Open, FileAccess.Read), "qlogo");
 
             var credentials = new System.Net.NetworkCredential(Startup.Configuration["SendGrid:Username"], Startup.Configuration["SendGrid:Password"]);
             // Create a Web transport for sending email.
-            var transportWeb = new SendGrid.Web(credentials);
+            var transportWeb = new SendGrid.Web(credentials); 
             // Send the email.
             if (transportWeb != null)
             {

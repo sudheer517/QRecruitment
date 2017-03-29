@@ -355,16 +355,21 @@ namespace AspNetCoreSpa.Server.Controllers.api
 
             if (currentUser != null && currentUser.Email != "user@user.com")
             {
-                var emailTemplate = System.IO.File.ReadAllText(Path.Combine(_env.WebRootPath, "templates\\ResetPasswordEmailTemplate.html"));
-                var password = AccountHelper.GenerateRandomString();
-
+                var Content = System.Net.WebUtility.HtmlDecode(System.IO.File.ReadAllText(Path.Combine(_env.WebRootPath, "templates\\ResetPasswordEmailTemplate.html")));
+                var password = AccountHelper.GenerateRandomString();               
+                Dictionary<string, string> parameters = new Dictionary<string, string>();                
+                parameters.Add("Password", password);              
+                foreach (var param in parameters)
+                {
+                    Content = Content.Replace("<" + param.Key + ">", param.Value);
+                }
                 var emailTask = _emailSender.SendEmailAsync(new EmailModel
                 {
                     To = model.Email,
                     From = Startup.Configuration["RecruitmentAdminEmail"],
                     DisplayName = "Quantium Recruitment",
                     Subject = "Password reset",
-                    HtmlBody = string.Format(emailTemplate, password)
+                    HtmlBody = Content
                 });
 
                 await Task.Run(() => emailTask);

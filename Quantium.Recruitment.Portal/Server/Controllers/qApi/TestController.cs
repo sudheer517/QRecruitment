@@ -310,7 +310,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         private async Task<bool> SendEmails(IList<string> emails)
         {
-            var emailTemplate = System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\TestCreationEmailTemplate.html"));
+            var emailTemplate = System.Net.WebUtility.HtmlDecode(System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\TestCreationEmailTemplate.html")));
 
             var socialLogins = new List<string>()
             {
@@ -329,13 +329,21 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 {
                     loginProviderMessage = "your social login(this should match the email you registered with us)";
                 }
+                var Content = emailTemplate;
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("Message", loginProviderMessage);               
+                foreach (var param in parameters)
+                {
+
+                    Content = Content.Replace("<" + param.Key + ">", param.Value);
+                }
                 var emailTask = _emailSender.SendEmailAsync(new EmailModel
                 {
                     To = email,
                     From = Startup.Configuration["RecruitmentAdminEmail"],
                     DisplayName = "Quantium Recruitment",
                     Subject = "Test generated for you",
-                    HtmlBody = string.Format(emailTemplate, loginProviderMessage)
+                    HtmlBody = Content
                 });
 
                 await Task.Run(() => emailTask);

@@ -136,7 +136,16 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         private async Task<bool> SendEmails(UserCreationModel userModel, string firstName)
         {
-            var emailTemplate = System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\AdminCreationEmailTemplate.html"));
+            var Content = System.Net.WebUtility.HtmlDecode(System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\AdminCreationEmailTemplate.html")));
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("Username", userModel.Username);
+            parameters.Add("Password", userModel.Password);
+            parameters.Add("Candidate", firstName);
+            foreach (var param in parameters)
+            {
+
+                Content = Content.Replace("<" + param.Key + ">", param.Value);
+            }
 
             var emailTask = _emailSender.SendEmailAsync(new EmailModel
             {
@@ -144,7 +153,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 From = Startup.Configuration["RecruitmentAdminEmail"],
                 DisplayName = "Quantium Recruitment",
                 Subject = "User credentials",
-                HtmlBody = string.Format(emailTemplate, firstName, userModel.Username, userModel.Password)
+                HtmlBody = Content
             });
 
             await Task.Run(() => emailTask);

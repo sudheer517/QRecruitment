@@ -341,18 +341,25 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
         private async Task<bool> SendEmails(IList<UserCreationModel> userModels)
         {
-            
-            var emailTemplate = System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\UserCreationEmailTemplate.html"));
-
+            var emailTemplate = System.Net.WebUtility.HtmlDecode(System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\UserCreationEmailTemplate.html")));
             foreach (var userModel in userModels)
             {
+                var Content = emailTemplate;
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                parameters.Add("Username", userModel.Username);
+                parameters.Add("Password", userModel.Password);
+                foreach (var param in parameters)
+                {
+
+                    Content = Content.Replace("<" + param.Key + ">", param.Value);
+                }
                 var emailTask = _emailSender.SendEmailAsync(new EmailModel
                 {
                     To = userModel.Username,
                     From = Startup.Configuration["RecruitmentAdminEmail"],
                     DisplayName = "Quantium Recruitment",
                     Subject = "User credentials",
-                    HtmlBody = string.Format(emailTemplate, userModel.Username ,userModel.Password)
+                    HtmlBody = Content
                 });
 
                 await Task.Run(() => emailTask);
