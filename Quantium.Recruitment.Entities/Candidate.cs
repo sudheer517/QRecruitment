@@ -9,6 +9,7 @@ namespace Quantium.Recruitment.Entities
     public class Candidate: IEntityBase
     {
         public virtual long Id { get; set; }
+
         public virtual string FirstName { get; set; }
 
         public virtual string LastName { get; set; }
