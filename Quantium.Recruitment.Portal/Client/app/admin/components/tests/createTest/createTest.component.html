@@ -3,15 +3,16 @@
                 <div class="row" style="min-height: 400px;">
                         <div class="job-details" style="flex: 0 1 50%;display: flex;flex-direction: column" >
                                 <div class="d-flex job-selection-group">
-                                        <div class="form-group" [class.has-danger]="job.touched && job.invalid" style="flex: 1 1 50%">
+                                        <div class="form-group" [class.has-danger]="job.touched && (job.invalid || selectedJobId == 0)" style="flex: 1 1 50%">
                                                 <label class="form-control-label" for="job">Select job</label>
                                                 <select class="form-control" #job="ngModel" id="job" name="job" required [(ngModel)]="selectedJobId" (ngModelChange)="selectJob($event)">
+                                                        <option selected value="0">Select job..</option>
                                                         <option *ngFor="let job of jobs" [value]="job.Id">{{job.Title}}</option>
                                                 </select>
-                                                <small *ngIf="job.touched && job.invalid" class="form-text muted-text">Job is required</small>
+                                                <small *ngIf="job.touched && (job.invalid || selectedJobId == 0)" class="form-text muted-text">Job is required</small>
                                         </div>
                                         <div class="generate-test">
-                                                <button type="submit" class="btn red" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate)">Generate tests for selected candidates</button>
+                                                <button type="submit" class="btn red" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate) || selectedJobId == 0">Generate tests for selected candidates</button>
                                         </div>
                                 </div>
                                 
