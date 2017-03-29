@@ -21,7 +21,7 @@
                         <label class="form-control-label" for="email">Email</label>
                         <div class="input-group">
                         <input type="email" #email="ngModel" class="form-control" id="email" required name="email"placeholder="Email" [(ngModel)]="newAdmin.Email"
-                        pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+                        pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
                         (blur)="validateEmail(email)" (focus)="isEnteredEmailExists=null">
                         <span *ngIf="validationInProgress" class="fa fa-spinner fa-spin fa-2x input-spinner-icon"></span>
                         <span *ngIf="email.dirty && email.touched && (isEnteredEmailExists === false) && !validationInProgress && email.valid" class="fa fa-check fa-2x input-valid-icon"></span>
