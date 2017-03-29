@@ -24,12 +24,8 @@
     }
 
     tr{
-        display: flex;
-        td{
-            flex: 1 1 60%;
-        }
         td:first-child{
-            flex: 1 1 40%;
+            width: 120px;
         }
     }
 }
