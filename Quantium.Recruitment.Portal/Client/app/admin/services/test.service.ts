@@ -41,6 +41,16 @@ export class TestService{
             });
     }
 
+    public ArchiveTests(testIds: number[]): Observable<TestDto> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers });
+
+        return this.http.post(`${this.testApiUrl}ArchiveTests`, testIds, options).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
+
     public GetExcelFileForAllActiveTests(): Observable<any> {
             return this.http.get(`${this.testApiUrl}ExportAllTests`, { responseType: ResponseContentType.Blob }).map(response => response.blob());
     }

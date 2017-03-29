@@ -567,5 +567,27 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 worksheet.SetValue(rowIndex, startAtColumn + itemIndex, item.AnsweredCount);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ArchiveTests([FromBody]long[] testIds)
+        {
+            var tests = await _testRepository.FindByAsync(t => testIds.Contains(t.Id));
+
+            try
+            {
+                foreach (var test in tests)
+                {
+                    test.IsArchived = true;
+                }
+
+                _testRepository.Commit();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject("Deleted"));
+        }
     }
 }

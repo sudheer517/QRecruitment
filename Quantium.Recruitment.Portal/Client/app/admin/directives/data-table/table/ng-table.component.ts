@@ -8,6 +8,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
            role="grid" style="width: 100%;">
       <thead>
         <tr role="row">
+          <th>Id</th>
           <th *ngFor="let column of columns" [ngTableSorting]="config" [column]="column" 
               (sortChanged)="onChangeTable($event)" ngClass="{{column.className || ''}}">
             {{column.title}}
@@ -18,6 +19,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       </thead>
       <tbody>
       <tr *ngIf="showFilterRow">
+        <td></td>
         <td *ngFor="let column of columns">
           <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}"
                  [ngTableFiltering]="column.filtering"
@@ -27,6 +29,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
         </td>
       </tr>
         <tr *ngFor="let row of rows" [tooltip]="row.IsFinished ? 'Click for details' : ''" [class.cursor-pointer]="row.IsFinished">
+          <input type="checkbox" #rowModel="ngModel" [(ngModel)]="selectedRows[row.Id]" name="rowCheckBox" (ngModelChange)="rowCheck(row, rowModel)" style="width: 40px; margin-top: 16px"/>
           <td (click)="cellClick(row, column.name)" *ngFor="let column of columns" [innerHtml]="sanitize(getData(row, column.name))"></td>
         </tr>
       </tbody>
@@ -48,9 +51,11 @@ export class NgTableComponent {
     this._config = conf;
   }
 
+  selectedRows = new SelectedRowCheckboxes();
   // Outputs (Events)
   @Output() public tableChanged:EventEmitter<any> = new EventEmitter();
   @Output() public cellClicked:EventEmitter<any> = new EventEmitter();
+  @Output() public rowChecked:EventEmitter<any> = new EventEmitter();
 
   public showFilterRow:Boolean = false;
 
@@ -119,4 +124,13 @@ export class NgTableComponent {
   public cellClick(row:any, column:any):void {
     this.cellClicked.emit({row, column});
   }
+
+  public rowCheck(row:any, rowModel: any):void {
+    let selectedRows = this.selectedRows;
+    this.rowChecked.emit({row, rowModel, selectedRows});
+  }
+}
+
+export class SelectedRowCheckboxes{
+  [key: number]: boolean;
 }

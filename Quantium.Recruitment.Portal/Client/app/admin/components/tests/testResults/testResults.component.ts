@@ -1,8 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TestService } from '../../../services/test.service';
 import { TestResultDto } from '../../../../RemoteServicesProxy';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalDirective } from 'ng2-bootstrap/modal';
+
+class SelectedRows{
+    [key: number]: boolean;
+}
 
 @Component({
     selector: 'appc-test-results',
@@ -11,6 +16,10 @@ import { Router, ActivatedRoute } from '@angular/router';
     encapsulation: ViewEncapsulation.None
 })
 export class TestResultsComponent implements OnInit {
+@ViewChild('progress') progressModal: ModalDirective;
+isRequestProcessing = true;
+modalResponse: string;
+
   public rows:Array<any> = [];
   public columns:Array<any> = [
       { title: 'Candidate', name: 'Candidate', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Candidate' }, className: 'table-header-cursor' },
@@ -28,6 +37,9 @@ export class TestResultsComponent implements OnInit {
   public numPages:number = 1;
   public length: number = 0;
   testResults: TestResultDto[];
+  
+  atleastOneRowSelected = false;
+  selectedRows: any;
 
   public config:any = {
     paging: true,
@@ -42,6 +54,10 @@ export class TestResultsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+       this.getAllTests();
+  }
+
+  public getAllTests(modalOpened = false){
       this.testService.GetAllTestResults().subscribe(
           testResultsDto => {
               this.testResults = testResultsDto;
@@ -62,10 +78,25 @@ export class TestResultsComponent implements OnInit {
                   this.numPages = Math.ceil(this.length / this.itemsPerPage);
                   this.maxSize = this.numPages;
                   this.onChangeTable(this.config);
+                  
+              }
+              else{
+                    this.data = null;
+                    this.testResults = [];
+                    this.length = 0;
+                    this.numPages = 1;
+                    this.maxSize = 5;
+                    this.rows = [];
+                    
+              }
+              if(modalOpened){
+                this.atleastOneRowSelected = false;
+                this.isRequestProcessing = false;
+                this.progressModal.hide();
               }
           },
           error => console.log(error)
-      )      
+      );     
   }
 
   public changePage(page: any, data: Array<any> = this.data): Array<any> {
@@ -181,6 +212,41 @@ export class TestResultsComponent implements OnInit {
           //this.router.navigate(['testDetail', clickedTestResult.Id]);
           this.router.navigate(['../../testDetail', clickedTestResult.Id], { relativeTo: this.activatedRoute});
       }
+  }
+
+  public onRowCheck(data: any): any{
+      this.selectedRows = data.selectedRows;
+      Object.keys(data.selectedRows).forEach((key, index) =>{
+        if(data.selectedRows[key] === true){
+            this.atleastOneRowSelected = true;
+            return;
+        }
+        this.atleastOneRowSelected = false;
+      });
+  }
+
+  closeProgressModal(){
+      this.progressModal.hide();
+  }
+
+  archiveSelectedTests(){
+    let selectedTestIds = [];
+
+    Object.keys(this.selectedRows).forEach((key, index) =>{
+        if(this.selectedRows[key] === true){
+            selectedTestIds.push(key);
+        }
+      });
+    this.isRequestProcessing = true;
+    this.modalResponse = "Archiving tests";
+    this.progressModal.show();
+    this.testService.ArchiveTests(selectedTestIds).subscribe(
+        result => {
+            this.modalResponse = "Refreshing tests";
+            this.getAllTests(true);
+        }, 
+        error => console.log(error)
+    );
   }
 
   public exportToExcel(){
