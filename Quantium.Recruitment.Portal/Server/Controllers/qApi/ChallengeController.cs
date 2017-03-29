@@ -199,7 +199,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             var test = testsWithEmail.FirstOrDefault();
 
-            var isFinished = test != null ? test.IsFinished : true;
+            var isFinished = test != null ? test.IsFinished : false;
 
             return Ok(JsonConvert.SerializeObject(isFinished));
         }
