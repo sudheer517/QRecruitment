@@ -94,6 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\BrowserCheck.js" />
     <None Include="wwwroot\templates\AdminCreationEmailTemplate.html" />
     <None Include="wwwroot\templates\ResetPasswordEmailTemplate.html" />
     <None Include="wwwroot\templates\TestCreationEmailTemplate.html" />

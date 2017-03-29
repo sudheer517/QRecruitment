@@ -1,10 +1,11 @@
-<div class="router-outlet-container">
-    <span class="admin-outlet-heading">TEST INFROMATION</span>
-    <div class="admin-data-container" style="display: flex; flex-direction: column">
 
-        <div *ngIf="test" class="container" style="overflow: hidden; flex: 1 1 auto">
-            <div class="row" style="overflow: hidden; width: 100%; margin-right: 0px; margin-left: 0px">
-                <div class="col-md-2 col-lg-4 candidate-information">
+ <div class="test-information" *ngIf="test" [@visibility]='visibility'>
+        <p class="admin-outlet-heading" style="margin-bottom: 0px"><span>Candidate Details</span><i class="fa fa-lg fa-chevron-left sidenav-close" (click)="toggleNavButton()" style="cursor: pointer"></i></p>
+        <div class="admin-data-container" style="box-sizing: border-box; overflow: auto">
+            <div class="question-time-container" style="font-size: 0.8em;border-right: 1px solid lightgray;max-height: 0px">
+                <div style="overflow: auto;">
+                    
+                    <div class="candidate-information">
                     <p style="text-align: center"><b>Candidate information</b></p>
                     <table class="table table-striped">
                         <tbody>
@@ -94,13 +95,26 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div style="display: flex; justify-content: center;margin-top: auto">
+
+                    <div style="display: flex; justify-content: center;margin-top: 15px;margin-bottom: 15px">
                         <button [routerLink]="['../../tests/testResults']" class="btn light-gray"><i class="fa fa-chevron-left" style="margin-right: 8px"></i>Back to results</button>
                     </div>
                 </div>
 
-                <div class="col-md-10 col-lg-8" style="overflow-y: scroll; padding: 10px; padding-top: 0; ">
-                    <p style="background-color: #353B47; color: whitesmoke ; text-align: center; padding-top: 10px; padding-bottom: 10px"><b>Questions displayed to candidate</b></p>
+                </div>
+           
+            </div>
+    </div>
+</div>
+
+<div class="router-outlet-container" *ngIf="test">
+    <p class="d-flex admin-outlet-heading" style="margin-bottom: 0px"><span style="padding-left: 15px"><i class="fa fa-bars fa-lg sidenav-close" (click)="toggleNavButton()" style="cursor: pointer; color: whitesmoke"></i></span> <span class="question-timer" style="text-align: center;margin-left: auto;margin-right: auto">Test Details</span></p>
+    <div class="admin-data-container" style="box-sizing: border-box; overflow: auto">
+        <div class="" (click)="toggleNavButton()" style="max-height: 0px">
+
+            <div class="d-flex flex-column" style="flex: 1 1 auto; padding-left: 20px; overflow: auto">
+                
+                <p style="background-color: #353B47; color: whitesmoke ; text-align: center; padding-top: 10px; padding-bottom: 10px"><b>Questions displayed to candidate</b></p>
                     <p style="text-align: center">
                         <span style="margin-right: 15px;"><i class="fa fa-circle blue-color" style="margin-right: 8px;"></i>Candidate selected & correct answer</span>
                         <span style="margin-right: 15px;"><i class="fa fa-circle green-color" style="margin-right: 8px;"></i>Correct answer</span>
@@ -123,8 +137,8 @@
                                         </span>
                                     </div>
                                     <p *ngIf="challenge.Question.QuestionGroup?.Description"><i class="fa fa-star"></i>&nbsp; <span [innerHTML]="challenge.Question.QuestionGroup?.Description"></span></p>
-                                    <p><i class="fa fa-star"></i>&nbsp; <span [innerHTML]="challenge.Question.Text"></span></p>
-                                    <div *ngIf="challenge.Question.ImageUrl.length > 0">
+                                    <p><i class="fa fa-star"></i>&nbsp; <b><span [innerHTML]="challenge.Question.Text"></span></b></p>
+                                    <div *ngIf="challenge.Question?.ImageUrl?.length > 0">
                                         <img [src]="challenge.Question.ImageUrl" class="imagePreview" />
                                     </div>
                                     
@@ -140,8 +154,9 @@
                             <hr/>
                         </div>
                     </div>
-                </div>
+                
             </div>
+        
         </div>
     </div>
 </div>

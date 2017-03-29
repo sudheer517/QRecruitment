@@ -17,17 +17,27 @@
 </head>
 
 <body class="login-background">
-    @RenderBody()
+    <div class="inner-body">
+        @RenderBody()
 
-    <environment names="Staging,Production, Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-    </environment>
+        <environment names="Staging,Production, Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+            </script>
+        </environment>
+    </div>
+    <h2 style="display: none; color: white; text-align: center; margin-top: 50px" class="unsupported-browser">Quantium Recruitment</h2>
+
+    <h3 style="display: none; color: white; text-align: center; margin-top: 80px" class="unsupported-browser">Your browser is not supported. Please use Chrome, Firefox, Opera, Edge or Safari</h3>
+
+    <p style="display: none; color: white; text-align: center; margin-top: 50px; margin-bottom: 0px" class="unsupported-browser"><i class="fa fa-copyright"></i>2017 Quantium</p>
+    <p style="display: none; color: white; text-align: center;" class="unsupported-browser">wwww.quantium.com</p>
 
     @RenderSection("Scripts", required: false)
+    
+    <script src="~/BrowserCheck.js"></script>
 </body>
 
 </html>

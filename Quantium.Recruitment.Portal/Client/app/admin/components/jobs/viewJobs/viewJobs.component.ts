@@ -44,10 +44,17 @@ export class ViewJobsComponent{
         this.testService.GetExcelFileForFinishedTestsByJob(job.Id).subscribe(
             data => {
                 var blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                var link=document.createElement('a');
-                link.href=window.URL.createObjectURL(blob);
-                link.download=`Finished tests - ${job.Title}.xlsx`;
-                link.click();
+
+                if (navigator.msSaveOrOpenBlob) { // for IE and Edge
+                    navigator.msSaveOrOpenBlob( blob, `Finished tests - ${job.Title}.xlsx` );
+                }
+                else {
+                    var link=document.createElement('a');
+                    document.body.appendChild(link);
+                    link.href=window.URL.createObjectURL(blob);
+                    link.download=`Finished tests - ${job.Title}.xlsx`;
+                    link.click();
+                }
             },
             error => console.log(error)
         )
