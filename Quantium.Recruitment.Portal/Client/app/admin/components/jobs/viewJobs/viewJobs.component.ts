@@ -45,6 +45,7 @@ export class ViewJobsComponent{
             data => {
                 var blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                 var link=document.createElement('a');
+                document.body.appendChild(link);
                 link.href=window.URL.createObjectURL(blob);
                 link.download=`Finished tests - ${job.Title}.xlsx`;
                 link.click();
