@@ -77,7 +77,8 @@ namespace AspNetCoreSpa.Server.Controllers.api
         [AllowAnonymous]
         public IActionResult Unauthorized()
         {
-            return Ok("You are not authorized to access this page");
+            ViewBag.UserMessage = "You are not authorized to access this page";
+            return View("Restricted");
         }
 
         [HttpGet]
@@ -276,8 +277,8 @@ namespace AspNetCoreSpa.Server.Controllers.api
         [AllowAnonymous]
         public IActionResult NotRegistered()
         {
-            //ViewBag.UserMessage = "You are not registered in our system";
-            return  Ok("You are not registered in our system");
+            ViewBag.UserMessage = "You are not registered in our system";
+            return View("Restricted");
         }
 
         [HttpGet]

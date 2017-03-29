@@ -86,7 +86,7 @@ export class ChallengeComponent implements OnInit{
                 challenge => {
                     let isFinished: any = challenge;
                     if(isFinished === "Finished"){
-                        this.router.navigate(["../testFinished"], { relativeTo: this.activatedRoute});
+                        this.router.navigate(["../feedback"], { relativeTo: this.activatedRoute});
                     }
                     else{
                         this.isTimeUp = false;
@@ -192,7 +192,7 @@ export class ChallengeComponent implements OnInit{
             response => {
                 console.log("test finished");
                 //this.showToast("Test finished");
-                this.router.navigate(["../testFinished"], { relativeTo: this.activatedRoute});
+                this.router.navigate(["../feedback"], { relativeTo: this.activatedRoute});
             },
             error => {
                 console.log(error);

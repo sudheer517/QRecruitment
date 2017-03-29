@@ -417,6 +417,30 @@ namespace AspNetCoreSpa.Server
 
             #endregion Difficulty
 
+            #region Feedback Types
+
+            FeedbackType feedbackType1 = new FeedbackType
+            {
+                Name = "Website related",
+            };
+
+            FeedbackType feedbackType2 = new FeedbackType
+            {
+                Name = "Test related",
+            };
+
+            FeedbackType feedbackType3 = new FeedbackType
+            {
+                Name = "Others",
+            };
+
+            _context.FeedbackTypes.Add(feedbackType1);
+            _context.FeedbackTypes.Add(feedbackType2);
+            _context.FeedbackTypes.Add(feedbackType3);
+
+
+            #endregion Feedback Types
+
             _context.SaveChanges();
         }
 

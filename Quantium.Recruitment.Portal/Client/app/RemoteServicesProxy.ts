@@ -155,6 +155,19 @@
 
     }
 
+    export class FeedbackTypeDto { 
+        public Id: number;
+        public Name: string;
+    }
+
+    export class FeedbackDto { 
+        public Id: number;
+        public Description: string;
+        public FeedbackTypeId: number;
+        public TestId: number;
+        public CandidateId: number;
+    }
+
     export class JobDto { 
         public Id: number;
         public Title: string;

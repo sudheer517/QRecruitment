@@ -119,6 +119,8 @@ namespace AspNetCoreSpa.Server.Extensions
             services.AddTransient<IEntityBaseRepository<Challenge>, ChallengeRepository>();
             services.AddTransient<IEntityBaseRepository<Job_Difficulty_Label>, JobDifficultyLabelRepository>();
             services.AddTransient<IEntityBaseRepository<Option>, OptionRepository>();
+            services.AddTransient<IEntityBaseRepository<Feedback>, FeedbackRepository>();
+            services.AddTransient<IEntityBaseRepository<FeedbackType>, FeedbackTypeRepository>();
 
             services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddTransient<IAccountHelper, AccountHelper>();

@@ -8,13 +8,13 @@ export class TestGuard implements CanActivate {
   constructor(private router: Router, private challengeService: ChallengeService, private activatedRoute: ActivatedRoute) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
-        return this.challengeService.IsTestFinished().map(isFinished => {
-            if (isFinished) {
-                this.router.navigate(["/candidate/testFinished"]);
-                return false;
+        return this.challengeService.IsTestAssigned().map(isAssigned => {
+            if (isAssigned) {
+                return true;
             }
             else{
-                return true;
+                this.router.navigate(["/candidate/unassignedTest"]);
+                return false;
             }
         }).catch(() => {
             this.router.navigate(["/candidate/instructions"]);

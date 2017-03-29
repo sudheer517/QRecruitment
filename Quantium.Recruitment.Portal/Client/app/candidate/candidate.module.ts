@@ -8,13 +8,15 @@ import { InstructionsComponent } from './components/instructions/instructions.co
 import { ChallengeComponent } from './components/challenge/challenge.component';
 import { ChallengeService } from './services/challenge.service';
 import { CandidateService } from './services/candidate.service';
+import { FeedbackService } from './services/feedback.service';
 import { InstructionsGuard } from './services/instructions.guard';
 import { TestGuard } from './services/test.guard';
 import { DetailsGuard } from './services/candidateDetails.guard';
 
 import { TestFinishedComponent } from './components/testFinished/testFinished.component';
 import { CandidateDetailsComponent } from './components/candidateDetails/candidateDetails.component';
-
+import { FeedbackComponent } from './components/feedback/feedback.component';
+import { UnassignedTestComponent } from './components/unassignedTest/unassignedTest.component';
 
 @NgModule({
     imports: [
@@ -26,8 +28,10 @@ import { CandidateDetailsComponent } from './components/candidateDetails/candida
        InstructionsComponent,
        ChallengeComponent,
        TestFinishedComponent,
-       CandidateDetailsComponent
+       CandidateDetailsComponent,
+       FeedbackComponent,
+       UnassignedTestComponent
     ],
-    providers: [ ChallengeService, CandidateService, InstructionsGuard, TestGuard, DetailsGuard ]
+    providers: [ ChallengeService, CandidateService, FeedbackService, InstructionsGuard, DetailsGuard, TestGuard ]
 })
 export class CandidateModule { }

@@ -48,6 +48,10 @@ namespace AspNetCoreSpa.Server
 
         public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
 
+        public DbSet<FeedbackType> FeedbackTypes { get; set; }
+
+        public DbSet<Feedback> Feedbacks { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -69,6 +73,11 @@ namespace AspNetCoreSpa.Server
             modelBuilder.Entity<Admin>()
                 .HasMany(cj => cj.Candidates)
                 .WithOne(c => c.Admin)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Feedback>()
+                .HasOne(f => f.Test)
+                .WithOne(t => t.Feedback)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);

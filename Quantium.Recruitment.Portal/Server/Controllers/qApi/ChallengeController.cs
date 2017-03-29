@@ -191,15 +191,31 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         }
 
         [HttpGet]
-        public IActionResult IsTestFinished()
+        public async Task<IActionResult> IsTestFinished()
         {
             var email = this.User.Identities.First().Name;
 
-            var testFound = _testRepository.FindBy(t => t.Candidate.Email == email).FirstOrDefault();
+            var testsWithEmail = await _testRepository.FindByAsync(t => t.Candidate.Email == email);
 
-            var isFinished = testFound != null ? testFound.IsFinished : true;
+            var test = testsWithEmail.FirstOrDefault();
+
+            var isFinished = test != null ? test.IsFinished : true;
 
             return Ok(JsonConvert.SerializeObject(isFinished));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> IsTestAssigned()
+        {
+            var email = this.User.Identities.First().Name;
+
+            var testsWithEmail = await _testRepository.FindByAsync(t => t.Candidate.Email == email);
+
+            var test = testsWithEmail.FirstOrDefault();
+
+            var isAssigned = test != null ? true : false;
+
+            return Ok(JsonConvert.SerializeObject(isAssigned));
         }
 
         private async void RunTimer(ChallengeDto currentChallengeDto)

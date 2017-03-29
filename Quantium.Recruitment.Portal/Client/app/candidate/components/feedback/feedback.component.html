@@ -1,0 +1,34 @@
+ <div class="router-outlet-container">
+        <span class="admin-outlet-heading">Feedback</span>
+        <div class="admin-data-container">
+            <div>
+            
+            <div class="d-flex flex-column">
+               <h4 style="text-align: center"> Please provide feedback about your experience with Quantium Recruitment</h4>
+            </div>
+            <div class="d-flex" style="justify-content: center; margin-top: 20px;">
+             <form novalidate #form="ngForm" (submit)="saveFeedback(form)" class="col-md-7 col-lg-6">
+                <div class="form-group" [class.has-danger]="feedbackTypeControl.touched && feedbackTypeControl.invalid">
+                        <label class="form-control-label" for="feedbackType">Select feedback type</label>
+                        <select class="form-control" #feedbackTypeControl="ngModel" id="feedbackType" name="feedbackType" required [(ngModel)]="feedback.FeedbackTypeId">
+                                <option *ngFor="let feedbackType of feedbackTypes" [value]="feedbackType.Id">{{feedbackType.Name}}</option>
+                        </select>
+                        <small *ngIf="feedbackTypeControl.touched && feedbackTypeControl.invalid" class="form-text muted-text">Feedback Type is required</small>
+                </div>
+
+                <div class="form-group" [class.has-danger]="feedbackControl.invalid && feedbackControl.touched">
+                    <label class="form-control-label" for="feedbackControl">Feedback</label>
+                    <textarea  type="text" #feedbackControl="ngModel" class="form-control" maxlength="300" id="feedbackControl" required name="feedbackControl" placeholder="Enter your feedback"
+                     [(ngModel)]="feedback.Description" rows="5"></textarea>
+                    <small *ngIf="feedbackControl.invalid && feedbackControl.touched" class="form-text muted-text">Feedback is required</small>
+                </div>
+
+                <div class="d-flex" style="justify-content: center">
+                    <button type="submit" class="btn red" [disabled]="form.invalid">Save Feedback</button>
+                </div>
+             </form>
+
+             </div>
+            </div>
+    </div>
+    </div>
