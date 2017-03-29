@@ -14,15 +14,12 @@
                         </div>
                         
                         <div class="l-container" style="margin-left: auto">
-                                <div class="form-controlGroup">
-                                                <div class="form-controlGroup-inputWrapper">
-                                                                <label class="form-input form-input--file">
-                                                                                <span class="form-input--file-text">{{fileText}}</span>
-                                                                                <span class="form-input--file-button">Browse</span>
-                                                                                <input class="form-input-file" type="file" #fileInput="ngModel" [ngModel]="fileModel" (click)="browseClick(fileInput)"  id="file" accept=".xlsx" size="14" (change)="onFileChange($event)"/>
-                                                                </label>
-                                                </div>
+                                <div class="file-input-wrapper">
+                                        <span style="margin-right: auto; margin-top: 6px; margin-left: 10px">{{fileText}}</span>
+                                        <button class="btn-file-input btn light-gray">Browse</button>
+                                        <input type="file" name="file"  #fileInput="ngModel" [ngModel]="fileModel" accept=".xlsx" size="14" (click)="browseClick(fileInput)" (change)="onFileChange($event)" />
                                 </div>
+
                         </div>
                 </div>
                 <div class="d-flex" style="margin-bottom: 20px;margin-top: 40px; justify-content: space-between" >
