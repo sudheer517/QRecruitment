@@ -7,16 +7,19 @@ using MimeKit;
 using System.Collections.Generic;
 using Quantium.Recruitment.Portal.Server.Entities;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace AspNetCoreSpa.Server.Services
 {
     public class EmailSender : IEmailSender
     {
         private readonly ILogger _logger;
+        private readonly IHostingEnvironment _env;
 
-        public EmailSender(ILoggerFactory loggerFactory)
+        public EmailSender(ILoggerFactory loggerFactory, IHostingEnvironment env)
         {
             _logger = loggerFactory.CreateLogger<EmailSender>();
+            _env = env;
         }
 
         public async Task<bool> SendEmailAsync(MailType type, EmailModel emailModel, string extraData)
@@ -54,8 +57,8 @@ namespace AspNetCoreSpa.Server.Services
             myMessage.From = new System.Net.Mail.MailAddress(model.From, model.DisplayName);
             myMessage.Subject = model.Subject;
             myMessage.Text = model.TextBody;
-            myMessage.Html = model.HtmlBody;           
-            myMessage.AddAttachment(new FileStream("./wwwroot/templates/qlogo.png", FileMode.Open, FileAccess.Read), "qlogo");
+            myMessage.Html = model.HtmlBody;
+            myMessage.AddAttachment(new FileStream(Path.Combine(_env.WebRootPath, "templates\\qlogo.png"), FileMode.Open, FileAccess.Read), "qlogo");
 
             var credentials = new System.Net.NetworkCredential(Startup.Configuration["SendGrid:Username"], Startup.Configuration["SendGrid:Password"]);
             // Create a Web transport for sending email.
