@@ -69,6 +69,7 @@ modalResponse: string;
                         testResult.FinishedDate = this.datePipe.transform(testResult.FinishedDate, 'medium');
                       }
                       else{
+                          testResult.College = '';
                           testResult.FinishedDate = "";
                       }
                   }
