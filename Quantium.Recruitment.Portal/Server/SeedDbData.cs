@@ -27,7 +27,6 @@ namespace AspNetCoreSpa.Server
             _context = context;
             CreateRoles(); // Add roles
             CreateUsers(); // Add users
-            //AddLanguagesAndContent();
             AddRecruitmentSeedData();
         }
 
@@ -54,64 +53,7 @@ namespace AspNetCoreSpa.Server
                 var adminUserResult = _userManager.CreateAsync(qAdminUser, Startup.Configuration["RecruitmentAdminPassword"]).Result;
                 qAdminUser = _userManager.FindByEmailAsync(Startup.Configuration["RecruitmentAdminEmail"]).Result;
                 var adminRoleResult = _userManager.AddToRoleAsync(qAdminUser, "Admin").Result;
-
-                var qAdminUser1 = new QRecruitmentUser { UserName = "admin@admin.com", Email = "admin@admin.com", CreatedDate = DateTime.Now, IsEnabled = true };
-                var adminUserResult1 = _userManager.CreateAsync(qAdminUser1, "quantium@123").Result;
-                qAdminUser1 = _userManager.FindByEmailAsync("admin@admin.com").Result;
-                var adminRoleResult1 = _userManager.AddToRoleAsync(qAdminUser1, "Admin").Result;
-
-                //var qUser = new QRecruitmentUser { UserName = "user@user.com", Email = "user@user.com", CreatedDate = DateTime.Now, IsEnabled = true };
-                //var userResult =  _userManager.CreateAsync(qUser, "batman@123").Result;
-                //var userRoleResult = _userManager.AddToRoleAsync(qUser, "Candidate").Result;
             }
-        }
-
-        private void AddLanguagesAndContent()
-        {
-            //if (!_context.Languageses.Any())
-            //{
-            //    _context.Languageses.Add(new Language { Id = 1, Locale = "en", Description = "English" });
-            //    _context.Languageses.Add(new Language { Id = 2, Locale = "fr", Description = "Frensh" });
-            //    _context.SaveChanges();
-            //}
-
-            //if (!_context.Content.Any())
-            //{
-            //    _context.Content.Add(new Content { Id = 1, Key = "TITLE" });
-            //    _context.Content.Add(new Content { Id = 2, Key = "APP_NAV_HOME" });
-            //    _context.Content.Add(new Content { Id = 3, Key = "APP_NAV_EXAMPLES" });
-            //    _context.Content.Add(new Content { Id = 4, Key = "APP_NAV_LOGIN" });
-            //    _context.Content.Add(new Content { Id = 5, Key = "APP_NAV_LOGOUT" });
-            //    _context.Content.Add(new Content { Id = 6, Key = "APP_NAV_REGISTER" });
-            //    _context.Content.Add(new Content { Id = 7, Key = "APP_NAV_ADMIN" });
-            //    _context.SaveChanges();
-            //}
-
-            //if (!_context.ContentText.Any())
-            //{
-            //    _context.ContentText.Add(new ContentText { Text = "Site title", LanguageId = 1, ContentId = 1 });
-            //    _context.ContentText.Add(new ContentText { Text = "Titre du site", LanguageId = 2, ContentId = 1 });
-
-            //    _context.ContentText.Add(new ContentText { Text = "Home", LanguageId = 1, ContentId = 2 });
-            //    _context.ContentText.Add(new ContentText { Text = "Accueil", LanguageId = 2, ContentId = 2 });
-
-            //    _context.ContentText.Add(new ContentText { Text = "Examples", LanguageId = 1, ContentId = 3 });
-            //    _context.ContentText.Add(new ContentText { Text = "Exemples", LanguageId = 2, ContentId = 3 });
-
-            //    _context.ContentText.Add(new ContentText { Text = "Login", LanguageId = 1, ContentId = 4 });
-            //    _context.ContentText.Add(new ContentText { Text = "S'identifier", LanguageId = 2, ContentId = 4 });
-
-            //    _context.ContentText.Add(new ContentText { Text = "Logout", LanguageId = 1, ContentId = 5 });
-            //    _context.ContentText.Add(new ContentText { Text = "Connectez - Out", LanguageId = 2, ContentId = 5 });
-
-            //    _context.ContentText.Add(new ContentText { Text = "Register", LanguageId = 1, ContentId = 6 });
-            //    _context.ContentText.Add(new ContentText { Text = "registre", LanguageId = 2, ContentId = 6 });
-
-            //    _context.ContentText.Add(new ContentText { Text = "Admin", LanguageId = 1, ContentId = 7 });
-            //    _context.ContentText.Add(new ContentText { Text = "Admin", LanguageId = 2, ContentId = 7 });
-
-            //    _context.SaveChanges();
-            //}
         }
 
         private void AddRecruitmentSeedData()
@@ -366,35 +308,35 @@ namespace AspNetCoreSpa.Server
 
             #region Label
 
-            Label label1 = new Label
-            {
-                Name = "C#",
-            };
+            //Label label1 = new Label
+            //{
+            //    Name = "C#",
+            //};
 
-            Label label2 = new Label
-            {
-                Name = "SQL",
-            };
+            //Label label2 = new Label
+            //{
+            //    Name = "SQL",
+            //};
 
-            Label label3 = new Label
-            {
-                Name = "R",
-            };
+            //Label label3 = new Label
+            //{
+            //    Name = "R",
+            //};
 
-            Label label4 = new Label
-            {
-                Name = "Modelling",
-            };
+            //Label label4 = new Label
+            //{
+            //    Name = "Modelling",
+            //};
 
             Label label5 = new Label
             {
                 Name = "Others",
             };
 
-            _context.Labels.Add(label1);
-            _context.Labels.Add(label2);
-            _context.Labels.Add(label3);
-            _context.Labels.Add(label4);
+            //_context.Labels.Add(label1);
+            //_context.Labels.Add(label2);
+            //_context.Labels.Add(label3);
+            //_context.Labels.Add(label4);
             _context.Labels.Add(label5);
 
             #endregion Label
