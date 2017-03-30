@@ -1,27 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { CandidateService } from '../../../services/candidate.service';
 import { CandidateDto } from '../../../../RemoteServicesProxy';
 import { FilterCandidatesPipe } from '../../../pipes/filterCandidates.pipe';
-
+import { ModalDirective } from 'ng2-bootstrap/modal';
 
 @Component({
     selector: 'appc-view-candidates',
-    templateUrl: './viewCandidates.component.html'
+    templateUrl: './viewCandidates.component.html',
+    styleUrls: ['./viewCandidates.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 
 export class ViewCandidatesComponent implements OnInit{
 
+    @ViewChild('progress') progressModal: ModalDirective;
+    isRequestProcessing = true;
+    modalResponse: string;
+
+    atleastOneRowSelected = false;
+    selectedRows: any;
+
     candidates: CandidateDto[];
     public rows: Array<any> = [];
     public columns: Array<any> = [
-        { title: 'First Name', name: 'FirstName', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By First Name' } },
-        { title: 'Last Name', name: 'LastName', sort: false, filtering: { filterString: '', placeholder: 'Filter By Last Name' } },
-        { title: 'Email', name: 'Email', sort: false, filtering: { filterString: '', placeholder: 'Filter By Email' } },
+        { title: 'First Name', name: 'FirstName', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By First Name' }, className: 'table-header-cursor' },
+        { title: 'Last Name', name: 'LastName', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Last Name' }, className: 'table-header-cursor' },
+        { title: 'Email', name: 'Email', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Email' }, className: 'table-header-cursor' },
         // { title: 'Status', name: 'IsActive', sort: false },
         // { title: 'Account Status', name: 'PasswordSent', sort: false },
         // { title: 'Test Email', name: 'TestMailSent', sort: false },
-        { title: 'Date Added', name: 'CreatedUtc', sort: false}        
+        { title: 'Date Added', name: 'CreatedUtc', sort: 'asc', className: 'table-header-cursor'}        
     ];
     public page: number = 1;
     public itemsPerPage: number = 10;
@@ -41,28 +50,76 @@ export class ViewCandidatesComponent implements OnInit{
     }
 
     ngOnInit() {
+        this.getAllCandidates();
+    }
+
+    public getAllCandidates(modalOpened = false){
         this.candidateService.GetAllCandidates().subscribe(
             candidateList => {
                 this.candidates = candidateList;
-                for (let candidate of candidateList) {
-                    // candidate.IsActive = candidate.IsActive ? "Active" : "Archived";
-                    // candidate.PasswordSent = candidate.PasswordSent ? "Created" : "Pending";
-                    // candidate.TestMailSent = candidate.TestMailSent ? "Test Created" : "No Test";
-                    candidate.CreatedUtc = this.datePipe.transform(candidate.CreatedUtc, 'medium');
+                if(this.candidates.length > 0){
+                    for (let candidate of candidateList) {
+                        candidate.CreatedUtc = this.datePipe.transform(candidate.CreatedUtc, 'medium');
+                    }
+                    this.data = candidateList;
+                    this.length = this.data.length;
+                    this.numPages = Math.ceil(this.length / this.itemsPerPage);
+                    this.maxSize = this.numPages;
+                    this.onChangeTable(this.config);
                 }
-                this.data = candidateList;
-                this.length = this.data.length;
-                this.numPages = Math.ceil(this.length / this.itemsPerPage);
-                this.maxSize = this.numPages;
-                this.onChangeTable(this.config);
+                else{
+                    this.data = null;
+                    this.candidates = [];
+                    this.length = 0;
+                    this.numPages = 1;
+                    this.maxSize = 5;
+                    this.rows = [];
+                    
+              }
+              if(modalOpened){
+                this.atleastOneRowSelected = false;
+                this.isRequestProcessing = false;
+                this.progressModal.hide();
+              }
             },
             error => console.log(error)
-        )
+        );
+    }
+
+    public archiveSelectedCandidates(){
+        let selectedCandidateIds = [];
+
+        Object.keys(this.selectedRows).forEach((key, index) =>{
+            if(this.selectedRows[key] === true){
+                selectedCandidateIds.push(key);
+            }
+        });
+        this.isRequestProcessing = true;
+        this.modalResponse = "Archiving candidates";
+        this.progressModal.show();
+        this.candidateService.ArchiveCandidates(selectedCandidateIds).subscribe(
+            result => {
+                this.modalResponse = "Refreshing candidates";
+                this.getAllCandidates(true);
+            }, 
+            error => console.log(error)
+        );
     }
     public changePage(page: any, data: Array<any> = this.data): Array<any> {
         let start = (page.page - 1) * page.itemsPerPage;
         let end = page.itemsPerPage > -1 ? (start + page.itemsPerPage) : data.length;
         return data.slice(start, end);
+    }
+
+    public onRowCheck(data: any): any{
+      this.selectedRows = data.selectedRows;
+      Object.keys(data.selectedRows).forEach((key, index) =>{
+        if(data.selectedRows[key] === true){
+            this.atleastOneRowSelected = true;
+            return;
+        }
+        this.atleastOneRowSelected = false;
+      });
     }
 
     public changeSort(data: any, config: any): any {

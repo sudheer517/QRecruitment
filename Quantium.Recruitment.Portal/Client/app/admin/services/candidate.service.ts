@@ -43,4 +43,14 @@ export class CandidateService{
                 return response.json();
             });
     }
+
+    public ArchiveCandidates(candidateIds: number[]): Observable<any> {
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers });
+
+        return this.http.post(`${this.candidateApiUrl}ArchiveCandidates`, candidateIds, options).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
 }

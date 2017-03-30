@@ -124,9 +124,9 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var candidates = _candidateRepository.GetAll();
+            var candidates = await _candidateRepository.FindByAsync(c => c.IsActive == true);
 
             //set firstname and lastname to empty rather than null because of filtering bug on client side
             var cDtos = Mapper.Map<IList<CandidateDto>>(candidates,
@@ -366,6 +366,28 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             }
             
             return true;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ArchiveCandidates([FromBody]long[] testIds)
+        {
+            var candidates = await _candidateRepository.FindByAsync(t => testIds.Contains(t.Id));
+
+            try
+            {
+                foreach (var candidate in candidates)
+                {
+                    candidate.IsActive = false;
+                }
+
+                _candidateRepository.Commit();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+            return Ok(JsonConvert.SerializeObject("Deleted"));
         }
     }
 }
