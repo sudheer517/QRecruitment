@@ -24,7 +24,6 @@ nav{
 }
 .nav-item .active{
     border-bottom: 2px solid grey;
-    height: 40px;
 }
 
 .admin-outlet{
@@ -34,18 +33,10 @@ nav{
     flex-direction: column;
 }
 .admin-container{
-    height: 100vh;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
-
-.highcharts-credits{
-    display: none !important;
-}
-.highcharts-background{
-    background-color: gray !important;
-}
-
 
 .dropdown-item.active, .dropdown-item:active{
     background-color: #9D0015;

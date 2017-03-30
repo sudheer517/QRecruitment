@@ -1,3 +1,13 @@
 select{
-    width: 221px;
+    width: 204px;
+}
+
+@media (max-width: 842px){
+    .detail-group{
+        flex-direction: column;
+    }
+
+    select{
+        width: 100%;
+    }
 }

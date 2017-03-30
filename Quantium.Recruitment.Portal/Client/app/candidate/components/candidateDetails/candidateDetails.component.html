@@ -2,10 +2,10 @@
     <div class="router-outlet-container">
         <span class="admin-outlet-heading">CANDIDATE INFORMATION</span>
         <div class="admin-data-container">
-                <div class="d-flex" style="justify-content: center">
+                <div class="d-flex" style="justify-content: center; max-height: 0px">
                     <form class="col-md-12" novalidate [formGroup]="candidateDetailsForm">
                         <h4 style="text-align: center; margin-bottom: 50px">Please fill your details</h4>
-                        <div class="d-flex" style="justify-content: space-around">
+                        <div class="d-flex detail-group" style="justify-content: space-around">
 
                             <div class="form-group" [class.has-danger]="candidateDetailsForm.get('firstName').invalid && candidateDetailsForm.get('firstName').touched">
                                 <label class="form-control-label" for="firstName">First name</label>
@@ -34,7 +34,7 @@
                             </div>
                         </div>
 
-                        <div class="d-flex" style="justify-content: space-around">
+                        <div class="d-flex detail-group" style="justify-content: space-around">
 
                                 <div class="form-group" [class.has-danger]="candidateDetailsForm.get('branch').invalid && candidateDetailsForm.get('branch').touched">
                                     <label class="form-control-label" for="branch">Branch</label>
@@ -63,7 +63,7 @@
                                 </div>
                         </div>
 
-                        <div class="d-flex" style="justify-content: space-around">
+                        <div class="d-flex detail-group" style="justify-content: space-around">
                                 <div class="form-group" [class.has-danger]="candidateDetailsForm.get('state').invalid && candidateDetailsForm.get('state').touched">
                                     <label class="form-control-label" for="state">State</label>
                                     <input type="text" class="form-control" id="state" placeholder="State" formControlName="state">
@@ -83,7 +83,7 @@
                                 </div>
                         </div>
 
-                        <div class="d-flex" style="justify-content: space-around">
+                        <div class="d-flex detail-group" style="justify-content: space-around">
                             <div class="form-group" [class.has-danger]="candidateDetailsForm.get('graduation').invalid && candidateDetailsForm.get('graduation').touched">
                                 <label class="form-control-label" for="graduation">Graduation year</label>
                                 <input type="number" class="form-control" id="graduation" placeholder="e.g. 2012" formControlName="graduation">
@@ -107,6 +107,7 @@
                             <div class="form-group" [class.has-danger]="candidateDetailsForm.get('experience').invalid && candidateDetailsForm.get('experience').touched">
                                 <label class="form-control-label" for="experience">Experience</label>
                                 <select class="form-control" id="experience" formControlName="experience">
+                                    <option [ngValue]="null">Select experience..</option>
                                     <option [value]="year" *ngFor="let year of years">{{ year + (year == 1 ? ' year' : ' years')}}</option>
                                 </select>
                                 <small *ngIf="candidateDetailsForm.get('experience').touched && candidateDetailsForm.get('experience').invalid" class="form-text muted-text">Experience is required</small>
@@ -114,10 +115,28 @@
 
                         </div>
 
-                        <div style="margin-top: 30px;display: flex;justify-content: center">
+                        <div style="margin-top: 30px;display: flex;justify-content: center; margin-bottom: 20px;">
                             <button type="submit" class="btn red" [disabled]="candidateDetailsForm.invalid" (click)="saveCandidateDetails()">Save details</button>
                         </div>
                     </form>
                 </div>
         </div>
     </div>
+
+<div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+                <h5 class="modal-title" style="width: 100%; text-align: center">{{modalResponse}}</h5>
+        </div>
+      
+      <div class="modal-footer" style="justify-content: center">
+                <span class="fa fa-spinner fa-spin fa-3x"  *ngIf="isRequestProcessing"></span>
+                
+                <button type="button" class="close"   *ngIf="!isRequestProcessing" (click)="closeProgressModal()">
+                       <span class="fa fa-times-circle-o fa-2x"></span>
+                </button>
+        </div>
+    </div>
+  </div>
+</div>

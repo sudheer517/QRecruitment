@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CandidateDto } from '../../../RemoteServicesProxy';
 import { CandidateService } from '../../services/candidate.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl} from '@angular/forms';
+import { ModalDirective } from 'ng2-bootstrap/modal';
 
 @Component({
   selector: '[appc-candidate-details]',
@@ -10,6 +11,10 @@ import { FormControl, FormGroup, FormBuilder, Validators, AbstractControl} from 
   templateUrl: './candidateDetails.component.html',
 })
 export class CandidateDetailsComponent implements OnInit{
+    @ViewChild('progress') progressModal: ModalDirective;
+    isRequestProcessing: boolean = true;
+    modalResponse: string;
+
   candidateDetailsForm: FormGroup;
   years = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
   constructor(
@@ -84,6 +89,9 @@ export class CandidateDetailsComponent implements OnInit{
   }
 
   saveCandidateDetails(){
+      this.isRequestProcessing = true;
+      this.modalResponse = "Saving details";
+      this.progressModal.show();
       let candidateFormObject= this.candidateDetailsForm.value;
 
       let candidate: CandidateDto = new CandidateDto();
@@ -102,6 +110,7 @@ export class CandidateDetailsComponent implements OnInit{
 
       this.cadidateService.SaveDetails(candidate).subscribe(
         result => {
+            this.progressModal.hide();
             this.router.navigate(["instructions"], { relativeTo : this.activatedRoute});
         },
         error => console.log(error)
