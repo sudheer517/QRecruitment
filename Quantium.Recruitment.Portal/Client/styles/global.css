@@ -7,6 +7,8 @@ body{
     overflow: hidden;
 }
 
+
+
 router-outlet + div {
     display: flex;
     flex: 1;
