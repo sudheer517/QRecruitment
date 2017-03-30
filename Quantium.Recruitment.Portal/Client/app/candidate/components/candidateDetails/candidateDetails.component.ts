@@ -50,7 +50,7 @@ export class CandidateDetailsComponent implements OnInit{
             country: ['india', Validators.required],
             graduation: ['2009', [Validators.required,  this.graduationValidator]],
             currentCompany: ['Quantium', Validators.required],
-            experience: ['', Validators.required],
+            experience: [null, Validators.required],
         });
   }
 

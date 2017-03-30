@@ -107,7 +107,7 @@
                             <div class="form-group" [class.has-danger]="candidateDetailsForm.get('experience').invalid && candidateDetailsForm.get('experience').touched">
                                 <label class="form-control-label" for="experience">Experience</label>
                                 <select class="form-control" id="experience" formControlName="experience">
-                                    <option [ngValue]="null">Select experience..</option>
+                                    <option value="" selected>Select experience..</option>
                                     <option [value]="year" *ngFor="let year of years">{{ year + (year == 1 ? ' year' : ' years')}}</option>
                                 </select>
                                 <small *ngIf="candidateDetailsForm.get('experience').touched && candidateDetailsForm.get('experience').invalid" class="form-text muted-text">Experience is required</small>
