@@ -25,6 +25,7 @@
                 <div class="form-group" [class.has-danger]="jobForm.get('department').invalid && jobForm.get('department').touched" style="flex: 0 1 15%">
                         <label class="form-control-label" for="department">Department</label>
                         <select class="form-control" id="department" formControlName="department">
+                                <option [ngValue]="null">Select department..</option>
                                 <option *ngFor="let dept of departments" [value]="dept.Id">{{dept.Name}}</option>
                         </select>
                         <small *ngIf="jobForm.get('department').touched && jobForm.get('department').errors?.required" class="form-text muted-text">Department is required</small>
@@ -42,6 +43,7 @@
                                                         <div class="form-group" style="flex: 0 1 20%;margin-right: 20px" [class.has-danger]="labelAndDifficulty.get('label').invalid && labelAndDifficulty.get('label').touched">
                                                                 <label class="form-control-label" attr.for="{{ 'label' + i}}">Label</label>
                                                                 <select class="form-control" id="{{'label' + i}}" formControlName="label">
+                                                                        <option [ngValue]="null">Select label..</option>
                                                                         <option *ngFor="let label of labels" [value]="label.Id">{{label.Name}}</option>
                                                                 </select>
                                                                 <small *ngIf="labelAndDifficulty.get('label').touched && labelAndDifficulty.get('label').errors?.required" 
@@ -50,6 +52,7 @@
                                                         <div class="form-group" style="flex: 0 1 20%;margin-right: 20px" [class.has-danger]="labelAndDifficulty.get('difficulty').invalid && labelAndDifficulty.get('difficulty').touched">
                                                                 <label class="form-control-label" attr.for="{{'difficulty' + i}}">Difficulty</label>
                                                                 <select class="form-control" id="{{'difficulty' + i}}" formControlName="difficulty">
+                                                                        <option [ngValue]="null">Select difficulty..</option>
                                                                         <option *ngFor="let difficulty of difficulties" [value]="difficulty.Id">{{difficulty.Name}}</option>
                                                                 </select>
                                                                 <small *ngIf="labelAndDifficulty.get('difficulty').touched && labelAndDifficulty.get('difficulty').errors?.required" 
@@ -60,6 +63,7 @@
                                                          [class.has-danger]="(labelAndDifficulty.get('availableQuestions').invalid && labelAndDifficulty.get('availableQuestions').touched) || labelAndDifficulty.get('availableQuestions').errors?.count">
                                                                 <label class="form-control-label" attr.for="{{'availableQuestions' + i}}">Available questions</label>
                                                                 <select class="form-control" id="{{'availableQuestions' + i}}" formControlName="availableQuestions"  (change)="onAvailableChange(i)">
+                                                                        <option [ngValue]="null">Select questions..</option>
                                                                         <option *ngFor="let questionNumber of availableQuestionsMap[i]; let index=index" [value]="questionNumber">{{questionNumber}}</option>
                                                                 </select>
                                                                 <small *ngIf="labelAndDifficulty.get('availableQuestions').touched && labelAndDifficulty.get('availableQuestions').errors?.required" 
@@ -72,6 +76,7 @@
                                                         [class.has-danger]="(labelAndDifficulty.get('questionsToPass').invalid && labelAndDifficulty.get('questionsToPass').touched) || labelAndDifficulty.get('questionsToPass').errors?.count">
                                                                 <label class="form-control-label" attr.for="{{'questionsToPass' + i}}">Answer correctly</label>
                                                                 <select class="form-control" id="{{'questionsToPass' + i}}" formControlName="questionsToPass">
+                                                                        <option [ngValue]="null">Select questions..</option>
                                                                         <option *ngFor="let questionNumber of questionsToPassMap[i]; let index=index" [value]="questionNumber">{{questionNumber}}</option>
                                                                 </select>
                                                                 <small *ngIf="labelAndDifficulty.get('questionsToPass').touched && labelAndDifficulty.get('questionsToPass').errors?.required" 
