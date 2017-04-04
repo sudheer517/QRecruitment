@@ -89,6 +89,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
                 try
                 {
+                    admin.IsActive = true;
                     _adminRepository.Add(admin);
                     await CreateUserWithAdminRole(admin);
                     return Created("created", admin);
