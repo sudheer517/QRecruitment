@@ -20,6 +20,7 @@ using Newtonsoft.Json.Serialization;
 using Quantium.Recruitment.Portal.Helpers;
 using Quantium.Recruitment.Portal.Server.Helpers;
 using Quantium.Recruitment.Portal.Server.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreSpa.Server.Extensions
 {
@@ -42,6 +43,7 @@ namespace AspNetCoreSpa.Server.Extensions
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(ModelValidationFilter));
+                options.Filters.Add(new RequireHttpsAttribute());
             })
             .AddJsonOptions(options =>
             {
