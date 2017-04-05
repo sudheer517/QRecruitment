@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AspNetCoreSpa.Server.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Candidate")]
     public class HomeController : Controller
     {
         private readonly UserManager<QRecruitmentUser> _userManager;
