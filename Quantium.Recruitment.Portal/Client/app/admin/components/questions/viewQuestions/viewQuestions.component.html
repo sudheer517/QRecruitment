@@ -46,7 +46,7 @@
                     
             </div>
             <div *ngIf="question.ImageUrl?.length > 0">
-                    <img [src]="question.ImageUrl" class="imagePreview" />
+                    <img [src]="question.ImageUrl" class="imagePreview" style="margin-bottom: 10px"/>
             </div>
             <div class="previewOptionList" *ngIf="!question.IsRadio">
                     <ul style="list-style: none">

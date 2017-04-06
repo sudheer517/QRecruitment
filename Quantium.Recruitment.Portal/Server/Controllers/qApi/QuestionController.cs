@@ -121,12 +121,13 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
                 foreach (var questionDto in questionDtos)
                 {
-                    var duplicateQuestionExists = await _questionRepository.GetSingleAsync(q => q.Text == questionDto.Text.Trim());
+                    //Cannot find duplication questions with question text for questions like "what is output of this program". So commenting this out
+                    //var duplicateQuestionExists = await _questionRepository.GetSingleAsync(q => q.Text == questionDto.Text.Trim());
 
-                    if(duplicateQuestionExists != null)
-                    {
-                        return StatusCode(StatusCodes.Status409Conflict, questionDto.Id);
-                    }
+                    //if(duplicateQuestionExists != null)
+                    //{
+                    //    return StatusCode(StatusCodes.Status409Conflict, questionDto.Id);
+                    //}
 
                     questionDto.Options = questionDto.Options.Where(item => item.Text.Trim().Length > 0).ToList();
 
@@ -208,15 +209,16 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             {
                 var questionDtos = GetQuestionDtosFromWorkSheet(workSheet);
 
-                foreach (var questionDto in questionDtos)
-                {
-                    var duplicateQuestionExists = await _questionRepository.GetSingleAsync(q => q.Text == questionDto.Text.Trim());
+                //Cannot find duplication questions with question text for questions like "what is output of this program". So commenting this out
+                //foreach (var questionDto in questionDtos)
+                //{
+                //    var duplicateQuestionExists = await _questionRepository.GetSingleAsync(q => q.Text == questionDto.Text.Trim());
 
-                    if (duplicateQuestionExists != null)
-                    {
-                        return StatusCode(StatusCodes.Status409Conflict, questionDto.Id);
-                    }
-                }
+                //    if (duplicateQuestionExists != null)
+                //    {
+                //        return StatusCode(StatusCodes.Status409Conflict, questionDto.Id);
+                //    }
+                //}
                 
                 return Ok(questionDtos);
             }
@@ -287,6 +289,12 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 {
                     IList<string> questionAndOptions = ExcelHelper.GetExcelHeaders(workSheet, rowIndex);
 
+                    //for empty rows
+                    if (string.IsNullOrEmpty(questionAndOptions[0].Trim()))
+                    {
+                        continue;
+                    }
+
                     string[] selectedOptions = questionAndOptions[2].Split(';').Select(item => item.Trim()).ToArray();
 
                     if (!validateQuestions(questionAndOptions, headers, selectedOptions))
@@ -306,13 +314,13 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                         TimeInSeconds = Convert.ToInt32(questionAndOptions[3].Trim()),
                         Label = new LabelDto { Name = questionAndOptions[10].Trim() },
                         Difficulty = new DifficultyDto { Name = questionAndOptions[11].Trim() },
-                        RandomizeOptions = Convert.ToBoolean(questionAndOptions[12]),
+                        RandomizeOptions = !string.IsNullOrEmpty(questionAndOptions[12].Trim()) ? Convert.ToBoolean(questionAndOptions[12]) : true,
                         ImageUrl = imagePath,
                         QuestionGroup = new QuestionGroupDto
                         {
                             Description = questionAndOptions[14].Trim()
                         },
-                        IsRadio = !string.IsNullOrEmpty(questionAndOptions[15]) ? Convert.ToBoolean(questionAndOptions[15]) : false,
+                        IsRadio = !string.IsNullOrEmpty(questionAndOptions[15].Trim()) ? Convert.ToBoolean(questionAndOptions[15]) : false,
                         Options = new List<OptionDto>
                             {
                                 new OptionDto
