@@ -23,6 +23,8 @@ export class UploadQuestionsComponent implements OnInit{
     validationFailed = true;
     questionsSaved = false;
 
+    errorMessage: string;
+
     constructor(private renderer: Renderer, private questionService: QuestionService,  private router: Router, private activatedRoute:ActivatedRoute){
     }
     open(content) {
@@ -46,6 +48,7 @@ export class UploadQuestionsComponent implements OnInit{
 
     onFileChange(eventData: any){
         this.fileText = eventData.target.value.split("\\").pop();
+        this.errorMessage = null;
         this.isRequestProcessing = true;
         this.modalResponse = "Validating questions";
         this.progressModal.show();
@@ -75,6 +78,7 @@ export class UploadQuestionsComponent implements OnInit{
                     this.validationFailed = true;
                     this.isRequestProcessing = false;
                     this.modalResponse = "Questions validation failed";
+                    this.errorMessage = error.text();
                 }
                 console.log(error);
             }
