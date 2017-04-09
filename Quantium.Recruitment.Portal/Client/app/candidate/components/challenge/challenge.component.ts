@@ -187,6 +187,7 @@ export class ChallengeComponent implements OnInit{
         //this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
         this.endDateTime = new Date().toUTCString();
         this.postChallenge(false);
+        this.sub.unsubscribe();
         console.log(this.currentTestId);
         this.challengeService.FinishAllChallenges(this.currentTestId).subscribe(
             response => {
