@@ -38,7 +38,6 @@ export class ViewQuestionsComponent implements OnInit{
                 this.questions = pagedQuestionDto.questions;
                 this.length = pagedQuestionDto.totalQuestions;
                 this.numPages = pagedQuestionDto.totalPages;
-                this.maxSize = this.numPages;
             },
             error => console.log(error)
         )
@@ -63,7 +62,6 @@ export class ViewQuestionsComponent implements OnInit{
                     this.questions = pagedQuestionDto.questions;
                     this.length = pagedQuestionDto.totalQuestions;
                     this.numPages = pagedQuestionDto.totalPages;
-                    this.maxSize = this.numPages;
                 }
                 else{
                     this.modalResponse = "No questions found";
