@@ -59,17 +59,19 @@
                             <div *ngIf="!question?.IsRadio" >
                                 <div *ngFor="let option of question?.Options; let i = index">
                                     <div style="display: flex; margin-bottom: 5px; justify-content: flex-start">
+                                        <span style="margin-right: 5px; line-height: 17px">{{i + 1}} . </span>
                                         <input type="checkbox" [(ngModel)]="selectedCheckboxOptions[i]" style="flex: 0 0 30px"/>
-                                            <span style="flex: 1 1 auto;margin-left: 5px;">{{option.Text}}</span>
+                                        <span style="flex: 1 1 auto;margin-left: 5px; line-height: 17px" [innerHTML]="option.Text"></span>
                                     </div> 
                                 </div> 
                             </div>
                             <div class="" *ngIf="question?.IsRadio">
-                                    <div *ngFor="let option of question?.Options" style="display: flex; margin-bottom: 5px; justify-content: flex-start">
-                                        <input type="radio" [value]="option.Id" name="option.QuestionId" style="flex: 0 0 30px"
-                                        [(ngModel)]="selectedRadioOption"/>
-                                        <span style="flex: 1 1 auto; margin-left: 5px;">{{option.Text}}</span>
-                                    </div>
+                                <div *ngFor="let option of question?.Options; let i = index" style="display: flex; margin-bottom: 5px; justify-content: flex-start">
+                                    <span style="margin-right: 5px; line-height: 17px">{{i + 1}} . </span>
+                                    <input type="radio" [value]="option.Id" name="option.QuestionId" style="flex: 0 0 30px"
+                                           [(ngModel)]="selectedRadioOption" />
+                                    <span style="flex: 1 1 auto; margin-left: 5px; line-height: 17px" [innerHTML]="option.Text"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -129,7 +131,8 @@
       </div>
       <div class="modal-body">
           <div style="display: flex; flex-direction: column">
-            Proceed to next question or logout and resume test from next question later.
+            <span *ngIf="remainingChallenges !== 0">Proceed to next question or logout and resume test from next question later.</span>
+            <span *ngIf="remainingChallenges === 0" style="text-align: center">Your test is finished.</span>
             <i class="fa fa-clock-o fa-5x" style="text-align: center"></i>
           </div>
       </div>
