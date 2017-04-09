@@ -32,5 +32,7 @@ namespace Quantium.Recruitment.Models
         public long CreatedByUserId { get; set; }
 
         public DateTime CreatedUtc { get; set; }
+
+        public Dictionary<string, int> LabelDiffAnswers { get; set; }
     }
 }

@@ -300,6 +300,10 @@
 
     }
 
+    export class LabelDiffAnswers {
+        [key: string]: number;
+    }
+
     export class TestDto { 
         public Id: number;
         public Name: string;
@@ -315,6 +319,7 @@
         public IsTestPassed: boolean;
         public CreatedByUserId: number;
         public CreatedUtc: string;
+        public LabelDiffAnswers: LabelDiffAnswers;
         constructor();
         constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean, CreatedByUserId?: number, CreatedUtc?: string);
         constructor(Id?: number, Name?: string, Challenges?: ChallengeDto[], TestLabels?: Test_LabelDto[], Candidate?: CandidateDto, Job?: JobDto, IsFinished?: boolean, FinishedDate?: string, TotalRightAnswers?: number, TotalChallengesDisplayed?: number, TotalChallengesAnswered?: number, IsTestPassed?: boolean, CreatedByUserId?: number, CreatedUtc?: string){

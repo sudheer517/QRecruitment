@@ -208,6 +208,7 @@ modalResponse: string;
   }
 
   public onCellClick(data: any): any {
+      console.log('clicked');
       let clickedTestResult = data.row as TestResultDto;
       if(clickedTestResult.IsFinished){
           //this.router.navigate(['testDetail', clickedTestResult.Id]);

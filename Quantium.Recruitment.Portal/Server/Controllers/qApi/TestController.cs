@@ -267,7 +267,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             finishedTestDto.TotalRightAnswers = totalRightAnswers;
             finishedTestDto.IsTestPassed = true;
-
+            finishedTestDto.LabelDiffAnswers = new Dictionary<string, int>();
             foreach (var item in twoKeyJobDiffLabelMap)
             {
                 if (item.PassingQuestionCount > item.AnsweredCount)
@@ -275,6 +275,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     finishedTestDto.IsTestPassed = false;
                     break;
                 }
+
+                finishedTestDto.LabelDiffAnswers.Add($"{item.Label.Name}-{item.Difficulty.Name}", item.AnsweredCount);
             }
 
             return finishedTestDto;

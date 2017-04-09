@@ -53,6 +53,10 @@ export class TestDetailComponent implements OnInit, OnDestroy {
         this.visibility = (this.visibility === "hidden" ? "shown" : "hidden");
     }
 
+    keys(): Array<string> {
+        return Object.keys(this.test.LabelDiffAnswers);
+    }
+
     isCorrect(challenge: ChallengeDto){
         let correctOptions = challenge.Question.Options.filter(o => o.IsAnswer === true);
 
