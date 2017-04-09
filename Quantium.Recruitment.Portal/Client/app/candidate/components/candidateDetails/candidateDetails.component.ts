@@ -27,30 +27,18 @@ export class CandidateDetailsComponent implements OnInit{
   
   ngOnInit(){
     this.candidateDetailsForm = this.formBuilder.group({
-            // firstName: ['', Validators.required],
-            // lastName: ['', Validators.required],
-            // mobile : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), this.mobileValidator]],
-            // branch: ['', Validators.required],
-            // cgpa: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(3), this.cgpaValidator]],
-            // college: ['', Validators.required],
-            // state: ['', Validators.required],
-            // city: ['', Validators.required],
-            // country: ['', Validators.required],
-            // graduation: ['', [Validators.required,  this.graduationValidator]],
-            // currentCompany: ['', Validators.required],
-            // experience: ['', Validators.required],
-            firstName: ['Rohan', Validators.required],
-            lastName: ['Rakesh', Validators.required],
-            mobile : ['9052791243', [Validators.required, Validators.minLength(10), Validators.maxLength(10), this.mobileValidator]],
-            branch: ['IT', Validators.required],
-            cgpa: ['2', [Validators.required, Validators.minLength(1), Validators.maxLength(3), this.cgpaValidator]],
-            college: ['IITA', Validators.required],
-            state: ['TElangana', Validators.required],
-            city: ['hyd', Validators.required],
-            country: ['india', Validators.required],
-            graduation: ['2009', [Validators.required,  this.graduationValidator]],
-            currentCompany: ['Quantium', Validators.required],
-            experience: [null, Validators.required],
+             firstName: ['', Validators.required],
+             lastName: ['', Validators.required],
+             mobile : ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), this.mobileValidator]],
+             branch: ['', Validators.required],
+             cgpa: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(3), this.cgpaValidator]],
+             college: ['', Validators.required],
+             state: ['', Validators.required],
+             city: ['', Validators.required],
+             country: ['', Validators.required],
+             graduation: ['', [Validators.required,  this.graduationValidator]],
+             currentCompany: ['', Validators.required],
+             experience: [null, Validators.required]
         });
   }
 
