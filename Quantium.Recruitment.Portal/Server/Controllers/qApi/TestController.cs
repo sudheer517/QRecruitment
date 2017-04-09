@@ -270,10 +270,9 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             finishedTestDto.LabelDiffAnswers = new Dictionary<string, int>();
             foreach (var item in twoKeyJobDiffLabelMap)
             {
-                if (item.PassingQuestionCount > item.AnsweredCount)
+                if (finishedTestDto.IsTestPassed && item.PassingQuestionCount > item.AnsweredCount)
                 {
                     finishedTestDto.IsTestPassed = false;
-                    break;
                 }
 
                 finishedTestDto.LabelDiffAnswers.Add($"{item.Label.Name}-{item.Difficulty.Name}", item.AnsweredCount);
