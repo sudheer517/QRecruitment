@@ -136,12 +136,15 @@
             <i class="fa fa-clock-o fa-5x" style="text-align: center"></i>
           </div>
       </div>
-      <div class="modal-footer">
-            <button type="button" *ngIf="remainingChallenges !== 0"  class="close" (click)="nextQuestion()">
-                    NEXT
+        <div class="modal-footer">
+            <button type="button" *ngIf="remainingChallenges !== 0" class="close" (click)="nextQuestion()">
+                NEXT
+            </button>
+            <button type="button" *ngIf="remainingChallenges === 0" class="close" (click)="gotoFeedback()">
+                FEEDBACK
             </button>
             <a href="/Account/Logout" class="close">
-                    LOGOUT
+                LOGOUT
             </a>
         </div>
     </div>

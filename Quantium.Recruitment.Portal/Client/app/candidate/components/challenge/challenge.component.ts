@@ -182,6 +182,10 @@ export class ChallengeComponent implements OnInit{
             });
     }
 
+    public gotoFeedback() {
+        this.router.navigate(["../feedback"], { relativeTo: this.activatedRoute });
+    }
+
     private finishAllChallenges(): void {
         //this.$timeout.cancel(this.myTimer);
         //this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
