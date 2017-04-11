@@ -65,7 +65,7 @@ export class TestDetailComponent implements OnInit, OnDestroy {
         });
 
         //console.log(intersection);
-        if(intersection.length === correctOptions.length){
+        if (intersection.length === correctOptions.length && challenge.CandidateSelectedOptions.length === correctOptions.length) {
             //console.log("right answer for id:" + challenge.Id);
             return true;
         }
