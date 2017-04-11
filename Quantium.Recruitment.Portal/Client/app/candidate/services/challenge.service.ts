@@ -13,7 +13,7 @@ export class ChallengeService{
     public GetNextChallenge(): Observable<ChallengeDto> {
         return this.http.get(`${this.challengeApiUrl}Get`).map(
             (response: Response) => {
-                console.log(response.json());
+                //console.log(response.json());
                 return response.json();
             });
     }
@@ -21,7 +21,7 @@ export class ChallengeService{
     public IsTestFinished(): Observable<boolean> {
         return this.http.get(`${this.challengeApiUrl}IsTestFinished`).map(
             (response: Response) => {
-                console.log(response.json());
+                //console.log(response.json());
                 return response.json();
             });
     }
@@ -29,7 +29,7 @@ export class ChallengeService{
     public IsTestAssigned(): Observable<boolean> {
         return this.http.get(`${this.challengeApiUrl}IsTestAssigned`).map(
             (response: Response) => {
-                console.log(response.json());
+                //console.log(response.json());
                 return response.json();
             });
     }
@@ -48,7 +48,7 @@ export class ChallengeService{
 
         return this.http.post(`${this.challengeApiUrl}FinishAllChallenges`, testId, options).map(
             (response: Response) => {
-                console.log(response.json());
+                //console.log(response.json());
                 return response.json();
             });
     }
