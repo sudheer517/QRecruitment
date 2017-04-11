@@ -57,6 +57,7 @@ export class ChallengeComponent implements OnInit{
     ticks = 0;
     private timer;
     private sub: Subscription;
+
     isTimeUp = false;
     
     ngOnInit(){
@@ -65,7 +66,7 @@ export class ChallengeComponent implements OnInit{
     }
 
     tickerFunc(tick){
-        this.ticks = this.ticks - 1
+        this.ticks = this.ticks - 1;
         if(this.ticks === 0){
             this.sub.unsubscribe();
             this.isTimeUp = true;
@@ -93,24 +94,22 @@ export class ChallengeComponent implements OnInit{
                         this.ticks = challenge.Question.TimeInSeconds;
                        
                         this.sub = this.timer.subscribe(t => this.tickerFunc(t));
-                        //console.log(this.ticks);
                         this.selectedCheckboxOptions = new Array<boolean>(challenge.Question.Options.length);
+                        this.selectedRadioOption = null;
+
                         this.currentTestId = challenge.TestId;
-                        // this.$timeout.cancel(this.myTimer);
-                        // this.myTimer = this.$timeout(() => { this.showConfirm() }, (result.data.Question.TimeInSeconds * 1000));
-                        // this.startDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
                         this.startDateTime = new Date().toUTCString();
                         this.currentChallenge = challenge;
+
                         this.question = challenge.Question;
+
                         this.currentChallengeNumber = challenge.currentChallenge;
                         this.remainingChallenges = challenge.RemainingChallenges;
-                        console.log("remainining:"+ this.remainingChallenges);
+                        //console.log("remainining:"+ this.remainingChallenges);
                         this.challengesAnswered = challenge.ChallengesAnswered;
                         this.totalTestTime = challenge.TotalTestTimeInMinutes;
                         this.remainingTestTime = challenge.RemainingTestTimeInMinutes;
-                        // this.$scope.isRadioQuestion = result.data.Question.IsRadio;
-                        // this.$log.info("new question retrieved");
-                        // this.setTimer(result.data.Question.TimeInSeconds);
+                        
                         
                     }
                     this.progressModal.hide();
@@ -121,11 +120,8 @@ export class ChallengeComponent implements OnInit{
     }
 
     private fillAndPostChallenge() {
-        //this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
         this.progressModal.show();
         this.sub.unsubscribe();
-        //console.log(this.selectedRadioOption);
-        //console.log(this.selectedCheckboxOptions);
 
         this.endDateTime = new Date().toUTCString();
         this.postChallenge();
@@ -192,7 +188,7 @@ export class ChallengeComponent implements OnInit{
         this.endDateTime = new Date().toUTCString();
         this.postChallenge(false);
         this.sub.unsubscribe();
-        console.log(this.currentTestId);
+        //console.log(this.currentTestId);
         this.challengeService.FinishAllChallenges(this.currentTestId).subscribe(
             response => {
                 console.log("test finished");

@@ -37,7 +37,7 @@ export class ChallengeService{
     public PostChallenge(challenge: ChallengeDto): Observable<any> {
         return this.http.post(`${this.challengeApiUrl}Post`, challenge).map(
             (response: Response) => {
-                console.log(response.json());
+                //console.log(response.json());
                 return response.json();
             });
     }
