@@ -162,7 +162,7 @@
                                             <!--<span *ngIf="option.IsAnswer">Right Answer</span>
                                             <span *ngIf="hasCandidateSelected(option, challenge)">CandidateSelected</span>-->
                                         </div>
-                                        <p class="finishedTestQuestionOption" [ngClass]="{'green-color': option.IsAnswer,'blue-color': option.IsCandidateSelected && option.IsAnswer ,'red-color': hasCandidateSelected(option, challenge)}"><i class="fa fa-caret-right"></i>{{option.Text}}</p>
+                                        <p class="finishedTestQuestionOption" [ngClass]="{'green-color': option.IsAnswer,'blue-color': option.IsCandidateSelected && option.IsAnswer ,'red-color': hasCandidateSelected(option, challenge)}" [innerHTML] ="option.Text"><i class="fa fa-caret-right"></i></p>
                                     </div>
                                 </div>
                             </div>
