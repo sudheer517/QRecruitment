@@ -60,115 +60,128 @@ namespace Quantium.Recruitment.ApiServices.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var email = this.User.Identities.First().Name;
-
-            var test = _testRepository.FindBy(t => t.Candidate.Email == email).FirstOrDefault();
-
-            if (test.IsFinished == true)
+            try
             {
-                return Ok(JsonConvert.SerializeObject("Finished"));
-            }
+                var email = this.User.Identities.First().Name;
 
-            if (test.Challenges == null)
+                var test = _testRepository.FindBy(t => t.Candidate.Email == email).FirstOrDefault();
+
+                if (test.IsFinished == true)
+                {
+                    return Ok(JsonConvert.SerializeObject("Finished"));
+                }
+
+                if (test.Challenges == null)
+                {
+                    test.IsFinished = true;
+                    _testRepository.Edit(test);
+                    _testRepository.Commit();
+                    return Ok(JsonConvert.SerializeObject("Finished"));
+                }
+
+                var challenges = test.Challenges.Where(c => c.TestId == test.Id).OrderBy(c => c.Id).ToList();
+
+                var totalCount = challenges.Count;
+                var notSentChallenges = challenges.Where(c => c.IsSent != true);
+
+                bool[] totalChallengesAnswered = new bool[challenges.Count];
+
+                for (int i = 0; i < challenges.Count; i++)
+                {
+                    totalChallengesAnswered[i] = (challenges[i].IsAnswered == null || challenges[i].IsAnswered == false) ? false : true;
+                }
+
+                var currentChallenge = notSentChallenges.Count() > 0 ? notSentChallenges.OrderBy(c => c.Id).First() : null;
+
+                if (currentChallenge == null)
+                {
+                    test.IsFinished = true;
+                    test.FinishedDate = DateTime.Today.Date;
+                    _testRepository.Edit(test);
+                    _testRepository.Commit();
+                    return Ok(JsonConvert.SerializeObject("Finished"));
+                }
+
+                var currentChallengeDto = Mapper.Map<ChallengeDto>(currentChallenge);
+
+                currentChallengeDto.RemainingChallenges = notSentChallenges.Count() - 1;
+                currentChallengeDto.currentChallenge = totalCount - notSentChallenges.Count() + 1;
+                currentChallengeDto.ChallengesAnswered = totalChallengesAnswered;
+
+                double totalTestTimeInMins = ((challenges.Sum(c => c.Question.TimeInSeconds)) / 60.0);
+                double remainingTestTimeInMins = ((notSentChallenges.Sum(c => c.Question.TimeInSeconds)) / 60.0) - (currentChallengeDto.Question.TimeInSeconds / 60.0);
+                currentChallengeDto.TotalTestTimeInMinutes = totalTestTimeInMins.ToString();
+                currentChallengeDto.RemainingTestTimeInMinutes = remainingTestTimeInMins.ToString();
+                currentChallengeDto.Question.Options.ForEach(o => o.IsAnswer = false);
+
+                if (currentChallengeDto.Question.RandomizeOptions)
+                {
+                    currentChallengeDto.Question.Options = currentChallengeDto.Question.Options.OrderBy(item => Guid.NewGuid()).ToList();
+                }
+
+                if (currentChallengeDto.RemainingChallenges == 0)
+                {
+                    test.IsFinished = true;
+                    test.FinishedDate = DateTime.UtcNow;
+                    _testRepository.Edit(test);
+                    _testRepository.Commit();
+                }
+
+                currentChallenge.StartTime = currentChallenge.StartTime == null ? DateTime.Now : currentChallenge.StartTime;
+                var challengeStartTime = currentChallenge.StartTime.Value;
+                var elapsedTime = DateTime.Now.Subtract(challengeStartTime).Seconds;
+                var calculatedTime = currentChallengeDto.Question.TimeInSeconds - elapsedTime;
+                if (calculatedTime > 0)
+                {
+                    currentChallengeDto.Question.TimeInSeconds = currentChallengeDto.Question.TimeInSeconds - elapsedTime;
+                }
+                else
+                {
+                    currentChallengeDto.Question.TimeInSeconds = 0;
+                }
+
+                _challengeRepository.Edit(currentChallenge);
+                _challengeRepository.Commit();
+
+                await Task.Run(() => RunTimer(currentChallengeDto));
+
+                return Ok(currentChallengeDto);
+            }
+            catch(Exception ex)
             {
-                test.IsFinished = true;
-                _testRepository.Edit(test);
-                _testRepository.Commit();
-                return Ok(JsonConvert.SerializeObject("Finished"));
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(ex.Message + ex.InnerException.Message));
             }
-
-            var challenges = test.Challenges.Where(c => c.TestId == test.Id).OrderBy(c => c.Id).ToList();
-
-            var totalCount = challenges.Count;
-            var notSentChallenges = challenges.Where(c => c.IsSent != true);
-
-            bool[] totalChallengesAnswered = new bool[challenges.Count];
-
-            for (int i = 0; i < challenges.Count; i++)
-            {
-                totalChallengesAnswered[i] = (challenges[i].IsAnswered == null || challenges[i].IsAnswered == false) ? false : true;
-            }
-
-            var currentChallenge = notSentChallenges.Count() > 0 ? notSentChallenges.OrderBy(c => c.Id).First() : null;
-
-            if (currentChallenge == null)
-            {
-                test.IsFinished = true;
-                test.FinishedDate = DateTime.Today.Date;
-                _testRepository.Edit(test);
-                _testRepository.Commit();
-                return Ok(JsonConvert.SerializeObject("Finished"));
-            }
-
-            var currentChallengeDto = Mapper.Map<ChallengeDto>(currentChallenge);
-
-            currentChallengeDto.RemainingChallenges = notSentChallenges.Count() - 1;
-            currentChallengeDto.currentChallenge = totalCount - notSentChallenges.Count() + 1;
-            currentChallengeDto.ChallengesAnswered = totalChallengesAnswered;
-
-            double totalTestTimeInMins = ((challenges.Sum(c => c.Question.TimeInSeconds)) / 60.0);
-            double remainingTestTimeInMins = ((notSentChallenges.Sum(c => c.Question.TimeInSeconds)) / 60.0) - (currentChallengeDto.Question.TimeInSeconds / 60.0);
-            currentChallengeDto.TotalTestTimeInMinutes = totalTestTimeInMins.ToString();
-            currentChallengeDto.RemainingTestTimeInMinutes = remainingTestTimeInMins.ToString();
-            currentChallengeDto.Question.Options.ForEach(o => o.IsAnswer = false);
-
-            if (currentChallengeDto.Question.RandomizeOptions)
-            {
-                currentChallengeDto.Question.Options = currentChallengeDto.Question.Options.OrderBy(item => Guid.NewGuid()).ToList();
-            }
-
-            if (currentChallengeDto.RemainingChallenges == 0)
-            {
-                test.IsFinished = true;
-                test.FinishedDate = DateTime.UtcNow;
-                _testRepository.Edit(test);
-                _testRepository.Commit();
-            }
-
-            currentChallenge.StartTime = currentChallenge.StartTime == null ? DateTime.Now : currentChallenge.StartTime;
-            var challengeStartTime = currentChallenge.StartTime.Value;
-            var elapsedTime = DateTime.Now.Subtract(challengeStartTime).Seconds;
-            var calculatedTime = currentChallengeDto.Question.TimeInSeconds - elapsedTime;
-            if (calculatedTime > 0)
-            {
-                currentChallengeDto.Question.TimeInSeconds = currentChallengeDto.Question.TimeInSeconds - elapsedTime;
-            }
-            else
-            {
-                currentChallengeDto.Question.TimeInSeconds = 0;
-            }
-
-            _challengeRepository.Edit(currentChallenge);
-            _challengeRepository.Commit();
-
-            await Task.Run(() => RunTimer(currentChallengeDto));
-
-            return Ok(currentChallengeDto);
-
         }
 
         [HttpPost]
         public IActionResult Post([FromBody]ChallengeDto challengeDto)
         {
-            var challenge = _challengeRepository.GetAll().SingleOrDefault(c => c.IsSent != true && c.Id == challengeDto.Id);
-            if (challenge == null)
-                return Ok(JsonConvert.SerializeObject("Answer received too late"));
-
-            challenge.IsSent = true;
-            challenge.IsAnswered = challengeDto.CandidateSelectedOptions.Count > 0 ? true : false;
-            challenge.StartTime = challengeDto.StartTime;
-            challenge.AnsweredTime = challengeDto.AnsweredTime;
-            challenge.CandidateSelectedOptions = Mapper.Map<List<CandidateSelectedOption>>(challengeDto.CandidateSelectedOptions);
-
-            foreach (var item in challenge.CandidateSelectedOptions)
+            try
             {
-                item.Challenge = challenge;
-                item.Option = _optionRepository.GetSingle(item.OptionId);
-            }
+                var challenge = _challengeRepository.GetAll().SingleOrDefault(c => c.IsSent != true && c.Id == challengeDto.Id);
+                if (challenge == null)
+                    return Ok(JsonConvert.SerializeObject("Answer received too late"));
 
-            _challengeRepository.Edit(challenge);
-            _challengeRepository.Commit();
-            return Ok(JsonConvert.SerializeObject("Success"));
+                challenge.IsSent = true;
+                challenge.IsAnswered = challengeDto.CandidateSelectedOptions.Count > 0 ? true : false;
+                challenge.StartTime = challengeDto.StartTime;
+                challenge.AnsweredTime = challengeDto.AnsweredTime;
+                challenge.CandidateSelectedOptions = Mapper.Map<List<CandidateSelectedOption>>(challengeDto.CandidateSelectedOptions);
+
+                foreach (var item in challenge.CandidateSelectedOptions)
+                {
+                    item.Challenge = challenge;
+                    item.Option = _optionRepository.GetSingle(item.OptionId);
+                }
+
+                _challengeRepository.Edit(challenge);
+                _challengeRepository.Commit();
+                return Ok(JsonConvert.SerializeObject("Success"));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, JsonConvert.SerializeObject(ex.Message + ex.InnerException.Message));
+            }
         }
 
         [HttpPost]
