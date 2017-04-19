@@ -96,7 +96,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest("unable to add admin");
+                    return BadRequest(ex.Message + ex.InnerException.Message + "unable to add admin");
                 }
             }
             else
@@ -117,7 +117,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             if (!socialLogins.Any(emailType => admin.Email.Contains(emailType)))
             {
-                var user = new QRecruitmentUser { UserName = admin.Email, Email = admin.Email, IsEnabled = true };
+                var user = new QRecruitmentUser { UserName = admin.Email, Email = admin.Email, IsEnabled = true, CreatedDate = DateTime.UtcNow };
                 var password = AccountHelper.GenerateRandomString();
                 userModel = new UserCreationModel { Username = admin.Email, Password = password };
 

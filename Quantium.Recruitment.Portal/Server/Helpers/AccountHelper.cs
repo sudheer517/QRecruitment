@@ -33,7 +33,7 @@ namespace Quantium.Recruitment.Portal.Server.Helpers
             var isAdmin = IsAdminActive(email);
 
             if (isAdmin)
-                return "SuperAdmin";
+                return "Admin";
 
             var isCandidate = this.CheckIfCandidateExistsAndActive(email);
 
