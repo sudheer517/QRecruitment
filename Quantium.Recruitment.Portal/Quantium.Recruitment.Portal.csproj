@@ -15,6 +15,7 @@
   <ItemGroup>
     <Compile Remove="node_modules;Client\**\*" />
     <Content Remove="wwwroot/dist\assets\img\1489206038_Microsoft.svg" />
+    <Content Include="wwwroot\templates\SocialAdminCreationEmailTemplate.html" />
     <Content Include="wwwroot\templates\AdminCreationEmailTemplate.html" />
     <Content Include="wwwroot\templates\ResetPasswordEmailTemplate.html" />
     <Content Include="wwwroot\templates\TestCreationEmailTemplate.html" />
@@ -103,6 +104,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Quantium.Recruitment.Entities\Quantium.Recruitment.Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\templates\SocialAdminCreationEmailTemplate.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

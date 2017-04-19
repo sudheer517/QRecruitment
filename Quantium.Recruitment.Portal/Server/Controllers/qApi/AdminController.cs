@@ -112,14 +112,15 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 "@outlook", "@live", "@hotmail", "@gmail", "@google"
             };
 
-            UserCreationModel userModel = null;
+            UserCreationModel userModel = new UserCreationModel { Username = admin.Email };
 
+            userModel.Username = admin.Email;
 
             if (!socialLogins.Any(emailType => admin.Email.Contains(emailType)))
             {
                 var user = new QRecruitmentUser { UserName = admin.Email, Email = admin.Email, IsEnabled = true, CreatedDate = DateTime.UtcNow };
                 var password = AccountHelper.GenerateRandomString();
-                userModel = new UserCreationModel { Username = admin.Email, Password = password };
+                userModel.Password = password;
 
                 var result = await _userManager.CreateAsync(user, password);
 
@@ -127,9 +128,14 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 {
                     var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, Roles.Admin).Result;
                 }
-            }
 
-            await SendEmails(userModel, admin.FirstName);
+                await SendEmails(userModel, string.IsNullOrEmpty(admin.FirstName) ? admin.Email.Split('@').FirstOrDefault() : admin.FirstName);
+            }
+            else
+            {
+                await SendEmailWithoutPassword(userModel, string.IsNullOrEmpty(admin.FirstName) ? admin.Email.Split('@').FirstOrDefault() : admin.FirstName);
+            }
+            
 
             return;
 
@@ -141,10 +147,34 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             Dictionary<string, string> parameters = new Dictionary<string, string>();
             parameters.Add("Username", userModel.Username);
             parameters.Add("Password", userModel.Password);
-            parameters.Add("Candidate", firstName);
+            parameters.Add("Admin", firstName);
             foreach (var param in parameters)
             {
 
+                Content = Content.Replace("<" + param.Key + ">", param.Value);
+            }
+
+            var emailTask = _emailSender.SendEmailAsync(new EmailModel
+            {
+                To = userModel.Username,
+                From = Startup.Configuration["RecruitmentAdminEmail"],
+                DisplayName = "Quantium Recruitment",
+                Subject = "User credentials",
+                HtmlBody = Content
+            });
+
+            await Task.Run(() => emailTask);
+
+            return true;
+        }
+
+        private async Task<bool> SendEmailWithoutPassword(UserCreationModel userModel, string firstName)
+        {
+            var Content = System.Net.WebUtility.HtmlDecode(System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\SocialAdminCreationEmailTemplate.html")));
+            Dictionary<string, string> parameters = new Dictionary<string, string>();
+            parameters.Add("Admin", firstName);
+            foreach (var param in parameters)
+            {
                 Content = Content.Replace("<" + param.Key + ">", param.Value);
             }
 
