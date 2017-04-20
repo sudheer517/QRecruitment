@@ -30,7 +30,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
       </tr>
         <tr *ngFor="let row of rows" [tooltip]="row.IsFinished ? 'Click for details' : ''" [class.cursor-pointer]="row.IsFinished">
           <input type="checkbox" #rowModel="ngModel" [(ngModel)]="selectedRows[row.Id]" name="rowCheckBox" (ngModelChange)="rowCheck(row, rowModel)" style="width: 40px; margin-top: 16px"/>
-          <td (click)="cellClick(row, column.name)" *ngFor="let column of columns" [innerHtml]="sanitize(getData(row, column.name))"></td>
+          <td *ngFor="let column of columns" [innerHtml]="getData(row, column.name)" (click)="cellClick(row, column.name)"></td>
         </tr>
       </tbody>
     </table>
