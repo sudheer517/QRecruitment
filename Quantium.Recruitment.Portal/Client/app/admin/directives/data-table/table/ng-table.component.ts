@@ -5,9 +5,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   selector: 'ng2-table',
   template: `
     <table class="table dataTable table-responsive" ngClass="{{config.className || ''}}"
-           role="grid" style="">
+           style="display: table">
       <thead>
-        <tr role="row">
+        <tr>
           <th *ngIf="!hideCheckbox">*</th>
           <th *ngFor="let column of columns" [ngTableSorting]="config" [column]="column" 
               (sortChanged)="onChangeTable($event)" ngClass="{{column.className || ''}}">
@@ -50,6 +50,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
         </tr>
       </tbody>
     </table>
+
   `,
   styles: [
     `
