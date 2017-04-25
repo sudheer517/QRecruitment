@@ -203,11 +203,50 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetArchivedTestResults()
+        {
+            var allTests =
+                await _testRepository.
+                FindByIncludeAllAsync(t => t.IsArchived == true);
+
+            IList<TestResultDto> allTestResultDtos = new List<TestResultDto>();
+
+            foreach (var test in allTests)
+            {
+                var testDto = Mapper.Map<TestDto>(test);
+
+                if (test.IsFinished)
+                {
+                    FillTestDto(test, testDto);
+                }
+
+                TestResultDto testResult = new TestResultDto
+                {
+                    Id = testDto.Id,
+                    Candidate = testDto.Candidate.FirstName + " " + testDto.Candidate.LastName,
+                    Email = testDto.Candidate.Email,
+                    JobApplied = testDto.Job.Title,
+                    FinishedDate = testDto.FinishedDate,
+                    Result = testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : string.Empty,
+                    College = testDto.Candidate.College,
+                    CGPA = testDto.Candidate.CGPA,
+                    TotalRightAnswers = testDto.TotalRightAnswers,
+                    IsFinished = testDto.IsFinished
+                };
+
+                allTestResultDtos.Add(testResult);
+            }
+
+            return Ok(allTestResultDtos);
+
+        }
+
         [HttpPost]
         public IActionResult GetFinishedTestDetail([FromBody]long testId)
         {
             var finishedTest =
-                _testRepository.GetSingle(t => t.IsArchived != true && t.Id == testId);
+                _testRepository.GetSingle(t => t.Id == testId);
 
             var finishedTestDto = Mapper.Map<TestDto>(finishedTest);
             FillTestDto(finishedTest, finishedTestDto);
@@ -225,6 +264,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 Label = jdl.Label,
                 Difficulty = jdl.Difficulty,
                 PassingQuestionCount = jdl.PassingQuestionCount,
+                DisplayQuestionCount = jdl.DisplayQuestionCount,
                 AnsweredCount = 0
             }).ToList();
 
@@ -267,7 +307,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
 
             finishedTestDto.TotalRightAnswers = totalRightAnswers;
             finishedTestDto.IsTestPassed = true;
-            finishedTestDto.LabelDiffAnswers = new Dictionary<string, int>();
+            finishedTestDto.LabelDiffAnswers = new Dictionary<string, string>();
             foreach (var item in twoKeyJobDiffLabelMap)
             {
                 if (finishedTestDto.IsTestPassed && item.PassingQuestionCount > item.AnsweredCount)
@@ -275,7 +315,7 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     finishedTestDto.IsTestPassed = false;
                 }
 
-                finishedTestDto.LabelDiffAnswers.Add($"{item.Label.Name}-{item.Difficulty.Name}", item.AnsweredCount);
+                finishedTestDto.LabelDiffAnswers.Add($"{item.Label.Name}-{item.Difficulty.Name}", $"{item.AnsweredCount} out of {item.DisplayQuestionCount}");
             }
 
             return finishedTestDto;
@@ -351,6 +391,88 @@ namespace Quantium.Recruitment.ApiServices.Controllers
             }
 
             return true;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportArchivedTests()
+        {
+            var tests =
+                await _testRepository.
+                FindByIncludeAllAsync(t => t.IsArchived == true);
+
+
+            var excelPackage = new ExcelPackage();
+            ExcelWorksheet worksheet = excelPackage.Workbook.Worksheets.Add("TestResults");
+
+            int columnCount = 14;
+            IList<string> headers = new List<string>()
+            {
+                "Id",
+                "Candidate Name",
+                "Email",
+                "Title",
+                "Test Completion Date",
+                "Test Result",
+                "College",
+                "CGPA",
+                "Branch",
+                "PassingYear",
+                "Mobile",
+                "Total Questions Displayed",
+                "Total Questions Answered",
+                "Total Correct Answers",
+
+            };
+
+            if (columnCount != headers.Count)
+            {
+                throw new Exception("Header count not equal columns");
+            }
+
+            for (int column = 1; column <= columnCount; column++)
+            {
+                worksheet.SetValue(1, column, headers[column - 1]);
+            }
+
+            for (int testIndex = 0, rowIndex = 2; testIndex < tests.Count; testIndex++, rowIndex++)
+            {
+                var test = tests[testIndex];
+                var testDto = Mapper.Map<TestDto>(test);
+
+                if (testDto.IsFinished)
+                {
+                    FillTestDto(tests[testIndex], testDto);
+                }
+
+                worksheet.SetValue(rowIndex, 1, testIndex + 1);
+                worksheet.SetValue(rowIndex, 2, $"{testDto.Candidate.FirstName} {testDto.Candidate.LastName}");
+                worksheet.SetValue(rowIndex, 3, testDto.Candidate.Email);
+                worksheet.SetValue(rowIndex, 4, testDto.Job.Title);
+                if (testDto.IsFinished)
+                    worksheet.SetValue(rowIndex, 5, testDto.FinishedDate.ToLocalTime().ToString("M/d/yyyy h:mm:ss tt"));
+                else
+                    worksheet.SetValue(rowIndex, 5, "N/A");
+                worksheet.SetValue(rowIndex, 6, testDto.IsFinished ? testDto.IsTestPassed ? "Passed" : "Failed" : "Not Finished");
+                worksheet.SetValue(rowIndex, 7, testDto.Candidate.College);
+                worksheet.SetValue(rowIndex, 8, testDto.Candidate.CGPA);
+                worksheet.SetValue(rowIndex, 9, testDto.Candidate.Branch);
+                worksheet.SetValue(rowIndex, 10, testDto.Candidate.PassingYear);
+                worksheet.SetValue(rowIndex, 11, testDto.Candidate.Mobile);
+                worksheet.SetValue(rowIndex, 12, testDto.TotalChallengesDisplayed);
+                worksheet.SetValue(rowIndex, 13, testDto.TotalChallengesAnswered);
+                worksheet.SetValue(rowIndex, 14, testDto.TotalRightAnswers);
+
+            }
+
+            var bytesArray = excelPackage.GetAsByteArray();
+            var stream = excelPackage.Stream;
+
+            FileContentResult fileResult = new FileContentResult(bytesArray, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "TestResults.xlsx"
+            };
+
+            return fileResult;
         }
 
         [HttpGet]

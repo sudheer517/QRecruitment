@@ -1,0 +1,50 @@
+<div style="display: flex">
+    <div style="position:relative; flex: 1 1 auto" >
+        <ng2-table [config]="config"
+                (tableChanged)="onChangeTable(config)"
+                (cellClicked)="onCellClick($event)"
+                (rowChecked)="onRowCheck($event)"
+                [hideCheckbox] ="true"
+                [rows]="rows" [columns]="columns" id="test-results-table">
+        </ng2-table>
+        <div *ngIf="length < 1">
+            <h3 style="text-align: center; margin-bottom: 25px; margin-top: 15px;">No tests found</h3>
+        </div>
+        <div style="display: flex; justify-content: center">
+            <pagination *ngIf="config.paging"
+                        class="pagination-sm"
+                        [(ngModel)]="page"
+                        [totalItems]="length"
+                        [itemsPerPage]="itemsPerPage"
+                        [maxSize]="maxSize"
+                        [boundaryLinks]="true"
+                        [rotate]="false"
+                        (pageChanged)="onChangeTable(config, $event)"
+                        (numPages)="numPages = $event">
+            </pagination>
+        </div>
+        <div style="position: absolute; top: -50px; right: 30px">
+            <a class="small-icon-btn-2x" *ngIf="atleastOneRowSelected" (click)="archiveSelectedTests()"  tooltip="Archive" placement="left" style="margin-right: 30px"><i class="fa fa-2x fa-archive"></i></a>
+            <a class="small-icon-btn-2x" (click)="exportToExcel()"  tooltip="Export" placement="left"><i class="fa fa-2x fa-file-excel-o"></i></a>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+                <h5 class="modal-title" style="width: 100%; text-align: center">{{modalResponse}}</h5>
+        </div>
+      
+      <div class="modal-footer" style="justify-content: center">
+                <span class="fa fa-spinner fa-spin fa-2x"  *ngIf="isRequestProcessing"></span>
+                
+                <button type="button" class="close"   *ngIf="!isRequestProcessing" (click)="closeProgressModal()">
+                       <span class="fa fa-times-circle-o fa-2x"></span>
+                </button>
+        </div>
+    </div>
+  </div>
+</div>

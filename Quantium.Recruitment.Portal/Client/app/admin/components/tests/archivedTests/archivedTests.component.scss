@@ -1,0 +1,29 @@
+.table-header-cursor {
+    cursor: pointer;
+    .pull-right.fa.fa-chevron-up, .pull-right.fa.fa-chevron-down{
+        color: indianred;
+    }
+}
+
+#test-results-table{
+    
+    tr:first-child{
+        cursor: default;
+    }
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.small-icon-btn-2x{
+    padding: 3px;
+    cursor: pointer;
+    margin: 0;
+
+    i{
+        &:hover{
+            color: darkred;
+        }
+    }
+}

@@ -20,6 +20,8 @@ import { ViewCandidatesComponent } from './components/candidates/viewCandidates/
 import { TestsComponent } from './components/tests/tests.component';
 import { CreateTestComponent } from './components/tests/createTest/createTest.component';
 import { TestResultsComponent } from './components/tests/testResults/testResults.component';
+import { ArchivedTestsComponent } from './components/tests/archivedTests/archivedTests.component';
+
 
 import { TestDetailComponent } from './components/tests/testDetail/testDetail.component';
 
@@ -63,6 +65,7 @@ import { TableModule } from './directives/data-table/ng-table-module';
         CreateTestComponent,
         TestResultsComponent,
         TestDetailComponent,
+        ArchivedTestsComponent,
         FilterCandidatesPipe
     ],
     providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService, DatePipe ]
