@@ -4,8 +4,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'ng2-table',
   template: `
-    <table class="table dataTable" ngClass="{{config.className || ''}}"
-           role="grid" style="width: 100%;">
+    <table class="table dataTable table-responsive" ngClass="{{config.className || ''}}"
+           role="grid" style="">
       <thead>
         <tr role="row">
           <th *ngIf="!hideCheckbox">*</th>
@@ -25,7 +25,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
           <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}"
                  [ngTableFiltering]="column.filtering"
                  class="form-control"
-                 style="width: auto;"
+                 style="width: 100%; line-height: normal"
                  (tableChanged)="onChangeTable(config)"/>
         </td>
         <td></td>
@@ -50,7 +50,15 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
         </tr>
       </tbody>
     </table>
-  `
+  `,
+  styles: [
+    `
+    .dataTable input{
+        line-height: 20px !important;
+    }
+    `
+  ]
+
 })
 export class NgTableComponent {
   // Table values
