@@ -12,8 +12,9 @@
                                                 <small *ngIf="job.touched && (job.invalid || selectedJobId == 0)" class="form-text muted-text">Job is required</small>
                                         </div>
                                         <div class="generate-test">
-                                                <button type="submit" class="btn red" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate) || selectedJobId == 0">Generate tests for selected candidates</button>
+                                                <button type="submit" class="btn red" [disabled]="form.invalid || (!hasSelectedAtleastOneCandidate) || !selectedJobId || selectedJobId == 0">Generate tests for selected candidates</button>
                                         </div>
+                                    {{selectedJobId}}
                                 </div>
                                 
                                 
