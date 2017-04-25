@@ -65,10 +65,11 @@ modalResponse: string;
               {
                   for (let testResult of testResultsDto) {
                       //testResult.IsTestPassed = testResult.IsTestPassed ? "Passed" : "Failed";
+                      testResult.RecruiterBoxUrl = `https://thequantiumgroup.recruiterbox.com/app/#candidates/list/type:search/search:${testResult.Candidate}/`;
                       if(testResult.IsFinished){
                         testResult.FinishedDate = this.datePipe.transform(testResult.FinishedDate, 'medium');
                       }
-                      else{
+                      else {
                           testResult.College = '';
                           testResult.FinishedDate = "";
                       }

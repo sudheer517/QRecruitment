@@ -301,7 +301,7 @@
     }
 
     export class LabelDiffAnswers {
-        [key: string]: number;
+        [key: string]: string;
     }
 
     export class TestDto { 
@@ -387,6 +387,7 @@
         public CGPA: number;
         public TotalRightAnswers: number;
         public IsFinished: boolean;
+        public RecruiterBoxUrl: string;
     }
 
    

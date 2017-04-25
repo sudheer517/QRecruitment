@@ -8,18 +8,19 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
            role="grid" style="width: 100%;">
       <thead>
         <tr role="row">
-          <th>*</th>
+          <th *ngIf="!hideCheckbox">*</th>
           <th *ngFor="let column of columns" [ngTableSorting]="config" [column]="column" 
               (sortChanged)="onChangeTable($event)" ngClass="{{column.className || ''}}">
             {{column.title}}
             <i *ngIf="config && column.sort" class="pull-right fa"
               [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
           </th>
+          <th style="text-align:center"><div tooltip="Recruiterbox" placement="left" ><a href="https://thequantiumgroup.recruiterbox.com/app/#candidates/overview"><i class="fa fa-lg fa-info-circle" ></i></a></div></th>
         </tr>
       </thead>
       <tbody>
       <tr *ngIf="showFilterRow">
-        <td></td>
+        <td *ngIf="!hideCheckbox"></td>
         <td *ngFor="let column of columns">
           <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}"
                  [ngTableFiltering]="column.filtering"
@@ -27,10 +28,25 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
                  style="width: auto;"
                  (tableChanged)="onChangeTable(config)"/>
         </td>
+        <td></td>
       </tr>
-        <tr *ngFor="let row of rows" [tooltip]="row.IsFinished ? 'Click for details' : ''" [class.cursor-pointer]="row.IsFinished">
-          <input type="checkbox" #rowModel="ngModel" [(ngModel)]="selectedRows[row.Id]" name="rowCheckBox" (ngModelChange)="rowCheck(row, rowModel)" style="width: 40px; margin-top: 16px"/>
-          <td *ngFor="let column of columns" [innerHtml]="getData(row, column.name)" (click)="cellClick(row, column.name)"></td>
+        <tr *ngFor="let row of rows" style="line-height: 45px">
+          <td *ngIf="!hideCheckbox" style="padding: 0; height: 100%">
+            <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center">
+                <input type="checkbox" #rowModel="ngModel" [(ngModel)]="selectedRows[row.Id]" name="rowCheckBox" (ngModelChange)="rowCheck(row, rowModel)" style="width: 20px;"/>
+            </div>
+          </td>
+          
+          <td style="padding: 0; height: 100%" *ngFor="let column of columns" (click)="cellClick(row, column.name)">
+                <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center" [tooltip]="row.IsFinished ? 'Click for details' : ''" [class.cursor-pointer]="row.IsFinished">
+                    {{getData(row, column.name)}}
+                </div>
+          </td>
+          <td style="padding: 0; height: 100%">
+            <div  style="height: 100%; width: 100%;display: flex; justify-content: center"> 
+                <a tooltip="Candidate" placement="left" [href]="row.RecruiterBoxUrl" target="_blank"  style="color:black;margin:auto"><i class="fa fa-lg fa-user-circle"></i></a>
+            </div>            
+        </td>
         </tr>
       </tbody>
     </table>
@@ -38,7 +54,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 })
 export class NgTableComponent {
   // Table values
-  @Input() public rows:Array<any> = [];
+    @Input() public rows: Array<any> = [];
+    @Input() public hideCheckbox = false;
 
   @Input()
   public set config(conf:any) {

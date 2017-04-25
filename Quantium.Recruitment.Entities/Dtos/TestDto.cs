@@ -33,6 +33,6 @@ namespace Quantium.Recruitment.Models
 
         public DateTime CreatedUtc { get; set; }
 
-        public Dictionary<string, int> LabelDiffAnswers { get; set; }
+        public Dictionary<string, string> LabelDiffAnswers { get; set; }
     }
 }

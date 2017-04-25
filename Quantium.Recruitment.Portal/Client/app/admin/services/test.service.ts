@@ -31,6 +31,13 @@ export class TestService{
             });
     }
 
+    public GetArchivedTestResults(): Observable<TestResultDto[]> {
+        return this.http.get(`${this.testApiUrl}GetArchivedTestResults`).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
+
     public GetFinishedTestDetail(testId: number): Observable<TestDto> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers });
@@ -53,6 +60,10 @@ export class TestService{
 
     public GetExcelFileForAllActiveTests(): Observable<any> {
             return this.http.get(`${this.testApiUrl}ExportAllTests`, { responseType: ResponseContentType.Blob }).map(response => response.blob());
+    }
+
+    public GetExcelFileForArchivedTests(): Observable<any> {
+        return this.http.get(`${this.testApiUrl}ExportArchivedTests`, { responseType: ResponseContentType.Blob }).map(response => response.blob());
     }
 
     public GetExcelFileForFinishedTestsByJob(jobId: number): Observable<any> {
