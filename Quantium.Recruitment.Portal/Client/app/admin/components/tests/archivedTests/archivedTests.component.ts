@@ -65,7 +65,17 @@ modalResponse: string;
               {
                   for (let testResult of testResultsDto) {
                       //testResult.IsTestPassed = testResult.IsTestPassed ? "Passed" : "Failed";
-                      testResult.RecruiterBoxUrl = `https://thequantiumgroup.recruiterbox.com/app/#candidates/list/type:search/search:${testResult.Candidate}/`;
+                      let candidateFirstName = "";
+
+                      if (testResult.Candidate.trim()) {
+                          let splitNames = testResult.Candidate.split(" ");
+
+                          if (splitNames.length > 0) {
+                              candidateFirstName = splitNames[0];
+                          }
+                      }
+
+                      testResult.RecruiterBoxUrl = `https://thequantiumgroup.recruiterbox.com/app/#candidates/list/type:search/search:${candidateFirstName}/`;
                       if(testResult.IsFinished){
                         testResult.FinishedDate = this.datePipe.transform(testResult.FinishedDate, 'medium');
                       }
