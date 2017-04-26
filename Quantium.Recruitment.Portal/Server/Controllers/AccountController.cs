@@ -157,7 +157,6 @@ namespace AspNetCoreSpa.Server.Controllers.api
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
