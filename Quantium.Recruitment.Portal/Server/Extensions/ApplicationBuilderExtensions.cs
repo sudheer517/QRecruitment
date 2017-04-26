@@ -25,9 +25,9 @@ namespace AspNetCoreSpa.Server.Extensions
         public static IApplicationBuilder UseCustomSwaggerApi(this IApplicationBuilder app)
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint
-            app.UseSwagger();
+            //app.UseSwagger();
             // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
-            app.UseSwaggerUi();
+            //app.UseSwaggerUi();
 
             return app;
         }

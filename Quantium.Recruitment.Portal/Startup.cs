@@ -71,7 +71,7 @@ namespace AspNetCoreSpa
             // Node services are to execute any arbitrary nodejs code from .net
             services.AddNodeServices();
 
-            services.AddSwaggerGen();
+            //services.AddSwaggerGen();
         }
         public void Configure(IApplicationBuilder app)
         {
