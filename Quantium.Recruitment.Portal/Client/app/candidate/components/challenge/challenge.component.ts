@@ -61,14 +61,16 @@ export class ChallengeComponent implements OnInit{
     }
 
     reduceTimerBy1Second(){
-        this.ticks = this.ticks - 1;
-        if(this.ticks === 0){
+        if(this.ticks <= 0){
             this.sub.unsubscribe();
             this.isTimeUp = true;
             this.timeUpModal.show();
             this.endDateTime = new Date().toUTCString();
             this.postChallenge(false);
         }
+
+        this.ticks = this.ticks - 1;
+
     }
 
     private getNextChallenge(): void {
@@ -123,7 +125,7 @@ export class ChallengeComponent implements OnInit{
     }
 
     private postChallenge(shouldGetNextQuestion: boolean = true): void {
-        
+        this.sub.unsubscribe();
         this.currentChallenge.StartTime = this.startDateTime;
         this.currentChallenge.AnsweredTime = this.endDateTime;
         let challengeDto = this.currentChallenge;
