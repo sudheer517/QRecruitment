@@ -39,20 +39,15 @@ export class ChallengeComponent implements OnInit{
 
     challengesAnswered: Boolean[];
     currentChallengeNumber: number;
+    remainingChallenges: number;
 
     question: QuestionDto;
-    remainingChallenges : number;
-
     selectedCheckboxOptions: boolean[]; 
     selectedRadioOption: number;
-
-    timeInSeconds: number;
 
     private currentChallenge: ChallengeDto;
     private endDateTime: string;
     private startDateTime: string;
-    private currentTestId: number;
-
     
     ticks = 0;
     private timer;
@@ -65,7 +60,7 @@ export class ChallengeComponent implements OnInit{
         this.timer = Observable.timer(1000,1000);
     }
 
-    tickerFunc(tick){
+    reduceTimerBy1Second(){
         this.ticks = this.ticks - 1;
         if(this.ticks === 0){
             this.sub.unsubscribe();
@@ -76,42 +71,33 @@ export class ChallengeComponent implements OnInit{
         }
     }
 
-    toggleNavButton(){
-        this.setDisplayNoneForSideNav = false;
-        this.isNavbarCollapsed = !this.isNavbarCollapsed;
-        this.visibility = (this.visibility === "hidden" ? "shown" : "hidden");
-    }
-
     private getNextChallenge(): void {
             this.challengeService.GetNextChallenge().subscribe(
                 challenge => {
                     let isFinished: any = challenge;
-                    if(isFinished === "Finished"){
-                        this.router.navigate(["../feedback"], { relativeTo: this.activatedRoute});
+
+                    if (isFinished === "Finished") {
+                        this.gotoFeedback();
                     }
                     else{
-                        this.isTimeUp = false;
-                        this.ticks = challenge.Question.TimeInSeconds;
-                       
-                        this.sub = this.timer.subscribe(t => this.tickerFunc(t));
                         this.selectedCheckboxOptions = new Array<boolean>(challenge.Question.Options.length);
                         this.selectedRadioOption = null;
 
-                        this.currentTestId = challenge.TestId;
-                        this.startDateTime = new Date().toUTCString();
                         this.currentChallenge = challenge;
-
                         this.question = challenge.Question;
-
                         this.currentChallengeNumber = challenge.currentChallenge;
                         this.remainingChallenges = challenge.RemainingChallenges;
-                        //console.log("remainining:"+ this.remainingChallenges);
                         this.challengesAnswered = challenge.ChallengesAnswered;
+
+                        this.startDateTime = new Date().toUTCString();
                         this.totalTestTime = challenge.TotalTestTimeInMinutes;
                         this.remainingTestTime = challenge.RemainingTestTimeInMinutes;
-                        
-                        
+
+                        this.isTimeUp = false;
+                        this.ticks = challenge.Question.TimeInSeconds;
+                        this.sub = this.timer.subscribe(t => this.reduceTimerBy1Second());
                     }
+
                     this.progressModal.hide();
                 }, 
                 error => {
@@ -137,14 +123,13 @@ export class ChallengeComponent implements OnInit{
     }
 
     private postChallenge(shouldGetNextQuestion: boolean = true): void {
-
+        
         this.currentChallenge.StartTime = this.startDateTime;
         this.currentChallenge.AnsweredTime = this.endDateTime;
         let challengeDto = this.currentChallenge;
         let candidateSelectedOptionDtoItems: CandidateSelectedOptionDto[] = [];
 
         challengeDto.QuestionId = challengeDto.Question.Id;
-
 
         let isRadio = this.question.IsRadio;
         if(isRadio && this.selectedRadioOption){
@@ -169,34 +154,35 @@ export class ChallengeComponent implements OnInit{
         
         this.challengeService.PostChallenge(challengeDto).subscribe(
             result => {
-                //console.log("answer posted");
                 if (shouldGetNextQuestion) {
                     this.getNextChallenge();
                 }
-            }, reason => {
+            },
+            reason => {
                 console.log("answer posting failed");
             });
+    }
+
+    private finishAllChallenges(): void {
+        this.endDateTime = new Date().toUTCString();
+        this.postChallenge(false);
+        this.sub.unsubscribe();
+        this.challengeService.FinishAllChallenges(this.currentChallenge.TestId).subscribe(
+            response => {
+                this.gotoFeedback();
+            },
+            error => {
+                console.log(error);
+            });;
     }
 
     public gotoFeedback() {
         this.router.navigate(["../feedback"], { relativeTo: this.activatedRoute });
     }
 
-    private finishAllChallenges(): void {
-        //this.$timeout.cancel(this.myTimer);
-        //this.endDateTime = moment().utc().format("YYYY-MM-DD hh:mm:ss.SSS");
-        this.endDateTime = new Date().toUTCString();
-        this.postChallenge(false);
-        this.sub.unsubscribe();
-        //console.log(this.currentTestId);
-        this.challengeService.FinishAllChallenges(this.currentTestId).subscribe(
-            response => {
-                console.log("test finished");
-                //this.showToast("Test finished");
-                this.router.navigate(["../feedback"], { relativeTo: this.activatedRoute});
-            },
-            error => {
-                console.log(error);
-            });;
+    public toggleNavButton() {
+        this.setDisplayNoneForSideNav = false;
+        this.isNavbarCollapsed = !this.isNavbarCollapsed;
+        this.visibility = (this.visibility === "hidden" ? "shown" : "hidden");
     }
 }
