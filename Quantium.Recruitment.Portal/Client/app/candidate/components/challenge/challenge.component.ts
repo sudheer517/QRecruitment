@@ -61,15 +61,16 @@ export class ChallengeComponent implements OnInit{
     }
 
     reduceTimerBy1Second(){
-        if(this.ticks <= 0){
+        if (this.ticks <= 0) {
             this.sub.unsubscribe();
             this.isTimeUp = true;
             this.timeUpModal.show();
             this.endDateTime = new Date().toUTCString();
             this.postChallenge(false);
         }
-
-        this.ticks = this.ticks - 1;
+        else {
+            this.ticks = this.ticks - 1;
+        }
 
     }
 
