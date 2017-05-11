@@ -40,6 +40,9 @@ import { DifficultyService } from './services/difficulty.service';
 import { TestService } from './services/test.service';
 import { DatePipe } from '@angular/common';
 import { TableModule } from './directives/data-table/ng-table-module';
+import { SurveyComponent } from './components/survey/survey.component';
+import { AddSurveyQuestionsComponent } from './components/survey/add-survey-questions/add-survey-questions.component';
+import { ViewSurveyQuestionsComponent } from './components/survey/view-survey-questions/view-survey-questions.component';
 
 @NgModule({
     imports: [
@@ -66,7 +69,10 @@ import { TableModule } from './directives/data-table/ng-table-module';
         TestResultsComponent,
         TestDetailComponent,
         ArchivedTestsComponent,
-        FilterCandidatesPipe
+        FilterCandidatesPipe,
+        SurveyComponent,
+        AddSurveyQuestionsComponent,
+        ViewSurveyQuestionsComponent
     ],
     providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService, DatePipe ]
 })

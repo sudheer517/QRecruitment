@@ -8,6 +8,10 @@ import { QuestionsComponent } from './components/questions/questions.component';
 import { UploadQuestionsComponent } from './components/questions/uploadQuestions/uploadQuestions.component';
 import { ViewQuestionsComponent } from './components/questions/viewQuestions/viewQuestions.component';
 
+import { SurveyComponent } from './components/survey/survey.component';
+import { AddSurveyQuestionsComponent } from './components/survey/add-survey-questions/add-survey-questions.component';
+import { ViewSurveyQuestionsComponent } from './components/survey/view-survey-questions/view-survey-questions.component';
+
 import { JobsComponent } from './components/jobs/jobs.component';
 import { CreateJobComponent } from './components/jobs/createJob/createJob.component';
 import { ViewJobsComponent } from './components/jobs/viewJobs/viewJobs.component';
@@ -38,6 +42,15 @@ const routes: Routes = [
           { path: 'uploadQuestions', component:  UploadQuestionsComponent },
           { path: 'viewQuestions', component:  ViewQuestionsComponent }
         ] 
+      },
+      {
+          path: 'survey',
+          component: SurveyComponent,
+          children: [
+              { path: '', component: AddSurveyQuestionsComponent },
+              { path: 'addSurveyQuestions', component: AddSurveyQuestionsComponent },
+              { path: 'viewSurveyQuestions', component: ViewSurveyQuestionsComponent }
+          ]
       },
       { 
         path: 'jobs', 
