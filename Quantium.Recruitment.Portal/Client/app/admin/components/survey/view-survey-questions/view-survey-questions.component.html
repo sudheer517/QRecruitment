@@ -1,3 +1,17 @@
-<p>
-  view-survey-questions works!
-</p>
+<div class="text-primary">     
+    <div *ngFor="let question of questions; let index=index">
+        <div class="question-attributes d-flex">            
+            <span tooltip="Delete question">
+                <button type="button" class="btn small-icon-btn red" (click)="deleteQuestion(question.Id)"><i class="fa fa-lg fa-trash"></i></button>
+            </span>
+        </div>
+
+        <p>
+            {{index+1}}. <span [innerHTML]="question.Text"></span>
+        </p>
+       
+    </div>
+
+</div>
+
+

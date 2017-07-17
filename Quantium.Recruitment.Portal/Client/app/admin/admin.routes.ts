@@ -28,6 +28,10 @@ import { ArchivedTestsComponent } from './components/tests/archivedTests/archive
 
 import { TestDetailComponent } from './components/tests/testDetail/testDetail.component';
 
+import { SurveyQuestionsComponent } from './components/survey/survey-questions/survey-questions.component';
+import { SurveyResponsesComponent } from './components/survey/survey-responses/survey-responses.component';
+
+
 const routes: Routes = [
   {
     path: '', component: AdminComponent, children: [
@@ -47,9 +51,18 @@ const routes: Routes = [
           path: 'survey',
           component: SurveyComponent,
           children: [
-              { path: '', component: AddSurveyQuestionsComponent },
-              { path: 'addSurveyQuestions', component: AddSurveyQuestionsComponent },
-              { path: 'viewSurveyQuestions', component: ViewSurveyQuestionsComponent }
+              { path: '', component: SurveyQuestionsComponent },
+              {
+                  path: 'surveyQuestions', component: SurveyQuestionsComponent, children: [
+                      { path: '', component: AddSurveyQuestionsComponent },
+                      { path: 'addSurveyQuestions', component: AddSurveyQuestionsComponent },
+                      { path: 'viewSurveyQuestions', component: ViewSurveyQuestionsComponent }]
+              },
+              {
+                  path: 'surveyResponses', component: SurveyResponsesComponent
+              }
+              
+              
           ]
       },
       { 

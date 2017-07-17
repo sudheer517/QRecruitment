@@ -1,0 +1,94 @@
+<div class="text-primary">
+    <div style="display: flex; height: 100%">
+        <div style="position:relative; flex: 1 1 auto">
+            <ng2-table [config]="config"
+                       (tableChanged)="onChangeTable(config)"
+                       (cellClicked)="onCellClick($event)"
+                       (rowChecked)="onRowCheck($event)"
+                       (viewResponseClicked)="onviewResponseClicked($event)"
+                       [hideCheckbox]="hideCheckbox"
+                       [surveyGrid]="surveyGrid"
+                       [rows]="rows" [columns]="columns" id="test-results-table">
+            </ng2-table>           
+            <div *ngIf="length < 1">
+                <h3 style="text-align: center; margin-bottom: 25px; margin-top: 15px;">No tests found</h3>
+            </div>
+
+            <div style="display: flex; justify-content: center">
+                <pagination *ngIf="config.paging"
+                            class="pagination-sm"
+                            [(ngModel)]="page"
+                            [totalItems]="length"
+                            [itemsPerPage]="itemsPerPage"
+                            [maxSize]="maxSize"
+                            [boundaryLinks]="true"
+                            [rotate]="false"
+                            (pageChanged)="onChangeTable(config, $event)"
+                            (numPages)="numPages = $event">
+                </pagination>
+            </div>           
+        </div>
+    </div>
+</div>
+<div bsModal #progress="bs-modal" class="modal fade" tabindex="-1" role="dialog" [config]="{backdrop: 'static', ignoreBackdropClick: true, keyboard: false}">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="width: 100%; text-align: center">{{modalResponse}}</h5>
+            </div>
+
+            <div class="modal-footer" style="justify-content: center">
+                <span class="fa fa-spinner fa-spin fa-2x" *ngIf="isRequestProcessing"></span>
+
+                <button type="button" class="close" *ngIf="!isRequestProcessing" (click)="closeProgressModal()">
+                    <span class="fa fa-times-circle-o fa-2x"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div bsModal #responsesPreview="bs-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg large-modal-window">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="d-flex" style="flex: 1 1 auto; justify-content:flex-start">
+                    <h4 *ngIf="responses" class="modal-title">Candidate Name: {{responses[0].Candidate.FirstName}} </h4>
+                </div>
+                <div class="d-flex" style="flex: 1 1 auto; justify-content: center">
+                    <h4 class="modal-title">Candidate Responses</h4>
+                </div>
+                <button type="button" class="close" aria-label="Close" (click)="responsesPreview.hide()">
+                    <span><i class="fa fa-times-circle-o fa-2x"></i></span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div *ngFor="let response of responses;let index=index" >
+
+                    <p>
+                        {{index+1}}
+                        .<span [innerHTML]="response.SurveyQuestion.Text"></span>
+                    </p>
+                    <p>
+                        <span>A) </span>
+                        <span [innerHTML]="response.Response"></span>                      
+                    </p> 
+                    
+                        <div *ngFor="let comment of comments">
+                            <div *ngIf="comment.Id == response.Id">
+                                <small [innerHTML]="comment.Comments"></small>
+                                <div *ngIf="!comment.Comments">
+                                    <input placeholder="enter your comments" class="fa-comment" />
+                                </div>
+                            </div>
+                         </div>
+                    <button type="button"  aria-label="add comment" (click)="addComments(response,$event.target)" name="commentButton">add comment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

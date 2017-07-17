@@ -51,9 +51,7 @@ namespace Quantium.Recruitment.Entities
         [ForeignKey("AdminId")]
         public virtual Admin Admin { get; set; }
 
-        public virtual ICollection<Candidate_Job> CandidateJobs { get; set; }
-
-        public virtual ICollection<Survey> Surveys { get; set; }
+        public virtual ICollection<Candidate_Job> CandidateJobs { get; set; } 
 
         public virtual ICollection<Test> Tests { get; set; }
     }

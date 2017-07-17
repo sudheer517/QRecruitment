@@ -43,6 +43,9 @@ import { TableModule } from './directives/data-table/ng-table-module';
 import { SurveyComponent } from './components/survey/survey.component';
 import { AddSurveyQuestionsComponent } from './components/survey/add-survey-questions/add-survey-questions.component';
 import { ViewSurveyQuestionsComponent } from './components/survey/view-survey-questions/view-survey-questions.component';
+import { SurveyService } from './services/survey.service';
+import { SurveyQuestionsComponent } from './components/survey/survey-questions/survey-questions.component';
+import { SurveyResponsesComponent } from './components/survey/survey-responses/survey-responses.component';
 
 @NgModule({
     imports: [
@@ -72,8 +75,10 @@ import { ViewSurveyQuestionsComponent } from './components/survey/view-survey-qu
         FilterCandidatesPipe,
         SurveyComponent,
         AddSurveyQuestionsComponent,
-        ViewSurveyQuestionsComponent
+        ViewSurveyQuestionsComponent,
+        SurveyQuestionsComponent,
+        SurveyResponsesComponent        
     ],
-    providers: [ AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService, DatePipe ]
+    providers: [AdminService, DepartmentService, QuestionService, CandidateService, JobService, LabelService, DifficultyService, TestService, DatePipe, SurveyService ]
 })
 export class AdminModule { }

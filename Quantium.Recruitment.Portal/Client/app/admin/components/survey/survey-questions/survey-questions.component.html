@@ -1,0 +1,19 @@
+<div class="router-outlet-container">   
+    <div>
+        <div>
+            <nav>
+                <ul class="navbar-nav mr-auto flex-row">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [routerLink]="['addSurveyQuestions']">Upload</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['viewSurveyQuestions']">View</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="admin-outlet">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

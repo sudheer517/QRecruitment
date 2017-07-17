@@ -85,7 +85,7 @@ namespace AspNetCoreSpa.Server
             {
                 FirstName = "Rakesh",
                 LastName = "Rohan",
-                Email = "rakeshrohan.aitipamula@quantium.com",
+                Email = "rakeshrohan@outlook.com",
                 IsActive = true,
                 Mobile = 9052791243,
                 Department = softwareDepartment,

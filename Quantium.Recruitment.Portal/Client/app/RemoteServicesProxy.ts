@@ -358,22 +358,12 @@
     export class SurveyQuestionDto {
         public Id: number;
         public Text: string;
-    }
-
-    export class SurveyChallengeDto{
-        public Id: number;
-        public ChallengeId: number;
-        public SurveyQuestionId: number;
-        public SurveyQuestion: SurveyQuestionDto;
-        public CandidateAnswer: string;
-        public TotalTestTimeInMinutes: string;
-    }
-
-    export class SurveyDto{
-        public Id: number;
-        public Name: string;
-        public SurveyChallenges: SurveyChallengeDto[];
-        public Candidate: CandidateDto;
+        constructor();
+        constructor(Id?: number, Text?: string);
+        constructor(Id?: number, Text?: string) {
+            this.Id = Id;
+            this.Text = Text;
+        }
     }
 
     export class TestResultDto {
@@ -388,6 +378,28 @@
         public TotalRightAnswers: number;
         public IsFinished: boolean;
         public RecruiterBoxUrl: string;
+    }
+
+    export class SurveyResponseDto {
+        public Id: number;
+        public CandidateId: number;
+        public QuestionId: number;        
+        public Response: string;
+        public Candidate: CandidateDto;
+        public SurveyQuestion: SurveyQuestionDto;
+    }
+
+    export class SurveyAdminCommentsDto {
+        public Id: number;
+        public AdminId: number;
+        public DateTime: Date;
+        public Comments: string;
+        public Admin: AdminDto;
+        public SurveyResponse: SurveyResponseDto;
+        constructor(Id?: number, Comments?: string) {
+            this.Id = Id;
+            this.Comments = Comments;
+        }
     }
 
    

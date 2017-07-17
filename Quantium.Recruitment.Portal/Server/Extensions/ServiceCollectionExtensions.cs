@@ -123,6 +123,8 @@ namespace AspNetCoreSpa.Server.Extensions
             services.AddTransient<IEntityBaseRepository<Option>, OptionRepository>();
             services.AddTransient<IEntityBaseRepository<Feedback>, FeedbackRepository>();
             services.AddTransient<IEntityBaseRepository<FeedbackType>, FeedbackTypeRepository>();
+            services.AddTransient<IEntityBaseRepository<SurveyQuestion>, SurveyQuestionRepository>();
+            services.AddTransient<IEntityBaseRepository<SurveyResponse>, SurveyResponseRepository>();
 
             services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddTransient<IAccountHelper, AccountHelper>();

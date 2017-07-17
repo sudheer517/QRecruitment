@@ -37,6 +37,8 @@ namespace Quantium.Recruitment.Portal
             cfg.CreateMap<CandidateSelectedOption, CandidateSelectedOptionDto>().ReverseMap();
             cfg.CreateMap<Feedback, FeedbackDto>().ReverseMap();
             cfg.CreateMap<FeedbackType, FeedbackTypeDto>().ReverseMap();
+            cfg.CreateMap<SurveyQuestion, SurveyQuestionDto>().ReverseMap();
+            cfg.CreateMap<SurveyResponse, SurveyResponseDto>().ReverseMap();
 
             //cfg.CreateMap<Admin, AdminDto>();
             //cfg.CreateMap<AdminDto, Admin>();

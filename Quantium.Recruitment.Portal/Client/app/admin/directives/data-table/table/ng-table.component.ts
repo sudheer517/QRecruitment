@@ -15,7 +15,13 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
             <i *ngIf="config && column.sort" class="pull-right fa"
               [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
           </th>
-          <th style="text-align:center"><div tooltip="Recruiterbox" placement="left" ><a href="https://thequantiumgroup.recruiterbox.com/app/#candidates/overview"><i class="fa fa-lg fa-info-circle" ></i></a></div></th>
+          <th *ngIf="!surveyGrid ; else viewResponsesHeader" style="text-align:center">
+        <div tooltip="Recruiterbox" placement="left" ><a href="https://thequantiumgroup.recruiterbox.com/app/#candidates/overview"><i class="fa fa-lg fa-info-circle" ></i></a>
+        </div>
+        </th>
+        <template #viewResponsesHeader>
+         <th ngClass="table-header-cursor" >View Responses</th>
+        </template>
         </tr>
       </thead>
       <tbody>
@@ -28,7 +34,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
                  style="width: 100%; line-height: normal"
                  (tableChanged)="onChangeTable(config)"/>
         </td>
-        <td></td>
+        <td ></td>
       </tr>
         <tr *ngFor="let row of rows" style="line-height: 45px">
           <td *ngIf="!hideCheckbox" style="padding: 0; height: 100%">
@@ -42,11 +48,20 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
                     {{getData(row, column.name)}}
                 </div>
           </td>
-          <td style="padding: 0; height: 100%">
+          <td *ngIf="!surveyGrid ; else viewResponses" style="padding: 0; height: 100%">
             <div  style="height: 100%; width: 100%;display: flex; justify-content: center"> 
                 <a tooltip="Candidate" placement="left" [href]="row.RecruiterBoxUrl" target="_blank"  style="color:black;margin:auto"><i class="fa fa-lg fa-user-circle"></i></a>
             </div>            
         </td>
+         <template #viewResponses>
+        <td style="padding: 0; height: 100%">
+            <div  style="height: 100%; width: 100%;display: flex; justify-content: center"> 
+            <button type="button" class="btn btn-primary dark-red" data-toggle="button" autocomplete="off" (click)="viewResponsesClick(row)" >
+                                View Responses
+                        </button>
+            </div>    
+        </td>
+        </template>
         </tr>
       </tbody>
     </table>
@@ -65,6 +80,7 @@ export class NgTableComponent {
   // Table values
     @Input() public rows: Array<any> = [];
     @Input() public hideCheckbox = false;
+    @Input() public surveyGrid = false;
 
   @Input()
   public set config(conf:any) {
@@ -81,7 +97,8 @@ export class NgTableComponent {
   // Outputs (Events)
   @Output() public tableChanged:EventEmitter<any> = new EventEmitter();
   @Output() public cellClicked:EventEmitter<any> = new EventEmitter();
-  @Output() public rowChecked:EventEmitter<any> = new EventEmitter();
+  @Output() public rowChecked: EventEmitter<any> = new EventEmitter();
+  @Output() public viewResponseClicked: EventEmitter<any> = new EventEmitter();
 
   public showFilterRow:Boolean = false;
 
@@ -154,6 +171,9 @@ export class NgTableComponent {
   public rowCheck(row:any, rowModel: any):void {
     let selectedRows = this.selectedRows;
     this.rowChecked.emit({row, rowModel, selectedRows});
+  }
+  public viewResponsesClick(row: number): void {
+      this.viewResponseClicked.emit(row);
   }
 }
 

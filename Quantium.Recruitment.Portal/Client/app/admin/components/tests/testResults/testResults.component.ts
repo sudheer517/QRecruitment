@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TestService } from '../../../services/test.service';
+import { SurveyService } from '../../../services/survey.service';
 import { TestResultDto } from '../../../../RemoteServicesProxy';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/modal';
@@ -39,6 +40,7 @@ modalResponse: string;
   testResults: TestResultDto[];
   
   atleastOneRowSelected = false;
+  atleastOneTestFinished = false;
   selectedRows: any;
 
   public config:any = {
@@ -50,7 +52,7 @@ modalResponse: string;
 
   private data:Array<any>;
 
-  public constructor(private testService: TestService, private datePipe: DatePipe, private router: Router, private activatedRoute: ActivatedRoute) {
+  public constructor(private testService: TestService, private surveyService: SurveyService, private datePipe: DatePipe, private router: Router, private activatedRoute: ActivatedRoute) {
   }
 
   public ngOnInit(): void {
@@ -76,8 +78,9 @@ modalResponse: string;
                       }
 
                       testResult.RecruiterBoxUrl = `https://thequantiumgroup.recruiterbox.com/app/#candidates/list/type:search/search:${candidateFirstName}/`;
-                      if(testResult.IsFinished){
-                        testResult.FinishedDate = this.datePipe.transform(testResult.FinishedDate, 'medium');
+                      if (testResult.IsFinished) {                          
+                          testResult.FinishedDate = this.datePipe.transform(testResult.FinishedDate, 'medium');
+                          this.atleastOneTestFinished = true;
                       }
                       else {
                           testResult.College = '';
@@ -279,6 +282,26 @@ modalResponse: string;
           },
           error => console.log(error)
       )
+  }
+
+  sendSurveys(){
+      let selectedTestIds = [];
+
+      Object.keys(this.selectedRows).forEach((key, index) => {
+          if (this.selectedRows[key] === true) {
+              selectedTestIds.push(key);
+          }
+      });
+      this.isRequestProcessing = true;
+      this.modalResponse = "Sending Surveys";
+      this.progressModal.show();
+      this.surveyService.CreateSurvey(selectedTestIds).subscribe(
+          result => {
+              this.modalResponse = "Refreshing tests";
+              this.getAllTests(true);
+          },
+          error => console.log(error)
+      );
   }
 
 }

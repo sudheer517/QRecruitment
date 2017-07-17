@@ -28,8 +28,6 @@ namespace Quantium.Recruitment.Entities
 
         public virtual ICollection<Test> Tests { get; set; }
 
-        public virtual ICollection<Survey> Surveys { get; set; }
-
         public virtual DateTime? CreatedUtc { get; set; }
 
         public virtual bool? IsActive { get; set; }

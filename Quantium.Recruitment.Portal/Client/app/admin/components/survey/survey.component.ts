@@ -22,5 +22,4 @@ export class SurveyComponent implements OnInit {
         body.className.split(' ').forEach(item => item.trim().length > 0 && body.classList.remove(item));
         body.classList.add("questions-tests-background");
     }
-
 }

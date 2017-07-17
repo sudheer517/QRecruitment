@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Quantium.Recruitment.Entities;
 using Quantium.Recruitment.Portal.Server.Entities;
 using System.Linq;
+using Quantium.Recruitment.Models;
 
 namespace AspNetCoreSpa.Server
 {
@@ -41,16 +42,15 @@ namespace AspNetCoreSpa.Server
         public DbSet<CandidateSelectedOption> CandidateSelectedOptions { get; set; }
 
         public DbSet<Job_Difficulty_Label> JobDifficultyLabels { get; set; }
-
-        public DbSet<Survey> Surveys { get; set; }
-
-        public DbSet<SurveyChallenge> SurveyChallenges { get; set; }
+   
 
         public DbSet<SurveyQuestion> SurveyQuestions { get; set; }
 
         public DbSet<FeedbackType> FeedbackTypes { get; set; }
 
         public DbSet<Feedback> Feedbacks { get; set; }
+
+        public DbSet<SurveyResponse> SurveyResponses { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
