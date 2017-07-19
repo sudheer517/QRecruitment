@@ -76,14 +76,22 @@
                     </p> 
                     
                         <div *ngFor="let comment of comments">
-                            <div *ngIf="comment.Id == response.Id">
-                                <small [innerHTML]="comment.Comments"></small>
-                                <div *ngIf="!comment.Comments">
-                                    <input placeholder="enter your comments" class="fa-comment" />
+                            <div *ngIf="comment.ResponseId == response.Id">
+                                <div *ngIf="!comment.AdminId == 0">
+                                    <small [innerHTML]="comment.Comments"></small> --
+                                    <small style="color:blue" [innerHTML]="comment.Admin.FirstName"></small>
+                                    <small style="color:lightgrey" [innerHTML]="comment.DateTime | date : 'medium'"></small>
+                                </div>
+                                <div *ngIf="comment.AdminId == 0">
+                                    <input placeholder="enter your comments" class="fa-comment" [(ngModel)]="comment.Comments" />
                                 </div>
                             </div>
                          </div>
-                    <button type="button"  aria-label="add comment" (click)="addComments(response,$event.target)" name="commentButton">add comment</button>
+                    <button *ngIf="!commentEditable(response)" type="button"  aria-label="add comment" (click)="addComment(response,$event.target)" name="commentButton">add comment</button>
+                    <div *ngIf="commentEditable(response)">
+                        <button type="button" aria-label="save comment" (click)="saveComment(response)" name="commentButton">save</button>
+                        <button type="button" aria-label="delete comment" (click)="cancelComment(response,$event.target)" name="commentButton">cancel</button>
+                    </div>
                 </div>
             </div>
         </div>

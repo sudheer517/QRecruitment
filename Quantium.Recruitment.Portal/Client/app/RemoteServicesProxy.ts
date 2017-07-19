@@ -391,14 +391,15 @@
 
     export class SurveyAdminCommentsDto {
         public Id: number;
+        public ResponseId: number;
         public AdminId: number;
         public DateTime: Date;
         public Comments: string;
-        public Admin: AdminDto;
-        public SurveyResponse: SurveyResponseDto;
-        constructor(Id?: number, Comments?: string) {
-            this.Id = Id;
+        public Admin: AdminDto;       
+        constructor(ResponseId?: number, Comments?: string) {
+            this.ResponseId = ResponseId;
             this.Comments = Comments;
+            this.AdminId = 0;
         }
     }
 

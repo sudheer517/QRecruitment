@@ -52,6 +52,8 @@ namespace AspNetCoreSpa.Server
 
         public DbSet<SurveyResponse> SurveyResponses { get; set; }
 
+        public DbSet<SurveyAdminComments> SurveyAdminComments { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             Database.EnsureCreated();

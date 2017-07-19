@@ -10,6 +10,8 @@ namespace Quantium.Recruitment.Entities
     public class SurveyAdminComments : IEntityBase
     {
         public virtual long Id { get; set; }
+
+        public virtual long ResponseId { get; set; }
         public virtual long AdminId { get; set; }
 
         public virtual DateTime DateTime { get; set; }
@@ -18,7 +20,7 @@ namespace Quantium.Recruitment.Entities
 
         [ForeignKey("AdminId")]
         public virtual Admin Admin { get; set; }
-        [ForeignKey("Id")]
+        [ForeignKey("ResponseId")]       
         public virtual SurveyResponse SurveyResponse { get; set; }
     }
 }

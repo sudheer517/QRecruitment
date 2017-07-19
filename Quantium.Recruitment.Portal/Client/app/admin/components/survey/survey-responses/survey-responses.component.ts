@@ -41,7 +41,9 @@ export class SurveyResponsesComponent implements OnInit {
     private data: Array<any>;
 
     private hideCheckbox = true;
-    private surveyGrid = true;
+    private surveyGrid = true;    
+    private commentEditedResponses = [];
+    private responseIds = [];
    
     constructor(private surveyService: SurveyService, private datePipe: DatePipe) { }
 
@@ -180,7 +182,20 @@ export class SurveyResponsesComponent implements OnInit {
       this.surveyService.GetSurveyResponses(event.Id).subscribe(
           candidateResponse => {
               this.responses = candidateResponse;
-              this.responsesPreviewModal.show();
+              this.responseIds = [];
+              this.commentEditedResponses = [];
+              for (let response of candidateResponse)
+              {
+                  this.responseIds.push(response.Id);
+              }
+              this.surveyService.GetSurveyAdminComments(this.responseIds).subscribe(
+                  comments => {
+                      this.comments = comments;
+                      this.responsesPreviewModal.show();
+                  },
+                  error => console.log(error)
+              );
+             
               
           },
            error => console.log(error)
@@ -188,13 +203,40 @@ export class SurveyResponsesComponent implements OnInit {
       );    
   }
 
-  public addComments(response : SurveyResponseDto,element,text )
-  {     
+  public addComment(response : SurveyResponseDto,element,text )
+  {
+      
+      this.commentEditedResponses.push(response.Id);
       var newcomment = new SurveyAdminCommentsDto(response.Id, "");
       this.comments.push(newcomment);     
       
   }
 
+  public commentEditable(response: SurveyResponseDto): Boolean {
 
+      return this.commentEditedResponses.indexOf(response.Id) !== -1;      
+
+  }
+
+  public saveComment(response: SurveyResponseDto)
+  {
+      var comment = this.comments.find(a => a.ResponseId == response.Id && a.AdminId == 0);     
+      this.surveyService.AddSurveyAdminComments(comment).subscribe(
+
+          res => {
+              var index = this.commentEditedResponses.indexOf(response.Id);
+              if (index !== -1)
+                  this.commentEditedResponses.splice(index, 1)
+              this.surveyService.GetSurveyAdminComments(this.responseIds).subscribe(
+                  comments => {
+                      this.comments = comments;
+                  },
+                  error => console.log(error)
+              );
+          },
+          error => console.log(error)
+      );
+      
+  }
 
 }

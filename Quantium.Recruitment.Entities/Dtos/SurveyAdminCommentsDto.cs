@@ -7,6 +7,8 @@ namespace Quantium.Recruitment.Models
     {
         public long Id { get; set; }
 
+        public long ResponseId { get; set; }
+
         public long AdminId { get; set; }
 
         public DateTime DateTime { get; set; }     
@@ -14,7 +16,7 @@ namespace Quantium.Recruitment.Models
         public string Comments { get; set; }
 
         public AdminDto Admin { get; set; }
-
+       
         public SurveyResponseDto SurveyResponse { get; set; }
 
     }

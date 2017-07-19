@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions, RequestOptionsArgs, ResponseContentType, URLSearchParams } from '@angular/http';
-import { SurveyQuestionDto, SurveyResponseDto } from '../../RemoteServicesProxy';
+import { SurveyQuestionDto, SurveyResponseDto, SurveyAdminCommentsDto } from '../../RemoteServicesProxy';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -59,8 +59,15 @@ export class SurveyService{
             });
     }
 
-    public SaveSurveyResponse(surveyResponse: SurveyResponseDto): Observable<any> {
-        return this.http.post(`${this.surveyApiUrl}SaveDetails`, surveyResponse).map(
+    public GetSurveyAdminComments(responseIds: number[]): Observable<any> {
+        return this.http.post(`${this.surveyApiUrl}GetSurveyAdminComments`, responseIds).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
+
+    public AddSurveyAdminComments(adminComments: SurveyAdminCommentsDto): Observable<any> {
+        return this.http.post(`${this.surveyApiUrl}AddSurveyAdminComments`, adminComments).map(
             (response: Response) => {
                 return response.json();
             });

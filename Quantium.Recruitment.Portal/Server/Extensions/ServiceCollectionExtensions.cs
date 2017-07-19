@@ -125,6 +125,7 @@ namespace AspNetCoreSpa.Server.Extensions
             services.AddTransient<IEntityBaseRepository<FeedbackType>, FeedbackTypeRepository>();
             services.AddTransient<IEntityBaseRepository<SurveyQuestion>, SurveyQuestionRepository>();
             services.AddTransient<IEntityBaseRepository<SurveyResponse>, SurveyResponseRepository>();
+            services.AddTransient<IEntityBaseRepository<SurveyAdminComments>, SurveyAdminCommentsRepository>();
 
             services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddTransient<IAccountHelper, AccountHelper>();
