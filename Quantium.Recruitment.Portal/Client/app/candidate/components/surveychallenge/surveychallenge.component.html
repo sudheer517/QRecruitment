@@ -6,27 +6,14 @@
                 <div *ngFor="let response of surveyResponses ; let index =index">
                    
                         {{index+1}} :  {{response.SurveyQuestion.Text}}                   
-                    <div>
-                        <input  type="text" class="form-control" placeholder="enter your response" [(ngModel)]="response.Response" name="{{index+1}}name" required  />
-                        <!--<div *ngIf="!{{index+1}}name.valid"
-                             class="ui error message">Please enter a response</div>   
-                        <span ng-messages="challengeForm[{{index+1}}'name'].$error">
-                            <span ng-message="required">Enter a name</span>-->
-</div>
+                    <div>                      
+                      <textarea class="form-control" placeholder="enter your response" [(ngModel)]="response.Response" name="{{index+1}}name" required></textarea>
+                    </div>
                 </div>
             </div>
             <br />
             <button [disabled]="!challengeForm.valid" type="submit" (click)="SubmitResponses()">Submit Responses</button>
-        </form>
-        <form [formGroup]="myform">
-<label for="nameInput">Name</label>
-<input type="text"
-       id="=nameInput"
-       placeholder="Enter Name"
-       [formControl]="myform.controls['name']"
-       />
-        </form>
-
-           
+            <small *ngIf="!challengeForm.valid" class="form-text muted-text text-danger font-weight-bold">Note : Submit Option will only be enabled when all the Survey responses are provided. </small>
+        </form>   
     </div>
 </div>

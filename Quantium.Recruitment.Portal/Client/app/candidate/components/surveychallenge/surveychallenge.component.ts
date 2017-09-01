@@ -9,13 +9,10 @@ import { SurveyService } from '../../services/survey.service'
   templateUrl: './surveychallenge.component.html',
   styleUrls: ['./surveychallenge.component.scss']
 })
-export class SurveychallengeComponent implements OnInit {
-    myform: FormGroup;
+export class SurveychallengeComponent implements OnInit {   
     private surveyResponses: SurveyResponseDto[];
-    constructor(private surveyService: SurveyService, private router: Router, private activatedRoute: ActivatedRoute, fb: FormBuilder) {
-        this.myform = fb.group({
-            'name' : ['Banu']
-        });
+    constructor(private surveyService: SurveyService, private router: Router, private activatedRoute: ActivatedRoute) {
+      
     }
 
     ngOnInit() {
