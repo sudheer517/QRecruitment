@@ -11,14 +11,14 @@ export class DetailsGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         return this.candidateService.IsInformationFilled().map(isFilled => {
             if (isFilled) {
-                this.router.navigate(["/candidate/instructions"]);
+                this.router.navigate(["/candidate/challenges"]);
                 return false;
             }
             else{
                 return true;
             }
         }).catch(() => {
-            this.router.navigate(["/candidate/instructions"]);
+            this.router.navigate(["/candidate/challenges"]);
             return Observable.of(false);
         });
   }

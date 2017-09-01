@@ -1,0 +1,32 @@
+<div class="router-outlet-container">
+    <span class="admin-outlet-heading">SURVEY</span>
+    <div class="admin-data-container">
+        <form #challengeForm="ngForm">
+            <div class="form-group">
+                <div *ngFor="let response of surveyResponses ; let index =index">
+                   
+                        {{index+1}} :  {{response.SurveyQuestion.Text}}                   
+                    <div>
+                        <input  type="text" class="form-control" placeholder="enter your response" [(ngModel)]="response.Response" name="{{index+1}}name" required  />
+                        <!--<div *ngIf="!{{index+1}}name.valid"
+                             class="ui error message">Please enter a response</div>   
+                        <span ng-messages="challengeForm[{{index+1}}'name'].$error">
+                            <span ng-message="required">Enter a name</span>-->
+</div>
+                </div>
+            </div>
+            <br />
+            <button [disabled]="!challengeForm.valid" type="submit" (click)="SubmitResponses()">Submit Responses</button>
+        </form>
+        <form [formGroup]="myform">
+<label for="nameInput">Name</label>
+<input type="text"
+       id="=nameInput"
+       placeholder="Enter Name"
+       [formControl]="myform.controls['name']"
+       />
+        </form>
+
+           
+    </div>
+</div>

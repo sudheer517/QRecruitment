@@ -6,25 +6,32 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SurveyService{
-    private surveyResponseApiUrl: string = '/SurveyResponse/';
+    private surveyResponseApiUrl: string = '/Survey/';
     constructor(private http: Http) { }
 
-    public GetSurvey(): Observable<SurveyResponseDto> {
-        return this.http.get(`${this.surveyResponseApiUrl}Get`).map(
+    public IsSurveyAssigned(): Observable<any> {
+        return this.http.get(`${this.surveyResponseApiUrl}IsSurveyAssigned`).map(
             (response: Response) => {
                 return response.json();
             });
     }
 
-    public CreateSurvey(): Observable<SurveyResponseDto> {
-        return this.http.get(`${this.surveyResponseApiUrl}Create`).map(
+    public IsSurveyFinished(): Observable<any> {
+        return this.http.get(`${this.surveyResponseApiUrl}IsSurveyFinished`).map(
             (response: Response) => {
                 return response.json();
             });
     }
 
-    public SaveSurveyResponse(surveyResponse: SurveyResponseDto): Observable<any> {
-        return this.http.post(`${this.surveyResponseApiUrl}SaveDetails`, surveyResponse).map(
+    public GetSurveyChallenge(): Observable<SurveyResponseDto[]> {
+        return this.http.get(`${this.surveyResponseApiUrl}GetSurveyChallenge`).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
+
+    public SaveSurveyResponse(surveyResponses: SurveyResponseDto[]): Observable<any> {
+        return this.http.post(`${this.surveyResponseApiUrl}SaveSurveyResponses`, surveyResponses).map(
             (response: Response) => {
                 return response.json();
             });

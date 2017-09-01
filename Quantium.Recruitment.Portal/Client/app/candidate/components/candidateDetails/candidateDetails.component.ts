@@ -94,12 +94,12 @@ export class CandidateDetailsComponent implements OnInit{
       candidate.Country = candidateFormObject.country;
       candidate.CurrentCompany = candidateFormObject.currentCompany;
       candidate.ExperienceInYears = candidateFormObject.experience;
-      candidate.PassingYear = candidateFormObject.graduation;
+      candidate.PassingYear = candidateFormObject.graduation;   
 
       this.cadidateService.SaveDetails(candidate).subscribe(
         result => {
             this.progressModal.hide();
-            this.router.navigate(["instructions"], { relativeTo : this.activatedRoute});
+            this.router.navigate(["challenges"], { relativeTo : this.activatedRoute});
         },
         error => console.log(error)
       );

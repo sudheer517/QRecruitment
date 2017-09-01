@@ -25,7 +25,7 @@ using AspNetCoreSpa.Server.Services.Abstract;
 
 namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin , Candidate")]
     [Route("[controller]/[action]/{id?}")]
     public class SurveyController : Controller
     {
@@ -54,7 +54,8 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }
 
 
-        // Survey Questions 
+
+        #region Survey Questions 
         [HttpGet]
         public IActionResult GetAll(bool paging = false, int pageNumber = 1, int questionsPerPage = 10, int labelId = 0, int difficultyId = 0)
         {
@@ -180,7 +181,9 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             return Ok();
         }
 
-        // Survey Responses
+#endregion
+
+        #region Survey Responses
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody]int[] candidateIds)
@@ -233,20 +236,62 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
         [HttpGet] 
         public IList<SurveyResponseDto> GetSurveyResponses(int candidateId)
-        {
-           // IList<SurveyResponseDto> resultDtos = new List<SurveyResponseDto>();
+        {           
             var candidateResponses = _surveyResponseRepository.
                 AllIncluding(q =>q.Candidate, q => q.SurveyQuestion).
-                Where(a => a.CandidateId == candidateId).ToList();
-            //foreach (var response in candidateResponses)
-            //{
-            //    response.
-
-            //}
+                Where(a => a.CandidateId == candidateId).ToList();           
 
             IList<SurveyResponseDto> resultDtos = Mapper.Map<IList<SurveyResponseDto>>(candidateResponses);
 
             return resultDtos;
+        }
+
+        [HttpGet]
+        public bool IsSurveyAssigned()
+        {
+            var email = this.User.Identities.First().Name;
+            var candidateDto = Mapper.Map<CandidateDto>(_candidateRepository.GetSingle(c => c.Email == email));
+            var responseDto = Mapper.Map<SurveyResponseDto>(_surveyResponseRepository.FindBy(c => c.CandidateId == candidateDto.Id).FirstOrDefault());
+            return responseDto != null;
+
+        }
+
+        [HttpGet]
+        public bool IsSurveyFinished()
+        {
+            var email = this.User.Identities.First().Name;
+            var candidateDto = Mapper.Map<CandidateDto>(_candidateRepository.GetSingle(c => c.Email == email));
+            var responseDto = Mapper.Map<SurveyResponseDto>(_surveyResponseRepository.FindBy(c => c.CandidateId == candidateDto.Id).Where(a => String.IsNullOrEmpty(a.Response)).FirstOrDefault());
+            return responseDto == null;
+
+        }
+
+        [HttpGet]
+        public IList<SurveyResponseDto> GetSurveyChallenge()
+        {
+            var email = this.User.Identities.First().Name;
+            var candidateDto = Mapper.Map<CandidateDto>(_candidateRepository.GetSingle(c => c.Email == email));
+            var surveychallenges = _surveyResponseRepository.
+                AllIncluding(q => q.Candidate, q => q.SurveyQuestion).
+                Where(a => a.CandidateId == candidateDto.Id).ToList();
+
+            IList<SurveyResponseDto> resultDtos = Mapper.Map<IList<SurveyResponseDto>>(surveychallenges);
+            
+            return resultDtos;
+
+        }
+
+        [HttpPost]
+        public IActionResult  SaveSurveyResponses([FromBody]SurveyResponseDto[] surveyResponses)
+        {
+            var Responses = Mapper.Map<IList<SurveyResponse>>(surveyResponses);
+            foreach(var response in Responses)
+            {
+                _surveyResponseRepository.Edit(response);
+                _surveyResponseRepository.Commit();
+            }
+
+            return Ok(JsonConvert.SerializeObject("Responses Saved Successfully "));
         }
 
         [HttpPost]
@@ -276,8 +321,9 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
             return Ok(JsonConvert.SerializeObject("comments added"));
         }
+       
 
-
+        #endregion
     }
-        
+
 }
