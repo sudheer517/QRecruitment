@@ -69,11 +69,37 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 candidate.IsActive = true;
                 candidate.CreatedUtc = DateTime.UtcNow;
                 candidate.AdminId = admin.Id;
-
+                IList<UserCreationModel> userModels = new List<UserCreationModel>();
                 try
                 {
                     _candidateRepository.Add(candidate);
-                    await CreateUsersWithCandidateRole(new List<Candidate> { candidate });
+
+                    var socialLogins = new List<string>()
+                        {
+                            "@outlook", "@live", "@hotmail", "@gmail", "@google"
+                        };
+
+                    if (!socialLogins.Any(emailType => candidate.Email.Contains(emailType)))
+                    {
+                        var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email, CreatedDate = DateTime.UtcNow };
+                        var password = AccountHelper.GenerateRandomString();
+                        user.PlainPassword = password;
+                        userModels.Add(new UserCreationModel { Username = candidate.Email, Password = password });
+
+                        var result = await _userManager.CreateAsync(user, password);
+
+                        if (result.Succeeded)
+                        {
+                            var addedToRoleResult = await _userManager.AddToRoleAsync(user, Roles.Candidate);
+                        }
+                        else
+                        {
+                            return StatusCode(StatusCodes.Status409Conflict, candidate);
+                        }
+                    }
+
+                    await SendEmails(userModels);
+
                     return Created("created", candidate);
                 }
                 catch (Exception ex)
@@ -165,6 +191,9 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
                     var adminEmail = this.User.Identities.First().Name;
                     var admin = await _adminRepository.GetSingleAsync(a => a.Email == adminEmail);
+                    var isDuplicatesFound = false;
+
+                    IList<UserCreationModel> userModels = new List<UserCreationModel>();
 
                     foreach (var candidate in candidates)
                     {
@@ -172,15 +201,47 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
                         if (candidateEntity != null)
                         {
-                            return StatusCode(StatusCodes.Status409Conflict, candidate);
+                            isDuplicatesFound = true;
+                            //return StatusCode(StatusCodes.Status409Conflict, candidate);
+                            continue;
                         }
 
                         candidate.CreatedUtc = DateTime.UtcNow;
                         candidate.AdminId = admin.Id;
                         candidate.IsActive = true;
                         _candidateRepository.Add(candidate);
+
+                        var socialLogins = new List<string>()
+                        {
+                            "@outlook", "@live", "@hotmail", "@gmail", "@google"
+                        };
+
+                        if (!socialLogins.Any(emailType => candidate.Email.Contains(emailType)))
+                        {
+                            var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email, CreatedDate = DateTime.UtcNow };
+                            var password = AccountHelper.GenerateRandomString();
+                            user.PlainPassword = password;
+                            userModels.Add(new UserCreationModel { Username = candidate.Email, Password = password });
+
+                            var result = await _userManager.CreateAsync(user, password);
+
+                            if (result.Succeeded)
+                            {
+                                var addedToRoleResult = await _userManager.AddToRoleAsync(user, Roles.Candidate);
+                            }
+                            else
+                            {
+                                return StatusCode(StatusCodes.Status400BadRequest, candidate);
+                            }
+                        }
                     }
-                    await CreateUsersWithCandidateRole(candidates);
+
+                    await SendEmails(userModels);
+
+                    if (isDuplicatesFound)
+                    {
+                        return StatusCode(StatusCodes.Status409Conflict);
+                    }
 
                     return Created(string.Empty, JsonConvert.SerializeObject("created"));
                 }
@@ -307,39 +368,6 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
         }  
         
 
-        private async Task CreateUsersWithCandidateRole(List<Candidate> candidates)
-        {
-            var socialLogins = new List<string>()
-            {
-                "@outlook", "@live", "@hotmail", "@gmail", "@google"
-            };
-
-            IList<UserCreationModel> userModels = new List<UserCreationModel>();
-
-            foreach (var candidate in candidates)
-            {
-                if (!socialLogins.Any(emailType => candidate.Email.Contains(emailType)))
-                {
-                    var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email, CreatedDate = DateTime.UtcNow };
-                    var password = AccountHelper.GenerateRandomString();
-                    user.PlainPassword = password;
-                    userModels.Add(new UserCreationModel { Username = candidate.Email, Password = password });
-
-                    var result = await _userManager.CreateAsync(user, password);
-
-                    if (result.Succeeded)
-                    {
-                        var addUserToRoleTaskResult = _userManager.AddToRoleAsync(user, Roles.Candidate).Result;
-                    }
-                }
-            }
-
-            await SendEmails(userModels);
-
-            return;
-
-        }
-
         private async Task<bool> SendEmails(IList<UserCreationModel> userModels)
         {
             var emailTemplate = System.Net.WebUtility.HtmlDecode(System.IO.File.ReadAllText(System.IO.Path.Combine(_env.WebRootPath, "templates\\UserCreationEmailTemplate.html")));
@@ -356,7 +384,8 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
                     Content = Content.Replace("<" + param.Key + ">", param.Value);
                 }
-                var emailTask = _emailSender.SendEmailAsync(new EmailModel
+
+                await _emailSender.SendEmailAsync(new EmailModel
                 {
                     To = userModel.Username,
                     From = Startup.Configuration["RecruitmentAdminEmail"],
@@ -364,8 +393,6 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                     Subject = "User credentials",
                     TextBody = Content
                 });
-
-                await Task.Run(() => emailTask);
             }
             
             return true;
@@ -391,6 +418,13 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
             }
 
             return Ok(JsonConvert.SerializeObject("Deleted"));
+        }
+
+        [HttpGet]
+        public IActionResult Unsubscribe([FromQuery]string email)
+        {
+            var result = email;
+            return View("You are unsubscribed");
         }
     }
 }
