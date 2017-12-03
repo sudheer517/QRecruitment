@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { CandidateService } from '../../../services/candidate.service';
 import { CandidateDto } from '../../../../RemoteServicesProxy';
@@ -27,6 +27,7 @@ export class ViewCandidatesComponent implements OnInit{
         { title: 'First Name', name: 'FirstName', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By First Name' }, className: 'table-header-cursor' },
         { title: 'Last Name', name: 'LastName', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Last Name' }, className: 'table-header-cursor' },
         { title: 'Email', name: 'Email', sort: 'asc', filtering: { filterString: '', placeholder: 'Filter By Email' }, className: 'table-header-cursor' },
+        { title: 'Password', name: 'Password', className: 'table-header-cursor' },
         // { title: 'Status', name: 'IsActive', sort: false },
         // { title: 'Account Status', name: 'PasswordSent', sort: false },
         // { title: 'Test Email', name: 'TestMailSent', sort: false },
@@ -35,7 +36,7 @@ export class ViewCandidatesComponent implements OnInit{
     public page: number = 1;
     public itemsPerPage: number = 10;
     public maxSize: number = 5;
-    public numPages: number = 1;
+    public numPages: number = 0;
     
     public length: number = 0;
 
@@ -46,15 +47,19 @@ export class ViewCandidatesComponent implements OnInit{
         className: ['table-striped', 'table-bordered']
     };
     private data: Array<any>;
-    public constructor(private candidateService: CandidateService, private datePipe: DatePipe) {
+    public constructor(private candidateService: CandidateService, private datePipe: DatePipe, private cdRef: ChangeDetectorRef) {
     }
 
     ngOnInit() {
         this.getAllCandidates();
     }
 
+    ngAfterViewChecked() {
+        this.cdRef.detectChanges();
+    }
+
     public getAllCandidates(modalOpened = false){
-        this.candidateService.GetAllCandidates().subscribe(
+        this.candidateService.GetAllCandidatesWithPassword().subscribe(
             candidateList => {
                 this.candidates = candidateList;
                 if(this.candidates.length > 0){
@@ -63,8 +68,8 @@ export class ViewCandidatesComponent implements OnInit{
                     }
                     this.data = candidateList;
                     this.length = this.data.length;
-                    this.numPages = Math.ceil(this.length / this.itemsPerPage);
-                    this.maxSize = this.numPages;
+                    //this.numPages = Math.ceil(this.length / this.itemsPerPage);
+                    //this.maxSize = this.numPages;
                     this.onChangeTable(this.config);
                 }
                 else{

@@ -37,6 +37,13 @@ export class CandidateService{
             });
     }
 
+    public GetAllCandidatesWithPassword(): Observable<any> {
+        return this.http.get(`${this.candidateApiUrl}GetAllWithPassword`).map(
+            (response: Response) => {
+                return response.json();
+            });
+    }
+    
     public GetCandidateWithoutActiveTests(): Observable<CandidateDto[]>{
         return this.http.get(`${this.candidateApiUrl}GetCandidatesWithoutActiveTests`).map(
             (response: Response) => {

@@ -43,9 +43,10 @@
         public CurrentCompany: string;
         public IsInformationFilled: boolean;
         public CreatedUtc: string;
+        public Password: string;
         constructor();
-        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, CGPA?: number, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean, CreatedUtc?: string);
-        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, CGPA?: number, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean, CreatedUtc?: string) {
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, CGPA?: number, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean, CreatedUtc?: string, Password?: string);
+        constructor(Id?: number, FirstName?: string, LastName?: string, Email?: string, Mobile?: number, IsActive?: boolean, City?: string, State?: string, Country?: string, Branch?: string, College?: string, PassingYear?: string, CGPA?: number, ExperienceInYears?: number, CurrentCompany?: string, IsInformationFilled?: boolean, CreatedUtc?: string, Password?: string) {
             this.Id = Id;
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -63,6 +64,7 @@
             this.CurrentCompany = CurrentCompany;
             this.IsInformationFilled = IsInformationFilled;
             this.CreatedUtc = CreatedUtc;
+            this.Password = Password;
         }
 
     }

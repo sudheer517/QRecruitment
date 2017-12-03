@@ -169,6 +169,30 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllWithPassword()
+        {
+            var candidates = await _candidateRepository.FindByAsync(c => c.IsActive == true);
+            var candidateRoleUsers = await _userManager.GetUsersInRoleAsync(Roles.Candidate);
+            var candidateEmailToPasswordMap = candidateRoleUsers.ToDictionary(key => key.Email, value => value.PlainPassword);
+
+            //set firstname and lastname to empty rather than null because of filtering bug on client side
+            var cDtos = Mapper.Map<IList<CandidateDto>>(candidates,
+                opts => opts.AfterMap((src, dest) => {
+                    var candidateList = (List<CandidateDto>)dest;
+                    candidateList.ForEach(candidateDto => {
+                        candidateDto.FirstName = candidateDto.FirstName ?? string.Empty;
+                        candidateDto.LastName = candidateDto.LastName ?? string.Empty;
+                        var passwordValue = string.Empty;
+                        candidateEmailToPasswordMap.TryGetValue(candidateDto.Email, out passwordValue);
+                        candidateDto.Password = passwordValue ?? string.Empty;
+                    });
+                }));
+
+            return Ok(cDtos);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetCandidatesWithoutActiveTests()
         {
             var candidates = _candidateRepository.AllIncluding(c => c.Tests).Where(c => c.IsActive && c.Tests.Count() == 0).OrderByDescending(c => c.CreatedUtc).ToList();

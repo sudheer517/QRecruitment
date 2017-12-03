@@ -42,5 +42,7 @@ namespace Quantium.Recruitment.Models
         public int TestMailSent { get; set; }
 
         public DateTime? CreatedUtc { get; set; }
+
+        public string Password { get; set; }
     }
 }
