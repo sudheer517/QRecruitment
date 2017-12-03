@@ -58,7 +58,7 @@ namespace AspNetCoreSpa.Server.Services
             myMessage.Subject = model.Subject;
             myMessage.Text = model.TextBody;
             myMessage.Html = model.HtmlBody;
-            myMessage.AddAttachment(new FileStream(Path.Combine(_env.WebRootPath, "templates\\qlogo.png"), FileMode.Open, FileAccess.Read), "qlogo");
+            //myMessage.AddAttachment(new FileStream(Path.Combine(_env.WebRootPath, "templates\\qlogo.png"), FileMode.Open, FileAccess.Read), "qlogo");
 
             var credentials = new System.Net.NetworkCredential(Startup.Configuration["SendGrid:Username"], Startup.Configuration["SendGrid:Password"]);
             // Create a Web transport for sending email.
