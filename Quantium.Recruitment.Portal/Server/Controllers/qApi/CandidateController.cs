@@ -349,6 +349,8 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
                 parameters.Add("Username", userModel.Username);
                 parameters.Add("Password", userModel.Password);
+                parameters.Add("candidateEmail", userModel.Username);
+
                 foreach (var param in parameters)
                 {
 
@@ -360,7 +362,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                     From = Startup.Configuration["RecruitmentAdminEmail"],
                     DisplayName = "Quantium Recruitment",
                     Subject = "User credentials",
-                    HtmlBody = Content
+                    TextBody = Content
                 });
 
                 await Task.Run(() => emailTask);

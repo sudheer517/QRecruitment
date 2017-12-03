@@ -373,10 +373,11 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                 }
                 var Content = emailTemplate;
                 Dictionary<string, string> parameters = new Dictionary<string, string>();
-                parameters.Add("Message", loginProviderMessage);               
+                parameters.Add("Message", loginProviderMessage);
+                parameters.Add("candidateEmail", email);
+
                 foreach (var param in parameters)
                 {
-
                     Content = Content.Replace("<" + param.Key + ">", param.Value);
                 }
                 var emailTask = _emailSender.SendEmailAsync(new EmailModel
@@ -384,8 +385,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                     To = email,
                     From = Startup.Configuration["RecruitmentAdminEmail"],
                     DisplayName = "Quantium Recruitment",
-                    Subject = "Test generated for you",
-                    HtmlBody = Content
+                    Subject = "Quantium recruitment test",
+                    TextBody = Content
                 });
 
                 await Task.Run(() => emailTask);
