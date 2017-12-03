@@ -116,7 +116,8 @@ namespace Quantium.Recruitment.ApiServices.Controllers
                         var questions =
                             _questionRepository
                             .AllIncluding(q => q.Difficulty, q => q.Label)
-                            .Where(ques => ques.DifficultyId == jobDiffLabel.Difficulty.Id && ques.Label.Id == jobDiffLabel.Label.Id).ToList();
+                            .Where(ques => ques.DifficultyId == jobDiffLabel.Difficulty.Id && ques.Label.Id == jobDiffLabel.Label.Id && ques.IsActive == true)
+                            .ToList();
 
                         var availableQuestionCount = questions.Count();
 
