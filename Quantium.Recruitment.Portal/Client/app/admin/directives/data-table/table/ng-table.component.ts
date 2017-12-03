@@ -31,7 +31,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
         <td></td>
       </tr>
         <tr *ngFor="let row of rows" style="line-height: 45px">
-          <td *ngIf="!hideCheckbox" style="padding: 0; height: 100%">
+          <td *ngIf="!hideCheckbox" style="height: 100%">
             <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center">
                 <input type="checkbox" #rowModel="ngModel" [(ngModel)]="selectedRows[row.Id]" name="rowCheckBox" (ngModelChange)="rowCheck(row, rowModel)" style="width: 20px;"/>
             </div>

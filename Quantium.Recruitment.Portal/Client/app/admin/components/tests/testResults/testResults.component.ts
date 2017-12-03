@@ -34,7 +34,7 @@ modalResponse: string;
   public page:number = 1;
   public itemsPerPage:number = 10;
   public maxSize:number = 5;
-  public numPages:number = 1;
+  public numPages:number = 0;
   public length: number = 0;
   testResults: TestResultDto[];
   
@@ -48,7 +48,7 @@ modalResponse: string;
     className: ['table-striped', 'table-bordered']
   };
 
-  private data:Array<any>;
+  private data: TestResultDto[];
 
   public constructor(private testService: TestService, private datePipe: DatePipe, private router: Router, private activatedRoute: ActivatedRoute) {
   }
@@ -87,8 +87,8 @@ modalResponse: string;
 
                   this.data = testResultsDto;
                   this.length = this.data.length;
-                  this.numPages = Math.ceil(this.length / this.itemsPerPage);
-                  this.maxSize = this.numPages;
+                  //this.numPages = Math.ceil(this.length / this.itemsPerPage);
+                  //this.maxSize = this.numPages;
                   this.onChangeTable(this.config);
                   
               }
