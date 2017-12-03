@@ -15,6 +15,9 @@ namespace AspNetCoreSpa.Server.Entities
         public string FirstName { get; set; }
         [StringLength(250)]
         public string LastName { get; set; }
+
+        //Using this only because password sending through email wasnt working. Refactor later
+        public string PlainPassword { get; set; }
         [NotMapped]
         public string Name
         {

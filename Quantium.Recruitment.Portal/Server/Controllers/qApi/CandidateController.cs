@@ -322,6 +322,7 @@ namespace Quantium.Recruitment.Portal.Server.Controllers.qApi
                 {
                     var user = new QRecruitmentUser { UserName = candidate.Email, Email = candidate.Email, CreatedDate = DateTime.UtcNow };
                     var password = AccountHelper.GenerateRandomString();
+                    user.PlainPassword = password;
                     userModels.Add(new UserCreationModel { Username = candidate.Email, Password = password });
 
                     var result = await _userManager.CreateAsync(user, password);
