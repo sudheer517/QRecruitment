@@ -82,7 +82,11 @@ export class ChallengeComponent implements OnInit{
                     if (isFinished === "Finished") {
                         this.gotoFeedback();
                     }
-                    else{
+                    else {
+                        if (this.timeUpModal.isShown) {
+                            this.timeUpModal.hide();
+                        }
+                        
                         this.selectedCheckboxOptions = new Array<boolean>(challenge.Question.Options.length);
                         this.selectedRadioOption = null;
 
@@ -118,6 +122,7 @@ export class ChallengeComponent implements OnInit{
 
     private nextQuestion(): void {
         this.timeUpModal.hide();
+        this.sub.unsubscribe();
         this.getNextChallenge();
     }
 
