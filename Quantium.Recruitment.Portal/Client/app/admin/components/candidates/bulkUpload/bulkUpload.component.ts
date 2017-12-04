@@ -71,7 +71,7 @@ export class BulkUploadComponent implements OnInit {
                     this.progressModal.show();
                 }
                 if(error.status == 409){
-                    this.validationFailed = true;
+                    this.validationFailed = false;
                     //this.modalResponse = "Duplicate candidate found " + (error.json() as CandidateDto).Email;
                     this.modalResponse = "Duplicate candidate found. Check your data";
                     this.isRequestProcessing = false;
@@ -100,7 +100,12 @@ export class BulkUploadComponent implements OnInit {
                 this.candidatesSaved = true;
             }, 
             error => {
-                this.modalResponse = "Unable to add candidates";
+                if (error.status == 409) {
+                    this.modalResponse = "Skipped duplicate candidates";
+                }
+                else {
+                    this.modalResponse = "Unable to add candidates";
+                }
                 console.log(error);
                 this.isRequestProcessing = false;
             }
